@@ -15,11 +15,11 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * 项目名:	JDMall
- * 包名:		com.onlyone.jdmall.utils
- * 创建者:	落地开花
- * 创建时间:	3/4/2016 15:29
- * 描述:		文件操作相关工具类
+ * 项目名:	JDMall<br/>
+ * 包名:		com.onlyone.jdmall.utils<br/>
+ * 创建者:	落地开花<br/>
+ * 创建时间:	3/4/2016 15:29<br/>
+ * 描述:		文件操作相关工具类<br/>
  */
 public final class FileUtil {
 	

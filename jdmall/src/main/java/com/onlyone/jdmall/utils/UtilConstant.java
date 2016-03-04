@@ -1,11 +1,11 @@
 package com.onlyone.jdmall.utils;
 
 /**
- * 项目名:	JDMall
- * 包名:		com.onlyone.jdmall.utils
- * 创建者:	落地开花
- * 创建时间:	3/4/2016 15:20
- * 描述:		工具类常量值接口
+ * 项目名:	JDMall<br/>
+ * 包名:		com.onlyone.jdmall.utils<br/>
+ * 创建者:	落地开花<br/>
+ * 创建时间:	3/4/2016 15:20<br/>
+ * 描述:		工具类常量值接口<br/>
  */
 public interface UtilConstant {
 	/**

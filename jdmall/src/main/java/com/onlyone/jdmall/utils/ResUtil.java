@@ -6,11 +6,11 @@ import android.content.res.Resources;
 import com.onlyone.jdmall.application.MyApplication;
 
 /**
- * 项目名:	JDMall
- * 包名:		com.onlyone.jdmall.utils
- * 创建者:	落地开花
- * 创建时间:	3/4/2016 15:17
- * 描述:		资源相关工具类
+ * 项目名:	JDMall<br/>
+ * 包名:		com.onlyone.jdmall.utils<br/>
+ * 创建者:	落地开花<br/>
+ * 创建时间:	3/4/2016 15:17<br/>
+ * 描述:		资源相关工具类<br/>
  */
 public final class ResUtil {
 	private ResUtil() {

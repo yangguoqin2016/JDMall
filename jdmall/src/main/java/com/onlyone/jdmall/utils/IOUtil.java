@@ -4,11 +4,11 @@ import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * 项目名:	JDMall
- * 包名:		com.onlyone.jdmall.utils
- * 创建者:	落地开花
- * 创建时间:	3/4/2016 15:19
- * 描述:		关闭流的工具类
+ * 项目名:	JDMall<br/>
+ * 包名:		com.onlyone.jdmall.utils<br/>
+ * 创建者:	落地开花<br/>
+ * 创建时间:	3/4/2016 15:19<br/>
+ * 描述:		关闭流的工具类<br/>
  */
 public final class IOUtil {
 	private IOUtil() {

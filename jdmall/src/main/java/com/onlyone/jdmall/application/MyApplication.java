@@ -5,11 +5,11 @@ import android.content.Context;
 import android.os.Handler;
 
 /**
- * 项目名:	JDMall
- * 包名:		com.onlyone.jdmall.application
- * 创建者:	落地开花
- * 创建时间:	3/4/2016 15:06
- * 描述:		全局唯一的Application类
+ * 项目名:	JDMall<br/>
+ * 包名:		com.onlyone.jdmall.application<br/>
+ * 创建者:	落地开花<br/>
+ * 创建时间:	3/4/2016 15:06<br/>
+ * 描述:		全局唯一的Application类<br/>
  */
 public class MyApplication extends Application {
 	/**

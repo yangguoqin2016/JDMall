@@ -4,11 +4,11 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
- * 项目名:	JDMall
- * 包名:		com.onlyone.jdmall.utils
- * 创建者:	落地开花
- * 创建时间:	3/4/2016 15:20
- * 描述:		日志输出工具类
+ * 项目名:	JDMall<br/>
+ * 包名:		com.onlyone.jdmall.utils<br/>
+ * 创建者:	落地开花<br/>
+ * 创建时间:	3/4/2016 15:20<br/>
+ * 描述:		日志输出工具类<br/>
  */
 public final class LogUtil {
 	/*打印日志时使用的标签*/

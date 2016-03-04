@@ -21,7 +21,7 @@ public abstract class BasePresenter<T> {
 		mViewController = view;
 
 		mView = initView();
-		mViewController.OnInitView(mView);
+		mViewController.OnViewArrive(mView);
 	}
 
 	/**
@@ -31,7 +31,9 @@ public abstract class BasePresenter<T> {
 		if (mModelController == null) {
 			mModelController = initModelController();
 		}
-		initData(mModelController);
+		if (mModelController != null) {
+			initData(mModelController);
+		}
 	}
 
 	/**

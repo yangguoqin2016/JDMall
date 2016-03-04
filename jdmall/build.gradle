@@ -25,4 +25,5 @@ dependencies {
 	compile 'com.android.support:appcompat-v7:23.1.0'
 	compile files('lib/volley-1.0.19.jar')
 	compile files('lib/gson-2.6.2.jar')
+	compile files('lib/butterknife-7.0.1.jar')
 }

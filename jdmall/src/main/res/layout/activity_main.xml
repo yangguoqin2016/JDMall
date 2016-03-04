@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".activity.impl.MainActivity">
+
+	<include layout="@layout/daohang_bg"/>
+
+	<RadioGroup
+		android:id="@+id/rg_bottom_nav"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:background="@mipmap/caidan_dibulan"
+		android:gravity="center_vertical"
+		android:orientation="horizontal">
+
+		<RadioButton
+			android:id="@+id/rb_bottom_home"
+			style="@style/NavRadioButton"
+			android:checked="true"
+			android:drawableTop="@drawable/caidan_zy"
+			android:enabled="true"
+			android:text="首页"/>
+
+		<RadioButton
+			android:id="@+id/rb_bottom_search"
+			style="@style/NavRadioButton"
+			android:drawableTop="@drawable/caidan_ss"
+			android:text="搜索"/>
+
+		<RadioButton
+			android:id="@+id/rb_bottom_band"
+			style="@style/NavRadioButton"
+			android:drawableTop="@drawable/caidan_pp"
+			android:text="品牌"/>
+
+		<RadioButton
+			android:id="@+id/rb_bottom_car"
+			style="@style/NavRadioButton"
+			android:drawableTop="@drawable/caidan_gouwuche"
+			android:text="购物车"/>
+
+		<RadioButton
+			android:id="@+id/rb_bottom_mine"
+			style="@style/NavRadioButton"
+			android:drawableTop="@drawable/caidan_wd"
+			android:text="我的"/>
+
+	</RadioGroup>
+
+	<!-- 懒加载切不能滑动切换的ViewPager-->
+	<com.onlyone.jdmall.view.NoScrollLazyViewPager
+		android:id="@+id/vp_main"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_above="@id/rg_bottom_nav"
+		android:layout_below="@+id/fl_daohang">
+
+
+	</com.onlyone.jdmall.view.NoScrollLazyViewPager>
+</RelativeLayout>

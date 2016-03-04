@@ -1,44 +1,131 @@
 package com.onlyone.jdmall.activity.impl;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.model.bean.HomeBean;
-import com.onlyone.jdmall.presenter.BasePresenter;
-import com.onlyone.jdmall.presenter.HomePresenter;
+import com.onlyone.jdmall.fragment.FragmentFactory;
+import com.onlyone.jdmall.view.NoScrollLazyViewPager;
 
-public class MainActivity extends BaseActivity<HomeBean> {
-	private View     mView;
-	private TextView mTextView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+
+	/**
+	 * 导航布局
+	 */
+	@Bind(R.id.fl_daohang)
+	FrameLayout mFlDaohang;
+	/**
+	 * 主要显示界面的懒加载ViewPager
+	 */
+
+	/*-------------------- 底部导航单选按钮组 - begin --------------------*/
+	@Bind(R.id.rb_bottom_home)
+	RadioButton mRbBottomHome;
+	@Bind(R.id.rb_bottom_search)
+	RadioButton mRbBottomSearch;
+	@Bind(R.id.rb_bottom_band)
+	RadioButton mRbBottomBand;
+	@Bind(R.id.rb_bottom_car)
+	RadioButton mRbBottomCar;
+	@Bind(R.id.rb_bottom_mine)
+	RadioButton mRbBottomMine;
+	@Bind(R.id.rg_bottom_nav)
+	RadioGroup  mRgBottomNav;
+	/*-------------------- 底部导航单选按钮组 - end --------------------*/
+
+	@Bind(R.id.vp_main)
+	NoScrollLazyViewPager mVpMain;
+
+	private FragmentManager mManager;
+	private NavAdapter      mNavAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		initView();
+		initEvent();
+		intData();
 	}
 
 	@Override
-	protected BasePresenter<HomeBean> initPresenter(BaseActivity<HomeBean> homeBeanBaseActivity) {
-		return new HomePresenter(this);
+	protected void onDestroy() {
+		super.onDestroy();
+
+		ButterKnife.unbind(this);
+	}
+
+	/**
+	 * 初始化视图
+	 */
+	private void initView() {
+		setContentView(R.layout.activity_main);
+
+		ButterKnife.bind(this);
+	}
+
+	/**
+	 * 初始化事件
+	 */
+	private void initEvent() {
+		mRgBottomNav.setOnCheckedChangeListener(this);
+	}
+
+	/**
+	 * 初始化数据
+	 */
+	private void intData() {
+		mManager = getSupportFragmentManager();
+		mNavAdapter = new NavAdapter(mManager);
+		mVpMain.setAdapter(mNavAdapter);
 	}
 
 	@Override
-	public void OnRefreshData(HomeBean data) {
-		mTextView.setText(data.toString());
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		//底部导航按钮选中状态切换的时候就切换ViewPager显示的页面
+		switch (checkedId) {
+			case R.id.rb_bottom_home:
+				mVpMain.setCurrentItem(0);
+				break;
+			case R.id.rb_bottom_search:
+				mVpMain.setCurrentItem(1);
+				break;
+			case R.id.rb_bottom_band:
+				mVpMain.setCurrentItem(2);
+				break;
+			case R.id.rb_bottom_car:
+				mVpMain.setCurrentItem(3);
+				break;
+			case R.id.rb_bottom_mine:
+				mVpMain.setCurrentItem(4);
+				break;
+		}
+
 	}
 
-	@Override
-	public void OnRefreshError(Exception e) {
-		mTextView.setText(e.toString());
-	}
+	class NavAdapter extends FragmentPagerAdapter {
 
-	@Override
-	public void OnInitView(View view) {
-		mView = view;
+		public NavAdapter(FragmentManager fm) {
+			super(fm);
+		}
 
-		mTextView = (TextView) view.findViewById(R.id.tv_main);
+		@Override
+		public Fragment getItem(int position) {
+			return FragmentFactory.getFragment(position);
+		}
 
-		setContentView(view);
+		@Override
+		public int getCount() {
+			return FragmentFactory.MAX_FRAGMENT_COUNT;
+		}
 	}
 }

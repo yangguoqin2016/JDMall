@@ -16,5 +16,7 @@ public class SplashActivity extends AppCompatActivity {
 
 		Log.d("SplashActivity", "你好");
 
+		Log.d("SplashActivity", "大家好");
+
 	}
 }

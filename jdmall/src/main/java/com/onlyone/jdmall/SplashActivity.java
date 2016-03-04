@@ -13,6 +13,6 @@ public class SplashActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_splash);
 
 
-		System.out.print("杨国钦正在测试");
+		System.out.print("杨国钦正在测试45464");
 	}
 }

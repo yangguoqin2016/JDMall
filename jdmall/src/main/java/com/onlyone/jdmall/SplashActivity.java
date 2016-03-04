@@ -1,9 +1,8 @@
 package com.onlyone.jdmall;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import java.lang.System;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 public class SplashActivity extends AppCompatActivity {
 

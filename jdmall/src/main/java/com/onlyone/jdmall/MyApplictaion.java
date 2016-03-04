@@ -1,6 +1,6 @@
 package com.onlyone.jdmall;
 
-import android.content.Context;
+import android.app.Application;
 
 /**
  * @项目名: JDMall
@@ -9,9 +9,9 @@ import android.content.Context;
  * @创建时间: 2016/3/4 14:31
  * @描述: ${TODO}
  */
-public class MyApplictaion {
-
-    public static Context getContext(){
-        return getContext();
+public class MyApplictaion extends Application{
+    @Override
+    public void onCreate() {
+        super.onCreate();
     }
 }

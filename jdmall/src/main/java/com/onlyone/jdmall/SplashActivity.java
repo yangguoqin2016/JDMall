@@ -13,7 +13,7 @@ public class SplashActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_splash);
 
 
-		System.out.print("Nicolas young~~~~");
+		System.out.print("��������ڲ���45464");
 		
 	}
 }

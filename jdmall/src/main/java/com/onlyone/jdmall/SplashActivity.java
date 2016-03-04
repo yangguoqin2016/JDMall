@@ -1,7 +1,7 @@
 package com.onlyone.jdmall;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -11,7 +11,5 @@ public class SplashActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_splash);
 		System.out.println("hello");
 
-
-		System.out.print("��������ڲ���");
 	}
 }

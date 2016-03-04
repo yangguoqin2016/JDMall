@@ -1,15 +1,15 @@
-package com.onlyone.jdmall.activity;
+package com.onlyone.jdmall.activity.impl;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.model.HomeBean;
+import com.onlyone.jdmall.model.bean.HomeBean;
 import com.onlyone.jdmall.presenter.BasePresenter;
 import com.onlyone.jdmall.presenter.HomePresenter;
 
-public class SplashActivity extends BaseActivity<HomeBean> {
+public class MainActivity extends BaseActivity<HomeBean> {
 	private View     mView;
 	private TextView mTextView;
 

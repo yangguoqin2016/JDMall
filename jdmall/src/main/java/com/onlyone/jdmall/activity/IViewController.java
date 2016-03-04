@@ -1,4 +1,4 @@
-package com.onlyone.jdmall.presenter;
+package com.onlyone.jdmall.activity;
 
 import android.view.View;
 

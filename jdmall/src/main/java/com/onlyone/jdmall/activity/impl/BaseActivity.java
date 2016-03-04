@@ -1,10 +1,10 @@
-package com.onlyone.jdmall.activity;
+package com.onlyone.jdmall.activity.impl;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.onlyone.jdmall.activity.IViewController;
 import com.onlyone.jdmall.presenter.BasePresenter;
-import com.onlyone.jdmall.presenter.IViewController;
 
 /**
  * 项目名:	JDMall
@@ -22,7 +22,7 @@ public abstract class BaseActivity<T> extends AppCompatActivity implements IView
 
 		mPresenter = initPresenter(this);
 
-		mPresenter.triggleInitData();
+		mPresenter.triggerInitData();
 	}
 
 	@Override

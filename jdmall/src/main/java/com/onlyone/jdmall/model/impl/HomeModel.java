@@ -1,4 +1,4 @@
-package com.onlyone.jdmall.model;
+package com.onlyone.jdmall.model.impl;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -7,7 +7,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.onlyone.jdmall.constance.Url;
-import com.onlyone.jdmall.presenter.IModelController;
+import com.onlyone.jdmall.model.IModel;
+import com.onlyone.jdmall.model.bean.HomeBean;
 import com.onlyone.jdmall.utils.NetUtil;
 
 /**
@@ -17,7 +18,7 @@ import com.onlyone.jdmall.utils.NetUtil;
  * 创建时间:	3/4/2016 18:17
  * 描述:		Home页面的Model
  */
-public class HomeModelController implements IModelController<HomeBean> {
+public class HomeModel implements IModel<HomeBean> {
 	@Override
 	public void loadData(final IListener<HomeBean> listener) {
 		StringRequest request = new StringRequest(Request.Method.GET, Url.ADDRESS_HOME,

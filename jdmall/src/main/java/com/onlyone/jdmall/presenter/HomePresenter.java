@@ -3,8 +3,10 @@ package com.onlyone.jdmall.presenter;
 import android.view.View;
 
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.model.HomeBean;
-import com.onlyone.jdmall.model.HomeModelController;
+import com.onlyone.jdmall.activity.IViewController;
+import com.onlyone.jdmall.model.bean.HomeBean;
+import com.onlyone.jdmall.model.impl.HomeModel;
+import com.onlyone.jdmall.model.IModel;
 import com.onlyone.jdmall.utils.ResUtil;
 
 /**
@@ -26,8 +28,8 @@ public class HomePresenter extends BasePresenter<HomeBean> {
 	}
 
 	@Override
-	protected void initData(IModelController<HomeBean> modelController) {
-		modelController.loadData(new IModelController.IListener<HomeBean>() {
+	protected void initData(IModel<HomeBean> modelController) {
+		modelController.loadData(new IModel.IListener<HomeBean>() {
 			@Override
 			public void onSuccess(HomeBean data) {
 				mViewController.OnRefreshData(data);
@@ -41,7 +43,7 @@ public class HomePresenter extends BasePresenter<HomeBean> {
 	}
 
 	@Override
-	protected IModelController<HomeBean> initModelController() {
-		return new HomeModelController();
+	protected IModel<HomeBean> initModelController() {
+		return new HomeModel();
 	}
 }

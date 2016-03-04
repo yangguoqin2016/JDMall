@@ -14,5 +14,6 @@ public class SplashActivity extends AppCompatActivity {
 
 
 		System.out.print("Ñî¹úÇÕÕıÔÚ²âÊÔ45464");
+		
 	}
 }

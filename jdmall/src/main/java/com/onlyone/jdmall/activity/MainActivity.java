@@ -1,10 +1,11 @@
-package com.onlyone.jdmall.activity.impl;
+package com.onlyone.jdmall.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -87,6 +88,17 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 		mManager = getSupportFragmentManager();
 		mNavAdapter = new NavAdapter(mManager);
 		mVpMain.setAdapter(mNavAdapter);
+	}
+
+	/**
+	 * 设置顶部Bar的视图,只需要添加模块相对应的View即可
+	 * 自动移除之前的视图
+	 *
+	 * @param view Bar视图
+	 */
+	public void setTopBarView(View view) {
+		mFlDaohang.removeAllViews();
+		mFlDaohang.addView(view);
 	}
 
 	@Override

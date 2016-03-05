@@ -1,9 +1,8 @@
 package com.onlyone.jdmall.fragment;
 
-import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
 
+import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 
@@ -22,10 +21,8 @@ public class SearchResultFragment extends BaseFragment<Object> {
 
     @Override
     protected View loadSuccessView() {
-        TextView tv = new TextView(ResUtil.getContext());
-        tv.setText(this.getClass().getSimpleName());
-        tv.setGravity(Gravity.CENTER);
-        return tv;
+        View contentView = View.inflate(ResUtil.getContext(), R.layout.inflate_searchresult, null);
+        return contentView;
     }
 
     @Override

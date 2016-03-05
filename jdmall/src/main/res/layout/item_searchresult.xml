@@ -20,6 +20,7 @@
             />
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -51,6 +52,7 @@
                     />
 
                 <TextView
+                    android:backgroundTint=""
                     android:id="@+id/item_searchresult_tv_oldprice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -82,7 +84,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp"
+                    android:layout_marginLeft="60dp"
+                    android:rotationX="0.5"
+                    android:rotationY="0.5"
+                    android:rotation="-90"
                     android:src="@mipmap/lishishousuo_xialajiantou"
                     />
 

@@ -48,7 +48,7 @@ public class FragmentFactory {
 				baseFragment = new SearchFragment();
 				break;
 			case FRAGMENT_BAND:
-				baseFragment = new HomeFragment();
+				baseFragment = new BrandFragment();
 				break;
 			case FRAGMENT_CAR:
 				baseFragment = new CarFragment();

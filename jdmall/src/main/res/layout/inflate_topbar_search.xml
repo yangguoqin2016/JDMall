@@ -37,6 +37,7 @@
         android:orientation="horizontal"
         android:layout_height="48dp">
         <EditText
+            android:id="@+id/topbar_et_key"
             android:layout_weight="5"
             android:layout_width="0dp"
             android:singleLine="true"

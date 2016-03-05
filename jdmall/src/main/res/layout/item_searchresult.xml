@@ -22,6 +22,7 @@
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="冬装新款羊毛衫羊毛衫羊毛衫"
+                      android:textColor="#000"
                       android:id="@+id/item_searchresult_tv_title"
                       android:textSize="16sp"
                 />
@@ -32,8 +33,9 @@
                 >
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="￥334.0"
+
                           android:id="@+id/item_searchresult_tv_price"
-                          android:textColor="#6f00"
+                          android:textColor="#7f00"
                           android:textSize="17sp"
                     />
 
@@ -41,7 +43,7 @@
                           android:layout_marginLeft="30dp"
                           android:text="￥334.0"
                           android:id="@+id/item_searchresult_tv_oldprice"
-                          android:textColor="#6f00"
+                          android:textColor="#7f00"
                           android:textSize="14sp"
                     />
 
@@ -55,6 +57,7 @@
 
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:text="已有250条评价"
+                          android:textColor="#000"
                           android:id="@+id/item_searchresult_tv_valuation"
                           android:textSize="17sp"
 

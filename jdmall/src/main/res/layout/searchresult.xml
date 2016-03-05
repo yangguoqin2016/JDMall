@@ -50,6 +50,7 @@
             <ImageView android:id="@+id/searchresult_price_jiantou" android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="3dp"
+                       android:visibility="gone"
                        android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
 
                 />
@@ -75,6 +76,7 @@
             <ImageView android:id="@+id/searchresult_evaluate_jiantou" android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="3dp"
+                       android:visibility="gone"
                        android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
 
                 />
@@ -100,6 +102,7 @@
             <ImageView android:id="@+id/searchresult_date_jiantou" android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="3dp"
+                       android:visibility="gone"
                        android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
 
                 />

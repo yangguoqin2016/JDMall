@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/5 15:21
  * @描述: ${TODO}
  */
-public class BrandFragment extends SuperBaseFragment<BrandBean> {
+public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.OnClickListener {
 
     @Nullable
     @Bind(R.id.brand_viewpager)
@@ -45,12 +45,14 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
     @Bind(R.id.brind_listview)
     ListView  mBrindListview;
 
+
     private int PICS[] = new int[]{R.mipmap.tuijianpinpaitehuizhadan,
             R.mipmap.brand_1, R.mipmap.brand_2,
             R.mipmap.brand_3, R.mipmap.brand_4, R.mipmap.brand_5};
 
     private AutoScrollTask mTask;
-    private BrandBean mBrandBean;
+    private BrandBean      mBrandBean;
+    private ImageView mMIvBack;
 
 
     @Override
@@ -67,6 +69,11 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
 
     }
 
+    /**
+     * 加载成功的视图
+     *
+     * @return
+     */
     @Override
     protected View loadSuccessView() {
 
@@ -75,6 +82,10 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
         return brandView;
     }
 
+    /**
+     * 加载数据完成,刷新UI,需要判断data是否为null
+     * @param data 数据
+     */
     @Override
     protected void refreshSuccessView(BrandBean data) {
 
@@ -117,7 +128,12 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
 
         mBrindListview.setAdapter(new BrandListViewAdapter());
         setListViewHeightBasedOnChildren(mBrindListview);
+
+        mMIvBack.setOnClickListener(this);
     }
+
+
+
 
     class AutoScrollTask implements Runnable {
 
@@ -142,8 +158,6 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
     }
 
 
-
-
     @Override
     protected void handleError(Exception e) {
         FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
@@ -159,6 +173,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View topBrand = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_brand, null);
+        mMIvBack = (ImageView) topBrand.findViewById(R.id.brand_back);
         MainActivity mainActivity = (MainActivity) getActivity();
         //设置状态栏
         mainActivity.setTopBarView(topBrand);
@@ -235,12 +250,12 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
-            if(convertView == null){
+            if (convertView == null) {
                 holder = new ViewHolder();
                 holder.tv = new TextView(ResUtil.getContext());
                 convertView = holder.tv;
                 convertView.setTag(holder);
-            }else{
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
@@ -251,16 +266,18 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
             int left = DensityUtil.dip2Px(15);
             int top = DensityUtil.dip2Px(6);
             int bottom = DensityUtil.dip2Px(6);
-            holder.tv.setPadding(left,top,0,bottom);
+            holder.tv.setPadding(left, top, 0, bottom);
             return convertView;
         }
     }
-    class ViewHolder{
+
+    class ViewHolder {
         TextView tv;
     }
 
     /**
      * 解决ListView和ScrollView冲突问题
+     *
      * @param listView
      */
     public void setListViewHeightBasedOnChildren(ListView listView) {
@@ -282,4 +299,14 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> {
         listView.setLayoutParams(params);
     }
 
+
+    /**
+     * 点击回退按钮调回到首页
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
+    }
 }

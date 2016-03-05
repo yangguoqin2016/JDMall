@@ -12,4 +12,12 @@ import java.util.List;
 public class SearchBean {
     public String       response;//	searchrecommend
     public List<String> searchKeywords;//Array
+
+    @Override
+    public String toString() {
+        return "SearchBean{" +
+                "response='" + response + '\'' +
+                ", searchKeywords=" + searchKeywords +
+                '}';
+    }
 }

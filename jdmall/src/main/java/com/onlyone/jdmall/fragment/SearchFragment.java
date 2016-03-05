@@ -2,21 +2,17 @@ package com.onlyone.jdmall.fragment;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.SearchBean;
 import com.onlyone.jdmall.constance.Url;
-import com.onlyone.jdmall.pager.LoadListener;
-import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 
 /**
@@ -26,14 +22,37 @@ import com.onlyone.jdmall.utils.ResUtil;
  * @创建时间: 2016/3/5 10:48
  * @描述: RadioGroup里面的搜索
  */
-public class SearchFragment extends  BaseFragment<SearchBean> implements View.OnClickListener {
+public class SearchFragment extends  SuperBaseFragment<SearchBean> implements View.OnClickListener {
 
     private MainActivity mMainActivity;
     public static final String TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
 
-    @Override
-    protected void refreshSuccessView(SearchBean data) {
 
+
+
+
+    @Override
+    protected String getUrl() {
+        return Url.ADDRESS_SEARCH;
+    }
+
+    /**
+     * 处理异常
+     * @param e 异常
+     */
+    @Override
+    protected void handleError(Exception e) {
+        FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
+        TextView tv = new TextView(ResUtil.getContext());
+        tv.setText("加载数据失败,请检查下你的网络..");
+        tv.setGravity(Gravity.CENTER);
+        rootView.addView(tv);
+    }
+
+    @Override
+    protected SearchBean parseJson(String jsonStr) {
+        Gson gson = new Gson();
+        return gson.fromJson(jsonStr,SearchBean.class);
     }
 
     @Override
@@ -53,42 +72,17 @@ public class SearchFragment extends  BaseFragment<SearchBean> implements View.On
         //3.得到MainActivity,再设置TopBar的Ui
         mMainActivity.setTopBarView(topBar);
 
+        //先移除掉.
+        FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
+        rootView.removeAllViews();
         //搜索页面
         View contentView = View.inflate(ResUtil.getContext(), R.layout.inflate_search, null);
         return contentView;
     }
 
     @Override
-    protected void loadData(final LoadListener<SearchBean> listener) {
-        RequestQueue queue = NetUtil.getRequestQueue();
-        String url = Url.ADDRESS_SEARCH;
-        Response.Listener<String> success = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String jsonStr) {
-                Gson gson = new Gson();
-                SearchBean searchBean = gson.fromJson(jsonStr, SearchBean.class);
-                listener.onSuccess(searchBean);
-            }
-        };
-        Response.ErrorListener error = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                listener.onError(volleyError);
-            }
-        };
-        StringRequest request = new StringRequest(Request.Method.GET, url, success, error);
-        queue.add(request);
-
-
-    }
-
-    /**
-     * 处理异常
-     * @param e 异常
-     */
-    @Override
-    protected void handleError(Exception e) {
-
+    protected void refreshSuccessView(SearchBean data) {
+        Log.d("vivi",data.toString());
     }
 
     /**

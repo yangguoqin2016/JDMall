@@ -45,16 +45,16 @@ public class FragmentFactory {
 				baseFragment = new HomeFragment();
 				break;
 			case FRAGMENT_SEARCH:
-				baseFragment = new SearchFragment();
+				baseFragment = new HomeFragment();
 				break;
 			case FRAGMENT_BAND:
-				baseFragment = new BandFragment();
+				baseFragment = new HomeFragment();
 				break;
 			case FRAGMENT_CAR:
-				baseFragment = new CarFragment();
+				baseFragment = new HomeFragment();
 				break;
 			case FRAGMENT_MINE:
-				baseFragment = new MineFragment();
+				baseFragment = new HomeFragment();
 				break;
 		}
 

@@ -1,4 +1,4 @@
-package com.onlyone.jdmall.activity.impl;
+package com.onlyone.jdmall.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

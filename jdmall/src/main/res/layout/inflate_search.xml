@@ -31,13 +31,13 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/lishishousuo_xialajiantou"/>
+            android:src="@mipmap/lishishousuo_xialajiantou"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/lishishousuo_fengexian"/>
+            android:src="@mipmap/lishishousuo_fengexian"/>
     </RelativeLayout>
 
     <LinearLayout

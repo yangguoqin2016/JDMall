@@ -67,7 +67,7 @@ public class SearchFragment extends  BaseFragment<Object> implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
         	case R.id.topbar_tv_back://返回
-                mMainActivity.mVpMain.setCurrentItem(0);
+                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
                 break;
             case R.id.topbar_tv_search://搜索
                 FragmentManager manager = mMainActivity.getSupportFragmentManager();

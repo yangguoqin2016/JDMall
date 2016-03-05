@@ -12,4 +12,6 @@ public interface Url {
 	String ADDRESS_HOME   = ADDRESS_SERVER + "/home";
 	String ADDRESS_CART = ADDRESS_SERVER + "/cart";//购物车链接
 	String ADDRESS_SEARCH = ADDRESS_SERVER + "/search/recommend";//热门搜索
+
+	String ADDRESS_SEARCH_BYKEY = ADDRESS_SERVER + "/search";//关键字搜索
 }

@@ -45,6 +45,13 @@ public abstract class LoadPager<T> implements LoadListener<T> {
 		loadData(this);
 	}
 
+	/**
+	 * 此处要异步加载数据
+	 * <p/>
+	 * 成功失败都要调用listener的相对应方法
+	 */
+	protected abstract void loadData(LoadListener<T> listener);
+
 	@Override
 	public void onSuccess(T data) {
 		View view = loadSuccessView();
@@ -53,6 +60,13 @@ public abstract class LoadPager<T> implements LoadListener<T> {
 
 		refreshSuccessView(data);
 	}
+
+	/**
+	 * 数据加载成功的时候要显示的视图
+	 *
+	 * @return 视图
+	 */
+	protected abstract View loadSuccessView();
 
 	/**
 	 * 使用成功的数据刷新视图
@@ -72,18 +86,4 @@ public abstract class LoadPager<T> implements LoadListener<T> {
 	 * @param e 错误
 	 */
 	protected abstract void handleError(Exception e);
-
-	/**
-	 * 此处要异步加载数据
-	 * <p/>
-	 * 成功失败都要调用listener的相对应方法
-	 */
-	protected abstract void loadData(LoadListener<T> listener);
-
-	/**
-	 * 数据加载成功的时候要显示的视图
-	 *
-	 * @return 视图
-	 */
-	protected abstract View loadSuccessView();
 }

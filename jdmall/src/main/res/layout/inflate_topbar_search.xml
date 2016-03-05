@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="48dp">
+    <TextView
+        android:text="返回"
+        android:paddingRight="20dp"
+        android:drawablePadding="5dp"
+        android:paddingLeft="5dp"
+        android:textSize="22dp"
+        android:textColor="#000"
+        android:gravity="center_vertical"
+        android:id="@+id/topbar_tv_back"
+        android:drawableLeft="@mipmap/head_btn_back_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+
+    <TextView
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:textColor="#000"
+        android:id="@+id/topbar_tv_search"
+        android:textSize="22dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:text="搜索"
+        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:background="#fff"
+        android:layout_margin="4dp"
+        android:layout_toLeftOf="@id/topbar_tv_search"
+        android:layout_toRightOf="@id/topbar_tv_back"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="48dp">
+        <EditText
+            android:layout_weight="5"
+            android:layout_width="0dp"
+            android:hint="请输入要搜索的内容"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/topbar_iv_iconsearch"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:scaleType="center"
+            android:src="@mipmap/lishishousuo_shousuo"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

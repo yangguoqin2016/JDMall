@@ -5,9 +5,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.bean.SearchBean;
+import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 
 /**
@@ -17,13 +26,13 @@ import com.onlyone.jdmall.utils.ResUtil;
  * @创建时间: 2016/3/5 10:48
  * @描述: RadioGroup里面的搜索
  */
-public class SearchFragment extends  BaseFragment<Object> implements View.OnClickListener {
+public class SearchFragment extends  BaseFragment<SearchBean> implements View.OnClickListener {
 
     private MainActivity mMainActivity;
     public static final String TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
 
     @Override
-    protected void refreshSuccessView(Object data) {
+    protected void refreshSuccessView(SearchBean data) {
 
     }
 
@@ -50,10 +59,33 @@ public class SearchFragment extends  BaseFragment<Object> implements View.OnClic
     }
 
     @Override
-    protected void loadData(LoadListener<Object> listener) {
-        listener.onSuccess(null);
+    protected void loadData(final LoadListener<SearchBean> listener) {
+        RequestQueue queue = NetUtil.getRequestQueue();
+        String url = Url.ADDRESS_SEARCH;
+        Response.Listener<String> success = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String jsonStr) {
+                Gson gson = new Gson();
+                SearchBean searchBean = gson.fromJson(jsonStr, SearchBean.class);
+                listener.onSuccess(searchBean);
+            }
+        };
+        Response.ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                listener.onError(volleyError);
+            }
+        };
+        StringRequest request = new StringRequest(Request.Method.GET, url, success, error);
+        queue.add(request);
+
+
     }
 
+    /**
+     * 处理异常
+     * @param e 异常
+     */
     @Override
     protected void handleError(Exception e) {
 

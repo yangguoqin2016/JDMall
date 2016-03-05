@@ -12,9 +12,10 @@ import com.onlyone.jdmall.pager.LoadListener;
  * 描述:		${TODO}
  */
 public class HomeFragment extends BaseFragment<Object> {
+
+
 	@Override
 	protected void refreshSuccessView(Object data) {
-
 	}
 
 	@Override
@@ -23,12 +24,10 @@ public class HomeFragment extends BaseFragment<Object> {
 	}
 
 	@Override
-	protected void loadData(LoadListener<Object> listener) {
-
+	protected void loadData(final LoadListener<Object> listener) {
 	}
 
 	@Override
 	protected void handleError(Exception e) {
-
 	}
 }

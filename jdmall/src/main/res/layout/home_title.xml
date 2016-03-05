@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+    <TextView
+        android:text="MyStreet"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="22dp"
+        android:textColor="#D82958"
+        android:gravity="center_vertical"
+        android:id="@+id/home_tb_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+
+    <TextView
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:textColor="#CA1435"
+        android:id="@+id/home_tb_search"
+        android:textSize="22dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:text="搜索"
+        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:background="@drawable/home_shape_searchbar_bg"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@id/home_tb_search"
+        android:layout_toRightOf="@id/home_tb_tv"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="48dp">
+        <EditText
+            android:background="@null"
+            android:layout_weight="5"
+            android:layout_width="0dp"
+            android:singleLine="true"
+            android:textSize="15dp"
+            android:textColor="#66000000"
+            android:hint="请输入要搜索的内容"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/home_tb_iv"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:scaleType="center"
+            android:src="@mipmap/bar_search_selected"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

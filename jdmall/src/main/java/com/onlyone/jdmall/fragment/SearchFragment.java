@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,9 +18,11 @@ import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.SearchBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.DensityUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 
 import java.util.List;
 
@@ -43,9 +46,12 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	ImageView    mItemHistoryArrow;
 	@Bind(R.id.search_history_item_container)
 	ListView     mSearchHistoryItemContainer;
-	private             MainActivity mMainActivity;
-	public static final String       TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
+	private MainActivity mMainActivity;
+	public static final String TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
 	private List<String> mStringList;
+	private EditText     mEtKey;
+
+	public SPUtil mSpUtil = new SPUtil(ResUtil.getContext());
 
 	@Override
 	protected String getUrl() {
@@ -122,9 +128,9 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		// 得到TopBar的孩子,设置监听事件
 		TextView tvBack = (TextView) topBar.findViewById(R.id.topbar_tv_back);
 		TextView tvSearch = (TextView) topBar.findViewById(R.id.topbar_tv_search);
+		mEtKey = (EditText) topBar.findViewById(R.id.topbar_et_key);
 		tvBack.setOnClickListener(this);
 		tvSearch.setOnClickListener(this);
-
 		// 2.首先先拿到Fragment关联的Activity
 		mMainActivity = (MainActivity) getActivity();
 
@@ -146,6 +152,10 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
 			break;
 		case R.id.topbar_tv_search:// 搜索
+			//保存关键字
+			String searchKey = mEtKey.getText().toString().trim();
+			mSpUtil.putString(SP.KEY_SEARCHKEY,searchKey);
+
 			FragmentManager manager = mMainActivity.getSupportFragmentManager();
 			FragmentTransaction transaction = manager.beginTransaction();
 			transaction.add(R.id.fl_content_container, new SearchResultFragment(), TAG_SEARCHRESULT_FRAGMENT);

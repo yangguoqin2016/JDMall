@@ -20,7 +20,7 @@ import com.onlyone.jdmall.pager.LoadPager;
  */
 public abstract class BaseFragment<T> extends Fragment {
 
-	private LoadPager<T> mLoadPager;
+	protected LoadPager<T> mLoadPager;
 
 	@Nullable
 	@Override

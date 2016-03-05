@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,6 +19,9 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
 import com.squareup.picasso.Picasso;
+
+import java.net.URLEncoder;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,6 +61,9 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
 
         mResultData = data;
 
+        Log.d("SearchResultFragment",data+"-------");
+        Log.d("SearchResultFragment",data.productList.size()+"--------------");
+
         if (data == null || data.productList.size() == 0) {
             // TODO: 2016/3/5 返回空界面
             Toast.makeText(ResUtil.getContext(), "empty", Toast.LENGTH_SHORT).show();
@@ -81,7 +88,11 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
         //http://188.188.5.57:8080/market/search?keyword=%E5%A5%B6%E7%B2%89&page=1&pageNum=10&orderby=priceDown
         String defaultParams = "&page=1&pageNum=10&orderby=priceDown";
 
+        /*奶粉女装童装*/
         String key = mSPUtil.getString(SP.KEY_SEARCHKEY,"");
+        key = URLEncoder.encode(key);
+        Log.d("SearchResultFragment",key);
+        Log.d("SearchResultFragment","url=="+Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams);
 
         return Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams;
     }
@@ -155,17 +166,19 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
                 vh.title = mItemSearchresultTvTitle;
                 vh.price = mItemSearchresultTvPrice;
                 vh.oldprice = mItemSearchresultTvOldprice;
+                vh.valuation = mItemSearchresultTvValuation;
 
                 convertView.setTag(vh);
             } else {
                 vh = (ViewHoler) convertView.getTag();
             }
-            /*给每个条目赋值 奶粉*/
+            /*给每个条目赋值 奶粉 女装*/
             SearchResultBean.ProductList productInfo = mResultData.productList.get(position);
 //            vh.demo = productInfo.pic;
             vh.title.setText(productInfo.name);
             vh.price.setText(productInfo.price+"");
-            vh.oldprice.setText(productInfo.marketPrice+"");
+            vh.oldprice.setText(productInfo.marketPrice + "");
+            vh.valuation.setText("已有"+new Random().nextInt(50000)+"人评价");
             String uri = Url.ADDRESS_SERVER+productInfo.pic;
 
             Picasso.with(ResUtil.getContext()).load(uri).fit().centerCrop().into(vh.demo);

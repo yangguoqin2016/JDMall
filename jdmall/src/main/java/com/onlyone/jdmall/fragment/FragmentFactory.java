@@ -51,7 +51,7 @@ public class FragmentFactory {
 				baseFragment = new HomeFragment();
 				break;
 			case FRAGMENT_CAR:
-				baseFragment = new HomeFragment();
+				baseFragment = new CarFragment();
 				break;
 			case FRAGMENT_MINE:
 				baseFragment = new HomeFragment();

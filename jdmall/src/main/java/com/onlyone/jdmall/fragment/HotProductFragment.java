@@ -1,6 +1,7 @@
 package com.onlyone.jdmall.fragment;
 
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
 
     @Override
     protected void refreshSuccessView(List<HotProductBean.ProductBean> datas) {
-        mHotProductListView.setAdapter(new HotProductAdapter(datas));
+        mHotProductListView.setAdapter(new HotProductAdapter(mHotProductListView,datas));
     }
 
     @Override
@@ -76,8 +77,8 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
      */
     private class HotProductAdapter extends SuperBaseAdapter<HotProductBean.ProductBean> {
 
-        public HotProductAdapter(List<HotProductBean.ProductBean> datas) {
-            super(datas);
+        public HotProductAdapter(AbsListView hotProductListView, List<HotProductBean.ProductBean> datas) {
+            super(hotProductListView,datas);
         }
 
         @Override

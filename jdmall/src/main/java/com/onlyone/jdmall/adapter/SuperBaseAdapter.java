@@ -2,6 +2,9 @@ package com.onlyone.jdmall.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.onlyone.jdmall.holder.BaseHolder;
@@ -20,7 +23,7 @@ import java.util.concurrent.Executors;
  * 创建时间:  2016/3/5 16:12
  * 描述: ${TODO}
  */
-public abstract class SuperBaseAdapter<T> extends MyBaseAdapter {
+public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements AdapterView.OnItemClickListener {
 
     private static final int VIEWTYPE_LOADMORE = 0;
     private static final int VIEWTYPE_NORMAL   = 1;
@@ -30,8 +33,9 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter {
     private ExecutorService mExecutorService = Executors.newFixedThreadPool(3);
     private LoadMoreTask mLoadMoreTask;
 
-    public SuperBaseAdapter(List<T> datas) {
+    public SuperBaseAdapter(AbsListView listView, List<T> datas) {
         super(datas);
+        listView.setOnItemClickListener(this);
     }
 
     @Override
@@ -177,5 +181,15 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter {
      */
     protected  List<T> doLoadMore() throws Exception{
         return null;
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //TODO:点击进入商品详情界面
+        if(parent instanceof ListView){
+            position = position-((ListView) parent).getHeaderViewsCount();
+        }
+        Toast.makeText(ResUtil.getContext(), "position=" + position, Toast.LENGTH_SHORT).show();
     }
 }

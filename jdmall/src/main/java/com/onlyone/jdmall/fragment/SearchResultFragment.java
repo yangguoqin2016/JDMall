@@ -1,6 +1,5 @@
 package com.onlyone.jdmall.fragment;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -61,9 +60,6 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
 
         mResultData = data;
 
-        Log.d("SearchResultFragment",data+"-------");
-        Log.d("SearchResultFragment",data.productList.size()+"--------------");
-
         if (data == null || data.productList.size() == 0) {
             // TODO: 2016/3/5 返回空界面
             Toast.makeText(ResUtil.getContext(), "empty", Toast.LENGTH_SHORT).show();
@@ -84,15 +80,12 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
 
     @Override
     protected String getUrl() {
-        //TODO:
         //http://188.188.5.57:8080/market/search?keyword=%E5%A5%B6%E7%B2%89&page=1&pageNum=10&orderby=priceDown
         String defaultParams = "&page=1&pageNum=10&orderby=priceDown";
 
         /*奶粉女装童装*/
         String key = mSPUtil.getString(SP.KEY_SEARCHKEY,"");
         key = URLEncoder.encode(key);
-        Log.d("SearchResultFragment",key);
-        Log.d("SearchResultFragment","url=="+Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams);
 
         return Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams;
     }

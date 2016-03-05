@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -53,7 +54,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
         mResultData = data;
         if (data == null ||data.productList.size() == 0){
             // TODO: 2016/3/5 返回空界面
-
+            Toast.makeText(ResUtil.getContext(),"empty",Toast.LENGTH_SHORT).show();
 
         }else{
             //返回成功界面奶粉
@@ -74,7 +75,11 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
         //TODO:
         String defaultParams = "&page=1&pageNum=10&orderby=priceDown";
         String key = "奶粉";
-        return Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams;
+        Log.d("SearchResultFragment",Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams);
+//        return Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams;
+//        return "http://188.188.5.57:8080/market/search?keyword=%E5%A5%B6%E7%B2%89&page=1&pageNum=10";
+        return "http://10.0.3.2:8080/market/search?keyword=%E5%A5%B6%E7%B2%89&page=1&pageNum=10";
+//        return "http://localhost:8080/market/search?keyword=奶粉&page=1&pageNum=10&orderby=priceDown";
     }
 
     @Override

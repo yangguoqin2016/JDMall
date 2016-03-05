@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_login_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="8dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="#000"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Email:"/>
+        <EditText
+            android:id="@+id/regist_et_email"
+            android:background="@null"
+            android:hint="输入Email地址"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:background="@drawable/shape_regist_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="8dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="#000"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="确认密码:"/>
+        <EditText
+            android:id="@+id/regist_et_password"
+            android:inputType="textPassword"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入至少6位数密码"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:background="@drawable/shape_login_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="8dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="#000"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="确认密码:"/>
+        <EditText
+            android:id="@+id/regist_confrim_password"
+            android:inputType="textPassword"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入确认密码"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/regist_btn"
+        android:layout_marginTop="40dp"
+        android:background="@mipmap/dengluanniu_dianji_moren"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="注册"
+        android:textColor="#fff"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+
+
+</LinearLayout>

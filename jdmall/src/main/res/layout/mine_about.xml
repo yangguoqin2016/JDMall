@@ -3,13 +3,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@mipmap/shouyebeijing"
-              android:weightSum="1">
+              android:background="@mipmap/shouyebeijing">
     <ImageView
         android:id="@+id/mine_iv_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/app_login"
+        android:src="@mipmap/fragment_kiss"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"/>
@@ -29,29 +28,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="30dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="版本号:V2.03"
-            android:textSize="24dp"
+            android:textColor="#99000000"
+            android:textSize="16sp"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Onlyone科技股份有限公司"
-        android:textSize="24dp"
-        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:textColor="#99000000"
+        android:layout_marginTop="6dp"
         android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="copyright@ 2016-2017"
-            android:textSize="24dp"
-            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:textColor="#99000000"
+            android:layout_marginTop="6dp"
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>

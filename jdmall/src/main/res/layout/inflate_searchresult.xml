@@ -20,6 +20,7 @@
             >
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="销量"
+                      android:textColor="#000"
                       android:textSize="16sp"
                 />
             <ImageView android:id="@+id/searchresult_sale_jiantou" android:layout_width="wrap_content"
@@ -45,6 +46,7 @@
             >
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="价格"
+                      android:textColor="#000"
                       android:textSize="16sp"
                 />
             <ImageView android:id="@+id/searchresult_price_jiantou" android:layout_width="wrap_content"
@@ -71,6 +73,7 @@
             >
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="好评量"
+                      android:textColor="#000"
                       android:textSize="16sp"
                 />
             <ImageView android:id="@+id/searchresult_evaluate_jiantou" android:layout_width="wrap_content"
@@ -97,6 +100,7 @@
             >
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:text="上架时间"
+                      android:textColor="#000"
                       android:textSize="16sp"
                 />
             <ImageView android:id="@+id/searchresult_date_jiantou" android:layout_width="wrap_content"

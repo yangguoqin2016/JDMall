@@ -1,6 +1,9 @@
 package com.onlyone.jdmall.fragment;
 
 import android.graphics.Paint;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.application.MyApplication;
 import com.onlyone.jdmall.bean.SearchResultBean;
 import com.onlyone.jdmall.constance.SP;
@@ -31,9 +35,9 @@ import butterknife.ButterKnife;
  * @包名: com.onlyone.jdmall.fragment
  * @创建者: lianjiacheng
  * @创建时间: 2016/3/5 13:33
- * @描述: ${TODO}
+ * @描述: 搜索结果的Fragment
  */
-public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
+public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> implements View.OnClickListener {
     @Bind(R.id.searchresult_sale_jiantou)
     ImageView    mSearchresultSaleJiantou;
     @Bind(R.id.searchresult_sale)
@@ -55,20 +59,24 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
     private SearchResultBean mResultData;
 
     private SPUtil mSPUtil = new SPUtil(ResUtil.getContext());
+    private MainActivity mMainActivity;
+    private TextView mTvResult;
 
     @Override
     protected void refreshSuccessView(SearchResultBean data) {
 
         mResultData = data;
-
+        int searchNum = 0;
         if (data == null || data.productList.size() == 0) {
             // TODO: 2016/3/5 返回空界面
             Toast.makeText(ResUtil.getContext(), "empty", Toast.LENGTH_SHORT).show();
-
+            searchNum = 0;
         } else {
             //返回成功界面奶粉
             mSearchresultLv.setAdapter(new MyAdapter());
+            searchNum = data.productList.size();
         }
+        mTvResult.setText("搜索结果("+searchNum+"条)");
     }
 
     @Override
@@ -85,14 +93,15 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
         String defaultParams = "&page=1&pageNum=10&orderby=priceDown";
 
         /*奶粉女装童装*/
-        String key = mSPUtil.getString(SP.KEY_SEARCHKEY,"");
+        String key = mSPUtil.getString(SP.KEY_SEARCHKEY, "");
         key = URLEncoder.encode(key);
 
-        return Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams;
+        return Url.ADDRESS_SEARCH_BYKEY + "?keyword=" + key + defaultParams;
     }
 
     @Override
     protected void handleError(Exception e) {
+        mTvResult.setText("搜索结果(0条)");
         Toast.makeText(ResUtil.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
     }
 
@@ -105,11 +114,35 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
         return searchResultBean;
     }
 
+    /**
+     * 在Fragment显示的时候就设置TopBar,这样就不用成功还是失败都去设置.
+     */
+    @Override
+    public void onResume() {
+        View topBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_searchresult, null);
+        TextView tvBack = (TextView) topBar.findViewById(R.id.topbar_tv_back);
+        tvBack.setOnClickListener(this);
+        mTvResult = (TextView) topBar.findViewById(R.id.topbar_tv_result);
+
+        mMainActivity = (MainActivity) getActivity();
+        mMainActivity.setTopBarView(topBar);
+        super.onResume();
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    //返回的监听事件
+    @Override
+    public void onClick(View v) {
+        FragmentManager manager = mMainActivity.getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Fragment fragment =manager.findFragmentByTag(SearchFragment.TAG_SEARCHRESULT_FRAGMENT);
+        transaction.remove(fragment);
+        transaction.commit();
     }
 
     class MyAdapter extends BaseAdapter {
@@ -172,7 +205,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
             vh.title.setText(productInfo.name);
             vh.price.setText(productInfo.price+"");
             vh.oldprice.setText(productInfo.marketPrice + "");
-            vh.oldprice.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG|Paint.STRIKE_THRU_TEXT_FLAG);
+            vh.oldprice.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG | Paint.STRIKE_THRU_TEXT_FLAG);
             vh.valuation.setText("已有"+new Random().nextInt(50000)+"人评价");
             String uri = Url.ADDRESS_SERVER+productInfo.pic;
 

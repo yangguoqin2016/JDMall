@@ -21,6 +21,7 @@ import com.onlyone.jdmall.bean.SearchBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.DensityUtil;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
 
@@ -120,6 +121,9 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		mSearchHistoryItemContainer.setAdapter(new HistoryAdapter());
 	}
 
+	/**
+	 * 在Fragment显示的时候就设置TopBar,这样就不用成功还是失败都去设置.
+	 */
 	@Override
 	public void onResume() {
 		// 1.得到TopBar.
@@ -136,9 +140,34 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 		// 3.得到MainActivity,再设置TopBar的Ui
 		mMainActivity.setTopBarView(topBar);
-
+		LogUtil.d("vivi","onResume方法被调用了--------");
 		super.onResume();
 	}
+
+	@Override
+	public void onStart() {
+		LogUtil.d("vivi","onStart方法被调用了--------");
+		super.onStart();
+	}
+
+	@Override
+	public void onStop() {
+		LogUtil.d("vivi","onStop方法被调用了--------");
+		super.onStop();
+	}
+
+	@Override
+	public void onPause() {
+		LogUtil.d("vivi","onPause方法被调用了--------");
+		super.onPause();
+	}
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		LogUtil.d("vivi","onHiddenChanged方法被调用了--------");
+		super.onHiddenChanged(hidden);
+	}
+
 
 	/**
 	 * 返回键的点击事件 返回到首页

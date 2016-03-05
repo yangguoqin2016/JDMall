@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="48dp">
+    <TextView
+        android:text="返回"
+        android:paddingRight="20dp"
+        android:drawablePadding="5dp"
+        android:paddingLeft="5dp"
+        android:textSize="22dp"
+        android:textColor="#000"
+        android:gravity="center_vertical"
+        android:id="@+id/topbar_tv_back"
+        android:drawableLeft="@mipmap/head_btn_back_gray"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"/>
+
+    <TextView
+        android:id="@+id/topbar_tv_result"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="搜索结果(28条)"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

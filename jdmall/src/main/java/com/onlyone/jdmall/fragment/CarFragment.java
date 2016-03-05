@@ -49,28 +49,33 @@ public class CarFragment extends BaseFragment<CartBean> {
 
 	private View mBarView;
 
-	private List<CartBean.CartEntity> mData;
-	private MyAdapter                 mAdapter;
+	/**
+	 * 有效的购物车商品
+	 */
+	private List<CartBean.CartEntity> mData = new ArrayList<>();
+
+	/**
+	 * 购物车中不勾选的商品
+	 */
+	private List<CartBean.CartEntity.ProductEntity> mUnSelectedData = new ArrayList<>();
+
+	private MyAdapter mAdapter;
 
 	@Override
 	protected void refreshSuccessView(CartBean data) {
 
+		//加载顶部导航图视图并加入到顶部导航图中
+		((MainActivity) getActivity()).setTopBarView(mBarView);
+
 		mCartCountTotal.setText("数量总计: " + data.totalCount + "件");
-		mCartMoneyTotal.setText("商品总金额(不含运费): " + String.format("%.2f", (float)data.totalPrice));
+		updateTotalMoney(data.totalPrice);
 
 		//将服务器请求到的数据设置到ListView上
-		if (mData == null) {
-			mData = new ArrayList<>();
-		}
 		mData.clear();
 		mData.addAll(data.cart);
+		mUnSelectedData.clear();
 
-		if (mAdapter == null) {
-			mAdapter = new MyAdapter();
-			mListView.setAdapter(mAdapter);
-		} else {
-			mAdapter.notifyDataSetChanged();
-		}
+		mAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -78,6 +83,8 @@ public class CarFragment extends BaseFragment<CartBean> {
 		View view = View.inflate(getContext(), R.layout.cart_layout, null);
 
 		ButterKnife.bind(this, view);
+
+		mListView.setAdapter(mAdapter);
 
 		return view;
 	}
@@ -106,8 +113,12 @@ public class CarFragment extends BaseFragment<CartBean> {
 		NetUtil.getRequestQueue().add(stringRequest);
 	}
 
+	private void updateTotalMoney(float money) {
+		mCartMoneyTotal.setText("商品总金额(不含运费): " + String.format("%.2f", money));
+	}
+
 	private String getParams() {
-		return "sku=29:1:1|29:1:1|29:1:1";
+		return "sku=29:5:3|28:2:1";
 	}
 
 	@Override
@@ -120,15 +131,13 @@ public class CarFragment extends BaseFragment<CartBean> {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
-		if (mBarView == null) {
-			//加载顶部导航图视图并加入到顶部导航图中
-			mBarView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
-			((MainActivity) getActivity()).setTopBarView(mBarView);
-		}
+		mBarView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
 
 		if (mListView == null) {
 			mListView = new ListView(getContext());
 		}
+
+		mAdapter = new MyAdapter();
 
 		mLoadPager = new LoadPager<CartBean>(getActivity()) {
 			@Override
@@ -199,8 +208,66 @@ public class CarFragment extends BaseFragment<CartBean> {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
 
-			CartBean.CartEntity cartEntity = mData.get(position);
-			viewHolder.mTvCarItemPrice.setText(cartEntity.product.price + "");
+			final CartBean.CartEntity cartEntity = mData.get(position);
+			viewHolder.mTvCarItemPrice.setText("单价: " + cartEntity.product.price);
+			viewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
+			viewHolder.mTvCarShopname.setText(cartEntity.product.name);
+
+			//计算小结的金额
+			float money = cartEntity.prodNum * cartEntity.product.price;
+			viewHolder.mTvCarItemXiaoji.setText(money + "");
+
+			final ViewHolder finalViewHolder = viewHolder;
+			viewHolder.mTvCarItemJian.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (cartEntity.prodNum > 0) {
+						cartEntity.prodNum--;
+						finalViewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
+
+						//计算小结的金额
+						float money = cartEntity.prodNum * cartEntity.product.price;
+						finalViewHolder.mTvCarItemXiaoji.setText(money + "");
+
+						//计算总共的金额
+						float totalMoney = 0;
+						for (CartBean.CartEntity cartEntity : mData) {
+							if (!mUnSelectedData.contains(cartEntity)) {
+								//只有在当前商品是选中状态下改变数量才会将金额计算到总金额中
+								totalMoney += cartEntity.product.price * cartEntity.prodNum;
+							}
+						}
+
+						updateTotalMoney(totalMoney);
+					}
+				}
+			});
+
+			viewHolder.mTvCarItemJia.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (cartEntity.prodNum < cartEntity.product.buyLimit) {
+						cartEntity.prodNum++;
+						finalViewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
+
+						//计算小结的金额
+						float money = cartEntity.prodNum * cartEntity.product.price;
+						finalViewHolder.mTvCarItemXiaoji.setText(money + "");
+
+						//计算总共的金额
+						float totalMoney = 0;
+						for (CartBean.CartEntity cartEntity : mData) {
+							if (!mUnSelectedData.contains(cartEntity)) {
+								//只有在当前商品是选中状态下改变数量才会将金额计算到总金额中
+								totalMoney += cartEntity.product.price * cartEntity.prodNum;
+							}
+						}
+
+						updateTotalMoney(totalMoney);
+					}
+
+				}
+			});
 
 			Picasso.with(getContext())
 					.load(Url.ADDRESS_SERVER + cartEntity.product.pic)

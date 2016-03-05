@@ -29,7 +29,7 @@ public class CartBean {
 			public String name;
 			public String number;
 			public String pic;
-			public int    price;
+			public float  price;
 
 			public List<ProductPropertyEntity> productProperty;
 

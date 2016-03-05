@@ -22,7 +22,7 @@ import com.onlyone.jdmall.presenter.BasePresenter;
 public abstract class BaseFragment<T> extends Fragment implements IViewController<T> {
 
 	protected BasePresenter<T> mPresenter;
-	private   FrameLayout      mViewContainer;
+	protected FrameLayout      mViewContainer;
 
 	@Nullable
 	@Override

@@ -1,5 +1,7 @@
 package com.onlyone.jdmall.fragment;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -57,7 +59,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 	/**
 	 * 购物车中不勾选的商品
 	 */
-	private List<CartBean.CartEntity.ProductEntity> mUnSelectedData = new ArrayList<>();
+	private List<CartBean.CartEntity> mUnSelectedData = new ArrayList<>();
 
 	private MyAdapter mAdapter;
 
@@ -67,13 +69,12 @@ public class CarFragment extends BaseFragment<CartBean> {
 		//加载顶部导航图视图并加入到顶部导航图中
 		((MainActivity) getActivity()).setTopBarView(mBarView);
 
-		mCartCountTotal.setText("数量总计: " + data.totalCount + "件");
-		updateTotalMoney(data.totalPrice);
-
 		//将服务器请求到的数据设置到ListView上
 		mData.clear();
 		mData.addAll(data.cart);
 		mUnSelectedData.clear();
+
+		updateTotalInfo();
 
 		mAdapter.notifyDataSetChanged();
 	}
@@ -113,8 +114,24 @@ public class CarFragment extends BaseFragment<CartBean> {
 		NetUtil.getRequestQueue().add(stringRequest);
 	}
 
-	private void updateTotalMoney(float money) {
-		mCartMoneyTotal.setText("商品总金额(不含运费): " + String.format("%.2f", money));
+	/**
+	 * 更新总共的金钱数和总共的商品数
+	 */
+	private void updateTotalInfo() {
+
+		float totalMoney = 0;
+		int totalCount = 0;
+		//首先计算出金额
+		for (CartBean.CartEntity cartEntity : mData) {
+			if (!mUnSelectedData.contains(cartEntity)) {
+				//只有在当前商品是选中状态下改变数量才会将金额计算到总金额中
+				totalMoney += cartEntity.product.price * cartEntity.prodNum;
+				totalCount += cartEntity.prodNum;
+			}
+		}
+
+		mCartCountTotal.setText("数量总计: " + totalCount + "件");
+		mCartMoneyTotal.setText("商品总金额(不含运费): " + totalMoney);
 	}
 
 	private String getParams() {
@@ -209,6 +226,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 			}
 
 			final CartBean.CartEntity cartEntity = mData.get(position);
+
 			viewHolder.mTvCarItemPrice.setText("单价: " + cartEntity.product.price);
 			viewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
 			viewHolder.mTvCarShopname.setText(cartEntity.product.name);
@@ -229,16 +247,8 @@ public class CarFragment extends BaseFragment<CartBean> {
 						float money = cartEntity.prodNum * cartEntity.product.price;
 						finalViewHolder.mTvCarItemXiaoji.setText(money + "");
 
-						//计算总共的金额
-						float totalMoney = 0;
-						for (CartBean.CartEntity cartEntity : mData) {
-							if (!mUnSelectedData.contains(cartEntity)) {
-								//只有在当前商品是选中状态下改变数量才会将金额计算到总金额中
-								totalMoney += cartEntity.product.price * cartEntity.prodNum;
-							}
-						}
-
-						updateTotalMoney(totalMoney);
+						//更新总共金钱
+						updateTotalInfo();
 					}
 				}
 			});
@@ -254,18 +264,29 @@ public class CarFragment extends BaseFragment<CartBean> {
 						float money = cartEntity.prodNum * cartEntity.product.price;
 						finalViewHolder.mTvCarItemXiaoji.setText(money + "");
 
-						//计算总共的金额
-						float totalMoney = 0;
-						for (CartBean.CartEntity cartEntity : mData) {
-							if (!mUnSelectedData.contains(cartEntity)) {
-								//只有在当前商品是选中状态下改变数量才会将金额计算到总金额中
-								totalMoney += cartEntity.product.price * cartEntity.prodNum;
-							}
-						}
-
-						updateTotalMoney(totalMoney);
+						//更新总共的金额
+						updateTotalInfo();
 					}
 
+				}
+			});
+
+			viewHolder.mIvCarCheckbox.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (mUnSelectedData.contains(cartEntity)) {
+						//操作之前图片应该显示为未选中状态,现在将图片设置成选中状态
+						mUnSelectedData.remove(cartEntity);
+						finalViewHolder.mIvCarCheckbox.setImageResource(R.mipmap.car_sel);
+					} else {
+						//当前图片为选中状态
+						mUnSelectedData.add(cartEntity);
+						finalViewHolder.mIvCarCheckbox.setImageDrawable(
+								new ColorDrawable(Color.TRANSPARENT));
+					}
+
+					//更新总共的金额
+					updateTotalInfo();
 				}
 			});
 

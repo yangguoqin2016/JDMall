@@ -54,7 +54,7 @@ public class FragmentFactory {
 				baseFragment = new HomeFragment();
 				break;
 			case FRAGMENT_MINE:
-				baseFragment = new HomeFragment();
+				baseFragment = new MineFragment();
 				break;
 		}
 

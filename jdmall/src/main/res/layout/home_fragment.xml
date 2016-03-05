@@ -14,24 +14,27 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <com.onlyone.jdmall.view.RatioLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:rlPicRatio="1.8"
                 app:rlRelative="width">
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/home_vp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </com.onlyone.jdmall.view.RatioLayout>
+
             <LinearLayout
-                android:paddingBottom="10dp"
                 android:id="@+id/home_pot_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:orientation="horizontal"></LinearLayout>
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"></LinearLayout>
         </RelativeLayout>
 
         <LinearLayout
@@ -41,69 +44,42 @@
 
             <LinearLayout
                 android:id="@+id/home_ll_hot"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                style="@style/HomeFragmentLinearLayoutStyle">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
+                    style="@style/HomeFragmentImageViewStyle"
                     android:src="@mipmap/neirong_remendanpin_anniu_tiaozhuan_moren" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="热门单品"
-                    android:textColor="#000000" />
+                    style="@style/HomeFragmentTextViewStyle"
+                    android:text="热门单品" />
             </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/home_ll_new"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                style="@style/HomeFragmentLinearLayoutStyle">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
+                    style="@style/HomeFragmentImageViewStyle"
                     android:src="@mipmap/neirong_xinpinshangjia_anniu_tiaozhuan_moren" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="新品上架"
-                    android:textColor="#000000" />
+                    style="@style/HomeFragmentTextViewStyle"
+                    android:text="新品上架" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/home_ll_shopping"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                style="@style/HomeFragmentLinearLayoutStyle">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
+                    style="@style/HomeFragmentImageViewStyle"
                     android:src="@mipmap/neirong_xianshiqianggou_anniu_tiaozhuan_moren" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="限时抢购"
-                    android:textColor="#000000" />
+                    style="@style/HomeFragmentTextViewStyle"
+                    android:text="限时抢购" />
             </LinearLayout>
 
         </LinearLayout>
@@ -115,68 +91,41 @@
 
             <LinearLayout
                 android:id="@+id/home_ll_sale"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                style="@style/HomeFragmentLinearLayoutStyle">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
+                    style="@style/HomeFragmentImageViewStyle"
                     android:src="@mipmap/neirong_cuxiaokuaibao_anniu_tiaozhuan_moren" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="促销快报"
-                    android:textColor="#000000" />
+                    style="@style/HomeFragmentTextViewStyle"
+                    android:text="促销快报" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/home_ll_recommend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                style="@style/HomeFragmentLinearLayoutStyle">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
+                    style="@style/HomeFragmentImageViewStyle"
                     android:src="@mipmap/neirong_tuijianpinpai_anniu_tiaozhuan_moren" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="推荐品牌"
-                    android:textColor="#000000" />
+                    style="@style/HomeFragmentTextViewStyle"
+                    android:text="推荐品牌" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/home_ll_category"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                style="@style/HomeFragmentLinearLayoutStyle">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
+                    style="@style/HomeFragmentImageViewStyle"
                     android:src="@mipmap/neirong_shangpinfenlei_anniu_tiaozhuan_moren" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="商品分类"
-                    android:textColor="#000000" />
+                    style="@style/HomeFragmentTextViewStyle"
+                    android:text="商品分类" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

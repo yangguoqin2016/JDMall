@@ -1,4 +1,4 @@
-package com.onlyone.jdmall.model;
+package com.onlyone.jdmall.model.bean;
 
 import java.util.List;
 

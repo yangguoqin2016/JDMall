@@ -18,8 +18,8 @@ import com.onlyone.jdmall.utils.ResUtil;
  * 创建时间:	3/5/2016 0:39
  * 描述:		Home页面的主导器
  */
-public class HomePresenter extends BasePresenter<HomeBean> {
-	public HomePresenter(IViewController<HomeBean> view) {
+public class CarPresenter extends BasePresenter<HomeBean> {
+	public CarPresenter(IViewController<HomeBean> view) {
 		super(view);
 	}
 
@@ -27,7 +27,7 @@ public class HomePresenter extends BasePresenter<HomeBean> {
 	protected View initView() {
 
 		TextView textView = new TextView(ResUtil.getContext());
-		textView.setText("HomePresenter");
+		textView.setText("CarPresenter");
 		textView.setTextSize(DensityUtil.dip2Px(20));
 		textView.setTextColor(ResUtil.getColor(R.color.colorAccent));
 		textView.setGravity(Gravity.CENTER);

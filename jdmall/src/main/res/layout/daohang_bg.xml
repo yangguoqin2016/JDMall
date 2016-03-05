@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--可复用的标题栏背景,需要显示不同的标题栏的时候只需要往里面添加视图即可-->
+<FrameLayout
+	android:id="@+id/fl_daohang"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@mipmap/daohang_title">
+
+</FrameLayout>

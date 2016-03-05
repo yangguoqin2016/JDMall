@@ -2,6 +2,9 @@ package com.onlyone.jdmall.presenter;
 
 import android.view.View;
 
+import com.onlyone.jdmall.activity.IViewController;
+import com.onlyone.jdmall.model.IModel;
+
 /**
  * 项目名:	JDMall
  * 包名:		com.onlyone.jdmall.presenter
@@ -10,25 +13,27 @@ import android.view.View;
  * 描述:		主导器基类
  */
 public abstract class BasePresenter<T> {
-	protected IModelController<T> mModel;
-	protected IViewController<T>  mViewController;
-	protected View                mView;
+	protected IModel<T>          mModelController;
+	protected IViewController<T> mViewController;
+	protected View               mView;
 
 	public BasePresenter(IViewController<T> view) {
 		mViewController = view;
 
 		mView = initView();
-		mViewController.OnInitView(mView);
+		mViewController.OnViewArrive(mView);
 	}
 
 	/**
 	 * 开始初始化数据
 	 */
-	public void triggleInitData() {
-		if (mModel == null) {
-			mModel = initModelController();
+	public void triggerInitData() {
+		if (mModelController == null) {
+			mModelController = initModelController();
 		}
-		initData(mModel);
+		if (mModelController != null) {
+			initData(mModelController);
+		}
 	}
 
 	/**
@@ -57,12 +62,12 @@ public abstract class BasePresenter<T> {
 	 *
 	 * @param modelController model控制器
 	 */
-	protected abstract void initData(IModelController<T> modelController);
+	protected abstract void initData(IModel<T> modelController);
 
 	/**
 	 * 子类实现这个方法来提供Model控制器
 	 *
 	 * @return Model控制器
 	 */
-	protected abstract IModelController<T> initModelController();
+	protected abstract IModel<T> initModelController();
 }

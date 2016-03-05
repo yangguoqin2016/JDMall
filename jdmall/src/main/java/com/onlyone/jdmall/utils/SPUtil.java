@@ -10,7 +10,7 @@ import android.content.SharedPreferences;
  * 创建时间:	3/4/2016 15:52<br/>
  * 描述:		SharedPreferences工具类<br/>
  */
-public class SPUtil {
+public final class SPUtil {
 	private static final String SP_FILE_NAME = "mainfest";
 	private final SharedPreferences mSp;
 

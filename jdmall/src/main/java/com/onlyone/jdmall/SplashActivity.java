@@ -16,6 +16,7 @@ public class SplashActivity extends AppCompatActivity {
 		System.out.print("��������ڲ���45464");
 		System.out.print("在乱码老子不干了");
 		System.out.print("老子不干了");
+		System.out.println("并没有乱码");
 
 	}
 }

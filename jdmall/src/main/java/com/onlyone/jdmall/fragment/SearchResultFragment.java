@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
+import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -171,6 +172,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
             vh.title.setText(productInfo.name);
             vh.price.setText(productInfo.price+"");
             vh.oldprice.setText(productInfo.marketPrice + "");
+            vh.oldprice.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG|Paint.STRIKE_THRU_TEXT_FLAG);
             vh.valuation.setText("已有"+new Random().nextInt(50000)+"人评价");
             String uri = Url.ADDRESS_SERVER+productInfo.pic;
 

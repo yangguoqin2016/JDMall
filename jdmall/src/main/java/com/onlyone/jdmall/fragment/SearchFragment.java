@@ -75,20 +75,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 	@Override
 	protected View loadSuccessView() {
-		// 1.得到TopBar.
-		View topBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_search, null);
-
-		// 得到TopBar的孩子,设置监听事件
-		TextView tvBack = (TextView) topBar.findViewById(R.id.topbar_tv_back);
-		TextView tvSearch = (TextView) topBar.findViewById(R.id.topbar_tv_search);
-		tvBack.setOnClickListener(this);
-		tvSearch.setOnClickListener(this);
-
-		// 2.首先先拿到Fragment关联的Activity
-		mMainActivity = (MainActivity) getActivity();
-
-		// 3.得到MainActivity,再设置TopBar的Ui
-		mMainActivity.setTopBarView(topBar);
 
 		// 先移除掉.
 		FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
@@ -126,6 +112,26 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			}
 		}
 		mSearchHistoryItemContainer.setAdapter(new HistoryAdapter());
+	}
+
+	@Override
+	public void onResume() {
+		// 1.得到TopBar.
+		View topBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_search, null);
+
+		// 得到TopBar的孩子,设置监听事件
+		TextView tvBack = (TextView) topBar.findViewById(R.id.topbar_tv_back);
+		TextView tvSearch = (TextView) topBar.findViewById(R.id.topbar_tv_search);
+		tvBack.setOnClickListener(this);
+		tvSearch.setOnClickListener(this);
+
+		// 2.首先先拿到Fragment关联的Activity
+		mMainActivity = (MainActivity) getActivity();
+
+		// 3.得到MainActivity,再设置TopBar的Ui
+		mMainActivity.setTopBarView(topBar);
+
+		super.onResume();
 	}
 
 	/**

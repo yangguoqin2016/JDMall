@@ -1,142 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#000">
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <TextView android:id="@+id/brand_tv_tongbu"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="15dp"
-                  android:drawableLeft="@mipmap/tuijianpinpaizhengpinbaozheng"
-                  android:drawablePadding="7dp"
-                  android:gravity="center_vertical"
-                  android:padding="10dp"
-                  android:text="正品保证"
-                  android:textColor="#fff"
-                  android:textSize="14sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:layout_toRightOf="@id/brand_tv_tongbu"
-            android:drawableLeft="@mipmap/tuijianpinpaiguanwangtongbu"
-            android:drawablePadding="7dp"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:text="官网同步"
-            android:textColor="#fff"
-            android:textSize="14sp"/>
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <ImageView android:layout_width="match_parent"
-               android:layout_height="150dp"
-               android:scaleType="fitXY"
-               android:src="@mipmap/tuijianpinpaitehuizhadan"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#000">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:src="@mipmap/tuijianpinpaipinpai1"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:src="@mipmap/tuijianpinpaipinpai2"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:src="@mipmap/tuijianpinpaipinpai3"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:src="@mipmap/tuijianpinpaipinpai4"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/tuijianpinpaipinpaifengexianshuipin"
-        />
+                <TextView android:id="@+id/brand_tv_tongbu"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginLeft="15dp"
+                          android:drawableLeft="@mipmap/tuijianpinpaizhengpinbaozheng"
+                          android:drawablePadding="7dp"
+                          android:gravity="center_vertical"
+                          android:padding="10dp"
+                          android:text="正品保证"
+                          android:textColor="#fff"
+                          android:textSize="14sp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:src="@mipmap/tuijianpinpaipinpai5"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:src="@mipmap/tuijianpinpaipinpai6"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:src="@mipmap/tuijianpinpaipinpai7"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="更多品牌"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:textColor="#000"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_toRightOf="@id/brand_tv_tongbu"
+                    android:drawableLeft="@mipmap/tuijianpinpaiguanwangtongbu"
+                    android:drawablePadding="7dp"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="官网同步"
+                    android:textColor="#fff"
+                    android:textSize="14sp"/>
+            </LinearLayout>
 
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@mipmap/tuijianpinpaidatuzhanshikuang">
+            <ImageView android:layout_width="match_parent"
+                       android:layout_height="150dp"
+                       android:scaleType="fitXY"
+                       android:src="@mipmap/tuijianpinpaitehuizhadan"/>
 
-        <ImageView android:id="@+id/brand_iv_gonggao2"
-                   android:layout_width="wrap_content"
-                   android:layout_height="30dp"
-                   android:src="@mipmap/tuijianpinpaigonggao2"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/tuijianpinpaipinpai1"/>
 
-        <ImageView android:id="@+id/brand_iv_gonggao1"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_centerVertical="true"
-                   android:layout_marginLeft="10dp"
-                   android:src="@mipmap/tuijianpinpaigonggao1"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_centerVertical="true"
-                  android:layout_marginLeft="10dp"
-                  android:layout_toRightOf="@id/brand_iv_gonggao1"
-                  android:text="2016年3月5日LG正式入驻品牌馆"
-                  android:textColor="#f00"
-                  android:textSize="12sp"/>
-    </RelativeLayout>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@mipmap/tuijianpinpaipinpai2"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/tuijianpinpaipinpai3"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@mipmap/tuijianpinpaipinpai4"/>
+            </LinearLayout>
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="30dp"
-              android:layout_marginTop="20dp"
-              android:text="品牌特卖"
-              android:textColor="#dd000000"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/tuijianpinpaipinpaifengexianshuipin"/>
 
-    <ImageView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@mipmap/tuijianpinpaipinpai5"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/tuijianpinpaipinpai6"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/tuijianpinpaipinpai7"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="更多品牌"
+                    android:textColor="#000"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:background="@mipmap/tuijianpinpaidatuzhanshikuang">
+
+                <ImageView android:id="@+id/brand_iv_gonggao2"
+                           android:layout_width="wrap_content"
+                           android:layout_height="30dp"
+                           android:src="@mipmap/tuijianpinpaigonggao2"/>
+
+                <ImageView android:id="@+id/brand_iv_gonggao1"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_centerVertical="true"
+                           android:layout_marginLeft="10dp"
+                           android:src="@mipmap/tuijianpinpaigonggao1"/>
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:layout_marginLeft="10dp"
+                          android:layout_toRightOf="@id/brand_iv_gonggao1"
+                          android:text="2016年3月5日LG正式入驻品牌馆"
+                          android:textColor="#f00"
+                          android:textSize="12sp"/>
+            </RelativeLayout>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="30dp"
+                      android:layout_marginTop="10dp"
+                      android:text="品牌特卖"
+                      android:textColor="#dd000000"/>
+
+            <ImageView
                 android:id="@+id/brand_iv_fengexian"
                 android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="30dp"
-               android:src="@mipmap/tuijianpinpaipinpaitemaifengexian"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/tuijianpinpaipinpaitemaifengexian"/>
+
+        </LinearLayout>
 
 
-</LinearLayout>
+
+
+
+    </ScrollView>
+</RelativeLayout>

@@ -10,4 +10,5 @@ package com.onlyone.jdmall.constance;
 public interface Url {
 	String ADDRESS_SERVER = "http://10.0.3.2:8080/market";
 	String ADDRESS_HOME   = ADDRESS_SERVER + "/home";
+	String ADDRESS_CART = ADDRESS_SERVER + "/cart";//购物车链接
 }

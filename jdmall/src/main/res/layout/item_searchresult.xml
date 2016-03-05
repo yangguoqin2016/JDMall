@@ -3,69 +3,88 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
+
     <LinearLayout
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
-        <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
-                   android:layout_gravity="center_vertical"
-                   android:id="@+id/item_searchresult_iv"
-                   android:src="@mipmap/ic_launcher"
+
+        <ImageView
+            android:id="@+id/item_searchresult_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_launcher"
             />
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_marginLeft="10dp"
-                      android:orientation="vertical"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
             >
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="冬装新款羊毛衫羊毛衫羊毛衫"
-                      android:textColor="#000"
-                      android:id="@+id/item_searchresult_tv_title"
-                      android:textSize="16sp"
+            <TextView
+                android:id="@+id/item_searchresult_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="冬装新款羊毛衫羊毛衫羊毛衫"
+                android:textColor="#000"
+                android:textSize="16sp"
                 />
 
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:orientation="horizontal"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 >
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="￥334.0"
 
-                          android:id="@+id/item_searchresult_tv_price"
-                          android:textColor="#7f00"
-                          android:textSize="17sp"
+                <TextView
+                    android:id="@+id/item_searchresult_tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="￥334.0"
+                    android:textColor="#7f00"
+                    android:textSize="17sp"
                     />
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:layout_marginLeft="30dp"
-                          android:text="￥334.0"
-                          android:id="@+id/item_searchresult_tv_oldprice"
-                          android:textColor="#7f00"
-                          android:textSize="14sp"
+                <TextView
+                    android:id="@+id/item_searchresult_tv_oldprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="￥334.0"
+                    android:textColor="#7f00"
+                    android:textSize="14sp"
                     />
 
 
             </LinearLayout>
 
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:orientation="horizontal"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 >
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:text="已有250条评价"
-                          android:textColor="#000"
-                          android:id="@+id/item_searchresult_tv_valuation"
-                          android:textSize="17sp"
+                <TextView
+                    android:id="@+id/item_searchresult_tv_valuation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已有250条评价"
+                    android:textColor="#000"
+                    android:textSize="17sp"
 
                     />
 
-                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                           android:layout_marginLeft="80dp"
-                           android:src="@mipmap/right_arrow"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
+                    android:src="@mipmap/right_arrow"
                     />
 
             </LinearLayout>
@@ -76,7 +95,9 @@
 
     </LinearLayout>
 
-    <View android:layout_width="match_parent" android:layout_height="1dp"
-          android:layout_marginTop="5dp"
-          android:background="#2000"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="#2000"/>
 </LinearLayout>

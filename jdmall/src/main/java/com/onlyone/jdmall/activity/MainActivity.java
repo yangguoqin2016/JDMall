@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	/*-------------------- 底部导航单选按钮组 - end --------------------*/
 
 	@Bind(R.id.vp_main)
-	NoScrollLazyViewPager mVpMain;
+	public NoScrollLazyViewPager mVpMain;
 
 	private FragmentManager mManager;
 	private NavAdapter      mNavAdapter;

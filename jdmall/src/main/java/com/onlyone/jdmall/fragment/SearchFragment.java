@@ -1,6 +1,9 @@
 package com.onlyone.jdmall.fragment;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
@@ -14,7 +17,10 @@ import com.onlyone.jdmall.utils.ResUtil;
  * @创建时间: 2016/3/5 10:48
  * @描述: RadioGroup里面的搜索
  */
-public class SearchFragment extends  BaseFragment<Object> {
+public class SearchFragment extends  BaseFragment<Object> implements View.OnClickListener {
+
+    private MainActivity mMainActivity;
+
     @Override
     protected void refreshSuccessView(Object data) {
 
@@ -25,11 +31,17 @@ public class SearchFragment extends  BaseFragment<Object> {
         //1.得到TopBar.
         View topBar = View.inflate(ResUtil.getContext(),R.layout.inflate_topbar_search,null);
 
+        //得到TopBar的孩子,设置监听事件
+        TextView tvBack = (TextView) topBar.findViewById(R.id.topbar_tv_back);
+        TextView tvSearch = (TextView) topBar.findViewById(R.id.topbar_tv_search);
+        tvBack.setOnClickListener(this);
+        tvSearch.setOnClickListener(this);
+
         //2.首先先拿到Fragment关联的Activity
-        MainActivity mainActivity = (MainActivity) getActivity();
+        mMainActivity = (MainActivity) getActivity();
 
         //3.得到MainActivity,再设置TopBar的Ui
-        mainActivity.setTopBarView(topBar);
+        mMainActivity.setTopBarView(topBar);
 
         //搜索页面
         View contentView = View.inflate(ResUtil.getContext(), R.layout.inflate_search, null);
@@ -44,5 +56,28 @@ public class SearchFragment extends  BaseFragment<Object> {
     @Override
     protected void handleError(Exception e) {
 
+    }
+
+    /**
+     * 返回键的点击事件
+     * 返回到首页
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+        	case R.id.topbar_tv_back://返回
+                mMainActivity.mVpMain.setCurrentItem(0);
+                break;
+            case R.id.topbar_tv_search://搜索
+                FragmentManager manager = mMainActivity.getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.add(R.id.fl_content_container,new SearchResultFragment());
+                transaction.commit();
+                break;
+
+            default:
+                break;
+        }
     }
 }

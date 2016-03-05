@@ -13,7 +13,7 @@ public class CartBean {
 	public String response;
 	public int    totalCount;
 	public int    totalPoint;
-	public int    totalPrice;
+	public float  totalPrice;
 
 	public List<CartEntity> cart;
 	public List<String>     prom;
@@ -37,7 +37,37 @@ public class CartBean {
 				public int    id;
 				public String k;
 				public String v;
+
+				@Override
+				public String toString() {
+					return "ProductPropertyEntity{" +
+							"id=" + id +
+							", k='" + k + '\'' +
+							", v='" + v + '\'' +
+							'}';
+				}
 			}
+
+			@Override
+			public String toString() {
+				return "ProductEntity{" +
+						"buyLimit=" + buyLimit +
+						", id=" + id +
+						", name='" + name + '\'' +
+						", number='" + number + '\'' +
+						", pic='" + pic + '\'' +
+						", price=" + price +
+						", productProperty=" + productProperty +
+						'}';
+			}
+		}
+
+		@Override
+		public String toString() {
+			return "CartEntity{" +
+					"prodNum=" + prodNum +
+					", product=" + product +
+					'}';
 		}
 	}
 }

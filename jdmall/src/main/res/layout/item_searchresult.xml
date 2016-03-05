@@ -35,7 +35,7 @@
                           android:text="￥334.0"
 
                           android:id="@+id/item_searchresult_tv_price"
-                          android:textColor="#6f00"
+                          android:textColor="#7f00"
                           android:textSize="17sp"
                     />
 
@@ -43,7 +43,7 @@
                           android:layout_marginLeft="30dp"
                           android:text="￥334.0"
                           android:id="@+id/item_searchresult_tv_oldprice"
-                          android:textColor="#6f00"
+                          android:textColor="#7f00"
                           android:textSize="14sp"
                     />
 

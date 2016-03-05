@@ -20,6 +20,7 @@ import com.onlyone.jdmall.utils.ResUtil;
 public class SearchFragment extends  BaseFragment<Object> implements View.OnClickListener {
 
     private MainActivity mMainActivity;
+    public static final String TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
 
     @Override
     protected void refreshSuccessView(Object data) {
@@ -72,7 +73,7 @@ public class SearchFragment extends  BaseFragment<Object> implements View.OnClic
             case R.id.topbar_tv_search://搜索
                 FragmentManager manager = mMainActivity.getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.add(R.id.fl_content_container,new SearchResultFragment());
+                transaction.add(R.id.fl_content_container,new SearchResultFragment(),TAG_SEARCHRESULT_FRAGMENT);
                 transaction.commit();
                 break;
 

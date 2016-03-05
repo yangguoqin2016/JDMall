@@ -74,7 +74,7 @@ public class MineFragment extends SuperBaseFragment<Object> {
     @Override
     public void onResume() {
         mMainActivity = (MainActivity) getActivity();
-
+        mMainActivity.setHideTopBar(true);
         super.onResume();
     }
 

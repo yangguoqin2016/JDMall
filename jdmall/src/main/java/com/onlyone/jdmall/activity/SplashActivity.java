@@ -2,48 +2,60 @@ package com.onlyone.jdmall.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.RelativeLayout;
 
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.utils.UIUtil;
+import com.onlyone.jdmall.utils.ResUtil;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Bind(R.id.splash_rl)
+    RelativeLayout mSplashRl;
 
-		// TODO: 3/4/2016 需要完成Splash界面
-		initView();
-		initEvent();
-		initData();
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	private void initView() {
-		setContentView(R.layout.activity_splash);
-	}
+        initView();
+        initAnimation();
+        initData();
+    }
 
-	private void initEvent() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-//				模拟Splash界面的逻辑耗时
-				SystemClock.sleep(1000);
+    private void initAnimation() {
+        AlphaAnimation alpah = new AlphaAnimation(1.0f, 0);
+        alpah.setDuration(2000);
+        mSplashRl.startAnimation(alpah);
+        alpah.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-				UIUtil.runSafely(new Runnable() {
-					@Override
-					public void run() {
-						Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-						startActivity(intent);
-						finish();
-					}
-				});
-			}
-		}).start();
-	}
+            }
 
-	private void initData() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                startActivity(new Intent(ResUtil.getContext(), MainActivity.class));
+                finish();
+            }
 
-	}
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    private void initView() {
+        setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
+    }
+
+    private void initData() {
+
+    }
 }

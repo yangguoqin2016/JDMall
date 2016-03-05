@@ -1,101 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:orientation="vertical">
-
-	<RadioGroup
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal">
-
-		<RadioButton
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:background="@android:color/transparent"
-			android:button="@null"
-			android:drawableEnd="@mipmap/car_sep"
-			android:drawablePadding="10dp"
-			android:drawableRight="@mipmap/car_sep"
-			android:gravity="center"
-			android:paddingBottom="20dp"
-			android:paddingLeft="10dp"
-			android:paddingTop="20dp"
-			android:text="商品列表"
-			android:textSize="25sp"/>
-
-		<RadioButton
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:background="@android:color/transparent"
-			android:button="@null"
-			android:drawableEnd="@mipmap/car_sep"
-			android:drawablePadding="10dp"
-			android:drawableRight="@mipmap/car_sep"
-			android:gravity="center"
-			android:paddingBottom="20dp"
-			android:paddingLeft="10dp"
-			android:paddingTop="20dp"
-			android:text="购物小结"
-			android:textSize="25sp"/>
-
-		<RadioButton
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:background="@android:color/transparent"
-			android:button="@null"
-			android:gravity="center"
-			android:paddingBottom="20dp"
-			android:paddingLeft="10dp"
-			android:paddingTop="20dp"
-			android:text="无货商品"
-			android:textSize="25sp"/>
-
-
-	</RadioGroup>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical">
 
 	<RelativeLayout
+		android:id="@+id/cart_total_container"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:background="#F0F0F0"
+		android:padding="10dp">
 
-		<RelativeLayout
-			android:id="@+id/cart_total_container"
-			android:layout_width="match_parent"
+		<TextView
+			android:id="@+id/cart_count_total"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:background="#F0F0F0"
-			android:padding="10dp">
+			android:text="数量总计:2件"
+			android:textColor="#000"/>
 
-			<TextView
-				android:id="@+id/cart_count_total"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="数量总计:2件"
-				android:textColor="#000"/>
-
-			<TextView
-				android:id="@+id/cart_money_total"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:singleLine="true"
-				android:text="商品总金额(不含运费):576.00"
-				android:textColor="#000"/>
-
-		</RelativeLayout>
-
-		<com.onlyone.jdmall.view.LazyViewPager
-			android:id="@+id/vp_cart_main"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_above="@id/cart_total_container">
-
-		</com.onlyone.jdmall.view.LazyViewPager>
-
+		<TextView
+			android:id="@+id/cart_money_total"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:singleLine="true"
+			android:text="商品总金额(不含运费):576.00"
+			android:textColor="#000"/>
 
 	</RelativeLayout>
 
-</LinearLayout>
+	<ListView
+		android:id="@+id/lv_car_list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_above="@id/cart_total_container"
+		android:layout_weight="1"/>
+
+
+</RelativeLayout>

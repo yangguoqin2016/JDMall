@@ -4,14 +4,11 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".activity.SplashActivity">
+	tools:context=".activity.SplashActivity"
+	android:background="@mipmap/splash"
+	android:id="@+id/splash_rl"
+	>
 
-	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:gravity="center"
-		android:text="这是Splash界面"
-		android:textColor="@color/colorAccent"
-		android:textSize="30sp"/>
+
 
 </RelativeLayout>

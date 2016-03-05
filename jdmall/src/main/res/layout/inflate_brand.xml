@@ -43,10 +43,10 @@
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <ImageView android:layout_width="match_parent"
-                       android:layout_height="150dp"
-                       android:scaleType="fitXY"
-                       android:src="@mipmap/tuijianpinpaitehuizhadan"/>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/brand_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,17 +142,11 @@
                       android:textColor="#dd000000"/>
 
             <ImageView
-                android:id="@+id/brand_iv_fengexian"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:src="@mipmap/tuijianpinpaipinpaitemaifengexian"/>
 
         </LinearLayout>
-
-
-
-
-
     </ScrollView>
 </RelativeLayout>

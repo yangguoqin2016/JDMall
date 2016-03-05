@@ -2,6 +2,7 @@ package com.onlyone.jdmall;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.lang.System;
 
@@ -12,6 +13,8 @@ public class SplashActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		System.out.println("hello");
+
+		Log.d("SplashActivity", "你好");
 
 	}
 }

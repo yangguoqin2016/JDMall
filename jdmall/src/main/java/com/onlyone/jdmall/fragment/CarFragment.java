@@ -231,6 +231,12 @@ public class CarFragment extends BaseFragment<CartBean> {
 			viewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
 			viewHolder.mTvCarShopname.setText(cartEntity.product.name);
 
+			if (mUnSelectedData.contains(cartEntity)) {
+				viewHolder.mIvCarCheckbox.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+			} else {
+				viewHolder.mIvCarCheckbox.setImageResource(R.mipmap.car_sel);
+			}
+
 			//计算小结的金额
 			float money = cartEntity.prodNum * cartEntity.product.price;
 			viewHolder.mTvCarItemXiaoji.setText(money + "");

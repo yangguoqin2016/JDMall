@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @Author Never
  * @Date 2016/3/5 15:09
- * @Desc ${TODO}
+ * @Desc ${搜索结果}
  */
 public class SearchResultBean {
 
@@ -25,7 +25,7 @@ public class SearchResultBean {
 
     public List<ProductList> productList;
 
-    public static class ProductList {
+    public class ProductList {
         public int    id;
         public float  marketPrice;
         public String name;

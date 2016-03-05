@@ -1,7 +1,5 @@
 package com.onlyone.jdmall.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,10 +7,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.application.MyApplication;
-import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.bean.SearchResultBean;
+import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.utils.ResUtil;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,58 +26,68 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/5 13:33
  * @描述: ${TODO}
  */
-public class SearchResultFragment extends BaseFragment<Object> {
+public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> {
     @Bind(R.id.searchresult_sale_jiantou)
-    ImageView mSearchresultSaleJiantou;
+    ImageView    mSearchresultSaleJiantou;
     @Bind(R.id.searchresult_sale)
     LinearLayout mSearchresultSale;
     @Bind(R.id.searchresult_price_jiantou)
-    ImageView mSearchresultPriceJiantou;
+    ImageView    mSearchresultPriceJiantou;
     @Bind(R.id.searchresult_price)
     LinearLayout mSearchresultPrice;
     @Bind(R.id.searchresult_evaluate_jiantou)
-    ImageView mSearchresultEvaluateJiantou;
+    ImageView    mSearchresultEvaluateJiantou;
     @Bind(R.id.searchresult_evaluate)
     LinearLayout mSearchresultEvaluate;
     @Bind(R.id.searchresult_date_jiantou)
-    ImageView mSearchresultDateJiantou;
+    ImageView    mSearchresultDateJiantou;
     @Bind(R.id.searchresult_date)
     LinearLayout mSearchresultDate;
     @Bind(R.id.searchresult_lv)
-    ListView mSearchresultLv;
+    ListView     mSearchresultLv;
+    private SearchResultBean mResultData;
 
     @Override
-    protected void refreshSuccessView(Object data) {
+    protected void refreshSuccessView(SearchResultBean data) {
 
+        mResultData = data;
+        if (data == null ||data.productList.size() == 0){
+            // TODO: 2016/3/5 返回空界面
+
+
+        }else{
+            //返回成功界面奶粉
+            mSearchresultLv.setAdapter(new MyAdapter());
+        }
     }
 
     @Override
     protected View loadSuccessView() {
         View view = View.inflate(MyApplication.sGlobalContext, R.layout.inflate_searchresult, null);
-
+        ButterKnife.bind(this, view);
         return view;
     }
 
+
     @Override
-    protected void loadData(LoadListener<Object> listener) {
-        listener.onSuccess(null);
-
-
+    protected String getUrl() {
+        //TODO:
+        String defaultParams = "&page=1&pageNum=10&orderby=priceDown";
+        String key = "奶粉";
+        return Url.ADDRESS_SEARCH_BYKEY+"?keyword="+key+defaultParams;
     }
 
     @Override
     protected void handleError(Exception e) {
-
+        Toast.makeText(ResUtil.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        mSearchresultLv.setAdapter(new MyAdapter());
-        return rootView;
+    protected SearchResultBean parseJson(String jsonStr) {
+
+        return null;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -99,17 +111,23 @@ public class SearchResultFragment extends BaseFragment<Object> {
 
         @Override
         public int getCount() {
-            return 10;
+            if(mResultData != null){
+                return mResultData.productList.size();
+            }
+            return 0;
         }
 
         @Override
-        public Object getItem(int position) {
+        public SearchResultBean.ProductList getItem(int position) {
+            if(mResultData.productList!=null){
+                return mResultData.productList.get(position);
+            }
             return null;
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -121,17 +139,23 @@ public class SearchResultFragment extends BaseFragment<Object> {
                 convertView = View.inflate(MyApplication.sGlobalContext, R.layout.item_searchresult, null);
                 vh = new ViewHoler();
                 ButterKnife.bind(this, convertView);
-                vh.demo = mItemSearchresultIv;
+                /*vh.demo = mItemSearchresultIv;
                 vh.title = mItemSearchresultTvTitle;
                 vh.price = mItemSearchresultTvPrice;
-                vh.oldprice = mItemSearchresultTvOldprice;
+                vh.oldprice = mItemSearchresultTvOldprice;*/
 
                 convertView.setTag(vh);
             } else {
                 vh = (ViewHoler) convertView.getTag();
-
-
             }
+            /*给每个条目赋值*/
+            SearchResultBean.ProductList productInfo = mResultData.productList.get(position);
+//            vh.demo = productInfo.pic;
+            vh.title.setText(productInfo.name);
+            vh.price.setText(productInfo.price+"");
+            vh.oldprice.setText(productInfo.marketPrice+"");
+            String uri = Url.ADDRESS_HOME+"/"+productInfo.pic;
+            Picasso.with(ResUtil.getContext()).load(uri).into(vh.demo);
 
             return convertView;
         }

@@ -29,8 +29,8 @@
         android:layout_height="match_parent"/>
     <LinearLayout
         android:gravity="center_vertical"
-        android:background="#fff"
-        android:layout_margin="4dp"
+        android:background="@drawable/shape_searchbar_bg"
+        android:layout_margin="5dp"
         android:layout_toLeftOf="@id/topbar_tv_search"
         android:layout_toRightOf="@id/topbar_tv_back"
         android:layout_width="wrap_content"
@@ -39,6 +39,9 @@
         <EditText
             android:layout_weight="5"
             android:layout_width="0dp"
+            android:singleLine="true"
+            android:textSize="15dp"
+            android:textColor="#000"
             android:hint="请输入要搜索的内容"
             android:layout_height="wrap_content"/>
         <ImageView

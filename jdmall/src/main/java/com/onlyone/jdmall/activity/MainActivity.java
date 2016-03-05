@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	@Bind(R.id.rb_bottom_mine)
 	RadioButton mRbBottomMine;
 	@Bind(R.id.rg_bottom_nav)
-	RadioGroup  mRgBottomNav;
+	public RadioGroup  mRgBottomNav;
 	/*-------------------- 底部导航单选按钮组 - end --------------------*/
 
 	@Bind(R.id.vp_main)
-	NoScrollLazyViewPager mVpMain;
+	public NoScrollLazyViewPager mVpMain;
 
 	private FragmentManager mManager;
 	private NavAdapter      mNavAdapter;

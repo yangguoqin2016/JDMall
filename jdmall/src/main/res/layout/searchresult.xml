@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:orientation="horizontal"
+                  android:paddingLeft="20dp"
+        >
+
+        <LinearLayout android:id="@+id/searchresult_sale"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal"
+            >
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="销量"
+                      android:textSize="16sp"
+                />
+            <ImageView android:id="@+id/searchresult_sale_jiantou" android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="3dp"
+                       android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
+
+                />
+
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:paddingLeft="15dp"
+                       android:src="@mipmap/shousuojieguo_fengexian"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/searchresult_price"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal"
+            >
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="价格"
+                      android:textSize="16sp"
+                />
+            <ImageView android:id="@+id/searchresult_price_jiantou" android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="3dp"
+                       android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
+
+                />
+
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:paddingLeft="15dp"
+                       android:src="@mipmap/shousuojieguo_fengexian"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/searchresult_evaluate"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal"
+            >
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="好评量"
+                      android:textSize="16sp"
+                />
+            <ImageView android:id="@+id/searchresult_evaluate_jiantou" android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="3dp"
+                       android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
+
+                />
+
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:paddingLeft="15dp"
+                       android:src="@mipmap/shousuojieguo_fengexian"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/searchresult_date"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal"
+            >
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="上架时间"
+                      android:textSize="16sp"
+                />
+            <ImageView android:id="@+id/searchresult_date_jiantou" android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="3dp"
+                       android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
+
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ListView android:id="@+id/searchresult_lv" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+        ></ListView>
+
+</LinearLayout>

@@ -72,6 +72,8 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
 
     @Override
     protected void refreshSuccessView(List<HotProductBean.ProductBean> datas) {
+        View topPic = View.inflate(ResUtil.getContext(),R.layout.new_product_top_pic,null);
+        mNewProductListView.addHeaderView(topPic);
         mNewProductListView.setAdapter(new HotProductAdapter(mNewProductListView, datas));
     }
 
@@ -82,6 +84,7 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
 
         View newProductView = View.inflate(ResUtil.getContext(), R.layout.new_product, null);
         mNewProductListView = (ListView) newProductView.findViewById(R.id.hot_product_list_view);
+
         return newProductView;
     }
 

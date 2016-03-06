@@ -1,18 +1,15 @@
 package com.onlyone.jdmall.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 
 /**
@@ -22,7 +19,7 @@ import com.onlyone.jdmall.utils.ResUtil;
  * @创建时间: 2016/3/5 19:46
  * @描述: ${TODO}
  */
-public class MineAboutFragment extends Fragment implements View.OnClickListener {
+public class MineAboutFragment extends BaseFragment<Object> implements View.OnClickListener {
 
     private MainActivity mMainActivity;
     private View         mTopBarView;
@@ -31,7 +28,7 @@ public class MineAboutFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onResume() {
         Log.d("aaa", "MineAboutFragment----onResume");
-        mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_mine, null);
+        mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_about, null);
         mAboutBack = (TextView) mTopBarView.findViewById(R.id.mine_tv_about_back);
         mAboutBack.setOnClickListener(this);
         mMainActivity = (MainActivity) getActivity();
@@ -40,11 +37,26 @@ public class MineAboutFragment extends Fragment implements View.OnClickListener 
         super.onResume();
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void refreshSuccessView(Object data) {
+
+    }
+
+    @Override
+    protected View loadSuccessView() {
         View rootView = View.inflate(ResUtil.getContext(),R.layout.mine_about,null);
         return rootView;
+    }
+
+    @Override
+    protected void loadData(LoadListener<Object> listener) {
+        listener.onSuccess(null);
+    }
+
+    @Override
+    protected void handleError(Exception e) {
+
     }
 
     @Override

@@ -16,7 +16,6 @@
               android:layout_height="wrap_content"
               android:layout_centerInParent="true"
               android:text="关于"
-              android:id="@+id/mine_tv_about_title"
               android:textColor="#000"
               android:textSize="22sp"/>
 

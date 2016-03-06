@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#fff"
+              android:background="#CCCBCB"
               android:orientation="vertical">
 
     <LinearLayout
@@ -34,6 +34,12 @@
 
 
     <GridView
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
         android:id="@+id/category_common_pager_gv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

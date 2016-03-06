@@ -28,7 +28,7 @@ public final class SerializeUtil {
 	 * @param tag    重新序列化该对象的时候使用的标签
 	 * @param target 需要进行反序列化保存的对象
 	 */
-	public static void serializeObject(String tag, @NonNull Serializable target) {
+	public static void deserializeObject(String tag, @NonNull Serializable target) {
 
 		//序列化保存的文件夹是Cache文件夹
 		String cachePath = FileUtil.getCachePath();
@@ -56,7 +56,7 @@ public final class SerializeUtil {
 	 * @param <T> 序列化的类型
 	 * @return 序列化出来的对象, 序列化失败的时候返回null
 	 */
-	public static <T> T deserializeObject(String tag) {
+	public static <T> T serializeObject(String tag) {
 		String cachePath = FileUtil.getCachePath();
 
 		ObjectInputStream objInput = null;

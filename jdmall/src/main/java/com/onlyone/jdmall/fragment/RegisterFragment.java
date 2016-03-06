@@ -20,9 +20,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.LoginOrRegistBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +56,8 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
     private String mPassword;
     private String mConfirmPwd;
     LoginOrRegistBean mRegistBean;
+    private SPUtil mSp;
+
     @Override
     protected void refreshSuccessView(LoginOrRegistBean data) {
 
@@ -80,6 +84,7 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mSp = new SPUtil(ResUtil.getContext());
         //设置注册的状态栏
         View topBarRegistView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_regist, null);
 
@@ -123,6 +128,8 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
                 mListener.onSuccess(mRegistBean);
                 if(mRegistBean.response.equals("register")){
                     Toast.makeText(ResUtil.getContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                    //注册成功,保存userid
+                    mSp.putLong(SP.USERID,mRegistBean.userInfo.userid);
                 }else{
                     Toast.makeText(ResUtil.getContext(),"该用户名已被注册...",Toast.LENGTH_SHORT).show();
                     return;

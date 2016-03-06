@@ -2,6 +2,8 @@ package com.onlyone.jdmall.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.LoginOrRegistBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -53,6 +56,8 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     CheckBox mLoginRememberCb;
     @Bind(R.id.login_tv_forgetpwd)
     TextView mLoginTvForgetpwd;
+    @Bind(R.id.login_tv_regist)
+    TextView mLoginTvRegist;
 
     private LoadListener<LoginOrRegistBean> mListener;
     private LoginOrRegistBean               mLoginBean;
@@ -77,8 +82,20 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     protected void loadData(LoadListener<LoginOrRegistBean> listener) {
         mListener = listener;
         mLoginBtn.setOnClickListener(this);
+        mLoginTvRegist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchFragment();
+            }
+        });
 
+    }
 
+    private void switchFragment() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.login_view,new RegisterFragment());
+        transaction.commit();
     }
 
     @Override
@@ -92,8 +109,8 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
         mSp = new SPUtil(ResUtil.getContext());
         //帐号及密码的回显
-        String username = mSp.getString("username", null);
-        String password = mSp.getString("password", null);
+        String username = mSp.getString(SP.USERNAME, null);
+        String password = mSp.getString(SP.PASSWORD, null);
         boolean checked = mSp.getBoolean("checked", false);
         if (checked) {
             mLoginEtUsername.setText(username);
@@ -102,10 +119,10 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
         }
 
         View topBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_login, null);
+        ButterKnife.bind(this, topBarView);
         MainActivity activity = (MainActivity) getActivity();
         //设置登录界面的状态栏
         activity.setTopBarView(topBarView);
-        ButterKnife.bind(this, topBarView);
         return topBarView;
     }
 
@@ -127,8 +144,8 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
         RequestQueue queue = Volley.newRequestQueue(ResUtil.getContext());
 
-//        String url = "http://10.0.2.2:8080/market/login?";
-        String url = Url.ADDRESS_SERVER+"/login?";
+        //        String url = "http://10.0.2.2:8080/market/login?";
+        String url = Url.ADDRESS_SERVER + "/login?";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -136,16 +153,18 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
                 Gson gson = new Gson();
                 mLoginBean = gson.fromJson(s, LoginOrRegistBean.class);
                 mListener.onSuccess(mLoginBean);
-                if(mLoginBean.response.equals("login")){
-                    Toast.makeText(ResUtil.getContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(ResUtil.getContext(),"帐号或密码有误...",Toast.LENGTH_SHORT).show();
+                if (mLoginBean.response.equals("login")) {
+                    Toast.makeText(ResUtil.getContext(), "登录成功", Toast.LENGTH_SHORT).show();
+                    mSp.putString(SP.USERNAME, mUsername);
+
+                } else {
+                    Toast.makeText(ResUtil.getContext(), "帐号或密码有误...", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
 
-//                Log.d(TAG, mLoginBean.response);
-//                Log.d(TAG, "" + mLoginBean.userInfo.userid);
+                //                Log.d(TAG, mLoginBean.response);
+                //                Log.d(TAG, "" + mLoginBean.userInfo.userid);
 
             }
         }, new Response.ErrorListener() {
@@ -172,9 +191,9 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
         mSp.putBoolean("checked", checked);
         //记住密码已勾选
         if (checked) {
-            //保存帐号及密码
-            mSp.putString("username", mUsername);
-            mSp.putString("password", mPassword);
+            //保存密码
+
+            mSp.putString(SP.PASSWORD, mPassword);
         }
     }
 }

@@ -11,7 +11,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.adapter.BasePagerAdapter;
+import com.onlyone.jdmall.bean.ProductDetailBean;
+import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.utils.NetUtil;
+import com.onlyone.jdmall.utils.ResUtil;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,8 +42,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView       mProductDetailAddcar;
     @Bind(R.id.product_detail_buy)
     TextView       mProductDetailBuy;
-    @Bind(R.id.hot_product_pic_viewpager)
-    ViewPager      mHotProductPicViewpager;
+    @Bind(R.id.product_detail_pic_viewpager)
+    ViewPager      mProductDetailPicViewpager;
     @Bind(R.id.product_detail_name)
     TextView       mProductDetailName;
     @Bind(R.id.product_detail_price)
@@ -45,8 +58,11 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView       mProductDetailSelectedColorSize;
     @Bind(R.id.product_detail_select_color_size)
     RelativeLayout mProductDetailSelectColorSize;
+    @Bind(R.id.product_detail_buy_limit)
+    TextView       mProductDetailBuyLimit;
 
-    private int mProductId;
+    private int                             mProductId;
+    private ProductDetailBean.ProductEntity mProductBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +74,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void init() {
-        //从商品条目跳转到详情界面,获取传入的商品id
         Intent intent = getIntent();
-        mProductId = intent.getIntExtra("id", 1);
+        // mProductId = intent.getIntExtra("id", 1);
+        mProductId = 1;   //假数据
     }
 
     /**
@@ -81,9 +97,49 @@ public class ProductDetailActivity extends AppCompatActivity {
      * 根据传递过来的商品id请求数据
      */
     private void initData() {
+        //http://localhost:8080/market/product?pId=1
+        String url = Url.ADDRESS_SERVER + "/product?pId=" + mProductId;
+        RequestQueue queue = NetUtil.getRequestQueue();
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Gson gson = new Gson();
+                ProductDetailBean productDetailBean = gson.fromJson(s, ProductDetailBean.class);
+                mProductBean = productDetailBean.product;
 
+                //数据加载成功刷新UI
+                refreshUI();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ProductDetailActivity.this, "数据加载错误", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(request);
     }
 
+    /**
+     * 刷新视图
+     */
+    private void refreshUI() {
+        mProductDetailName.setText(mProductBean.name);
+        mProductDetailPrice.setText("Y " + mProductBean.price);
+        mProductDetailMarketprice.setText("Y " + mProductBean.marketPrice);
+        mProductDetailStars.setRating(mProductBean.score);
+        mProductDetailBuyLimit.setText(mProductBean.buyLimit+"件");
+
+        //设置图片轮播图
+        List<String> picUrls = mProductBean.pics;
+        mProductDetailPicViewpager.setAdapter(new ProductPicAdapter(picUrls));
+    }
+
+
+    /**
+     * 监听控件点击事件
+     *
+     * @param view
+     */
     @OnClick({R.id.product_detail_topbar_back, R.id.product_detail_topbar_share, R.id.product_detail_store, R.id.product_detail_addcar, R.id.product_detail_buy, R.id.product_detail_select_color_size})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -112,7 +168,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void buyNow() {
-        Toast.makeText(this, "立即购买,id="+mProductId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "立即购买,id=" + mProductId, Toast.LENGTH_SHORT).show();
     }
 
     private void addToCar() {
@@ -122,4 +178,27 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void selectColorAndSize() {
         Toast.makeText(this, "选择商品尺寸颜色", Toast.LENGTH_SHORT).show();
     }
+
+
+    private class ProductPicAdapter extends BasePagerAdapter<String>{
+        List<String> urls;
+        public ProductPicAdapter(List<String> data) {
+            super(data);
+            urls = data;
+        }
+
+        @Override
+        public View initView(int position) {
+            //http://localhost:8080/market/images/product/detail/c3.jpg
+            String url = urls.get(position);
+            url = Url.ADDRESS_SERVER+"/"+url;
+
+            ImageView iv = new ImageView(ResUtil.getContext());
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            Picasso.with(ResUtil.getContext()).load(url).into(iv);
+
+            return iv;
+        }
+    }
+
 }

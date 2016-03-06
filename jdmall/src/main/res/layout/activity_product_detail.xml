@@ -92,9 +92,9 @@
 
             <!--具体详情,轮播图片-->
             <android.support.v4.view.ViewPager
-                android:id="@+id/hot_product_pic_viewpager"
+                android:id="@+id/product_detail_pic_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="230dp"/>
 
             <TextView
                 android:id="@+id/product_detail_name"
@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="80dp"
-                    android:text="剩余促销时间10秒"/>
+                    android:text="剩余抢购时间10秒"/>
 
             </LinearLayout>
 
@@ -310,7 +310,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="40dp"
                     android:layout_toRightOf="@id/selected"
-                    android:text="红色 M"
+                    android:text="红色  M"
                     android:textColor="#383737"
                     android:textSize="18sp"/>
                 <ImageView
@@ -367,6 +367,22 @@
                     android:text="32件"
                     android:textColor="#383737"
                     android:textSize="18sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="单品购买上限"
+                    android:textSize="15sp"
+                    />
+                <TextView
+                    android:id="@+id/product_detail_buy_limit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="10件"
+                    android:textSize="15sp"
+                    android:textColor="#d83ee6"
                     />
             </LinearLayout>
 

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,14 +21,18 @@ import com.google.gson.Gson;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.adapter.MyBaseAdapter;
 import com.onlyone.jdmall.bean.SearchBean;
 import com.onlyone.jdmall.constance.SP;
+import com.onlyone.jdmall.constance.Serialize;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.DensityUtil;
 import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
+import com.onlyone.jdmall.utils.SerializeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -59,7 +62,8 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 	public SPUtil mSpUtil = new SPUtil(ResUtil.getContext());
 	public static View mTopBar;
-	private boolean mIsHotArrowOpen = true;
+	private boolean      mIsHotArrowOpen = true;
+	private ArrayList<String> mHistoryList;
 
 	@Override
 	protected String getUrl() {
@@ -131,7 +135,11 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 				mSearchHotItemContainer.addView(line, lineParams);
 			}
 		}
-		mSearchHistoryItemContainer.setAdapter(new HistoryAdapter());
+		mHistoryList = SerializeUtil.serializeObject(Serialize.TAG_HISTORY);
+		if(mHistoryList==null){
+			mHistoryList = new ArrayList<>();
+		}
+		mSearchHistoryItemContainer.setAdapter(new HistoryAdapter(mHistoryList));
 	}
 
 	/**
@@ -139,6 +147,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	 */
 	@Override
 	public void onResume() {
+
 		// 1.得到TopBar.
 		mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_search, null);
 
@@ -241,21 +250,11 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		ButterKnife.unbind(this);
 	}
 
-	class HistoryAdapter extends BaseAdapter {
-		@Override
-		public int getCount() {
-			if (mStringList != null) {
-				return mStringList.size();
-			}
-			return 0;
-		}
+	class HistoryAdapter extends MyBaseAdapter<String> {
 
-		@Override
-		public Object getItem(int position) {
-			if (mStringList != null) {
-				return mStringList.get(position);
-			}
-			return null;
+
+		public HistoryAdapter(ArrayList<String> datas) {
+			super(datas);
 		}
 
 		@Override
@@ -274,7 +273,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-			String text = mStringList.get(position);
+			String text = mHistoryList.get(position);
 			holder.tv.setText(text);
 			holder.tv.setTextColor(Color.BLACK);
 			holder.tv.setTextSize(DensityUtil.dip2Px(18));
@@ -298,6 +297,9 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	private void processSearchKey(String searchKey) {
 		// 保存关键字
 		mSpUtil.putString(SP.KEY_SEARCHKEY, searchKey);
+		//用序列化保存搜索历史
+		mHistoryList.add(0,searchKey);
+		SerializeUtil.deserializeObject(Serialize.TAG_HISTORY,mHistoryList);
 
 		FragmentManager manager = mMainActivity.getSupportFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();

@@ -67,7 +67,7 @@ public final class SerializeUtil {
 			//noinspection unchecked
 			return (T) objInput.readObject();
 		} catch (IOException | ClassNotFoundException e) {
-			LogUtil.e(TAG, e);
+			LogUtil.i(TAG, e);
 		} finally {
 			IOUtil.close(objInput);
 		}

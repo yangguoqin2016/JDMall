@@ -43,31 +43,34 @@
         android:layout_width="match_parent"
         android:layout_height="53dp">
         <TextView
+            android:id="@+id/product_detail_store"
             android:gravity="center"
-            android:background="#f79494"
+            android:background="@drawable/selector_store_bg"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:drawableLeft="@mipmap/good_shoucang"
             android:clickable="true"
             android:textSize="18sp"
             android:text="收藏"/>
         <TextView
+            android:id="@+id/product_detail_addcar"
             android:clickable="true"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="#838181"
+            android:layout_weight="3"
+            android:background="@drawable/selector_addcar_bg"
             android:textSize="18sp"
             android:text="加入购物车"/>
         <TextView
+            android:id="@+id/product_detail_buy"
             android:clickable="true"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="#c73c71"
+            android:layout_weight="3"
+            android:background="@drawable/selector_buy_bg"
             android:textSize="18sp"
             android:text="立即购买"/>
     </LinearLayout>
@@ -287,6 +290,9 @@
                 android:src="@mipmap/divider"
                 />
             <RelativeLayout
+                android:clickable="true"
+                android:background="@drawable/selector_choose_color_size_bg"
+                android:id="@+id/product_detail_select_color_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView

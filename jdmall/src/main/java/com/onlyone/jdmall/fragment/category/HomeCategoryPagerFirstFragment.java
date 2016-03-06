@@ -7,8 +7,7 @@ import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ItemBean;
-import com.onlyone.jdmall.fragment.BaseFragment;
-import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.fragment.SuperBaseFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,7 +19,7 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/6 14:52
  * @描述: 这是从分类主页跳转到的第一个条目的页面
  */
-public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
+public class HomeCategoryPagerFirstFragment extends SuperBaseFragment<ItemBean> {
     @Bind(R.id.category_common_pager_tv)
     TextView mCategoryCommonPagerTv;
     @Bind(R.id.category_common_pager_gv)
@@ -41,16 +40,21 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
         return rootView;
     }
 
+
+
     @Override
-    protected void loadData(LoadListener<ItemBean> listener) {
-
-        listener.onSuccess(null);
-
+    protected String getUrl() {
+        return null;
     }
 
     @Override
     protected void handleError(Exception e) {
         Toast.makeText(getContext(),"分类第一个页面出错",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected ItemBean parseJson(String jsonStr) {
+        return null;
     }
 
 

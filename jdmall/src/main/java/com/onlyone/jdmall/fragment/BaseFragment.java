@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.pager.LoadPager;
 
@@ -26,7 +27,10 @@ public abstract class BaseFragment<T> extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-
+		if(!(this instanceof MineFragment)){
+			MainActivity mainActivity = (MainActivity) getActivity();
+			mainActivity.setHideTopBar(false);
+		}
 		mLoadPager = new LoadPager<T>(getActivity()) {
 			@Override
 			protected void refreshSuccessView(T data) {

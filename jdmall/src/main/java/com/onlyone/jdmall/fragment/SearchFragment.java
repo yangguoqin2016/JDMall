@@ -76,6 +76,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		return Url.ADDRESS_SEARCH;
 	}
 
+
 	/**
 	 * 处理异常
 	 *
@@ -156,7 +157,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	 */
 	@Override
 	public void onResume() {
-
 		// 1.得到TopBar.
 		mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_search, null);
 

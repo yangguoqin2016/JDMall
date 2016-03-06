@@ -191,8 +191,8 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 			FragmentManager manager = mMainActivity.getSupportFragmentManager();
 			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.hide(this);
-			transaction.add(R.id.fl_content_container, new SearchResultFragment(), TAG_SEARCHRESULT_FRAGMENT);
+//			transaction.hide(this);
+			transaction.replace(R.id.fl_content_container, new SearchResultFragment(), TAG_SEARCHRESULT_FRAGMENT);
 			transaction.commit();
 			break;
 

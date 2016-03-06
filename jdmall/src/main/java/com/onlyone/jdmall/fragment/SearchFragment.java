@@ -51,17 +51,17 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		implements View.OnClickListener, AdapterView.OnItemClickListener {
 
 	@Bind(R.id.item_hot_arrow)
-	ImageView mItemHotArrow;
+	ImageView    mItemHotArrow;
 	@Bind(R.id.search_hot_item_container)
 	LinearLayout mSearchHotItemContainer;
 	@Bind(R.id.search_history_item_container)
-	ListView mSearchHistoryItemContainer;
+	ListView     mSearchHistoryItemContainer;
 	@Bind(R.id.search_scrollview)
-	ScrollView mScrollView;
+	ScrollView   mScrollView;
 	private MainActivity mMainActivity;
 	public static final String TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
 	private List<String> mStringList;
-	private EditText mEtKey;
+	private EditText     mEtKey;
 
 	public SPUtil mSpUtil = new SPUtil(ResUtil.getContext());
 	public static View mTopBar;
@@ -69,6 +69,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	private ArrayList<String> mHistoryList;
 	private boolean mIsHistoryArrowOpen = true;
 	private HistoryAdapter mAdapter;
+	private SearchResultFragment mSearchResultFragment;
 
 	@Override
 	protected String getUrl() {
@@ -341,9 +342,13 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		FragmentManager manager = mMainActivity.getSupportFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		// transaction.hide(this);
-		transaction.add(R.id.fl_content_container, new SearchResultFragment(), TAG_SEARCHRESULT_FRAGMENT);
+
+		if (mSearchResultFragment==null) {
+			mSearchResultFragment = new SearchResultFragment();
+		}
+		transaction.add(R.id.fl_content_container, mSearchResultFragment, TAG_SEARCHRESULT_FRAGMENT);
 		// TODO:回退栈,TopBar没有改变
-		// transaction.addToBackStack(null);
+		 transaction.addToBackStack(null);
 		transaction.commit();
 	}
 

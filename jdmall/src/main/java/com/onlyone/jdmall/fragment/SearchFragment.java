@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -212,11 +214,13 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 				int start = mSearchHotItemContainer.getMeasuredHeight();
 				int end  = 0;
 				doAnimationByHot(start,end);
+				doRotateAnimation(0,180);
 			}else{
 				mSearchHotItemContainer.measure(0, 0);
 				int start = 0;
 				int end  = mSearchHotItemContainer.getMeasuredHeight();;
 				doAnimationByHot(start,end);
+				doRotateAnimation(180,0);
 			}
 			mIsHotArrowOpen = !mIsHotArrowOpen;
 			break;
@@ -312,7 +316,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	 */
 	private void doAnimationByHot(int start, int end) {
 		ValueAnimator valueAnimator = ValueAnimator.ofInt(start, end);
-		valueAnimator.setDuration(1000);
+		valueAnimator.setDuration(500);
 		valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -323,5 +327,20 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			}
 		});
 		valueAnimator.start();
+	}
+
+	/**
+	 * 箭头旋转动画
+	 * @param fromDegrees
+	 * @param toDegrees
+	 */
+	private void doRotateAnimation(float fromDegrees, float toDegrees){
+		RotateAnimation ra = new RotateAnimation(fromDegrees,toDegrees,
+												 Animation.RELATIVE_TO_SELF,.5f,
+												 Animation.RELATIVE_TO_SELF,.5f
+												 );
+		ra.setDuration(500);
+		ra.setFillAfter(true);
+		mItemHotArrow.startAnimation(ra);
 	}
 }

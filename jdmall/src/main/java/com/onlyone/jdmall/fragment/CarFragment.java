@@ -267,7 +267,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 	public void onPause() {
 		super.onPause();
 
-		//视图不可见的时候取消网络加载任务
+		//视图不可见的时候取消网络加载任务b
 		NetUtil.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
 			@Override
 			public boolean apply(Request<?> request) {

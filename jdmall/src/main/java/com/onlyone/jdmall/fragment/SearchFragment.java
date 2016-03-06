@@ -3,6 +3,7 @@ package com.onlyone.jdmall.fragment;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,9 +136,11 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		// 得到TopBar的孩子,设置监听事件
 		TextView tvBack = (TextView) mTopBar.findViewById(R.id.topbar_tv_back);
 		TextView tvSearch = (TextView) mTopBar.findViewById(R.id.topbar_tv_search);
+		ImageView tvIconSearch = (ImageView) mTopBar.findViewById(R.id.topbar_iv_iconsearch);
 		mEtKey = (EditText) mTopBar.findViewById(R.id.topbar_et_key);
 		tvBack.setOnClickListener(this);
 		tvSearch.setOnClickListener(this);
+		tvIconSearch.setOnClickListener(this);
 		// 2.首先先拿到Fragment关联的Activity
 		mMainActivity = (MainActivity) getActivity();
 
@@ -187,8 +190,13 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
 			break;
 		case R.id.topbar_tv_search:// 搜索
+		case R.id.topbar_iv_iconsearch:// 搜索
 			//保存关键字
 			String searchKey = mEtKey.getText().toString().trim();
+			if(TextUtils.isEmpty(searchKey)){
+				Toast.makeText(ResUtil.getContext(),"搜索内容不能为空", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			processSearchKey(searchKey);
 			break;
 		default:

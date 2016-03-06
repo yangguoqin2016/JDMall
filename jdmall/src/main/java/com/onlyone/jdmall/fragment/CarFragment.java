@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -62,11 +63,9 @@ public class CarFragment extends BaseFragment<CartBean> {
 	private MyAdapter     mAdapter;
 	private View          mEmptyView;
 	private StringRequest mRequest;
-	private View          mView;
 
 	@Override
 	protected void refreshSuccessView(CartBean data) {
-
 		//将服务器请求到的数据设置到ListView上
 		mData.clear();
 		mData.addAll(data.cart);
@@ -79,13 +78,13 @@ public class CarFragment extends BaseFragment<CartBean> {
 
 	@Override
 	protected View loadSuccessView() {
-		mView = View.inflate(getContext(), R.layout.cart_layout, null);
+		View view = View.inflate(getContext(), R.layout.cart_layout, null);
 
-		ButterKnife.bind(this, mView);
+		ButterKnife.bind(this, view);
 
 		mListView.setAdapter(mAdapter);
 
-		return mView;
+		return view;
 	}
 
 	@Override
@@ -145,6 +144,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 
 	@Override
 	protected void handleError(Exception e) {
+		mLoadPager.getRootView().removeAllViews();
 		mLoadPager.getRootView().addView(mEmptyView);
 	}
 
@@ -192,6 +192,19 @@ public class CarFragment extends BaseFragment<CartBean> {
 				View.inflate(getContext(), R.layout.inflate_car_bar, null));
 
 		mLoadPager.performLoadData();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		//视图不可见的时候取消网络加载任务
+		NetUtil.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
+			@Override
+			public boolean apply(Request<?> request) {
+				return request == mRequest;
+			}
+		});
 	}
 
 	@Override
@@ -287,7 +300,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 				}
 			});
 
-			viewHolder.mIvCarCheckbox.setOnClickListener(new View.OnClickListener() {
+			View.OnClickListener checkUncheckListener = new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (mUnSelectedData.contains(cartEntity)) {
@@ -304,7 +317,11 @@ public class CarFragment extends BaseFragment<CartBean> {
 					//更新总共的金额
 					updateTotalInfo();
 				}
-			});
+			};
+
+			// TODO: 3/6/2016 点击条目跳转到商品详情页面
+
+			viewHolder.mIvCarCheckbox.setOnClickListener(checkUncheckListener);
 
 			Picasso.with(getContext())
 					.load(Url.ADDRESS_SERVER + cartEntity.product.pic)

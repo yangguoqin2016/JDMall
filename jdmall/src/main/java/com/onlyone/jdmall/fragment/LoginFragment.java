@@ -26,7 +26,6 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.LoginOrRegistBean;
 import com.onlyone.jdmall.constance.SP;
-import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
@@ -91,7 +90,15 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     protected View loadSuccessView() {
         View loginView = View.inflate(ResUtil.getContext(), R.layout.inflate_login, null);
         ButterKnife.bind(this, loginView);
-
+        //帐号及密码的回显
+        String username = mSp.getString(SP.USERNAME, null);
+        String password = mSp.getString(SP.PASSWORD, null);
+        boolean checked = mSp.getBoolean("checked", false);
+        if (checked) {
+            mLoginEtUsername.setText(username);
+            mLoginEtPassword.setText(password);
+            mLoginRememberCb.setChecked(checked);
+        }
         return loginView;
     }
 
@@ -115,15 +122,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
 
         mSp = new SPUtil(ResUtil.getContext());
-        //帐号及密码的回显
-        String username = mSp.getString(SP.USERNAME, null);
-        String password = mSp.getString(SP.PASSWORD, null);
-        boolean checked = mSp.getBoolean("checked", false);
-        if (checked) {
-            mLoginEtUsername.setText(username);
-            mLoginEtPassword.setText(password);
-            mLoginRememberCb.setChecked(checked);
-        }
+
         View topBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_login, null);
         final MainActivity activity = (MainActivity) getActivity();
         //设置登录界面的状态栏
@@ -152,8 +151,8 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
         RequestQueue queue = Volley.newRequestQueue(ResUtil.getContext());
 
-//               String url = "http://10.0.2.2:8080/market/login?";
-        String url = Url.ADDRESS_SERVER + "/login?";
+               String url = "http://10.0.2.2:8080/market/login?";
+//        String url = Url.ADDRESS_SERVER + "/login?";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -202,7 +201,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
         //记住密码已勾选
         if (checked) {
             //保存密码
-
+            mSp.putString(SP.USERNAME, mUsername);
             mSp.putString(SP.PASSWORD, mPassword);
         }
     }

@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +56,8 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	LinearLayout mSearchHotItemContainer;
 	@Bind(R.id.search_history_item_container)
 	ListView mSearchHistoryItemContainer;
-
+	@Bind(R.id.search_scrollview)
+	ScrollView mScrollView;
 	private MainActivity mMainActivity;
 	public static final String TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
 	private List<String> mStringList;
@@ -240,7 +242,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 			break;
 		default: // 热门搜索的条目点击事件
 			String clickSearchKey = ((TextView) v).getText().toString().trim();
-			Toast.makeText(ResUtil.getContext(), clickSearchKey, Toast.LENGTH_SHORT).show();
 			processSearchKey(clickSearchKey, true);
 			break;
 		}
@@ -263,7 +264,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		String historyData = mHistoryList.get(position);
-		Toast.makeText(ResUtil.getContext(), historyData, Toast.LENGTH_SHORT).show();
 		processSearchKey(historyData, false);
 	}
 
@@ -306,8 +306,9 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	}
 
 	/**
-	 * 处理关键字,并且保存到sp,跳转到SearchResultFragment
-	 * 
+	 * 1.处理关键字,并且保存到sp,
+	 * 2.而且用系列化保存关键字到本地缓存.
+	 * 3.跳转到SearchResultFragment
 	 * @param searchKey
 	 */
 	private void processSearchKey(String searchKey, boolean isSaveKey) {
@@ -315,14 +316,26 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		mSpUtil.putString(SP.KEY_SEARCHKEY, searchKey);
 		// 用序列化保存搜索历史
 		if (isSaveKey) {
+			/**
+			 * 1.让用户每次搜索的数据,都显示在搜索历史的第一条.
+			 * 2.重复数据不添加
+			 */
 			if (mHistoryList.contains(searchKey)) {
 				mHistoryList.remove(searchKey);
 				mHistoryList.add(0, searchKey);
 			} else {
 				mHistoryList.add(0, searchKey);
 			}
-			mAdapter.notifyDataSetChanged();
+		}else{
+			//不保存关键字,说明当前用户是点击了搜索历史
+			if(mHistoryList.get(0).equals(searchKey)){
+				//如果点击是第一个就不处理
+			}else{
+				mHistoryList.remove(searchKey);
+				mHistoryList.add(0,searchKey);
+			}
 		}
+		mAdapter.notifyDataSetChanged();
 		SerializeUtil.deserializeObject(Serialize.TAG_HISTORY, mHistoryList);
 
 		FragmentManager manager = mMainActivity.getSupportFragmentManager();

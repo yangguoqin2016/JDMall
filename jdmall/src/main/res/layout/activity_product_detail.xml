@@ -35,12 +35,51 @@
 
     </RelativeLayout>
 
-<!--详情正文-->
+    <!--底部操作栏,收藏,加入购物车,购买-->
+    <LinearLayout
+        android:id="@+id/product_detail_bottom"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="53dp">
+        <TextView
+            android:gravity="center"
+            android:background="#f79494"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@mipmap/good_shoucang"
+            android:clickable="true"
+            android:textSize="18sp"
+            android:text="收藏"/>
+        <TextView
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="#838181"
+            android:textSize="18sp"
+            android:text="加入购物车"/>
+        <TextView
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="#c73c71"
+            android:textSize="18sp"
+            android:text="立即购买"/>
+    </LinearLayout>
+
+    <!--详情正文-->
 
     <ScrollView
-        android:layout_below="@id/product_detail_topbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/product_detail_topbar"
+        android:layout_above="@id/product_detail_bottom"
+        android:scrollbars="none"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -230,8 +269,8 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_centerVertical="true"
-                          android:text="进入详情界面"
                           android:layout_marginLeft="10dp"
+                          android:text="进入详情界面"
                           android:textSize="18sp"/>
                 <ImageView
                     android:layout_width="48dp"
@@ -255,8 +294,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="已选"
                     android:layout_marginLeft="10dp"
+                    android:text="已选"
                     android:textSize="18sp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -265,8 +304,8 @@
                     android:layout_marginLeft="40dp"
                     android:layout_toRightOf="@id/selected"
                     android:text="红色 M"
-                    android:textSize="18sp"
-                    android:textColor="#383737"/>
+                    android:textColor="#383737"
+                    android:textSize="18sp"/>
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -289,8 +328,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="可送"
                     android:layout_marginLeft="5dp"
+                    android:text="可送"
                     android:textSize="18sp"
                     />
                 <TextView
@@ -298,8 +337,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
                     android:text="全国"
-                    android:textSize="18sp"
                     android:textColor="#383737"
+                    android:textSize="18sp"
                     />
             </LinearLayout>
             <LinearLayout
@@ -310,8 +349,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="库存"
                     android:layout_marginLeft="5dp"
+                    android:text="库存"
                     android:textSize="18sp"
                     />
                 <TextView
@@ -319,8 +358,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
                     android:text="32件"
-                    android:textSize="18sp"
                     android:textColor="#383737"
+                    android:textSize="18sp"
                     />
             </LinearLayout>
 
@@ -336,8 +375,8 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_centerVertical="true"
-                          android:text="评论晒单"
                           android:layout_marginLeft="10dp"
+                          android:text="评论晒单"
                           android:textSize="18sp"/>
                 <ImageView
                     android:layout_width="48dp"

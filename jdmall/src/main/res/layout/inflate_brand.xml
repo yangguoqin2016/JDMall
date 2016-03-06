@@ -150,8 +150,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingTop="4dp">
+                android:orientation="horizontal">
 
                 <ListView
                     android:id="@+id/brind_listview"
@@ -162,8 +161,8 @@
                     android:id="@+id/brand_fragment_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"/>
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"/>
             </LinearLayout>
 
 

@@ -155,9 +155,14 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         Fragment fragment =manager.findFragmentByTag(SearchFragment.TAG_SEARCHRESULT_FRAGMENT);
 //        transaction.show(FragmentFactory.getFragment(1));
         transaction.remove(fragment);
-        mMainActivity.setTopBarView(SearchFragment.mTopBar);
         mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
         transaction.commit();
+    }
+
+    @Override
+    public void onPause() {
+        mMainActivity.setTopBarView(SearchFragment.mTopBar);
+        super.onPause();
     }
 
     class ItemCilckListner implements AdapterView.OnItemClickListener{

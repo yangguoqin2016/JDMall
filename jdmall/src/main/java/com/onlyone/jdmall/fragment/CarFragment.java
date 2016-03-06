@@ -4,12 +4,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,15 +23,20 @@ import com.google.gson.JsonSyntaxException;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.adapter.MyBaseAdapter;
+import com.onlyone.jdmall.bean.CarProduct;
 import com.onlyone.jdmall.bean.CartBean;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.pager.LoadPager;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -92,8 +99,14 @@ public class CarFragment extends BaseFragment<CartBean> {
 	protected void loadData(final LoadListener<CartBean> listener) {
 
 		//向服务器请求数据之前先在本地准备好要请求的数据
+		String params = getParams();
+		if (TextUtils.isEmpty(params)) {
+			//本地没有购物车数据的时候显示空的购物车视图并且不向服务器请求数据
+			showEmptyView();
+			return;
+		}
 
-		String url = Url.ADDRESS_CART + "?" + getParams();
+		String url = Url.ADDRESS_CART + "?" + params;
 		mRequest = new StringRequest(Request.Method.GET, url,
 				new Response.Listener<String>() {
 					@Override
@@ -145,12 +158,52 @@ public class CarFragment extends BaseFragment<CartBean> {
 	private String getParams() {
 
 		//真正准备参数
+		HashMap<CarProduct, Integer> savedCar = CarModel.getInstance()
+				.queryCar(getCurrentUser());
+		if (savedCar == null || savedCar.size() == 0) {
+			return null;
+		} else {
+			//本地储存的购物车有数据
+			//使用本地储存的购物车数据来生成请求服务器的链接
 
-		return "sku=29:5:3|28:2:1";
+			StringBuilder sb = new StringBuilder();
+			Set<Map.Entry<CarProduct, Integer>> entrySet = savedCar.entrySet();
+			for (Map.Entry<CarProduct, Integer> entry : entrySet) {
+				int id = entry.getKey().id;
+				int prop = entry.getKey().prop;
+				int count = entry.getValue();
+				String productItem;
+				if (sb.length() == 0) {
+					productItem = String.format("%d:%d:%d", id, count, prop);
+				} else {
+					productItem = String.format("|%d:%d:%d", id, count, prop);
+				}
+				sb.append(productItem);
+			}
+
+			return sb.toString();
+		}
+	}
+
+	/**
+	 * 获取当前登录用户的用户名
+	 *
+	 * @return
+	 */
+	private String getCurrentUser() {
+		// TODO: 3/6/2016 获取当前登录的用户的用户名
+		return null;
 	}
 
 	@Override
 	protected void handleError(Exception e) {
+		showEmptyView();
+	}
+
+	/**
+	 * 显示空购物车界面
+	 */
+	private void showEmptyView() {
 		mLoadPager.getRootView().removeAllViews();
 		mLoadPager.getRootView().addView(mEmptyView);
 	}
@@ -195,8 +248,17 @@ public class CarFragment extends BaseFragment<CartBean> {
 		super.onResume();
 
 		//加载顶部导航图视图并加入到顶部导航图中
+		View barView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
 		((MainActivity) getActivity()).setTopBarView(
-				View.inflate(getContext(), R.layout.inflate_car_bar, null));
+				barView);
+
+		View tvRight = barView.findViewById(R.id.tv_car_bar_right);
+		tvRight.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getContext(), "点击了去结算中心", Toast.LENGTH_SHORT).show();
+			}
+		});
 
 		mLoadPager.performLoadData();
 	}
@@ -205,7 +267,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 	public void onPause() {
 		super.onPause();
 
-		//视图不可见的时候取消网络加载任务
+		//视图不可见的时候取消网络加载任务b
 		NetUtil.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
 			@Override
 			public boolean apply(Request<?> request) {

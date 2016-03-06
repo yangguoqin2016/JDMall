@@ -8,16 +8,15 @@
 
     <ImageView
         android:id="@+id/brand_gridview_image"
-        android:padding="2dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/selector_brand_detail_bg"
         android:layout_width="match_parent"
-        android:scaleType="fitXY"
-        android:layout_height="120dp"/>
+        android:layout_height="80dp"/>
 
     <TextView
         android:gravity="center"
+        android:textColor="#685959"
         android:id="@+id/brand_gridview_text"
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

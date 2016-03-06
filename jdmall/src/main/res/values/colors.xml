@@ -3,4 +3,14 @@
 	<color name="colorPrimary">#3F51B5</color>
 	<color name="colorPrimaryDark">#303F9F</color>
 	<color name="colorAccent">#FF4081</color>
+
+<!--收藏-->
+	<color name="store_normal_bg">#f79494</color>
+	<color name="store_pressed_bg">#85b9e4</color>
+<!--加入购物车-->
+	<color name="addcar_normal_bg">#9a58d4</color>
+	<color name="addcar_pressed_bg">#85b9e4</color>
+<!--购买-->
+	<color name="buy_normal_bg">#e24040</color>
+	<color name="buy_pressed_bg">#85b9e4</color>
 </resources>

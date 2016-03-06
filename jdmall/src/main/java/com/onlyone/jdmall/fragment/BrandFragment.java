@@ -163,13 +163,11 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
         mMIvBack.setOnClickListener(this);
 
+        LoadBrandList(data);
         mManager = getActivity().getSupportFragmentManager();
 
-        LoadBrandList(data);
-
         //默认显示品牌列表的第一个Fragment
-/*
-        mTransaction = mManager.beginTransaction();
+/*        mTransaction = mManager.beginTransaction();
         mTransaction.replace(R.id.brand_fragment_container, mFragmentList.get(0));
         mTransaction.commit();*/
     }
@@ -432,6 +430,10 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         switchFragment(position);
     }
 
+    /**
+     * 切换Fragment
+     * @param position
+     */
     private void switchFragment(int position) {
 
         mTransaction = mManager.beginTransaction();

@@ -150,12 +150,18 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     //返回的监听事件奶粉
     @Override
     public void onClick(View v) {
+        removeCurFragment();
+        mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
+    }
+
+    /**
+     * 移除当前的Fragment
+     */
+    private void removeCurFragment() {
         FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment =manager.findFragmentByTag(SearchFragment.TAG_SEARCHRESULT_FRAGMENT);
-//        transaction.show(FragmentFactory.getFragment(1));
         transaction.remove(fragment);
-        mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
         transaction.commit();
     }
 
@@ -163,6 +169,13 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     public void onPause() {
         mMainActivity.setTopBarView(SearchFragment.mTopBar);
         super.onPause();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        removeCurFragment();
+        super.onDestroy();
     }
 
     class ItemCilckListner implements AdapterView.OnItemClickListener{

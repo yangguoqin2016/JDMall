@@ -208,7 +208,7 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
         //点击进入详情界面
         HotProductBean.ProductBean bean = (HotProductBean.ProductBean) mDatas.get(position);
         Intent intent = new Intent(ResUtil.getContext(), ProductDetailActivity.class);
-        intent.putExtra("name",bean.name);
+        intent.putExtra("id",bean.id);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ResUtil.getContext().startActivity(intent);
     }

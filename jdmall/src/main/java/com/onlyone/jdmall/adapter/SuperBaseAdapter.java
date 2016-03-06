@@ -191,6 +191,10 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
         //TODO:点击进入商品详情界面
         if(parent instanceof ListView){
             position = position-((ListView) parent).getHeaderViewsCount();
+            if(position < 0){
+                //头部点击暂不处理
+                return;
+            }
         }
 
         if(getItemViewType(position) == VIEWTYPE_LOADMORE){

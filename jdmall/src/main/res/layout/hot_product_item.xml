@@ -52,13 +52,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Y"/>
+                android:text="Y"
+                android:textColor="#f00"/>
             <TextView
                 android:id="@+id/hot_product_item_market_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="100.00"/>
+                android:text="100.00"
+                android:textColor="#f00"/>
 
         </RelativeLayout>
         <LinearLayout

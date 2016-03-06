@@ -4,11 +4,9 @@ import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
@@ -38,14 +36,6 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
      * 当前加载的页数
      */
     private int mCurPageNum = 1;
-    /**
-     * 加载更多的数据
-     */
-    private List<HotProductBean.ProductBean> mLoadMoreDatas;
-    /**
-     * 加载跟多时的异常
-     */
-    private VolleyError                      mLoadError;
     private View                             mTopBarView;
     private MainActivity mActivity;
 
@@ -72,16 +62,16 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
 
     @Override
     protected void refreshSuccessView(List<HotProductBean.ProductBean> datas) {
+        View topPic = View.inflate(ResUtil.getContext(),R.layout.new_product_top_pic,null);
+        mNewProductListView.addHeaderView(topPic);
         mNewProductListView.setAdapter(new HotProductAdapter(mNewProductListView, datas));
     }
 
     @Override
     protected View loadSuccessView() {
-        FrameLayout container = (FrameLayout) mLoadPager.getRootView();
-        container.removeAllViews();
-
         View newProductView = View.inflate(ResUtil.getContext(), R.layout.new_product, null);
         mNewProductListView = (ListView) newProductView.findViewById(R.id.hot_product_list_view);
+
         return newProductView;
     }
 

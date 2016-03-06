@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -83,6 +84,9 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
             //返回成功界面奶粉
             mSearchresultLv.setAdapter(new MyAdapter());
             searchNum = data.productList.size();
+
+            /*设置listview条目点击事件*/
+            mSearchresultLv.setOnItemClickListener(new ItemCilckListner());
         }
         mTvResult.setText("搜索结果("+searchNum+"条)");
     }
@@ -143,7 +147,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         ButterKnife.unbind(this);
     }
 
-    //返回的监听事件
+    //返回的监听事件奶粉
     @Override
     public void onClick(View v) {
         FragmentManager manager = mMainActivity.getSupportFragmentManager();
@@ -154,6 +158,14 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         mMainActivity.setTopBarView(SearchFragment.mTopBar);
         mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
         transaction.commit();
+    }
+
+    class ItemCilckListner implements AdapterView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(ResUtil.getContext(),mResultData.productList.get(position).name,Toast.LENGTH_SHORT).show();
+        }
     }
 
     class MyAdapter extends BaseAdapter {

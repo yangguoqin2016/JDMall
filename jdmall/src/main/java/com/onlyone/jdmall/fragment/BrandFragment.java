@@ -38,7 +38,6 @@ import com.onlyone.jdmall.fragment.brand.MotherFragment;
 import com.onlyone.jdmall.fragment.brand.QingjieFragment;
 import com.onlyone.jdmall.fragment.brand.ShipinFragment;
 import com.onlyone.jdmall.utils.DensityUtil;
-import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 
 import java.util.ArrayList;
@@ -195,7 +194,17 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
      * @param data
      */
     private void LoadBrandList(BrandBean data) {
-        LogUtil.i("XXX", "解析数据...");
+
+		mMotherData.clear();
+		mShipinData.clear();
+		mBabyData.clear();
+		mFashionData.clear();
+		mDailyData.clear();
+		mQingjieData.clear();
+		mChildClothData.clear();
+		mChengRenData.clear();
+		mHuaZhuangData.clear();
+
         for (int i = 0; i < data.getBrand().size(); i++) {
 
             BrandBean.BrandList brandList = data.getBrand().get(i);

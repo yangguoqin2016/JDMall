@@ -53,6 +53,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	private EditText     mEtKey;
 
 	public SPUtil mSpUtil = new SPUtil(ResUtil.getContext());
+	private View mTopBar;
 
 	@Override
 	protected String getUrl() {
@@ -127,19 +128,19 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	@Override
 	public void onResume() {
 		// 1.得到TopBar.
-		View topBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_search, null);
+		mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_search, null);
 
 		// 得到TopBar的孩子,设置监听事件
-		TextView tvBack = (TextView) topBar.findViewById(R.id.topbar_tv_back);
-		TextView tvSearch = (TextView) topBar.findViewById(R.id.topbar_tv_search);
-		mEtKey = (EditText) topBar.findViewById(R.id.topbar_et_key);
+		TextView tvBack = (TextView) mTopBar.findViewById(R.id.topbar_tv_back);
+		TextView tvSearch = (TextView) mTopBar.findViewById(R.id.topbar_tv_search);
+		mEtKey = (EditText) mTopBar.findViewById(R.id.topbar_et_key);
 		tvBack.setOnClickListener(this);
 		tvSearch.setOnClickListener(this);
 		// 2.首先先拿到Fragment关联的Activity
 		mMainActivity = (MainActivity) getActivity();
 
 		// 3.得到MainActivity,再设置TopBar的Ui
-		mMainActivity.setTopBarView(topBar);
+		mMainActivity.setTopBarView(mTopBar);
 		LogUtil.d("vivi","onResume方法被调用了--------");
 		super.onResume();
 	}
@@ -164,7 +165,10 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
-		LogUtil.d("vivi","onHiddenChanged方法被调用了--------");
+		if(!hidden){
+			mMainActivity.setTopBarView(mTopBar);
+		}
+		LogUtil.d("vivi","onHiddenChanged方法被调用了--------"+hidden);
 		super.onHiddenChanged(hidden);
 	}
 
@@ -187,6 +191,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 			FragmentManager manager = mMainActivity.getSupportFragmentManager();
 			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.hide(this);
 			transaction.add(R.id.fl_content_container, new SearchResultFragment(), TAG_SEARCHRESULT_FRAGMENT);
 			transaction.commit();
 			break;

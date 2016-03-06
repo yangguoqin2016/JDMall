@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -247,8 +248,17 @@ public class CarFragment extends BaseFragment<CartBean> {
 		super.onResume();
 
 		//加载顶部导航图视图并加入到顶部导航图中
+		View barView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
 		((MainActivity) getActivity()).setTopBarView(
-				View.inflate(getContext(), R.layout.inflate_car_bar, null));
+				barView);
+
+		View tvRight = barView.findViewById(R.id.tv_car_bar_right);
+		tvRight.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getContext(), "点击了去结算中心", Toast.LENGTH_SHORT).show();
+			}
+		});
 
 		mLoadPager.performLoadData();
 	}

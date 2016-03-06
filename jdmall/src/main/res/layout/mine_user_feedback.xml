@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="反馈内容(你可以输入商品以及对客户端的意见)"
+        android:textSize="16sp"/>
+    <EditText
+        android:padding="5dp"
+        android:gravity="left"
+        android:layout_margin="15dp"
+        android:hint="用户评价输入框"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/yonghufankui_fankuineirong"
+        android:lines="7"
+        />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="联系方式"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:padding="5dp"
+        android:gravity="left"
+        android:lines="3"
+        android:layout_margin="15dp"
+        android:background="@mipmap/yonghufankuii_lianxfangshi"
+        android:hint="您的姓名,手机号,邮箱"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>

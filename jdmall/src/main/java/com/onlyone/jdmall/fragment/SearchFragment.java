@@ -63,8 +63,9 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 	public SPUtil mSpUtil = new SPUtil(ResUtil.getContext());
 	public static View mTopBar;
-	private boolean      mIsHotArrowOpen = true;
+	private boolean mIsHotArrowOpen = true;
 	private ArrayList<String> mHistoryList;
+	private boolean mIsHistoryArrowOpen = true;
 
 	@Override
 	protected String getUrl() {
@@ -82,6 +83,8 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
 		TextView tv = new TextView(ResUtil.getContext());
 		tv.setText("加载数据失败,请检查下你的网络..");
+		tv.setTextSize(DensityUtil.dip2Px(20));
+		tv.setTextColor(Color.BLACK);
 		tv.setGravity(Gravity.CENTER);
 		rootView.addView(tv);
 	}
@@ -220,23 +223,27 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			processSearchKey(searchKey , true);
 			break;
 		case R.id.item_hot_arrow://热门搜索的箭头
+			mSearchHotItemContainer.measure(0,0);
+			int start = mSearchHotItemContainer.getMeasuredHeight();
+			int end  = 0;
 			if(mIsHotArrowOpen){
-				mSearchHotItemContainer.measure(0,0);
-				int start = mSearchHotItemContainer.getMeasuredHeight();
-				int end  = 0;
+				//当前状态是打开,就折叠
 				doAnimationByHot(start,end);
-				doRotateAnimation(0,180);
+				doRotateAnimation(0,180,mItemHotArrow);
 			}else{
-				mSearchHotItemContainer.measure(0, 0);
-				int start = 0;
-				int end  = mSearchHotItemContainer.getMeasuredHeight();;
-				doAnimationByHot(start,end);
-				doRotateAnimation(180,0);
+				//当前状态是折叠,就打开
+				doAnimationByHot(end,start);
+				doRotateAnimation(180,0,mItemHotArrow);
 			}
 			mIsHotArrowOpen = !mIsHotArrowOpen;
 			break;
 		case R.id.item_history_arrow://搜索历史的箭头
+			if(mIsHistoryArrowOpen){
 
+			}else{
+
+			}
+			mIsHistoryArrowOpen = !mIsHistoryArrowOpen;
 			break;
 		default: //热门搜索的条目点击事件
 			String clickSearchKey = ((TextView) v).getText().toString().trim();
@@ -354,13 +361,28 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	 * @param fromDegrees
 	 * @param toDegrees
 	 */
-	private void doRotateAnimation(float fromDegrees, float toDegrees){
+	private void doRotateAnimation(float fromDegrees, float toDegrees ,ImageView iv){
 		RotateAnimation ra = new RotateAnimation(fromDegrees,toDegrees,
 												 Animation.RELATIVE_TO_SELF,.5f,
 												 Animation.RELATIVE_TO_SELF,.5f
 												 );
 		ra.setDuration(500);
 		ra.setFillAfter(true);
-		mItemHotArrow.startAnimation(ra);
+		iv.startAnimation(ra);
+	}
+
+	private void doAnimationByHistory(int start, int end) {
+		ValueAnimator valueAnimator = ValueAnimator.ofInt(start, end);
+		valueAnimator.setDuration(500);
+		valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator valueAnimator) {
+				int value = (int) valueAnimator.getAnimatedValue();
+				ViewGroup.LayoutParams layoutParams = mSearchHistoryItemContainer.getLayoutParams();
+				layoutParams.height = value;
+				mSearchHistoryItemContainer.setLayoutParams(layoutParams);
+			}
+		});
+		valueAnimator.start();
 	}
 }

@@ -190,6 +190,6 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
         if(parent instanceof ListView){
             position = position-((ListView) parent).getHeaderViewsCount();
         }
-        Toast.makeText(ResUtil.getContext(), "position=" + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(ResUtil.getContext(), "进入详情界面" + position, Toast.LENGTH_SHORT).show();
     }
 }

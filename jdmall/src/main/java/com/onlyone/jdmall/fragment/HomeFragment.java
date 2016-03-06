@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
@@ -65,7 +67,6 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     private HomeBean mHomeBean;
     private List<HomeBean.HomeTopicBean> mHomeTopics;
     private SwitchTask mTask;
-    private MainActivity mMainActivity;
 
 
     @Override
@@ -124,7 +125,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         //TODO:主页title搜索的逻辑
 
         //2.首先先拿到Fragment关联的Activity
-        mMainActivity = (MainActivity) getActivity();
+        MainActivity mMainActivity = (MainActivity) getActivity();
 
         //3.得到MainActivity,再设置TopBar的Ui
         mMainActivity.setTopBarView(titlBar);
@@ -152,6 +153,9 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
      */
     @Override
     protected void loadData(final LoadListener<Object> listener) {
+        /*
+            TODO: 数据的真正加载
+         */
         RequestQueue requestQueue = Volley.newRequestQueue(ResUtil.getContext());
         String url = Url.ADDRESS_HOME;
         Response.Listener<String> success = new Response.Listener<String>() {
@@ -244,12 +248,10 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     public void onClick(View v) {
         //TODO:点击跳转，其他fragment
-        Fragment fragment = null;
         String str = "";
         switch (v.getId()) {
             case R.id.home_ll_hot://热门单品
                 str = "热门单品";
-                fragment = new HotProductFragment();
                 break;
             case R.id.home_ll_new: //新品上架
                 str = "新品上架";
@@ -268,7 +270,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 break;
         }
         Toast.makeText(ResUtil.getContext(), str, Toast.LENGTH_SHORT).show();
-        changeFragment(fragment);
+
     }
 
 
@@ -330,16 +332,5 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
             mTask.stop();
         }
         mTask = null;
-    }
-
-    private void changeFragment(Fragment fragment){
-        if(fragment == null){
-            return ;
-        }
-        FragmentManager manager = mMainActivity.getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fl_content_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 }

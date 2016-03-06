@@ -2,14 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#ffffff"
-              android:orientation="vertical">
               android:orientation="vertical"
     android:background="#fff">
 
     <ImageView
         android:scaleType="fitXY"
-        android:src="@mipmap/home_hot_product"
+        android:src="@mipmap/home_new_product"
         android:layout_width="match_parent"
         android:layout_height="130dp"/>
     <ImageView

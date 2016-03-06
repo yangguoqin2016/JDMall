@@ -4,15 +4,17 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -20,15 +22,21 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.adapter.MyBaseAdapter;
+import com.onlyone.jdmall.bean.CarProduct;
 import com.onlyone.jdmall.bean.CartBean;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.pager.LoadPager;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,8 +57,6 @@ public class CarFragment extends BaseFragment<CartBean> {
 	@Bind(R.id.lv_car_list)
 	ListView mListView;
 
-	private View mBarView;
-
 	/**
 	 * 有效的购物车商品
 	 */
@@ -61,19 +67,18 @@ public class CarFragment extends BaseFragment<CartBean> {
 	 */
 	private List<CartBean.CartEntity> mUnSelectedData = new ArrayList<>();
 
-	private MyAdapter mAdapter;
+	private MyAdapter     mAdapter;
+	private View          mEmptyView;
+	private StringRequest mRequest;
 
 	@Override
 	protected void refreshSuccessView(CartBean data) {
-
-		//加载顶部导航图视图并加入到顶部导航图中
-		((MainActivity) getActivity()).setTopBarView(mBarView);
-
 		//将服务器请求到的数据设置到ListView上
 		mData.clear();
 		mData.addAll(data.cart);
 		mUnSelectedData.clear();
 
+		//更新购物车统计数据
 		updateTotalInfo();
 
 		mAdapter.notifyDataSetChanged();
@@ -92,8 +97,17 @@ public class CarFragment extends BaseFragment<CartBean> {
 
 	@Override
 	protected void loadData(final LoadListener<CartBean> listener) {
-		String url = Url.ADDRESS_CART + "?" + getParams();
-		StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+
+		//向服务器请求数据之前先在本地准备好要请求的数据
+		String params = getParams();
+		if (TextUtils.isEmpty(params)) {
+			//本地没有购物车数据的时候显示空的购物车视图并且不向服务器请求数据
+			showEmptyView();
+			return;
+		}
+
+		String url = Url.ADDRESS_CART + "?" + params;
+		mRequest = new StringRequest(Request.Method.GET, url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String s) {
@@ -101,17 +115,19 @@ public class CarFragment extends BaseFragment<CartBean> {
 						try {
 							CartBean cartBean = gson.fromJson(s, CartBean.class);
 							listener.onSuccess(cartBean);
+//							listener.onError(null);
 						} catch (JsonSyntaxException e) {
 							listener.onError(e);
 						}
 					}
-				}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError volleyError) {
-				listener.onError(volleyError);
-			}
-		});
-		NetUtil.getRequestQueue().add(stringRequest);
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError volleyError) {
+						listener.onError(volleyError);
+					}
+				});
+		NetUtil.getRequestQueue().add(mRequest);
 	}
 
 	/**
@@ -134,13 +150,62 @@ public class CarFragment extends BaseFragment<CartBean> {
 		mCartMoneyTotal.setText("商品总金额(不含运费): " + totalMoney);
 	}
 
+	/**
+	 * 合成购物车请求服务器商品信息的参数
+	 *
+	 * @return 参数
+	 */
 	private String getParams() {
-		return "sku=29:5:3|28:2:1";
+
+		//真正准备参数
+		HashMap<CarProduct, Integer> savedCar = CarModel.getInstance()
+				.queryCar(getCurrentUser());
+		if (savedCar == null || savedCar.size() == 0) {
+			return null;
+		} else {
+			//本地储存的购物车有数据
+			//使用本地储存的购物车数据来生成请求服务器的链接
+
+			StringBuilder sb = new StringBuilder();
+			Set<Map.Entry<CarProduct, Integer>> entrySet = savedCar.entrySet();
+			for (Map.Entry<CarProduct, Integer> entry : entrySet) {
+				int id = entry.getKey().id;
+				int prop = entry.getKey().prop;
+				int count = entry.getValue();
+				String productItem;
+				if (sb.length() == 0) {
+					productItem = String.format("%d:%d:%d", id, count, prop);
+				} else {
+					productItem = String.format("|%d:%d:%d", id, count, prop);
+				}
+				sb.append(productItem);
+			}
+
+			return sb.toString();
+		}
+	}
+
+	/**
+	 * 获取当前登录用户的用户名
+	 *
+	 * @return
+	 */
+	private String getCurrentUser() {
+		// TODO: 3/6/2016 获取当前登录的用户的用户名
+		return null;
 	}
 
 	@Override
 	protected void handleError(Exception e) {
+		showEmptyView();
+	}
 
+	/**
+	 * 显示空购物车界面
+	 */
+	private void showEmptyView() {
+		mLoadPager.getRootView().removeAllViews();
+		mLoadPager.getRootView().addView(mEmptyView);
 	}
 
 	@Nullable
@@ -148,13 +213,10 @@ public class CarFragment extends BaseFragment<CartBean> {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
-		mBarView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
+		mAdapter = new MyAdapter(mData);
 
-		if (mListView == null) {
-			mListView = new ListView(getContext());
-		}
-
-		mAdapter = new MyAdapter();
+		//初始化空购物车的视图
+		mEmptyView = View.inflate(getContext(), R.layout.inflate_car_empty, null);
 
 		mLoadPager = new LoadPager<CartBean>(getActivity()) {
 			@Override
@@ -182,36 +244,50 @@ public class CarFragment extends BaseFragment<CartBean> {
 	}
 
 	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		ButterKnife.unbind(this);
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
+
+		//加载顶部导航图视图并加入到顶部导航图中
+		View barView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
+		((MainActivity) getActivity()).setTopBarView(
+				barView);
+
+		View tvRight = barView.findViewById(R.id.tv_car_bar_right);
+		tvRight.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getContext(), "点击了去结算中心", Toast.LENGTH_SHORT).show();
+			}
+		});
 
 		mLoadPager.performLoadData();
 	}
 
-	class MyAdapter extends BaseAdapter {
+	@Override
+	public void onPause() {
+		super.onPause();
 
-		@Override
-		public int getCount() {
-			if (mData != null) {
-				return mData.size();
+		//视图不可见的时候取消网络加载任务b
+		NetUtil.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
+			@Override
+			public boolean apply(Request<?> request) {
+				return request == mRequest;
 			}
-			return 0;
-		}
+		});
+	}
 
-		@Override
-		public Object getItem(int position) {
-			return null;
-		}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		ButterKnife.unbind(this);
+	}
 
-		@Override
-		public long getItemId(int position) {
-			return 0;
+	/*-------------------- ListView适配器类 - begin --------------------*/
+
+
+	class MyAdapter extends MyBaseAdapter<CartBean.CartEntity> {
+		public MyAdapter(List<CartBean.CartEntity> datas) {
+			super(datas);
 		}
 
 		@Override
@@ -225,21 +301,22 @@ public class CarFragment extends BaseFragment<CartBean> {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
 
-			final CartBean.CartEntity cartEntity = mData.get(position);
+			final CartBean.CartEntity cartEntity = getItem(position);
 
 			viewHolder.mTvCarItemPrice.setText("单价: " + cartEntity.product.price);
 			viewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
 			viewHolder.mTvCarShopname.setText(cartEntity.product.name);
 
 			if (mUnSelectedData.contains(cartEntity)) {
-				viewHolder.mIvCarCheckbox.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+				viewHolder.mIvCarCheckbox.setImageDrawable(
+						new ColorDrawable(Color.TRANSPARENT));
 			} else {
 				viewHolder.mIvCarCheckbox.setImageResource(R.mipmap.car_sel);
 			}
-
 			//计算小结的金额
 			float money = cartEntity.prodNum * cartEntity.product.price;
 			viewHolder.mTvCarItemXiaoji.setText(money + "");
+
 
 			final ViewHolder finalViewHolder = viewHolder;
 			viewHolder.mTvCarItemJian.setOnClickListener(new View.OnClickListener() {
@@ -277,7 +354,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 				}
 			});
 
-			viewHolder.mIvCarCheckbox.setOnClickListener(new View.OnClickListener() {
+			View.OnClickListener checkUncheckListener = new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (mUnSelectedData.contains(cartEntity)) {
@@ -294,7 +371,11 @@ public class CarFragment extends BaseFragment<CartBean> {
 					//更新总共的金额
 					updateTotalInfo();
 				}
-			});
+			};
+
+			// TODO: 3/6/2016 点击条目跳转到商品详情页面
+
+			viewHolder.mIvCarCheckbox.setOnClickListener(checkUncheckListener);
 
 			Picasso.with(getContext())
 					.load(Url.ADDRESS_SERVER + cartEntity.product.pic)
@@ -326,7 +407,9 @@ public class CarFragment extends BaseFragment<CartBean> {
 
 			ViewHolder(View view) {
 				ButterKnife.bind(this, view);
+				view.setTag(this);
 			}
 		}
 	}
+	/*-------------------- ListView适配器类 - end --------------------*/
 }

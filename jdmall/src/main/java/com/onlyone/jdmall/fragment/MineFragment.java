@@ -28,12 +28,12 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/5 16:09
  * @描述: ${TODO}
  */
-//public class MineFragment extends SuperBaseFragment<Object> implements View.OnClickListener {
+
 public class MineFragment extends SuperBaseFragment<Object> implements View.OnClickListener {
 
     public static final String TAG_MINEABOUT_FRAGMENT = "tag_mineabout_fragment";
 
-    private static final String TAG_MINEHELP_FRAGMENT = "tag_minehelp_fragment";
+    public static final String TAG_MINEHELP_FRAGMENT = "tag_minehelp_fragment";
     @Bind(R.id.fragment_ll_mine_order)
     LinearLayout mFragmentLlMineOrder;
     @Bind(R.id.fragment_ll_mine_address)
@@ -121,7 +121,7 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("aaa","onPause");
+        Log.d("aaa", "onPause");
         mMainActivity.setHideTopBar(false);
     }
 
@@ -150,8 +150,8 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
             case R.id.fragment_ll_mine_record://浏览记录
                 break;
             case R.id.fragment_ll_mine_help://帮助中心
-                Fragment HelpFragment = new MineHelpFragment();
-                changeFragment(HelpFragment, TAG_MINEABOUT_FRAGMENT);
+                Fragment helpFragment = new MineHelpFragment();
+                changeFragment(helpFragment, TAG_MINEHELP_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_feedback://用户反馈
                 break;
@@ -165,10 +165,15 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
         }
     }
 
+    /**
+     * 实现fragment跳转
+     * @param fragment
+     * @param tag
+     */
     private void changeFragment(Fragment fragment,String tag) {
         FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fl_content_container, fragment, tag);
+        transaction.replace(R.id.fl_content_container, fragment, tag);
         transaction.commit();
     }
 }

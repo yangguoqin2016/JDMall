@@ -77,14 +77,6 @@
                     android:textStyle="bold"
                     />
 
-                <ImageView
-                    android:id="@+id/item_history_arrow"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="60dp"
-                    android:src="@mipmap/lishishousuo_xialajiantou"/>
 
                 <ImageView
                     android:layout_width="match_parent"

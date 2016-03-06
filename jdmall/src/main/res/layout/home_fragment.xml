@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/shouyebeijing">
+    android:background="@mipmap/shouyebeijing"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -128,5 +129,7 @@
                     android:text="商品分类" />
             </LinearLayout>
         </LinearLayout>
+        <include
+            layout="@layout/home_ad_layout"/>
     </LinearLayout>
 </ScrollView>

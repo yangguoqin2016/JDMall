@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="#740B1D"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#300000"/>
+            <TextView
+                android:id="@+id/category_first_pager_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="商品分类"
+                android:textColor="#fff"
+                android:textSize="18sp"/>
+        </RelativeLayout>
+
+
+        <!--这是第一条-->
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/category_first_pager_first_container"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/category_first_pager_first_img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:background="#070"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    style="@style/category_first_pager_item_text"
+                    android:id="@+id/category_first_pager_first_text"
+                    android:text="妈妈专区"/>
+                <ImageView
+                    style="@style/category_first_pager_item_img"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--这是第二条-->
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/category_first_pager_second_container"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="26dp">
+
+            <ImageView
+                android:id="@+id/category_first_pager_second_img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:background="#070"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    style="@style/category_first_pager_item_text"
+                    android:id="@+id/category_first_pager_second_text"
+                    android:text="时尚女装"/>
+                <ImageView
+                    style="@style/category_first_pager_item_img"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--这是第三条-->
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/category_first_pager_third_container"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="26dp">
+
+            <ImageView
+                android:id="@+id/category_first_pager_third_img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:background="#070"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    style="@style/category_first_pager_item_text"
+                    android:id="@+id/category_first_pager_thrid_text"
+                    android:text="宝宝用品"/>
+                <ImageView
+                   style="@style/category_first_pager_item_img"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--这是第四条-->
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/category_first_pager_four_container"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="26dp">
+
+            <ImageView
+                android:id="@+id/category_first_pager_four_img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:background="#070"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    style="@style/category_first_pager_item_text"
+                    android:id="@+id/category_first_pager_four_text"
+                    android:text="日常用品"/>
+
+                <ImageView
+                   style="@style/category_first_pager_item_img"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--这是第五条-->
+        <LinearLayout
+           android:clickable="true"
+            android:id="@+id/category_first_pager_five_container"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="26dp">
+
+            <ImageView
+                android:id="@+id/category_first_pager_five_img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:background="#070"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    style="@style/category_first_pager_item_text"
+                    android:id="@+id/category_first_pager_five_text"
+                    android:text="儿童服饰"/>
+
+                <ImageView
+                   style="@style/category_first_pager_item_img"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--这是第六条-->
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/category_first_pager_six_container"
+            android:layout_marginBottom="23dp"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="26dp">
+
+            <ImageView
+                android:id="@+id/category_first_pager_six_img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:background="#070"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    style="@style/category_first_pager_item_text"
+                    android:id="@+id/category_first_pager_six_text"
+                    android:text="儿童玩具"/>
+                <ImageView
+                   style="@style/category_first_pager_item_img"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

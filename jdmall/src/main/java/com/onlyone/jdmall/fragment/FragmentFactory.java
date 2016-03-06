@@ -1,5 +1,7 @@
 package com.onlyone.jdmall.fragment;
 
+import com.onlyone.jdmall.fragment.home.HomeFragment;
+
 import java.util.HashMap;
 import java.util.Map;
 

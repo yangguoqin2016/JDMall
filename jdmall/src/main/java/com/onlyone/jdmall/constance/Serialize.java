@@ -8,5 +8,6 @@ package com.onlyone.jdmall.constance;
  * @描述: 序列化保存对象的TAG类
  */
 public interface Serialize {
-    String TAG_HISTORY = "tag_history";//搜索历史的TAG
+	String TAG_HISTORY = "tag_history";//搜索历史的TAG
+	String TAG_CAR     = "tag_car"; //购物车TAG
 }

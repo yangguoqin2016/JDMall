@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -45,7 +46,7 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/5 10:48
  * @描述: RadioGroup里面的搜索
  */
-public class SearchFragment extends SuperBaseFragment<SearchBean>implements View.OnClickListener {
+public class SearchFragment extends SuperBaseFragment<SearchBean>implements View.OnClickListener, AdapterView.OnItemClickListener {
 
 	@Bind(R.id.item_hot_arrow)
 	ImageView    mItemHotArrow;
@@ -140,6 +141,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			mHistoryList = new ArrayList<>();
 		}
 		mSearchHistoryItemContainer.setAdapter(new HistoryAdapter(mHistoryList));
+		mSearchHistoryItemContainer.setOnItemClickListener(this);
 	}
 
 	/**
@@ -215,7 +217,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 				Toast.makeText(ResUtil.getContext(), "搜索内容不能为空", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			processSearchKey(searchKey);
+			processSearchKey(searchKey , true);
 			break;
 		case R.id.item_hot_arrow://热门搜索的箭头
 			if(mIsHotArrowOpen){
@@ -236,10 +238,10 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		case R.id.item_history_arrow://搜索历史的箭头
 
 			break;
-		default:
+		default: //热门搜索的条目点击事件
 			String clickSearchKey = ((TextView) v).getText().toString().trim();
 			Toast.makeText(ResUtil.getContext(), clickSearchKey, Toast.LENGTH_SHORT).show();
-			processSearchKey(clickSearchKey);
+			processSearchKey(clickSearchKey , true);
 			break;
 		}
 	}
@@ -248,6 +250,20 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	public void onDestroyView() {
 		super.onDestroyView();
 		ButterKnife.unbind(this);
+	}
+
+	/**
+	 * 搜索厉害的Item点击事件
+	 * @param parent
+	 * @param view
+	 * @param position
+	 * @param id
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		String historyData = mHistoryList.get(position);
+		Toast.makeText(ResUtil.getContext(), historyData, Toast.LENGTH_SHORT).show();
+		processSearchKey(historyData, false);
 	}
 
 	class HistoryAdapter extends MyBaseAdapter<String> {
@@ -294,11 +310,13 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	 * 
 	 * @param searchKey
 	 */
-	private void processSearchKey(String searchKey) {
+	private void processSearchKey(String searchKey,boolean isSaveKey) {
 		// 保存关键字
 		mSpUtil.putString(SP.KEY_SEARCHKEY, searchKey);
 		//用序列化保存搜索历史
-		mHistoryList.add(0,searchKey);
+		if(isSaveKey){
+			mHistoryList.add(0,searchKey);
+		}
 		SerializeUtil.deserializeObject(Serialize.TAG_HISTORY,mHistoryList);
 
 		FragmentManager manager = mMainActivity.getSupportFragmentManager();

@@ -168,6 +168,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         mManager = getActivity().getSupportFragmentManager();
 
 
+        //当页面加载完成才显示
         mBrandViewpager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {

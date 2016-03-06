@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.utils.ResUtil;
 
 /**
@@ -18,6 +19,18 @@ import com.onlyone.jdmall.utils.ResUtil;
  * @描述: ${TODO}
  */
 public class MineAboutFragment extends Fragment{
+
+    private MainActivity mMainActivity;
+
+    @Override
+    public void onResume() {
+        View topBarView = View.inflate(ResUtil.getContext(),R.layout.inflate_topbar_about,null);
+
+        mMainActivity = (MainActivity) getActivity();
+        mMainActivity.setHideTopBar(true);
+        super.onResume();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

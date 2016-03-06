@@ -1,8 +1,12 @@
 package com.onlyone.jdmall.fragment;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -10,6 +14,9 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * @项目名: JDMall
@@ -19,11 +26,31 @@ import com.onlyone.jdmall.utils.ResUtil;
  * @描述: ${TODO}
  */
 //public class MineFragment extends SuperBaseFragment<Object> implements View.OnClickListener {
-public class MineFragment extends SuperBaseFragment<Object> {
+public class MineFragment extends SuperBaseFragment<Object> implements View.OnClickListener {
 
-    private              MainActivity mMainActivity;
-    private static final String       TAG_MINEABOUT_FRAGMENT = "tag_mineabout_fragment";
-    private LinearLayout mLl_about;
+    @Bind(R.id.fragment_ll_mine_order)
+    LinearLayout   mFragmentLlMineOrder;
+    @Bind(R.id.fragment_ll_mine_address)
+    LinearLayout   mFragmentLlMineAddress;
+    @Bind(R.id.fragment_ll_mine_gift)
+    LinearLayout   mFragmentLlMineGift;
+    @Bind(R.id.fragment_ll_mine_favorite)
+    LinearLayout   mFragmentLlMineFavorite;
+    @Bind(R.id.fragment_ll_mine_record)
+    LinearLayout   mFragmentLlMineRecord;
+    @Bind(R.id.fragment_ll_mine_help)
+    LinearLayout   mFragmentLlMineHelp;
+    @Bind(R.id.fragment_ll_mine_feedback)
+    LinearLayout   mFragmentLlMineFeedback;
+    @Bind(R.id.fragment_ll_mine_about)
+    LinearLayout   mFragmentLlMineAbout;
+    @Bind(R.id.mine_back_btn)
+    Button         mMineBackBtn;
+
+    private MainActivity mMainActivity;
+
+    private static final String TAG_MINEABOUT_FRAGMENT = "tag_mineabout_fragment";
+
 
     @Override
     protected void refreshSuccessView(Object data) {
@@ -32,24 +59,11 @@ public class MineFragment extends SuperBaseFragment<Object> {
 
     @Override
     protected View loadSuccessView() {
-        View rootView = View.inflate(ResUtil.getContext(), R.layout.fragment_mine, null);
-        mLl_about = (LinearLayout) rootView.findViewById(R.id.fragment_ll_mine_about);
-        initListener();
-        return rootView;
+        View successView = View.inflate(ResUtil.getContext(), R.layout.fragment_mine, null);
+        ButterKnife.bind(this,successView);
+        return successView;
     }
 
-    private void initListener() {
-        mLl_about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ResUtil.getContext(),"点我了",Toast.LENGTH_SHORT).show();
-                FragmentManager manager = mMainActivity.getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.add(R.id.fl_content_container,new MineAboutFragment(),TAG_MINEABOUT_FRAGMENT);
-                transaction.commit();
-            }
-        });
-    }
 
     @Override
     protected String getUrl() {
@@ -75,10 +89,44 @@ public class MineFragment extends SuperBaseFragment<Object> {
     public void onResume() {
         mMainActivity = (MainActivity) getActivity();
         mMainActivity.setHideTopBar(true);
+
+        //设置点击事件监听
+        mFragmentLlMineOrder.setOnClickListener(this);
+        mFragmentLlMineAddress.setOnClickListener(this);
+        mFragmentLlMineGift.setOnClickListener(this);
+        mFragmentLlMineFavorite.setOnClickListener(this);
+        mFragmentLlMineRecord.setOnClickListener(this);
+        mFragmentLlMineHelp.setOnClickListener(this);
+        mFragmentLlMineFeedback.setOnClickListener(this);
+        mFragmentLlMineAbout.setOnClickListener(this);
+        mMineBackBtn.setOnClickListener(this);
+
         super.onResume();
     }
 
-    /* @Override
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMainActivity.setHideTopBar(false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_back_btn:
@@ -99,12 +147,12 @@ public class MineFragment extends SuperBaseFragment<Object> {
             case R.id.fragment_ll_mine_feedback://用户反馈
                 break;
             case R.id.fragment_ll_mine_about://关于
-                Toast.makeText(ResUtil.getContext(),"点我了",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ResUtil.getContext(), "点我了", Toast.LENGTH_SHORT).show();
                 FragmentManager manager = mMainActivity.getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.add(R.id.fl_content_container,new MineAboutFragment(),TAG_MINEABOUT_FRAGMENT);
                 transaction.commit();
                 break;
         }
-    }*/
+    }
 }

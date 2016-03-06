@@ -2,10 +2,6 @@ package com.onlyone.jdmall.fragment;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -47,7 +43,7 @@ import butterknife.ButterKnife;
 public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPageChangeListener, View.OnTouchListener, View.OnClickListener {
 
     @Bind(R.id.home_vp)
-    ViewPager mHomeVp;
+    ViewPager    mHomeVp;
     @Bind(R.id.home_pot_container)
     LinearLayout mHomePotContainer;
     @Bind(R.id.home_ll_hot)
@@ -62,11 +58,12 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     LinearLayout mHomeLlRecommend;
     @Bind(R.id.home_ll_category)
     LinearLayout mHhomeLlCategory;
-    private ScrollView mRootView;
-    private Context mContext;
-    private HomeBean mHomeBean;
+    private ScrollView                   mRootView;
+    private Context                      mContext;
+    private HomeBean                     mHomeBean;
     private List<HomeBean.HomeTopicBean> mHomeTopics;
-    private SwitchTask mTask;
+    private SwitchTask                   mTask;
+    private MainActivity mMainActivity;
 
 
     @Override
@@ -125,7 +122,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         //TODO:主页title搜索的逻辑
 
         //2.首先先拿到Fragment关联的Activity
-        MainActivity mMainActivity = (MainActivity) getActivity();
+        mMainActivity = (MainActivity) getActivity();
 
         //3.得到MainActivity,再设置TopBar的Ui
         mMainActivity.setTopBarView(titlBar);
@@ -248,13 +245,16 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     public void onClick(View v) {
         //TODO:点击跳转，其他fragment
+        FragmentTransaction transaction = mMainActivity.getSupportFragmentManager().beginTransaction();
         String str = "";
         switch (v.getId()) {
             case R.id.home_ll_hot://热门单品
                 str = "热门单品";
+                transaction.add(R.id.fl_content_container,new HotProductFragment());
                 break;
             case R.id.home_ll_new: //新品上架
                 str = "新品上架";
+                transaction.add(R.id.fl_content_container,new NewProductFragment());
                 break;
             case R.id.home_ll_shopping: //限时抢购
                 str = "限时抢购";
@@ -269,6 +269,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 str = "商品分类";
                 break;
         }
+        transaction.commit();
         Toast.makeText(ResUtil.getContext(), str, Toast.LENGTH_SHORT).show();
 
     }

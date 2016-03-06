@@ -57,6 +57,10 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
                 FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
                 transaction.remove(HotProductFragment.this);
                 transaction.commit();
+
+                //回退设置首页titleBar
+                View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+                mActivity.setTopBarView(titlBar);
             }
         });
     }

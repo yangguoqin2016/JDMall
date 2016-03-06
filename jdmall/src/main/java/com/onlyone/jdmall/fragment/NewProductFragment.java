@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
@@ -50,6 +51,18 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         mActivity = (MainActivity) getActivity();
         mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_new_product, null);
         mActivity.setTopBarView(mTopBarView);
+
+        mTopBarView.findViewById(R.id.new_product_topbar_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
+                transaction.remove(NewProductFragment.this).commit();
+
+                //退回首页
+                View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+                mActivity.setTopBarView(titlBar);
+            }
+        });
 
     }
 

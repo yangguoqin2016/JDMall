@@ -140,4 +140,12 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 			return FragmentFactory.MAX_FRAGMENT_COUNT;
 		}
 	}
+
+	/**
+	 * 设置是否显示TopBar
+	 * @param isHide true隐藏，false显示
+	 */
+	public void setHideTopBar(boolean isHide){
+		mFlDaohang.setVisibility(isHide?View.GONE:View.VISIBLE);
+	}
 }

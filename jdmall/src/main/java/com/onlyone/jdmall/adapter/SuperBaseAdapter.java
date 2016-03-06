@@ -171,6 +171,8 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
                     mLoadMoreHolder.setDataAndRefreshUI(mCurLoadMoreState);
                 }
             });
+            //加载完成
+            mLoadMoreTask = null;
         }
     }
 
@@ -190,6 +192,14 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
         if(parent instanceof ListView){
             position = position-((ListView) parent).getHeaderViewsCount();
         }
+
+        if(getItemViewType(position) == VIEWTYPE_LOADMORE){
+            if(mCurLoadMoreState == LoadMoreHolder.STATE_ERROR){
+                triggerLoadMoreData();
+                return;
+            }
+        }
+
         Toast.makeText(ResUtil.getContext(), "进入详情界面" + position, Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
+import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AbsListView;
@@ -17,6 +18,9 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.NewProductHolder;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.util.List;
 
@@ -119,11 +123,21 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
 
         @Override
         protected List<HotProductBean.ProductBean> doLoadMore() throws Exception {
+            SystemClock.sleep(1500);
             mCurPageNum = mCurPageNum + 1;
             String url = Url.ADDRESS_SERVER + "/newproduct?page=" + mCurPageNum + "&pageNum=15&orderby=saleDown";
-            //网络请求数据,该方法已属异步执行
-
-            return null;
+            //网络请求数据
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(url).get().build();
+            Response response = client.newCall(request).execute();
+            if(response.isSuccessful()){
+                String result = response.body().string();
+                Gson gson = new Gson();
+                return gson.fromJson(result,HotProductBean.class).productList;
+            }else{
+                mCurPageNum--;
+                return null;
+            }
         }
     }
 }

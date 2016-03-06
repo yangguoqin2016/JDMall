@@ -138,6 +138,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		TextView tvSearch = (TextView) mTopBar.findViewById(R.id.topbar_tv_search);
 		ImageView tvIconSearch = (ImageView) mTopBar.findViewById(R.id.topbar_iv_iconsearch);
 		mEtKey = (EditText) mTopBar.findViewById(R.id.topbar_et_key);
+
 		tvBack.setOnClickListener(this);
 		tvSearch.setOnClickListener(this);
 		tvIconSearch.setOnClickListener(this);
@@ -277,6 +278,8 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		//			transaction.hide(this);
 		transaction.add(R.id.fl_content_container, new SearchResultFragment(),
 						TAG_SEARCHRESULT_FRAGMENT);
+		//TODO:回退栈,TopBar没有改变
+//		transaction.addToBackStack(null);
 		transaction.commit();
 	}
 }

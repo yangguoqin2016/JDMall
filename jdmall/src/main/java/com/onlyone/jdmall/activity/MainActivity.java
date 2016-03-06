@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	 * 导航布局
 	 */
 	@Bind(R.id.fl_daohang)
-	FrameLayout mFlDaohang;
+	public FrameLayout mFlDaohang;
 	/**
 	 * 主要显示界面的懒加载ViewPager
 	 */

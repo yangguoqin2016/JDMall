@@ -2,8 +2,6 @@ package com.onlyone.jdmall.fragment;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -45,7 +43,7 @@ import butterknife.ButterKnife;
 public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPageChangeListener, View.OnTouchListener, View.OnClickListener {
 
     @Bind(R.id.home_vp)
-    ViewPager mHomeVp;
+    ViewPager    mHomeVp;
     @Bind(R.id.home_pot_container)
     LinearLayout mHomePotContainer;
     @Bind(R.id.home_ll_hot)
@@ -60,11 +58,11 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     LinearLayout mHomeLlRecommend;
     @Bind(R.id.home_ll_category)
     LinearLayout mHhomeLlCategory;
-    private ScrollView mRootView;
-    private Context mContext;
-    private HomeBean mHomeBean;
+    private ScrollView                   mRootView;
+    private Context                      mContext;
+    private HomeBean                     mHomeBean;
     private List<HomeBean.HomeTopicBean> mHomeTopics;
-    private SwitchTask mTask;
+    private SwitchTask                   mTask;
     private MainActivity mMainActivity;
 
 
@@ -152,6 +150,9 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
      */
     @Override
     protected void loadData(final LoadListener<Object> listener) {
+        /*
+            TODO: 数据的真正加载
+         */
         RequestQueue requestQueue = Volley.newRequestQueue(ResUtil.getContext());
         String url = Url.ADDRESS_HOME;
         Response.Listener<String> success = new Response.Listener<String>() {
@@ -244,15 +245,16 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     public void onClick(View v) {
         //TODO:点击跳转，其他fragment
-        Fragment fragment = null;
+        FragmentTransaction transaction = mMainActivity.getSupportFragmentManager().beginTransaction();
         String str = "";
         switch (v.getId()) {
             case R.id.home_ll_hot://热门单品
                 str = "热门单品";
-                fragment = new HotProductFragment();
+                transaction.add(R.id.fl_content_container,new HotProductFragment());
                 break;
             case R.id.home_ll_new: //新品上架
                 str = "新品上架";
+                transaction.add(R.id.fl_content_container,new NewProductFragment());
                 break;
             case R.id.home_ll_shopping: //限时抢购
                 str = "限时抢购";
@@ -267,8 +269,9 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 str = "商品分类";
                 break;
         }
+        transaction.commit();
         Toast.makeText(ResUtil.getContext(), str, Toast.LENGTH_SHORT).show();
-        changeFragment(fragment);
+
     }
 
 
@@ -330,16 +333,5 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
             mTask.stop();
         }
         mTask = null;
-    }
-
-    private void changeFragment(Fragment fragment){
-        if(fragment == null){
-            return ;
-        }
-        FragmentManager manager = mMainActivity.getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fl_content_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 }

@@ -3,6 +3,7 @@ package com.onlyone.jdmall.fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -14,7 +15,7 @@ import com.onlyone.jdmall.adapter.SuperBaseAdapter;
 import com.onlyone.jdmall.bean.HotProductBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.holder.BaseHolder;
-import com.onlyone.jdmall.holder.HotProductHolder;
+import com.onlyone.jdmall.holder.NewProductHolder;
 import com.onlyone.jdmall.utils.ResUtil;
 
 import java.util.List;
@@ -24,11 +25,11 @@ import java.util.List;
  * 包名: com.onlyone.jdmall.fragment
  * 创建者: LiuKe
  * 创建时间: 2016/3/5 12:31
- * 描述:用于展示热门单品的Fragment
+ * 描述:用于展示新品的Fragment
  */
-public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.ProductBean>> {
+public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.ProductBean>> {
 
-    ListView mHotProductListView;
+    ListView mNewProductListView;
     /**
      * 当前加载的页数
      */
@@ -42,44 +43,47 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
      */
     private VolleyError                      mLoadError;
     private View                             mTopBarView;
-    private MainActivity                     mActivity;
+    private MainActivity mActivity;
 
     @Override
     public void onResume() {
         super.onResume();
         mActivity = (MainActivity) getActivity();
-        mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_hot_product, null);
+        mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_new_product, null);
         mActivity.setTopBarView(mTopBarView);
 
-        mTopBarView.findViewById(R.id.hot_product_topbar_back).setOnClickListener(new View.OnClickListener() {
+        mTopBarView.findViewById(R.id.new_product_topbar_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
-                transaction.remove(HotProductFragment.this);
-                transaction.commit();
+                transaction.remove(NewProductFragment.this).commit();
 
-                //回退设置首页titleBar
+                //退回首页
                 View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
                 mActivity.setTopBarView(titlBar);
             }
         });
+
     }
 
     @Override
     protected void refreshSuccessView(List<HotProductBean.ProductBean> datas) {
-        mHotProductListView.setAdapter(new HotProductAdapter(mHotProductListView, datas));
+        mNewProductListView.setAdapter(new HotProductAdapter(mNewProductListView, datas));
     }
 
     @Override
     protected View loadSuccessView() {
-        View hotProductView = View.inflate(ResUtil.getContext(), R.layout.hot_product, null);
-        mHotProductListView = (ListView) hotProductView.findViewById(R.id.hot_product_list_view);
-        return hotProductView;
+        FrameLayout container = (FrameLayout) mLoadPager.getRootView();
+        container.removeAllViews();
+
+        View newProductView = View.inflate(ResUtil.getContext(), R.layout.new_product, null);
+        mNewProductListView = (ListView) newProductView.findViewById(R.id.hot_product_list_view);
+        return newProductView;
     }
 
     @Override
     protected String getUrl() {
-        String url = Url.ADDRESS_SERVER + "/hotproduct?page=" + mCurPageNum + "&pageNum=15&orderby=saleDown";
+        String url = Url.ADDRESS_SERVER + "/newproduct?page=" + mCurPageNum + "&pageNum=15&orderby=saleDown";
         return url;
     }
 
@@ -103,12 +107,12 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
     private class HotProductAdapter extends SuperBaseAdapter<HotProductBean.ProductBean> {
 
         public HotProductAdapter(AbsListView hotProductListView, List<HotProductBean.ProductBean> datas) {
-            super(hotProductListView, datas);
+            super(hotProductListView,datas);
         }
 
         @Override
         public BaseHolder initSpecialHolder() {
-            HotProductHolder holder = new HotProductHolder();
+            NewProductHolder holder = new NewProductHolder();
             return holder;
         }
 
@@ -116,7 +120,7 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         @Override
         protected List<HotProductBean.ProductBean> doLoadMore() throws Exception {
             mCurPageNum = mCurPageNum + 1;
-            String url = Url.ADDRESS_SERVER + "/hotproduct?page=" + mCurPageNum + "&pageNum=15&orderby=saleDown";
+            String url = Url.ADDRESS_SERVER + "/newproduct?page=" + mCurPageNum + "&pageNum=15&orderby=saleDown";
             //网络请求数据,该方法已属异步执行
 
             return null;

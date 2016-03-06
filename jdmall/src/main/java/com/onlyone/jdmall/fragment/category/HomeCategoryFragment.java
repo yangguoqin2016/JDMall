@@ -81,16 +81,25 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean> im
     private List<HomeCategoryBean.HomeCategoryInfoBean>                                                           mDatasList;
     private Map<Integer, Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>> mSuperDatas;
 
-    public static Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>               mFirstDatas;
-    public Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>               mSecondDatas;
-    public Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>               mThirdDatas;
-    public Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>               mFourDatas;
-    public Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>               mFiveDatas;
-    public Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>               mSixDatas;
-    public List<Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>>         mListData;
-    public MainActivity mMainActivity;
-    private View                             mTopBarView;
-    private MainActivity                     mActivity;
+    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFirstDatas;
+    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mSecondDatas;
+    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mThirdDatas;
+    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFourDatas;
+    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFiveDatas;
+    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mSixDatas;
+    public  MainActivity                                                                            mMainActivity;
+    private View                                                                                    mTopBarView;
+    private MainActivity                                                                            mActivity;
+    //将总的数据拆分成每个大类对应的数据集合,做成静态,方便跳转页面时候获取到数据
+    public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mFirstList;
+    public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mSecondList;
+    public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mThirdList;
+    public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mFourList;
+    public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mFiveList;
+    public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mSixList;
+    private List<Map<HomeCategoryBean.HomeCategoryInfoBean,
+            List<HomeCategoryBean.HomeCategoryInfoBean>>>                                           mListDataFromSuper;
+    private HomeCategoryPagerFirstFragment                                                          mHomeCategoryPagerFirstFragment;
 
     @Override
     protected void refreshSuccessView(HomeCategoryBean data) {
@@ -101,7 +110,9 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean> im
         new Thread() {
             @Override
             public void run() {
+                //将总的数据分类
                 classifyDatas();
+                //将数据再次进行分类
                 distributeDatas();
             }
         }.start();
@@ -131,37 +142,68 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean> im
      */
     private void distributeDatas() {
 
-        initSonDataMap();
-
+        mListDataFromSuper =  new ArrayList<>();
         Set<Integer> keySet = mSuperDatas.keySet();
        for(Integer key:keySet){
            Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>
                    map = mSuperDatas.get(key);
            //根据存储了要分配给子类数据的集合,当前遍历到的数据给了子类
-           Map sonDataMap = mListData.get(key-1);
-           sonDataMap = map;
-       }
+            mListDataFromSuper.add(map);
 
+           System.out.println("每个子类的map长度为:" + mListDataFromSuper.size());
+       }
+        initSonDataMap();
     }
 
     private void initSonDataMap() {
-        mFirstDatas = new HashMap<>();
-        mSecondDatas = new HashMap<>();
-        mThirdDatas = new HashMap<>();
-        mFourDatas = new HashMap<>();
-        mFiveDatas = new HashMap<>();
-        mSixDatas = new HashMap<>();
-
+        //创建6个map表
         //分配六个大类数据,存储到集合中去
-        mListData = new ArrayList();
+        mFirstDatas = mListDataFromSuper.get(0);
+        mSecondDatas = mListDataFromSuper.get(1);
+        mThirdDatas =  mListDataFromSuper.get(2);
+        mFourDatas =  mListDataFromSuper.get(3);
+        mFiveDatas =  mListDataFromSuper.get(4);
+        mSixDatas =  mListDataFromSuper.get(5);
 
-        mListData.add(mFirstDatas);
-        mListData.add(mSecondDatas);
-        mListData.add(mThirdDatas);
-        mListData.add(mFourDatas);
-        mListData.add(mFiveDatas);
-        mListData.add(mSixDatas);
+        //因为数据第一层点击进去后就显示这个分类的所有子类,则直接将获取到的分类拆分汇合成集合,再传递给不同的大类页面
+        mFirstList = transformMap2List(mFirstDatas);
+        mSecondList = transformMap2List(mSecondDatas);
+        mThirdList = transformMap2List(mThirdDatas);
+        mFourList = transformMap2List(mFourDatas);
+        mFiveList = transformMap2List(mFiveDatas);
+        mSixList = transformMap2List(mSixDatas);
+
     }
+
+    /**
+     * 将六个大类的数据集合map转换为list
+     * @param data
+     * @return
+     */
+    public List<HomeCategoryBean.HomeCategoryInfoBean> transformMap2List(Map<HomeCategoryBean.HomeCategoryInfoBean,
+            List<HomeCategoryBean.HomeCategoryInfoBean>> data) {
+
+        List<HomeCategoryBean.HomeCategoryInfoBean> list = new ArrayList<>();
+
+        Set<Map.Entry<HomeCategoryBean.HomeCategoryInfoBean,
+                List<HomeCategoryBean.HomeCategoryInfoBean>>> entrySet = data.entrySet();
+
+        Iterator<Map.Entry<HomeCategoryBean.HomeCategoryInfoBean,
+                List<HomeCategoryBean.HomeCategoryInfoBean>>> it = entrySet.iterator();
+        while (it.hasNext()) {
+            Map.Entry<HomeCategoryBean.HomeCategoryInfoBean,
+                    List<HomeCategoryBean.HomeCategoryInfoBean>> info = it.next();
+            list.add(info.getKey());
+
+            List<HomeCategoryBean.HomeCategoryInfoBean> valueList = info.getValue();
+            for (HomeCategoryBean.HomeCategoryInfoBean value : valueList) {
+                list.add(value);
+            }
+        }
+        return list;
+    }
+
+
 
     /**
      * 对分类数据进行处理
@@ -325,10 +367,15 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean> im
     public void onClick(View v) {
         FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
+
         switch (v.getId()) {
             case R.id.category_first_pager_first_container:
                 //跳转到 妈妈专区
-                transaction.add(R.id.fl_content_container,new HomeCategoryPagerFirstFragment());
+                if(mHomeCategoryPagerFirstFragment==null){
+                    //避免多次跳转的时候new多次消耗内存,则判断对象是否为空
+                    mHomeCategoryPagerFirstFragment = new HomeCategoryPagerFirstFragment();
+                }
+                transaction.add(R.id.fl_content_container,mHomeCategoryPagerFirstFragment);
 
                 break;
             case R.id.category_first_pager_second_container:

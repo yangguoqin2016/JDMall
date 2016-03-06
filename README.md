@@ -7,3 +7,4 @@
 
 Bug列表：
 1. 全新进入app然后点击home键退出app再重新进入之后点击首页上方的轮播图就会崩溃,错误是轮播的mTask为空
+2. (已解决)ScrollView嵌套ListView不能完全显示,不行滚动的BUG

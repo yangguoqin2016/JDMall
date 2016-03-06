@@ -1,6 +1,7 @@
 package com.onlyone.jdmall.model;
 
 import com.onlyone.jdmall.bean.CarProduct;
+import com.onlyone.jdmall.constance.Serialize;
 import com.onlyone.jdmall.utils.SerializeUtil;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.HashMap;
  * 描述:		${TODO}
  */
 public class CarModel {
+	private static final String CAR_TAG = Serialize.TAG_CAR;
 	private static CarModel sInstance;
 
 	private CarModel() {
@@ -37,7 +39,8 @@ public class CarModel {
 	 * @param goods    进行添加的商品
 	 */
 	public synchronized void addToCar(String userName, CarProduct goods) {
-		HashMap<CarProduct, Integer> result = SerializeUtil.serializeObject(userName);
+		String tag = CAR_TAG + userName;
+		HashMap<CarProduct, Integer> result = SerializeUtil.serializeObject(tag);
 		if (result == null) {
 			result = new HashMap<>();
 		}
@@ -51,7 +54,7 @@ public class CarModel {
 
 		result.put(goods, afterCount);
 
-		SerializeUtil.deserializeObject(userName, result);
+		SerializeUtil.deserializeObject(CAR_TAG, result);
 	}
 
 	/**
@@ -64,6 +67,16 @@ public class CarModel {
 	public synchronized void addToCar(String userName, int productId, int productProp) {
 		CarProduct product = new CarProduct(productId, productProp);
 		addToCar(userName, product);
+	}
+
+	/**
+	 * 查询指定用户名下的购物车信息
+	 *
+	 * @param userName 用户名
+	 * @return 包含购物车内商品信息的集合, 指定用户下没有购物车则返回null
+	 */
+	public synchronized HashMap<CarProduct, Integer> queryCar(String userName) {
+		return SerializeUtil.serializeObject(CAR_TAG + userName);
 	}
 }
 

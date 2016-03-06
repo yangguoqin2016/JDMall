@@ -9,4 +9,7 @@ package com.onlyone.jdmall.constance;
  */
 public interface SP {
     String KEY_SEARCHKEY = "key_searchKey";//关键字的key
+    String USERNAME      = "username";//登录的用户名
+    String PASSWORD      = "password";//登录密码
+    String USERID      = "userid";//注册产生的userid
 }

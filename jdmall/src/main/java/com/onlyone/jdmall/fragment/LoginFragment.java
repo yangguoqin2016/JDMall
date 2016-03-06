@@ -26,6 +26,7 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.LoginOrRegistBean;
 import com.onlyone.jdmall.constance.SP;
+import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
@@ -151,8 +152,8 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
         RequestQueue queue = Volley.newRequestQueue(ResUtil.getContext());
 
-               String url = "http://10.0.2.2:8080/market/login?";
-//        String url = Url.ADDRESS_SERVER + "/login?";
+//        String url = "http://10.0.2.2:8080/market/login?";
+        String url = Url.ADDRESS_SERVER + "/login?";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -163,7 +164,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
                 if (mLoginBean.response.equals("login")) {
                     Toast.makeText(ResUtil.getContext(), "登录成功", Toast.LENGTH_SHORT).show();
                     mSp.putString(SP.USERNAME, mUsername);
-
+                    mSp.putLong(SP.USERID, mLoginBean.userInfo.userid);
                     changeFragment();
 
                 } else {

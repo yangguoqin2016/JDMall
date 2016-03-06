@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -69,8 +70,15 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         int searchNum = 0;
         if (data == null || data.productList.size() == 0) {
             // TODO: 2016/3/5 返回空界面
-            Toast.makeText(ResUtil.getContext(), "empty", Toast.LENGTH_SHORT).show();
             searchNum = 0;
+            /*如果是空,返回一个空视图*/
+            FrameLayout frameLayout = mLoadPager.getRootView();
+            frameLayout.removeAllViews();
+
+            View view = View.inflate(ResUtil.getContext(),R.layout.item_searchresult_empty,null);
+
+            frameLayout.addView(view);
+
         } else {
             //返回成功界面奶粉
             mSearchresultLv.setAdapter(new MyAdapter());

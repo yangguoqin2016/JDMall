@@ -1,12 +1,14 @@
 package com.onlyone.jdmall.fragment.home;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,6 +33,7 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.fragment.HomeFastSaleFragment;
 import com.onlyone.jdmall.fragment.HotProductFragment;
+import com.onlyone.jdmall.fragment.LimitBuyFragment;
 import com.onlyone.jdmall.fragment.NewProductFragment;
 import com.onlyone.jdmall.fragment.category.HomeCategoryFragment;
 import com.onlyone.jdmall.pager.LoadListener;
@@ -68,6 +71,8 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     LinearLayout mHomeLlRecommend;
     @Bind(R.id.home_ll_category)
     LinearLayout mHhomeLlCategory;
+    @Bind(R.id.home_viewflipper_container)
+    ViewFlipper mHomeViewflipper;
     private ScrollView mRootView;
     private Context mContext;
     private HomeBean mHomeBean;
@@ -140,6 +145,9 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         mHomeLlSale.setOnClickListener(this);
         mHomeLlRecommend.setOnClickListener(this);
         mHhomeLlCategory.setOnClickListener(this);
+
+        //ViewFlipper动画
+
     }
 
 
@@ -167,7 +175,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 listener.onError(volleyError);
             }
         };
-        StringRequest request = new StringRequest(Request.Method.GET,url, success, error);
+        StringRequest request = new StringRequest(Request.Method.GET, url, success, error);
         requestQueue.add(request);
     }
 
@@ -233,14 +241,18 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mTask.stop();
+                if (mTask != null) {
+                    mTask.stop();
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
 
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                mTask.start();
+                if (mTask != null) {
+                    mTask.start();
+                }
                 break;
         }
         return false;
@@ -263,7 +275,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 break;
             case R.id.home_ll_shopping: //限时抢购
                 str = "限时抢购";
-                //fragment = new LimitBuyFragment();
+                fragment = new LimitBuyFragment();
                 break;
             case R.id.home_ll_sale: //促销快报
                 str = "促销快报";
@@ -278,8 +290,6 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 break;
         }
         changeFragment(fragment);
-        Toast.makeText(ResUtil.getContext(), str, Toast.LENGTH_SHORT).show();
-
     }
 
     private void changeFragment(Fragment fragment) {
@@ -291,6 +301,13 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         transaction.replace(R.id.fl_content_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     private class HomeTopicAdapter extends PagerAdapter {
@@ -356,7 +373,6 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(ResUtil.getContext(), "Home Fragment onResume", Toast.LENGTH_SHORT).show();
         changeTitleBar();
     }
 

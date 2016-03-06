@@ -40,7 +40,7 @@ public class CartBean {
 
 				@Override
 				public String toString() {
-					return "ProductPropertyEntity{" +
+					return "ProductPropertyBean{" +
 							"id=" + id +
 							", k='" + k + '\'' +
 							", v='" + v + '\'' +

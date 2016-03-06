@@ -20,11 +20,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Email:"/>
+            android:text="用户名:"/>
         <EditText
-            android:id="@+id/regist_et_email"
+            android:id="@+id/regist_et_username"
             android:background="@null"
-            android:hint="输入Email地址"
+            android:hint="用户名/邮箱/手机号"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 

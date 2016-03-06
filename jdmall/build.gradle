@@ -1,25 +1,38 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion getProperty("android_compileSdkVersion") as int
-	buildToolsVersion getProperty("android_buildToolsVersion")
+    compileSdkVersion getProperty("android_compileSdkVersion") as int
+    buildToolsVersion getProperty("android_buildToolsVersion")
 
-	defaultConfig {
-		applicationId "com.onlyone.jdmall"
-		minSdkVersion getProperty("android_minSdkVersion") as int
-		targetSdkVersion getProperty("android_targetSdkVersion") as int
-		versionCode getProperty("android_versionCode") as int
-		versionName getProperty("android_versionName")
-	}
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-		}
-	}
+    defaultConfig {
+        applicationId "com.onlyone.jdmall"
+        minSdkVersion getProperty("android_minSdkVersion") as int
+        targetSdkVersion getProperty("android_targetSdkVersion") as int
+        versionCode getProperty("android_versionCode") as int
+        versionName getProperty("android_versionName")
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //testCompile 'junit:junit:4.12'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //testCompile 'junit:junit:4.12'
+    compile files('lib/volley-1.0.19.jar')
+    compile files('lib/gson-2.6.2.jar')
+    compile files('lib/butterknife-7.0.1.jar')
+    compile files('lib/picasso-2.5.2.jar')
+    compile files('lib/okhttp-2.7.4.jar')
+    compile files('lib/okio-1.6.0.jar')
+    compile files('lib/nineoldandroids-2.4.0.jar')
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
 
 	compile fileTree(include: ['*.jar'], dir: 'libs')
 	testCompile 'junit:junit:4.12'

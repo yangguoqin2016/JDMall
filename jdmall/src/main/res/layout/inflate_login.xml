@@ -78,13 +78,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_remember_cb"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/login_tv_regist"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="注册帐号"
+            android:layout_toRightOf="@id/login_remember_cb"
+            android:text="记住密码"
             />
 
         <TextView
@@ -94,7 +98,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:text="忘记密码"/>
+            android:text="忘记密码?"/>
     </RelativeLayout>
 
 </LinearLayout>

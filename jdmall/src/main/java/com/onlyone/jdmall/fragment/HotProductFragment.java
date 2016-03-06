@@ -1,6 +1,7 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.SystemClock;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AbsListView;
@@ -49,9 +50,11 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         mTopBarView.findViewById(R.id.hot_product_topbar_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
+                FragmentManager manager = mActivity.getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
                 transaction.remove(HotProductFragment.this);
                 transaction.commit();
+
                 restoreHomeTopBar();
             }
         });

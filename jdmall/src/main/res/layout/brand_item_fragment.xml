@@ -5,8 +5,8 @@
 
     <GridView
         android:id="@+id/brand_gridview"
-        android:horizontalSpacing="6dp"
-        android:verticalSpacing="10dp"
+        android:horizontalSpacing="3dp"
+        android:verticalSpacing="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"/>

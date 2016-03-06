@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
@@ -166,10 +167,17 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         LoadBrandList(data);
         mManager = getActivity().getSupportFragmentManager();
 
-        //默认显示品牌列表的第一个Fragment
-/*        mTransaction = mManager.beginTransaction();
-        mTransaction.replace(R.id.brand_fragment_container, mFragmentList.get(0));
-        mTransaction.commit();*/
+
+        mBrandViewpager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                //默认显示品牌列表的第一个Fragment
+                mTransaction = mManager.beginTransaction();
+                mTransaction.replace(R.id.brand_fragment_container, mFragmentList.get(0));
+                mTransaction.commit();
+                mBrandViewpager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
     }
 
     /**
@@ -370,6 +378,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             BrandBean.BrandList brandList = mBrandBean.getBrand().get(position);
             String key = brandList.getKey();
             holder.tv.setText(key);
+            holder.tv.setBackgroundResource(R.drawable.selector_brand_detail_bg);
             holder.tv.setTextColor(Color.BLACK);
             holder.tv.setTextSize(DensityUtil.dip2Px(14));
             int left = DensityUtil.dip2Px(15);

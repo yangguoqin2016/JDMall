@@ -40,6 +40,7 @@ public class BrandBaseFragment extends Fragment {
 
         View view = View.inflate(ResUtil.getContext(), R.layout.brand_item_fragment, null);
         GridView gridView = (GridView) view.findViewById(R.id.brand_gridview);
+        setGridViewHeightBasedOnChildren(gridView);
         gridView.setAdapter(new GridAdapter());
 
         return view;
@@ -91,5 +92,33 @@ public class BrandBaseFragment extends Fragment {
             ImageView image;
             TextView  text;
         }
+    }
+
+
+
+    /**
+     * 解决GridView和ScrollView冲突问题
+     *
+     * @param gridView
+     */
+    public void setGridViewHeightBasedOnChildren(GridView gridView) {
+
+        GridAdapter gridAdapter = (GridAdapter) gridView.getAdapter();
+
+        if (gridAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < gridAdapter.getCount(); i++) {
+            View listItem = gridAdapter.getView(i, null, gridView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight + (gridAdapter.getCount() - 1);
+        params.height += 5;//if without this statement,the listview will be a little short
+        gridView.setLayoutParams(params);
     }
 }

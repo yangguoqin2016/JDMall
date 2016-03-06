@@ -46,24 +46,27 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/5 10:48
  * @描述: RadioGroup里面的搜索
  */
-public class SearchFragment extends SuperBaseFragment<SearchBean>implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class SearchFragment extends SuperBaseFragment<SearchBean>
+		implements View.OnClickListener, AdapterView.OnItemClickListener {
 
 	@Bind(R.id.item_hot_arrow)
-	ImageView    mItemHotArrow;
+	ImageView mItemHotArrow;
 	@Bind(R.id.search_hot_item_container)
 	LinearLayout mSearchHotItemContainer;
 	@Bind(R.id.search_history_item_container)
-	ListView     mSearchHistoryItemContainer;
+	ListView mSearchHistoryItemContainer;
+
 	private MainActivity mMainActivity;
 	public static final String TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
 	private List<String> mStringList;
-	private EditText     mEtKey;
+	private EditText mEtKey;
 
 	public SPUtil mSpUtil = new SPUtil(ResUtil.getContext());
 	public static View mTopBar;
 	private boolean mIsHotArrowOpen = true;
 	private ArrayList<String> mHistoryList;
 	private boolean mIsHistoryArrowOpen = true;
+	private HistoryAdapter mAdapter;
 
 	@Override
 	protected String getUrl() {
@@ -137,10 +140,11 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			}
 		}
 		mHistoryList = SerializeUtil.serializeObject(Serialize.TAG_HISTORY);
-		if(mHistoryList==null){
+		if (mHistoryList == null) {
 			mHistoryList = new ArrayList<>();
 		}
-		mSearchHistoryItemContainer.setAdapter(new HistoryAdapter(mHistoryList));
+		mAdapter = new HistoryAdapter(mHistoryList);
+		mSearchHistoryItemContainer.setAdapter(mAdapter);
 		mSearchHistoryItemContainer.setOnItemClickListener(this);
 	}
 
@@ -212,32 +216,32 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		case R.id.topbar_tv_search:// 搜索
 		case R.id.topbar_iv_iconsearch:// 搜索
 			String searchKey = mEtKey.getText().toString().trim();
-			//判空操作
+			// 判空操作
 			if (TextUtils.isEmpty(searchKey)) {
 				Toast.makeText(ResUtil.getContext(), "搜索内容不能为空", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			processSearchKey(searchKey , true);
+			processSearchKey(searchKey, true);
 			break;
-		case R.id.item_hot_arrow://热门搜索的箭头
-			mSearchHotItemContainer.measure(0,0);
+		case R.id.item_hot_arrow:// 热门搜索的箭头
+			mSearchHotItemContainer.measure(0, 0);
 			int start = mSearchHotItemContainer.getMeasuredHeight();
-			int end  = 0;
-			if(mIsHotArrowOpen){
-				//当前状态是打开,就折叠
-				doAnimationByHot(start,end);
-				doRotateAnimation(0,180,mItemHotArrow);
-			}else{
-				//当前状态是折叠,就打开
-				doAnimationByHot(end,start);
-				doRotateAnimation(180,0,mItemHotArrow);
+			int end = 0;
+			if (mIsHotArrowOpen) {
+				// 当前状态是打开,就折叠
+				doAnimationByHot(start, end);
+				doRotateAnimation(0, 180, mItemHotArrow);
+			} else {
+				// 当前状态是折叠,就打开
+				doAnimationByHot(end, start);
+				doRotateAnimation(180, 0, mItemHotArrow);
 			}
 			mIsHotArrowOpen = !mIsHotArrowOpen;
 			break;
-		default: //热门搜索的条目点击事件
+		default: // 热门搜索的条目点击事件
 			String clickSearchKey = ((TextView) v).getText().toString().trim();
 			Toast.makeText(ResUtil.getContext(), clickSearchKey, Toast.LENGTH_SHORT).show();
-			processSearchKey(clickSearchKey , true);
+			processSearchKey(clickSearchKey, true);
 			break;
 		}
 	}
@@ -250,6 +254,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 	/**
 	 * 搜索厉害的Item点击事件
+	 * 
 	 * @param parent
 	 * @param view
 	 * @param position
@@ -263,7 +268,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	}
 
 	class HistoryAdapter extends MyBaseAdapter<String> {
-
 
 		public HistoryAdapter(ArrayList<String> datas) {
 			super(datas);
@@ -306,14 +310,20 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	 * 
 	 * @param searchKey
 	 */
-	private void processSearchKey(String searchKey,boolean isSaveKey) {
+	private void processSearchKey(String searchKey, boolean isSaveKey) {
 		// 保存关键字
 		mSpUtil.putString(SP.KEY_SEARCHKEY, searchKey);
-		//用序列化保存搜索历史
-		if(isSaveKey){
-			mHistoryList.add(0,searchKey);
+		// 用序列化保存搜索历史
+		if (isSaveKey) {
+			if (mHistoryList.contains(searchKey)) {
+				mHistoryList.remove(searchKey);
+				mHistoryList.add(0, searchKey);
+			} else {
+				mHistoryList.add(0, searchKey);
+			}
+			mAdapter.notifyDataSetChanged();
 		}
-		SerializeUtil.deserializeObject(Serialize.TAG_HISTORY,mHistoryList);
+		SerializeUtil.deserializeObject(Serialize.TAG_HISTORY, mHistoryList);
 
 		FragmentManager manager = mMainActivity.getSupportFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
@@ -347,14 +357,13 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 
 	/**
 	 * 箭头旋转动画
+	 * 
 	 * @param fromDegrees
 	 * @param toDegrees
 	 */
-	private void doRotateAnimation(float fromDegrees, float toDegrees ,ImageView iv){
-		RotateAnimation ra = new RotateAnimation(fromDegrees,toDegrees,
-												 Animation.RELATIVE_TO_SELF,.5f,
-												 Animation.RELATIVE_TO_SELF,.5f
-												 );
+	private void doRotateAnimation(float fromDegrees, float toDegrees, ImageView iv) {
+		RotateAnimation ra = new RotateAnimation(fromDegrees, toDegrees, Animation.RELATIVE_TO_SELF, .5f,
+				Animation.RELATIVE_TO_SELF, .5f);
 		ra.setDuration(500);
 		ra.setFillAfter(true);
 		iv.startAnimation(ra);

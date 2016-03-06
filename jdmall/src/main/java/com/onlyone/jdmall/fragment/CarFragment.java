@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -61,13 +62,12 @@ public class CarFragment extends BaseFragment<CartBean> {
 	 */
 	private List<CartBean.CartEntity> mUnSelectedData = new ArrayList<>();
 
-	private MyAdapter mAdapter;
+	private MyAdapter     mAdapter;
+	private View          mEmptyView;
+	private StringRequest mRequest;
 
 	@Override
 	protected void refreshSuccessView(CartBean data) {
-
-		//加载顶部导航图视图并加入到顶部导航图中
-		((MainActivity) getActivity()).setTopBarView(mBarView);
 
 		//将服务器请求到的数据设置到ListView上
 		mData.clear();
@@ -93,7 +93,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 	@Override
 	protected void loadData(final LoadListener<CartBean> listener) {
 		String url = Url.ADDRESS_CART + "?" + getParams();
-		StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+		mRequest = new StringRequest(Request.Method.GET, url,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String s) {
@@ -101,17 +101,19 @@ public class CarFragment extends BaseFragment<CartBean> {
 						try {
 							CartBean cartBean = gson.fromJson(s, CartBean.class);
 							listener.onSuccess(cartBean);
+//							listener.onError(null);
 						} catch (JsonSyntaxException e) {
 							listener.onError(e);
 						}
 					}
-				}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError volleyError) {
-				listener.onError(volleyError);
-			}
-		});
-		NetUtil.getRequestQueue().add(stringRequest);
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError volleyError) {
+						listener.onError(volleyError);
+					}
+				});
+		NetUtil.getRequestQueue().add(mRequest);
 	}
 
 	/**
@@ -134,13 +136,18 @@ public class CarFragment extends BaseFragment<CartBean> {
 		mCartMoneyTotal.setText("商品总金额(不含运费): " + totalMoney);
 	}
 
+	/**
+	 * 合成购物车请求服务器商品信息的参数
+	 *
+	 * @return 参数
+	 */
 	private String getParams() {
 		return "sku=29:5:3|28:2:1";
 	}
 
 	@Override
 	protected void handleError(Exception e) {
-
+		mLoadPager.getRootView().addView(mEmptyView);
 	}
 
 	@Nullable
@@ -155,6 +162,9 @@ public class CarFragment extends BaseFragment<CartBean> {
 		}
 
 		mAdapter = new MyAdapter();
+
+		//初始化空购物车的视图
+		mEmptyView = View.inflate(getContext(), R.layout.inflate_car_empty, null);
 
 		mLoadPager = new LoadPager<CartBean>(getActivity()) {
 			@Override
@@ -191,8 +201,26 @@ public class CarFragment extends BaseFragment<CartBean> {
 	public void onResume() {
 		super.onResume();
 
+		//加载顶部导航图视图并加入到顶部导航图中
+		((MainActivity) getActivity()).setTopBarView(mBarView);
+
 		mLoadPager.performLoadData();
 	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		NetUtil.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
+			@Override
+			public boolean apply(Request<?> request) {
+				return mRequest == request;
+			}
+		});
+	}
+
+	/*-------------------- ListView适配器类 - begin --------------------*/
+
 
 	class MyAdapter extends BaseAdapter {
 
@@ -329,4 +357,5 @@ public class CarFragment extends BaseFragment<CartBean> {
 			}
 		}
 	}
+	/*-------------------- ListView适配器类 - end --------------------*/
 }

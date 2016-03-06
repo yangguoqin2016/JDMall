@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -161,7 +162,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 listener.onError(volleyError);
             }
         };
-        StringRequest request = new StringRequest(url, success, error);
+        StringRequest request = new StringRequest(Request.Method.GET,url, success, error);
         requestQueue.add(request);
     }
 
@@ -257,6 +258,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 break;
             case R.id.home_ll_shopping: //限时抢购
                 str = "限时抢购";
+                fragment = new LimitBuyFragment();
                 break;
             case R.id.home_ll_sale: //促销快报
                 str = "促销快报";

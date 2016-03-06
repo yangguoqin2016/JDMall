@@ -162,6 +162,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
 
     class ItemCilckListner implements AdapterView.OnItemClickListener{
 
+        /*商品条目的点击事件*/
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Toast.makeText(ResUtil.getContext(),mResultData.productList.get(position).name,Toast.LENGTH_SHORT).show();

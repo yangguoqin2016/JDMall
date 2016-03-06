@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -50,8 +49,6 @@ public class CarFragment extends BaseFragment<CartBean> {
 	@Bind(R.id.lv_car_list)
 	ListView mListView;
 
-	private View mBarView;
-
 	/**
 	 * 有效的购物车商品
 	 */
@@ -65,6 +62,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 	private MyAdapter     mAdapter;
 	private View          mEmptyView;
 	private StringRequest mRequest;
+	private View          mView;
 
 	@Override
 	protected void refreshSuccessView(CartBean data) {
@@ -81,13 +79,13 @@ public class CarFragment extends BaseFragment<CartBean> {
 
 	@Override
 	protected View loadSuccessView() {
-		View view = View.inflate(getContext(), R.layout.cart_layout, null);
+		mView = View.inflate(getContext(), R.layout.cart_layout, null);
 
-		ButterKnife.bind(this, view);
+		ButterKnife.bind(this, mView);
 
 		mListView.setAdapter(mAdapter);
 
-		return view;
+		return mView;
 	}
 
 	@Override
@@ -155,12 +153,6 @@ public class CarFragment extends BaseFragment<CartBean> {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
-		mBarView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
-
-		if (mListView == null) {
-			mListView = new ListView(getContext());
-		}
-
 		mAdapter = new MyAdapter();
 
 		//初始化空购物车的视图
@@ -192,31 +184,20 @@ public class CarFragment extends BaseFragment<CartBean> {
 	}
 
 	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		ButterKnife.unbind(this);
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 
 		//加载顶部导航图视图并加入到顶部导航图中
-		((MainActivity) getActivity()).setTopBarView(mBarView);
+		((MainActivity) getActivity()).setTopBarView(
+				View.inflate(getContext(), R.layout.inflate_car_bar, null));
 
 		mLoadPager.performLoadData();
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-
-		NetUtil.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
-			@Override
-			public boolean apply(Request<?> request) {
-				return mRequest == request;
-			}
-		});
+	public void onDestroy() {
+		super.onDestroy();
+		ButterKnife.unbind(this);
 	}
 
 	/*-------------------- ListView适配器类 - begin --------------------*/
@@ -260,14 +241,15 @@ public class CarFragment extends BaseFragment<CartBean> {
 			viewHolder.mTvCarShopname.setText(cartEntity.product.name);
 
 			if (mUnSelectedData.contains(cartEntity)) {
-				viewHolder.mIvCarCheckbox.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+				viewHolder.mIvCarCheckbox.setImageDrawable(
+						new ColorDrawable(Color.TRANSPARENT));
 			} else {
 				viewHolder.mIvCarCheckbox.setImageResource(R.mipmap.car_sel);
 			}
-
 			//计算小结的金额
 			float money = cartEntity.prodNum * cartEntity.product.price;
 			viewHolder.mTvCarItemXiaoji.setText(money + "");
+
 
 			final ViewHolder finalViewHolder = viewHolder;
 			viewHolder.mTvCarItemJian.setOnClickListener(new View.OnClickListener() {
@@ -354,6 +336,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 
 			ViewHolder(View view) {
 				ButterKnife.bind(this, view);
+				view.setTag(this);
 			}
 		}
 	}

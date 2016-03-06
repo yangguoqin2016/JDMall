@@ -5,12 +5,15 @@ import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -116,16 +119,6 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
      */
     @Override
     protected View loadSuccessView() {
-        //设置titleBar
-        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-
-        //TODO:主页title搜索的逻辑
-
-        //2.首先先拿到Fragment关联的Activity
-        mMainActivity = (MainActivity) getActivity();
-
-        //3.得到MainActivity,再设置TopBar的Ui
-        mMainActivity.setTopBarView(titlBar);
         mRootView = (ScrollView) View.inflate(ResUtil.getContext(), R.layout.home_fragment, null);
         ButterKnife.bind(this, mRootView);
         //添加点击事件的监听
@@ -178,7 +171,12 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
      */
     @Override
     protected void handleError(Exception e) {
-        Toast.makeText(ResUtil.getContext(), "数据加载失败", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(ResUtil.getContext(), "数据加载失败", Toast.LENGTH_SHORT).show();
+        FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
+        TextView tv = new TextView(ResUtil.getContext());
+        tv.setText("加载数据失败,请检查下你的网络..");
+        tv.setGravity(Gravity.CENTER);
+        rootView.addView(tv);
     }
 
     @Override
@@ -333,5 +331,18 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
             mTask.stop();
         }
         mTask = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //设置titleBar
+        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+        //TODO:主页title搜索的逻辑
+        //2.首先先拿到Fragment关联的Activity
+        mMainActivity = (MainActivity) getActivity();
+
+        //3.得到MainActivity,再设置TopBar的Ui
+        mMainActivity.setTopBarView(titlBar);
     }
 }

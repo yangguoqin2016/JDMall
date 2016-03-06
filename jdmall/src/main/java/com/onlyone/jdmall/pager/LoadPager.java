@@ -24,7 +24,7 @@ public abstract class LoadPager<T> implements LoadListener<T> {
 		mRootView = loadContainer(mContext);
 	}
 
-	public View getRootView() {
+	public FrameLayout getRootView() {
 		return mRootView;
 	}
 

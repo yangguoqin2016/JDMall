@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <!-- 如果是按下状态，那么就显示这一张图片 -->
+    <item android:state_pressed="true" android:color="#FFFFFF" ></item>
+    <item android:state_selected="true" android:color="#FFFFFF" ></item>
+
+     <!-- 默认状态下，显示这一张图片 -->
+    <item android:color="#000000"></item>
+</selector>

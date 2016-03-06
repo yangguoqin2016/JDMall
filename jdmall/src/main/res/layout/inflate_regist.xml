@@ -3,6 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="#ffffff"
     >
 
     <LinearLayout
@@ -22,6 +23,8 @@
             android:textSize="20sp"
             android:text="用户名:"/>
         <EditText
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
             android:id="@+id/regist_et_username"
             android:background="@null"
             android:hint="用户名/邮箱/手机号"
@@ -48,6 +51,8 @@
             android:textSize="20sp"
             android:text="确认密码:"/>
         <EditText
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
             android:id="@+id/regist_et_password"
             android:inputType="textPassword"
             android:background="@null"
@@ -74,6 +79,8 @@
             android:textSize="20sp"
             android:text="确认密码:"/>
         <EditText
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
             android:id="@+id/regist_confrim_password"
             android:inputType="textPassword"
             android:background="@null"
@@ -86,7 +93,7 @@
     <Button
         android:id="@+id/regist_btn"
         android:layout_marginTop="40dp"
-        android:background="@mipmap/dengluanniu_dianji_moren"
+        android:background="@drawable/selector_login_color"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:text="注册"

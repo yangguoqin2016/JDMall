@@ -56,18 +56,35 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     CheckBox mLoginRememberCb;
     @Bind(R.id.login_tv_forgetpwd)
     TextView mLoginTvForgetpwd;
-    @Bind(R.id.login_tv_regist)
-    TextView mLoginTvRegist;
+
 
     private LoadListener<LoginOrRegistBean> mListener;
     private LoginOrRegistBean               mLoginBean;
     private String                          mUsername;
     private String                          mPassword;
     private SPUtil                          mSp;
+    private TextView mLoginTvRegist;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 
     @Override
     protected void refreshSuccessView(LoginOrRegistBean data) {
+        mLoginBtn.setOnClickListener(this);
 
+        mLoginTvRegist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                //注册界面的背景需要添加为白色,否则登录与注册界面会重叠
+                transaction.replace(R.id.fl_content_container, new RegisterFragment());
+                transaction.commit();
+            }
+        });
     }
 
     @Override
@@ -80,23 +97,12 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
     @Override
     protected void loadData(LoadListener<LoginOrRegistBean> listener) {
-        mListener = listener;
-        mLoginBtn.setOnClickListener(this);
-        mLoginTvRegist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchFragment();
-            }
-        });
+//        mListener = listener;
+        listener.onSuccess(null);
+
 
     }
 
-    private void switchFragment() {
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.login_view,new RegisterFragment());
-        transaction.commit();
-    }
 
     @Override
     protected void handleError(Exception e) {
@@ -106,6 +112,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 
         mSp = new SPUtil(ResUtil.getContext());
         //帐号及密码的回显
@@ -117,13 +124,14 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
             mLoginEtPassword.setText(password);
             mLoginRememberCb.setChecked(checked);
         }
-
         View topBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_login, null);
-        ButterKnife.bind(this, topBarView);
-        MainActivity activity = (MainActivity) getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         //设置登录界面的状态栏
         activity.setTopBarView(topBarView);
-        return topBarView;
+        mLoginTvRegist = (TextView) topBarView.findViewById(R.id.login_tv_regist);
+
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -144,7 +152,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
         RequestQueue queue = Volley.newRequestQueue(ResUtil.getContext());
 
-        //        String url = "http://10.0.2.2:8080/market/login?";
+//               String url = "http://10.0.2.2:8080/market/login?";
         String url = Url.ADDRESS_SERVER + "/login?";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -152,7 +160,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
                 Gson gson = new Gson();
                 mLoginBean = gson.fromJson(s, LoginOrRegistBean.class);
-                mListener.onSuccess(mLoginBean);
+
                 if (mLoginBean.response.equals("login")) {
                     Toast.makeText(ResUtil.getContext(), "登录成功", Toast.LENGTH_SHORT).show();
                     mSp.putString(SP.USERNAME, mUsername);

@@ -1,13 +1,16 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -19,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.LoginOrRegistBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
@@ -49,7 +53,6 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
     Button   mRegistBtn;
     @Bind(R.id.regist_et_username)
     EditText mRegistEtUsername;
-
     private LoadListener<LoginOrRegistBean> mListener;
 
     private String mUsername;
@@ -57,6 +60,7 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
     private String mConfirmPwd;
     LoginOrRegistBean mRegistBean;
     private SPUtil mSp;
+    private TextView mRegistBack;
 
     @Override
     protected void refreshSuccessView(LoginOrRegistBean data) {
@@ -72,8 +76,14 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
 
     @Override
     protected void loadData(LoadListener<LoginOrRegistBean> listener) {
-        mListener = listener;
+        listener.onSuccess(null);
         mRegistBtn.setOnClickListener(this);
+        mRegistBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment();
+            }
+        });
     }
 
     @Override
@@ -87,10 +97,9 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
         mSp = new SPUtil(ResUtil.getContext());
         //设置注册的状态栏
         View topBarRegistView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_regist, null);
-
-
-        ButterKnife.bind(this, topBarRegistView);
-        return topBarRegistView;
+        mRegistBack = (TextView) topBarRegistView.findViewById(R.id.regist_back);
+        ((MainActivity) getActivity()).setTopBarView(topBarRegistView);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -118,20 +127,23 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
         RequestQueue queue = Volley.newRequestQueue(ResUtil.getContext());
 
 //        String url = "http://10.0.2.2:8080/market/register?";
-        String url = Url.ADDRESS_SERVER+"/register?";
+                String url = Url.ADDRESS_SERVER+"/register?";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 
                 Gson gson = new Gson();
                 mRegistBean = gson.fromJson(s, LoginOrRegistBean.class);
-                mListener.onSuccess(mRegistBean);
-                if(mRegistBean.response.equals("register")){
-                    Toast.makeText(ResUtil.getContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                if (mRegistBean.response.equals("register")) {
+                    Toast.makeText(ResUtil.getContext(), "注册成功", Toast.LENGTH_SHORT).show();
+                    SystemClock.sleep(1500);
                     //注册成功,保存userid
-                    mSp.putLong(SP.USERID,mRegistBean.userInfo.userid);
-                }else{
-                    Toast.makeText(ResUtil.getContext(),"该用户名已被注册...",Toast.LENGTH_SHORT).show();
+                    mSp.putLong(SP.USERID, mRegistBean.userInfo.userid);
+                    changeFragment();
+
+
+                } else {
+                    Toast.makeText(ResUtil.getContext(), "该用户名已被注册...", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -156,5 +168,12 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
 
         queue.add(request);
 
+    }
+
+    private void changeFragment() {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.remove(RegisterFragment.this);
+        transaction.add(R.id.fl_content_container, new LoginFragment());
+        transaction.commit();
     }
 }

@@ -4,18 +4,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-    <TextView android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_centerVertical="true"
-               android:padding="10dp"
-              android:textColor="#000"
-               android:text="返回"/>
+    <TextView
+        android:id="@+id/regist_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:text="返回"
+        android:textColor="@color/selector_text_color"/>
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerInParent="true"
-              android:text="注册"
-              android:textColor="#000"
-              android:textSize="22sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="注册"
+        android:textColor="#000"
+        android:textSize="22sp"/>
 
 </RelativeLayout>

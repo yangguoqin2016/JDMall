@@ -52,12 +52,26 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
                 FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
                 transaction.remove(NewProductFragment.this).commit();
 
-                //退回首页
-                View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-                mActivity.setTopBarView(titlBar);
+                restoreHomeTopBar();
             }
         });
 
+        //点击back按键回退首页
+        mActivity.addOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
+            @Override
+            public void onPressed() {
+                restoreHomeTopBar();
+            }
+        });
+
+    }
+
+    /**
+     * back键回退到首页,恢复首页的TopBar
+     */
+    private void restoreHomeTopBar() {
+        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+        mActivity.setTopBarView(titlBar);
     }
 
     @Override

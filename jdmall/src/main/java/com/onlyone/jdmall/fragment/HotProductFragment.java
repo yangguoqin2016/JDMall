@@ -45,19 +45,32 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         mActivity = (MainActivity) getActivity();
         mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_hot_product, null);
         mActivity.setTopBarView(mTopBarView);
-
+        //点击返回图片返回首页
         mTopBarView.findViewById(R.id.hot_product_topbar_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
                 transaction.remove(HotProductFragment.this);
                 transaction.commit();
-
-                //回退设置首页titleBar
-                View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-                mActivity.setTopBarView(titlBar);
+                restoreHomeTopBar();
             }
         });
+
+        //点击back按键回退首页
+        mActivity.addOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
+            @Override
+            public void onPressed() {
+                restoreHomeTopBar();
+            }
+        });
+    }
+
+    /**
+     * back键回退到首页,恢复首页的TopBar
+     */
+    private void restoreHomeTopBar() {
+        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+        mActivity.setTopBarView(titlBar);
     }
 
     @Override

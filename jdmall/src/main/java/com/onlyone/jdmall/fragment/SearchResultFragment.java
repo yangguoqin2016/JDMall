@@ -142,7 +142,8 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment =manager.findFragmentByTag(SearchFragment.TAG_SEARCHRESULT_FRAGMENT);
 //        transaction.show(FragmentFactory.getFragment(1));
-        transaction.replace(R.id.fl_content_container, FragmentFactory.getFragment(1));
+        transaction.remove(fragment);
+        mMainActivity.setTopBarView(SearchFragment.mTopBar);
         mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
         transaction.commit();
     }

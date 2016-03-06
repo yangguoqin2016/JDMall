@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
@@ -53,7 +54,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	private EditText     mEtKey;
 
 	public SPUtil mSpUtil = new SPUtil(ResUtil.getContext());
-	private View mTopBar;
+	public static View mTopBar;
 
 	@Override
 	protected String getUrl() {
@@ -109,6 +110,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			params.leftMargin = DensityUtil.dip2Px(15);
 			params.topMargin = DensityUtil.dip2Px(6);
 			params.bottomMargin = DensityUtil.dip2Px(6);
+			tv.setOnClickListener(this);
 			mSearchHotItemContainer.addView(tv, params);
 			if (i != mStringList.size() - 1) {
 				View line = new View(ResUtil.getContext());
@@ -187,16 +189,12 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		case R.id.topbar_tv_search:// 搜索
 			//保存关键字
 			String searchKey = mEtKey.getText().toString().trim();
-			mSpUtil.putString(SP.KEY_SEARCHKEY,searchKey);
-
-			FragmentManager manager = mMainActivity.getSupportFragmentManager();
-			FragmentTransaction transaction = manager.beginTransaction();
-//			transaction.hide(this);
-			transaction.replace(R.id.fl_content_container, new SearchResultFragment(), TAG_SEARCHRESULT_FRAGMENT);
-			transaction.commit();
+			processSearchKey(searchKey);
 			break;
-
 		default:
+			String clickSearchKey  = ((TextView) v).getText().toString().trim();
+			Toast.makeText(ResUtil.getContext(), clickSearchKey , Toast.LENGTH_SHORT).show();
+			processSearchKey(clickSearchKey);
 			break;
 		}
 	}
@@ -257,4 +255,20 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		TextView tv;
 	}
 
+
+	/**
+	 * 处理关键字,并且保存到sp,跳转到SearchResultFragment
+	 * @param searchKey
+	 */
+	private void processSearchKey(String searchKey){
+		//保存关键字
+		mSpUtil.putString(SP.KEY_SEARCHKEY, searchKey);
+
+		FragmentManager manager = mMainActivity.getSupportFragmentManager();
+		FragmentTransaction transaction = manager.beginTransaction();
+		//			transaction.hide(this);
+		transaction.add(R.id.fl_content_container, new SearchResultFragment(),
+						TAG_SEARCHRESULT_FRAGMENT);
+		transaction.commit();
+	}
 }

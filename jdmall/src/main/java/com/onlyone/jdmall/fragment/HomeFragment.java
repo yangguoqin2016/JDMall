@@ -278,6 +278,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
             return;
         }
         FragmentTransaction transaction = mMainActivity.getSupportFragmentManager().beginTransaction();
+
         transaction.replace(R.id.fl_content_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -346,6 +347,11 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     public void onResume() {
         super.onResume();
+        Toast.makeText(ResUtil.getContext(), "Home Fragment onResume", Toast.LENGTH_SHORT).show();
+        changeTitleBar();
+    }
+
+    private void changeTitleBar() {
         //设置titleBar
         View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
         //TODO:主页title搜索的逻辑

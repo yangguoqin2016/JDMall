@@ -14,6 +14,10 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.fragment.FragmentFactory;
 import com.onlyone.jdmall.view.NoScrollLazyViewPager;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -86,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	 */
 	private void intData() {
 		mManager = getSupportFragmentManager();
+
+//		mManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+//			@Override
+//			public void onBackStackChanged() {
+//
+//			}
+//		});
 		mNavAdapter = new NavAdapter(mManager);
 		mVpMain.setAdapter(mNavAdapter);
 	}
@@ -146,6 +157,44 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	 * @param isHide true隐藏，false显示
 	 */
 	public void setHideTopBar(boolean isHide){
-		mFlDaohang.setVisibility(isHide?View.GONE:View.VISIBLE);
+		mFlDaohang.setVisibility(isHide ? View.GONE : View.VISIBLE);
+	}
+
+	/**
+	 * 监听返回键
+	 */
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		notifyListener();
+	}
+
+	private List<OnBackPressedListener> mLisnters = new ArrayList<>();
+
+	public  void addOnBackPreseedListener(OnBackPressedListener listener){
+		if (listener == null)
+			throw new NullPointerException();
+		if (!mLisnters.contains(listener)) {
+			mLisnters.add(listener);
+		}
+	}
+	public  void removeOnBackPreseedListener(OnBackPressedListener listener){
+		if(mLisnters.contains(listener)){
+			mLisnters.remove(listener);
+		}
+	}
+
+	public void notifyListener() {
+			ListIterator<OnBackPressedListener> it = mLisnters.listIterator();
+			while(it.hasNext()){
+				OnBackPressedListener next = it.next();
+				next.onPressed();
+			}
+	}
+	/**
+	 * 如果需要监听返回键被按下的事件，可以实现这个接口
+	 */
+	public interface OnBackPressedListener{
+		void onPressed();
 	}
 }

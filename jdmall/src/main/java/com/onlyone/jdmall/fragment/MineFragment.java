@@ -34,6 +34,8 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
     public static final String TAG_MINEABOUT_FRAGMENT = "tag_mineabout_fragment";
 
     public static final String TAG_MINEHELP_FRAGMENT = "tag_minehelp_fragment";
+
+    public static final String TAG_MINEFAVORITE_FRAGMENT = "tag_minefavorite_fragment";
     @Bind(R.id.fragment_ll_mine_order)
     LinearLayout mFragmentLlMineOrder;
     @Bind(R.id.fragment_ll_mine_address)
@@ -146,6 +148,8 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
             case R.id.fragment_ll_mine_gift://优惠券/礼品卡
                 break;
             case R.id.fragment_ll_mine_favorite://收藏夹
+                Fragment favoriteFrament = new MineFavoriteFragment();
+                changeFragment(favoriteFrament, TAG_MINEFAVORITE_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_record://浏览记录
                 break;

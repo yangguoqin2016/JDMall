@@ -1,4 +1,4 @@
-package com.onlyone.jdmall.fragment;
+package com.onlyone.jdmall.fragment.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,27 +13,30 @@ import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.fragment.MineFragment;
 import com.onlyone.jdmall.utils.ResUtil;
 
 /**
  * @项目名: JDMall
- * @包名: com.onlyone.jdmall.fragment
+ * @包名: com.onlyone.jdmall.fragment.home
  * @创建者: Ashin
- * @创建时间: 2016/3/5 19:46
+ * @创建时间: 2016/3/6 10:51
  * @描述: ${TODO}
  */
-public class MineAboutFragment extends Fragment implements View.OnClickListener {
-
+public class MineHelpFragment extends Fragment implements View.OnClickListener {
     private MainActivity mMainActivity;
     private View         mTopBarView;
-    private TextView mAboutBack;
+    private TextView     mHelpBack;
+    private TextView     mHelpTitle;
 
     @Override
     public void onResume() {
         Log.d("aaa", "MineAboutFragment----onResume");
         mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_mine, null);
-        mAboutBack = (TextView) mTopBarView.findViewById(R.id.mine_tv_about_back);
-        mAboutBack.setOnClickListener(this);
+        mHelpBack = (TextView) mTopBarView.findViewById(R.id.mine_tv_about_back);
+        mHelpTitle = (TextView) mTopBarView.findViewById(R.id.mine_tv_about_title);
+        mHelpTitle.setText("帮助中心");
+        mHelpBack.setOnClickListener(this);
         mMainActivity = (MainActivity) getActivity();
         mMainActivity.setTopBarView(mTopBarView);
         mMainActivity.setHideTopBar(false);
@@ -43,7 +46,7 @@ public class MineAboutFragment extends Fragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = View.inflate(ResUtil.getContext(),R.layout.mine_about,null);
+        View rootView = View.inflate(ResUtil.getContext(), R.layout.mine_help_centre, null);
         return rootView;
     }
 

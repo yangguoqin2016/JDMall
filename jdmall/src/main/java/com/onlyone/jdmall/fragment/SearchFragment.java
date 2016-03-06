@@ -52,8 +52,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 	ImageView    mItemHotArrow;
 	@Bind(R.id.search_hot_item_container)
 	LinearLayout mSearchHotItemContainer;
-	@Bind(R.id.item_history_arrow)
-	ImageView    mItemHistoryArrow;
 	@Bind(R.id.search_history_item_container)
 	ListView     mSearchHistoryItemContainer;
 	private MainActivity mMainActivity;
@@ -106,7 +104,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		ButterKnife.bind(this, contentView);
 		// 设置箭头的点击箭头事件
 		mItemHotArrow.setOnClickListener(this);
-		mItemHistoryArrow.setOnClickListener(this);
 		return contentView;
 	}
 
@@ -237,14 +234,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			}
 			mIsHotArrowOpen = !mIsHotArrowOpen;
 			break;
-		case R.id.item_history_arrow://搜索历史的箭头
-			if(mIsHistoryArrowOpen){
-
-			}else{
-
-			}
-			mIsHistoryArrowOpen = !mIsHistoryArrowOpen;
-			break;
 		default: //热门搜索的条目点击事件
 			String clickSearchKey = ((TextView) v).getText().toString().trim();
 			Toast.makeText(ResUtil.getContext(), clickSearchKey, Toast.LENGTH_SHORT).show();
@@ -371,18 +360,4 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 		iv.startAnimation(ra);
 	}
 
-	private void doAnimationByHistory(int start, int end) {
-		ValueAnimator valueAnimator = ValueAnimator.ofInt(start, end);
-		valueAnimator.setDuration(500);
-		valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator valueAnimator) {
-				int value = (int) valueAnimator.getAnimatedValue();
-				ViewGroup.LayoutParams layoutParams = mSearchHistoryItemContainer.getLayoutParams();
-				layoutParams.height = value;
-				mSearchHistoryItemContainer.setLayoutParams(layoutParams);
-			}
-		});
-		valueAnimator.start();
-	}
 }

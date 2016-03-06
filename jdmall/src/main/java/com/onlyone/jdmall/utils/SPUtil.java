@@ -59,7 +59,7 @@ public final class SPUtil {
 	}
 
 	/**
-	 * 从SharedPreferences中读取int数据
+	 * 从SharedPreferences中读取long数据
 	 *
 	 * @param keyName      键
 	 * @param defaultValue 默认值
@@ -67,6 +67,29 @@ public final class SPUtil {
 	 */
 	public int getInt(String keyName, int defaultValue) {
 		return mSp.getInt(keyName, defaultValue);
+	}
+
+	/**
+	 * 存储Int数据到SharedPreferences中
+	 *
+	 * @param keyName 键
+	 * @param value   值
+	 */
+	public void putLong(String keyName, long value) {
+		SharedPreferences.Editor editor = mSp.edit();
+		editor.putLong(keyName, value);
+		editor.apply();
+	}
+
+	/**
+	 * 从SharedPreferences中读取long数据
+	 *
+	 * @param keyName      键
+	 * @param defaultValue 默认值
+	 * @return 返回读取到的int数据
+	 */
+	public long getLong(String keyName, long defaultValue) {
+		return mSp.getLong(keyName, defaultValue);
 	}
 
 	/**

@@ -165,6 +165,8 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
                     Toast.makeText(ResUtil.getContext(), "登录成功", Toast.LENGTH_SHORT).show();
                     mSp.putString(SP.USERNAME, mUsername);
 
+                    changeFragment();
+
                 } else {
                     Toast.makeText(ResUtil.getContext(), "帐号或密码有误...", Toast.LENGTH_SHORT).show();
                     return;
@@ -203,5 +205,11 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
             mSp.putString(SP.PASSWORD, mPassword);
         }
+    }
+
+    private void changeFragment() {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.fl_content_container, new MineFragment());
+        transaction.commit();
     }
 }

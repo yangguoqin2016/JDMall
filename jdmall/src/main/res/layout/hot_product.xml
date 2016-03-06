@@ -7,21 +7,9 @@
               android:orientation="vertical"
     android:background="#fff">
 
-    <ImageView
-        android:scaleType="fitXY"
-        android:src="@mipmap/home_hot_product"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"/>
-    <ImageView
-        android:layout_alignParentBottom="true"
-        android:src="@mipmap/fengexian"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <ListView
         android:id="@+id/hot_product_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="15dp"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

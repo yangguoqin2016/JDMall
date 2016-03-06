@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <!-- 购物指南-->
         <LinearLayout
@@ -21,12 +22,13 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:text="购物指南"
-                android:textSize="26sp"/>
+                android:textColor="#99000000"
+                android:textSize="18sp"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#000"/>
+                android:background="#77000000"/>
 
         </LinearLayout>
         <!--售后服务-->
@@ -47,7 +49,8 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:text="售后服务"
-                    android:textSize="26sp"/>
+                    android:textColor="#99000000"
+                    android:textSize="18sp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -61,7 +64,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#000"/>
+                android:background="#77000000"/>
         </LinearLayout>
         <!-- 配送方式-->
         <LinearLayout
@@ -81,7 +84,8 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:text="配送方式"
-                    android:textSize="26sp"/>
+                    android:textColor="#99000000"
+                    android:textSize="18sp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -95,59 +99,66 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#000"/>
+                android:background="#77000000"/>
         </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/mine_btn_bye"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/neirong_jixugouwu_anniu_tiaozhuan"
-            android:layout_centerInParent="true"/>
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/neirong_jixugouwu_anniu_tiaozhuan"/>
 
         <ImageView
             android:id="@+id/mine_btn_look_order"
-            android:layout_below="@id/mine_btn_bye"
-            android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/neirong_chakandingdan_anniu_tiaozhuan"
-            android:layout_centerInParent="true"/>
+            android:layout_below="@id/mine_btn_bye"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/neirong_chakandingdan_anniu_tiaozhuan"/>
 
         <TextView
             android:id="@+id/mine_help_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="如有疑问可拨打客服电话"
-            android:layout_marginTop="20dp"
             android:layout_below="@id/mine_btn_look_order"
-            android:textSize="20dp"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="如有疑问可拨打客服电话"
+            android:textColor="#99000000"
+            android:textSize="18sp"/>
 
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mine_help_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/mine_help_tv"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_button_conference_end"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="400-800-0978"
-                    android:textSize="20dp"/>
-            </LinearLayout>
+                android:src="@mipmap/ic_button_conference_end"/>
+
+            <TextView
+                android:layout_marginRight="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="400-6666_6666"
+                android:textColor="#99000000"
+                android:textSize="16sp"/>
+        </LinearLayout>
 
     </RelativeLayout>
 </RelativeLayout>

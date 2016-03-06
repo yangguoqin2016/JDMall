@@ -1,12 +1,12 @@
 package com.onlyone.jdmall.fragment;
 
+import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
@@ -16,6 +16,9 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.HotProductHolder;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.util.List;
 
@@ -33,14 +36,6 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
      * 当前加载的页数
      */
     private int mCurPageNum = 1;
-    /**
-     * 加载更多的数据
-     */
-    private List<HotProductBean.ProductBean> mLoadMoreDatas;
-    /**
-     * 加载跟多时的异常
-     */
-    private VolleyError                      mLoadError;
     private View                             mTopBarView;
     private MainActivity                     mActivity;
 
@@ -50,23 +45,38 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         mActivity = (MainActivity) getActivity();
         mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_hot_product, null);
         mActivity.setTopBarView(mTopBarView);
-
+        //点击返回图片返回首页
         mTopBarView.findViewById(R.id.hot_product_topbar_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
                 transaction.remove(HotProductFragment.this);
                 transaction.commit();
+                restoreHomeTopBar();
+            }
+        });
 
-                //回退设置首页titleBar
-                View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-                mActivity.setTopBarView(titlBar);
+        //点击back按键回退首页
+        mActivity.addOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
+            @Override
+            public void onPressed() {
+                restoreHomeTopBar();
             }
         });
     }
 
+    /**
+     * back键回退到首页,恢复首页的TopBar
+     */
+    private void restoreHomeTopBar() {
+        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+        mActivity.setTopBarView(titlBar);
+    }
+
     @Override
     protected void refreshSuccessView(List<HotProductBean.ProductBean> datas) {
+        View topPic = View.inflate(ResUtil.getContext(),R.layout.hot_product_top_pic,null);
+        mHotProductListView.addHeaderView(topPic);
         mHotProductListView.setAdapter(new HotProductAdapter(mHotProductListView, datas));
     }
 
@@ -115,11 +125,21 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
 
         @Override
         protected List<HotProductBean.ProductBean> doLoadMore() throws Exception {
+            SystemClock.sleep(1500);
             mCurPageNum = mCurPageNum + 1;
             String url = Url.ADDRESS_SERVER + "/hotproduct?page=" + mCurPageNum + "&pageNum=15&orderby=saleDown";
-            //网络请求数据,该方法已属异步执行
-
-            return null;
+            //网络请求数据
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(url).get().build();
+            Response response = client.newCall(request).execute();
+            if(response.isSuccessful()){
+                String result = response.body().string();
+                Gson gson = new Gson();
+                return gson.fromJson(result,HotProductBean.class).productList;
+            }else{
+                mCurPageNum--;
+                return null;
+            }
         }
     }
 }

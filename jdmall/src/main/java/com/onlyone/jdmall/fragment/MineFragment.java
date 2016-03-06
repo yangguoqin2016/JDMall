@@ -1,8 +1,10 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.fragment.home.MineHelpFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 
@@ -28,28 +31,29 @@ import butterknife.ButterKnife;
 //public class MineFragment extends SuperBaseFragment<Object> implements View.OnClickListener {
 public class MineFragment extends SuperBaseFragment<Object> implements View.OnClickListener {
 
+    public static final String TAG_MINEABOUT_FRAGMENT = "tag_mineabout_fragment";
+
+    private static final String TAG_MINEHELP_FRAGMENT = "tag_minehelp_fragment";
     @Bind(R.id.fragment_ll_mine_order)
-    LinearLayout   mFragmentLlMineOrder;
+    LinearLayout mFragmentLlMineOrder;
     @Bind(R.id.fragment_ll_mine_address)
-    LinearLayout   mFragmentLlMineAddress;
+    LinearLayout mFragmentLlMineAddress;
     @Bind(R.id.fragment_ll_mine_gift)
-    LinearLayout   mFragmentLlMineGift;
+    LinearLayout mFragmentLlMineGift;
     @Bind(R.id.fragment_ll_mine_favorite)
-    LinearLayout   mFragmentLlMineFavorite;
+    LinearLayout mFragmentLlMineFavorite;
     @Bind(R.id.fragment_ll_mine_record)
-    LinearLayout   mFragmentLlMineRecord;
+    LinearLayout mFragmentLlMineRecord;
     @Bind(R.id.fragment_ll_mine_help)
-    LinearLayout   mFragmentLlMineHelp;
+    LinearLayout mFragmentLlMineHelp;
     @Bind(R.id.fragment_ll_mine_feedback)
-    LinearLayout   mFragmentLlMineFeedback;
+    LinearLayout mFragmentLlMineFeedback;
     @Bind(R.id.fragment_ll_mine_about)
-    LinearLayout   mFragmentLlMineAbout;
+    LinearLayout mFragmentLlMineAbout;
     @Bind(R.id.mine_back_btn)
-    Button         mMineBackBtn;
+    Button       mMineBackBtn;
 
     private MainActivity mMainActivity;
-
-    private static final String TAG_MINEABOUT_FRAGMENT = "tag_mineabout_fragment";
 
 
     @Override
@@ -60,7 +64,7 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
     @Override
     protected View loadSuccessView() {
         View successView = View.inflate(ResUtil.getContext(), R.layout.fragment_mine, null);
-        ButterKnife.bind(this,successView);
+        ButterKnife.bind(this, successView);
         return successView;
     }
 
@@ -87,6 +91,7 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
 
     @Override
     public void onResume() {
+        Log.d("aaa", "onResume");
         mMainActivity = (MainActivity) getActivity();
         mMainActivity.setHideTopBar(true);
 
@@ -116,12 +121,14 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
     @Override
     public void onPause() {
         super.onPause();
+        Log.d("aaa","onPause");
         mMainActivity.setHideTopBar(false);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Log.d("aaa", "onDestroyView");
         ButterKnife.unbind(this);
     }
 
@@ -143,16 +150,25 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
             case R.id.fragment_ll_mine_record://浏览记录
                 break;
             case R.id.fragment_ll_mine_help://帮助中心
+                Fragment HelpFragment = new MineHelpFragment();
+                changeFragment(HelpFragment, TAG_MINEABOUT_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_feedback://用户反馈
                 break;
             case R.id.fragment_ll_mine_about://关于
                 Toast.makeText(ResUtil.getContext(), "点我了", Toast.LENGTH_SHORT).show();
-                FragmentManager manager = mMainActivity.getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.add(R.id.fl_content_container,new MineAboutFragment(),TAG_MINEABOUT_FRAGMENT);
-                transaction.commit();
+                Fragment aboutFragment = new MineAboutFragment();
+                changeFragment(aboutFragment,TAG_MINEABOUT_FRAGMENT);
+                break;
+            default:
                 break;
         }
+    }
+
+    private void changeFragment(Fragment fragment,String tag) {
+        FragmentManager manager = mMainActivity.getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.fl_content_container, fragment, tag);
+        transaction.commit();
     }
 }

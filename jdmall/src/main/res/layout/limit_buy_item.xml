@@ -6,6 +6,9 @@
     android:padding="5dp"
     android:background="@drawable/limit_buy_item_bg">
 
+    <!--<com.onlyone.jdmall.view.RatioLayout-->
+        <!--android:layout_width=""-->
+        <!--android:layout_height=""></com.onlyone.jdmall.view.RatioLayout>-->
     <ImageView
         android:scaleType="fitXY"
         android:id="@+id/limit_item_iv"

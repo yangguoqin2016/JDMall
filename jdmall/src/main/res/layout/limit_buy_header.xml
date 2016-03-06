@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:src="@mipmap/juxing"
+    <com.onlyone.jdmall.view.RatioLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="wrap_content"
+        app:rlPicRatio="1.9"
+        app:rlRelative="width">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/juxing" />
+    </com.onlyone.jdmall.view.RatioLayout>
     <LinearLayout
         android:padding="10dp"
         android:layout_width="match_parent"
@@ -24,6 +32,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
+        <!-- TODO 添加倒计时的控件-->
 
     </LinearLayout>
 </LinearLayout>

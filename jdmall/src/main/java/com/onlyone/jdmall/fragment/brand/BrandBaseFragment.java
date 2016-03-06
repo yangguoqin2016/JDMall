@@ -17,6 +17,7 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,10 +29,11 @@ import java.util.List;
  */
 public class BrandBaseFragment extends Fragment {
 
-    private final List<BrandBean.BrandList.BrandValue> mData;
+    private  List<BrandBean.BrandList.BrandValue> mData;
 
-    public BrandBaseFragment(List<BrandBean.BrandList.BrandValue> babyData) {
-        mData = babyData;
+    public BrandBaseFragment(List<BrandBean.BrandList.BrandValue> mBaseData) {
+        mData = new ArrayList<>();
+        mData = mBaseData;
     }
 
     @Nullable

@@ -29,12 +29,16 @@ import com.onlyone.jdmall.application.MyApplication;
 import com.onlyone.jdmall.bean.BrandBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.brand.BabyFragment;
+import com.onlyone.jdmall.fragment.brand.ChengRenFragment;
+import com.onlyone.jdmall.fragment.brand.ChildClothFragment;
 import com.onlyone.jdmall.fragment.brand.DailyFragment;
 import com.onlyone.jdmall.fragment.brand.FashionFragment;
+import com.onlyone.jdmall.fragment.brand.HuaZhuangFragment;
 import com.onlyone.jdmall.fragment.brand.MotherFragment;
 import com.onlyone.jdmall.fragment.brand.QingjieFragment;
 import com.onlyone.jdmall.fragment.brand.ShipinFragment;
 import com.onlyone.jdmall.utils.DensityUtil;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 
 import java.util.ArrayList;
@@ -67,6 +71,9 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
     private List<BrandBean.BrandList.BrandValue> mFashionData = new ArrayList();
     private List<BrandBean.BrandList.BrandValue> mDailyData   = new ArrayList();
     private List<BrandBean.BrandList.BrandValue> mQingjieData = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mChildClothData = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mChengRenData = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mHuaZhuangData = new ArrayList();
 
     //Fragment容器
     private List<Fragment> mFragmentList = new ArrayList();
@@ -123,6 +130,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
         mBrandViewpager.setAdapter(new BrandAdapter());
 
+        //设置默认选中第一页
         int index = Integer.MAX_VALUE / 2;
         int diff = index % PICS.length;
         index = index + diff;
@@ -187,7 +195,9 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
      * @param data
      */
     private void LoadBrandList(BrandBean data) {
+        LogUtil.i("XXX", "解析数据...");
         for (int i = 0; i < data.getBrand().size(); i++) {
+
             BrandBean.BrandList brandList = data.getBrand().get(i);
 
             for (int j = 0; j < brandList.getValue().size(); j++) {
@@ -232,6 +242,9 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
                         mQingjieData.add(mBrandValue); //清洁用品
                         break;
 
+                    default:
+                        break;
+
                 }
             }
         }
@@ -239,8 +252,11 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         mFragmentList.add(new MotherFragment(mMotherData));
         mFragmentList.add(new ShipinFragment(mShipinData));
         mFragmentList.add(new BabyFragment(mBabyData));
+        mFragmentList.add(new ChildClothFragment(mChildClothData));
         mFragmentList.add(new FashionFragment(mFashionData));
+        mFragmentList.add(new ChengRenFragment(mChengRenData));
         mFragmentList.add(new DailyFragment(mDailyData));
+        mFragmentList.add(new HuaZhuangFragment(mHuaZhuangData));
         mFragmentList.add(new QingjieFragment(mQingjieData));
 
         mBrindListview.setOnItemClickListener(this);
@@ -289,7 +305,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         //设置状态栏
         mainActivity.setTopBarView(topBrand);
 
-        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
+//        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -339,15 +355,11 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             mTask.stop();
             mTask = null;
         }
+
     }
 
     private class BrandListViewAdapter extends BaseAdapter {
 
-        private int mCurrentPosition = 0;
-
-        public void setCurrentPosition(int position) {
-            mCurrentPosition = position;
-        }
 
         @Override
         public int getCount() {
@@ -379,7 +391,6 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             BrandBean.BrandList brandList = mBrandBean.getBrand().get(position);
             String key = brandList.getKey();
             holder.tv.setText(key);
-            holder.tv.setBackgroundResource(R.drawable.selector_brand_detail_bg);
             holder.tv.setTextColor(Color.BLACK);
             holder.tv.setTextSize(DensityUtil.dip2Px(14));
             int left = DensityUtil.dip2Px(15);
@@ -435,24 +446,15 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        mAdapter.setCurrentPosition(position);
-        mAdapter.notifyDataSetChanged();
-        switchFragment(position);
+            mTransaction = mManager.beginTransaction();
+
+            Fragment fragment = mFragmentList.get(position);
+
+            mTransaction.replace(R.id.brand_fragment_container, fragment);
+
+            mTransaction.commit();
+
     }
 
-    /**
-     * 切换Fragment
-     * @param position
-     */
-    private void switchFragment(int position) {
-
-        mTransaction = mManager.beginTransaction();
-
-        Fragment fragment = mFragmentList.get(position);
-
-        mTransaction.replace(R.id.brand_fragment_container, fragment);
-
-        mTransaction.commit();
-    }
 }
 

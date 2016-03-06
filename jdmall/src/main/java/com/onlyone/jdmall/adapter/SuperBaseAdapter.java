@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.adapter;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -7,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.onlyone.jdmall.activity.ProductDetailActivity;
+import com.onlyone.jdmall.bean.HotProductBean;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.LoadMoreHolder;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -188,7 +191,7 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //TODO:点击进入商品详情界面
+        //AbsListView头部处理
         if(parent instanceof ListView){
             position = position-((ListView) parent).getHeaderViewsCount();
             if(position < 0){
@@ -196,14 +199,18 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
                 return;
             }
         }
-
+        //加载失败点击再次加载
         if(getItemViewType(position) == VIEWTYPE_LOADMORE){
             if(mCurLoadMoreState == LoadMoreHolder.STATE_ERROR){
                 triggerLoadMoreData();
                 return;
             }
         }
-
-        Toast.makeText(ResUtil.getContext(), "进入详情界面" + position, Toast.LENGTH_SHORT).show();
+        //点击进入详情界面
+        HotProductBean.ProductBean bean = (HotProductBean.ProductBean) mDatas.get(position);
+        Intent intent = new Intent(ResUtil.getContext(), ProductDetailActivity.class);
+        intent.putExtra("name",bean.name);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ResUtil.getContext().startActivity(intent);
     }
 }

@@ -188,7 +188,6 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
         return null;
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //AbsListView头部处理

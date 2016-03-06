@@ -132,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 				mVpMain.setCurrentItem(4);
 				break;
 		}
-
 	}
+
 
 	class NavAdapter extends FragmentPagerAdapter {
 

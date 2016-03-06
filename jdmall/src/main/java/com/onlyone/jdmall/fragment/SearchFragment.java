@@ -223,29 +223,25 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>implements View
 			processSearchKey(searchKey , true);
 			break;
 		case R.id.item_hot_arrow://热门搜索的箭头
-			mSearchHotItemContainer.measure(0, 0);
-			int hotStart = mSearchHotItemContainer.getMeasuredHeight();
-			int hotEnd  = 0;
+			mSearchHotItemContainer.measure(0,0);
+			int start = mSearchHotItemContainer.getMeasuredHeight();
+			int end  = 0;
 			if(mIsHotArrowOpen){
 				//当前状态是打开,就折叠
-				doAnimationByHot(hotStart,hotEnd);
+				doAnimationByHot(start,end);
 				doRotateAnimation(0,180,mItemHotArrow);
 			}else{
 				//当前状态是折叠,就打开
-				doAnimationByHot(hotEnd,hotStart);
+				doAnimationByHot(end,start);
 				doRotateAnimation(180,0,mItemHotArrow);
 			}
 			mIsHotArrowOpen = !mIsHotArrowOpen;
 			break;
 		case R.id.item_history_arrow://搜索历史的箭头
-			mSearchHistoryItemContainer.measure(0,0);
-			int historyStart = mSearchHistoryItemContainer.getMeasuredHeight();
-			Toast.makeText(ResUtil.getContext(), "height = "+historyStart, Toast.LENGTH_SHORT).show();
-			int historyEnd = 0;
 			if(mIsHistoryArrowOpen){
-				doAnimationByHistory(historyStart,historyEnd);
+
 			}else{
-				doAnimationByHistory(historyEnd,historyStart);
+
 			}
 			mIsHistoryArrowOpen = !mIsHistoryArrowOpen;
 			break;

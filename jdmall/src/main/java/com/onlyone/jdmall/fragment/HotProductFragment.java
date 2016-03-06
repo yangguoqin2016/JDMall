@@ -96,7 +96,6 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         return url;
     }
 
-
     @Override
     protected void handleError(Exception e) {
         Toast.makeText(ResUtil.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
@@ -124,7 +123,6 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
             HotProductHolder holder = new HotProductHolder();
             return holder;
         }
-
 
         @Override
         protected List<HotProductBean.ProductBean> doLoadMore() throws Exception {

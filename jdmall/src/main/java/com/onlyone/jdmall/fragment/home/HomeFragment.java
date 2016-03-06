@@ -1,4 +1,4 @@
-package com.onlyone.jdmall.fragment;
+package com.onlyone.jdmall.fragment.home;
 
 import android.content.Context;
 import android.os.Handler;
@@ -28,6 +28,11 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.HomeBean;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.fragment.BaseFragment;
+import com.onlyone.jdmall.fragment.HomeFastSaleFragment;
+import com.onlyone.jdmall.fragment.HotProductFragment;
+import com.onlyone.jdmall.fragment.NewProductFragment;
+import com.onlyone.jdmall.fragment.category.HomeCategoryFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.DensityUtil;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -258,16 +263,18 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
                 break;
             case R.id.home_ll_shopping: //限时抢购
                 str = "限时抢购";
-                fragment = new LimitBuyFragment();
+                //fragment = new LimitBuyFragment();
                 break;
             case R.id.home_ll_sale: //促销快报
                 str = "促销快报";
+                fragment = new HomeFastSaleFragment();
                 break;
             case R.id.home_ll_recommend: //推荐品牌
                 str = "推荐品牌";
                 break;
             case R.id.home_ll_category: //商品分类
                 str = "商品分类";
+                fragment = new HomeCategoryFragment();
                 break;
         }
         changeFragment(fragment);
@@ -352,6 +359,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         Toast.makeText(ResUtil.getContext(), "Home Fragment onResume", Toast.LENGTH_SHORT).show();
         changeTitleBar();
     }
+
 
     private void changeTitleBar() {
         //设置titleBar

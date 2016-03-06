@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.FavoriteBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
@@ -34,28 +36,43 @@ import butterknife.ButterKnife;
 /**
  * @Author Never
  * @Date 2016/3/6 15:31
- * @Desc ${TODO}
+ * @Desc ${收藏夹界面}
  */
 public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
 
-//    @Bind(R.id.mine_favorite_lv_container)
+    //    @Bind(R.id.mine_favorite_lv_container)
     ListView mMineFavoriteLvContainer;
-    private FavoriteBean mFavoriteBean;
+    private        FavoriteBean mFavoriteBean;
+    private static View         mTopBar;
+    private MainActivity mMainActivity;
 
     /*请求成功的回调*/
     @Override
     protected void refreshSuccessView(FavoriteBean data) {
+        if(data == null || data.productList.size() == 0){
+            /*如果返回数据为空或者用户没有收藏任何商品,展示空视图*/
+            FrameLayout framelayout = mLoadPager.getRootView();
+            framelayout.removeAllViews();
+            /*获取空视图*/
+            View emptyView = View.inflate(ResUtil.getContext(),R.layout.item_searchresult_empty,null);
+            /*添加空视图*/
+            framelayout.addView(emptyView);
+        }
 
         /*保存数据到本类*/
         mFavoriteBean = data;
         mMineFavoriteLvContainer.setAdapter(new FavoriteAdapter());
+
+        /*获得清空按钮(默认不可见),若收藏夹不为空,显示*/
+        View clear = mTopBar.findViewById(R.id.topbar_tv_clear);
+        clear.setVisibility(mFavoriteBean.productList.size() == 0 ? View.GONE : View.VISIBLE);
 
     }
 
     @Override
     protected View loadSuccessView() {
         View view = View.inflate(ResUtil.getContext(), R.layout.mine_favorite, null);
-//        ButterKnife.bind(this, view);
+        //        ButterKnife.bind(this, view);
         mMineFavoriteLvContainer = (ListView) view.findViewById(R.id.mine_favorite_lv_container);
         return view;
     }
@@ -89,6 +106,7 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
 
                 Map<String, String> map = new HashMap<>();
                 map.put("userid", "20428");
+//                map.put("userid", "2042822");
                 return map;
             }
         };
@@ -113,6 +131,26 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    /*界面可见*/
+    @Override
+    public void onResume() {
+        /*获取宿主对象*/
+        mMainActivity = (MainActivity) getActivity();
+        mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_favorite, null);
+
+        /*设置topBar*/
+        mMainActivity.setTopBarView(mTopBar);
+        mMainActivity.setHideTopBar(false);
+        super.onResume();
+
+    }
+
+    /*界面不可见*/
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     class FavoriteAdapter extends BaseAdapter {

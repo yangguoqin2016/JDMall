@@ -6,8 +6,9 @@
 
     <ImageView
         android:id="@+id/hot_product_topbar_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_centerVertical="true"
         android:padding="10dp"
         android:src="@mipmap/head_btn_back_gray"/>

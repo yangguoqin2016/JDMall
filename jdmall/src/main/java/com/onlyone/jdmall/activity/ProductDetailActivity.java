@@ -60,6 +60,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     RelativeLayout mProductDetailSelectColorSize;
     @Bind(R.id.product_detail_buy_limit)
     TextView       mProductDetailBuyLimit;
+    @Bind(R.id.product_detail_viewpager_indicator)
+    TextView       mProductDetailViewpagerIndicator;
 
     private int                             mProductId;
     private ProductDetailBean.ProductEntity mProductBean;
@@ -71,6 +73,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         init();
         initView();
         initData();
+        initListener();
     }
 
     private void init() {
@@ -120,18 +123,55 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     /**
-     * 刷新视图
+     * 初始化监听事件
+     */
+    private void initListener(){
+        //轮播图滑动监听
+        mProductDetailPicViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int index = position+1;
+                int total = mProductDetailPicViewpager.getAdapter().getCount();
+                mProductDetailViewpagerIndicator.setText(index+"/"+total);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    /**
+     * 记载数据后刷新视图
      */
     private void refreshUI() {
         mProductDetailName.setText(mProductBean.name);
         mProductDetailPrice.setText("Y " + mProductBean.price);
         mProductDetailMarketprice.setText("Y " + mProductBean.marketPrice);
         mProductDetailStars.setRating(mProductBean.score);
-        mProductDetailBuyLimit.setText(mProductBean.buyLimit+"件");
+        mProductDetailBuyLimit.setText(mProductBean.buyLimit + "件");
+
+        //1.剩余抢购时间倒计时
+        refreshLeftTime();
 
         //设置图片轮播图
         List<String> picUrls = mProductBean.pics;
         mProductDetailPicViewpager.setAdapter(new ProductPicAdapter(picUrls));
+        mProductDetailViewpagerIndicator.setText(1+"/"+picUrls.size());
+    }
+
+
+    /**
+     * //TODO:剩余抢购时间倒计时处理
+     */
+    private void refreshLeftTime() {
+        mProductDetailLeftTime.setText("剩余抢购时间" + mProductBean.leftTime + "秒");
     }
 
 
@@ -180,8 +220,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
 
-    private class ProductPicAdapter extends BasePagerAdapter<String>{
+    private class ProductPicAdapter extends BasePagerAdapter<String> {
         List<String> urls;
+
         public ProductPicAdapter(List<String> data) {
             super(data);
             urls = data;
@@ -191,7 +232,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         public View initView(int position) {
             //http://localhost:8080/market/images/product/detail/c3.jpg
             String url = urls.get(position);
-            url = Url.ADDRESS_SERVER+"/"+url;
+            url = Url.ADDRESS_SERVER + "/" + url;
 
             ImageView iv = new ImageView(ResUtil.getContext());
             iv.setScaleType(ImageView.ScaleType.FIT_XY);

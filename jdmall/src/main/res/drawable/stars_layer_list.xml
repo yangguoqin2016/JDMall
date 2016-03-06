@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--背景-->
+    <item android:id="@android:id/background"
+          android:drawable="@mipmap/level_3"/>
+
+    <!--副进度条-->
+    <item android:id="@android:id/secondaryProgress"
+          android:drawable="@mipmap/level_2"/>
+
+    <!--主进度条-->
+    <item android:id="@android:id/progress"
+          android:drawable="@mipmap/level_1"/>
+</layer-list>

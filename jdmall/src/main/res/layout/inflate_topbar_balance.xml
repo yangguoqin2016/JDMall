@@ -10,6 +10,7 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:text="购物车"
+		android:id="@+id/tv_balance_return"
 		android:textSize="20sp"/>
 
 	<TextView

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,6 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.car.BalanceFragment;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.pager.LoadListener;
-import com.onlyone.jdmall.pager.LoadPager;
 import com.onlyone.jdmall.utils.FragmentUtil;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.squareup.picasso.Picasso;
@@ -68,11 +68,10 @@ public class CarFragment extends BaseFragment<CartBean> {
 	 */
 	private List<CartBean.CartEntity> mUnSelectedData = new ArrayList<>();
 
-	private MyAdapter       mAdapter;
-	private View            mEmptyView;
-	private StringRequest   mRequest;
-	private BalanceFragment mBalanceFragment;
-	private View            mBarView;
+	private MyAdapter     mAdapter;
+	private View          mEmptyView;
+	private StringRequest mRequest;
+	private View          mBarView;
 
 	@Override
 	protected void refreshSuccessView(CartBean data) {
@@ -225,28 +224,6 @@ public class CarFragment extends BaseFragment<CartBean> {
 		//初始化空购物车的视图
 		mEmptyView = View.inflate(getContext(), R.layout.inflate_car_empty, null);
 
-		mLoadPager = new LoadPager<CartBean>(getActivity()) {
-			@Override
-			protected void refreshSuccessView(CartBean data) {
-				CarFragment.this.refreshSuccessView(data);
-			}
-
-			@Override
-			protected void handleError(Exception e) {
-				CarFragment.this.handleError(e);
-			}
-
-			@Override
-			protected void loadData(LoadListener<CartBean> listener) {
-				CarFragment.this.loadData(listener);
-			}
-
-			@Override
-			protected View loadSuccessView() {
-				return CarFragment.this.loadSuccessView();
-			}
-		};
-
 		//加载顶部导航图视图并加入到顶部导航图中
 		if (mBarView == null) {
 			mBarView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
@@ -259,18 +236,12 @@ public class CarFragment extends BaseFragment<CartBean> {
 		tvRight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mBalanceFragment == null) {
-					mBalanceFragment = new BalanceFragment();
-				}
-
-				FragmentUtil.replaceFragment(getActivity(), R.id.fl_content_container,
-						mBalanceFragment);
+				FragmentUtil.replaceFragment(getActivity(), R.id.fl_content_container, new
+						BalanceFragment());
 			}
 		});
 
-		mLoadPager.performLoadData();
-
-		return mLoadPager.getRootView();
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
@@ -289,6 +260,12 @@ public class CarFragment extends BaseFragment<CartBean> {
 	public void onDestroyView() {
 		ButterKnife.unbind(this);
 		super.onDestroyView();
+
+		FragmentManager manager = getActivity().getSupportFragmentManager();
+		for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+			manager.popBackStack();
+		}
+		super.onPause();
 	}
 
 	/*-------------------- ListView适配器类 - begin --------------------*/

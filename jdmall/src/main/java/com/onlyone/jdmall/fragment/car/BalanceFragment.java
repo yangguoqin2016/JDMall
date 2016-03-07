@@ -65,6 +65,12 @@ public class BalanceFragment extends BaseFragment<Object> {
 		mActivity.setOnBackPreseedListener(null);
 
 		View myBar = View.inflate(getContext(), R.layout.inflate_topbar_balance, null);
+		myBar.findViewById(R.id.tv_balance_return).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				FragmentUtil.goBack(mActivity);
+			}
+		});
 
 		mActivity.setTopBarView(myBar);
 	}
@@ -79,6 +85,17 @@ public class BalanceFragment extends BaseFragment<Object> {
 		super.onDestroyView();
 		ButterKnife.unbind(this);
 
-		LogUtil.i(TAG, "BalanceFragment->onDestroy()");
+		View myBar = View.inflate(getContext(), R.layout.inflate_car_bar, null);
+		View rightView = myBar.findViewById(R.id.tv_car_bar_right);
+		rightView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				FragmentUtil.replaceFragment(mActivity, R.id.fl_content_container,
+						new BalanceFragment());
+			}
+		});
+
+		mActivity.setTopBarView(myBar);
+
 	}
 }

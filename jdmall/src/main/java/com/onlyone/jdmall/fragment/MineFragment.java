@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.fragment.mine.AddressManagerFragment;
 import com.onlyone.jdmall.fragment.mine.MineAboutFragment;
 import com.onlyone.jdmall.fragment.mine.MineHelpFragment;
 import com.onlyone.jdmall.pager.LoadListener;
@@ -38,6 +39,8 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
     public static final String TAG_MINEHELP_FRAGMENT = "tag_minehelp_fragment";
 
     public static final String TAG_MINEFAVORITE_FRAGMENT = "tag_minefavorite_fragment";
+
+    public static final String TAG_MINEADDRESSMANAGER_FRAGMENT = "tag_mineaddressmanager_fragment";
     @Bind(R.id.fragment_ll_mine_order)
     LinearLayout mFragmentLlMineOrder;
     @Bind(R.id.fragment_ll_mine_address)
@@ -151,6 +154,8 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
             case R.id.fragment_ll_mine_order://我的订单
                 break;
             case R.id.fragment_ll_mine_address://地址管理
+                Fragment addressManagerFragment = new AddressManagerFragment();
+                changeFragment(addressManagerFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_gift://优惠券/礼品卡
                 break;

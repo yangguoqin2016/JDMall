@@ -108,11 +108,11 @@
                     />
 
                 <TextView
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="30dp"
                     android:id="@+id/item_favorite_tv_sum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="100dp"
                     android:text="小计:"
                     android:textSize="20sp"
                     />

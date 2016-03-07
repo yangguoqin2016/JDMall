@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/shouyebeijing"
-    >
+    android:background="@mipmap/shouyebeijing">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,11 +129,12 @@
             </LinearLayout>
         </LinearLayout>
         <!--<include-->
-            <!--layout="@layout/home_ad_layout"/>-->
+        <!--layout="@layout/home_ad_layout"/>-->
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -148,5 +148,7 @@
                 android:layout_gravity="center_vertical"
                 android:flipInterval="1600"></ViewFlipper>
         </LinearLayout>
+
+
     </LinearLayout>
 </ScrollView>

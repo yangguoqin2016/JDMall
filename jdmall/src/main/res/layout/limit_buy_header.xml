@@ -1,38 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <com.onlyone.jdmall.view.RatioLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rlPicRatio="1.9"
         app:rlRelative="width">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@mipmap/juxing" />
     </com.onlyone.jdmall.view.RatioLayout>
-    <LinearLayout
-        android:padding="10dp"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_gravity="center"
-            android:textColor="#ccff0000"
-            android:text="限时限量 底价抢购"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_gravity="center"
-            android:text="距离结束还有"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <!-- TODO 添加倒计时的控件-->
+        android:padding="10dp">
 
-    </LinearLayout>
+        <TextView
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:text="限时限量 底价抢购"
+            android:textColor="#ccff0000" />
+
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/limit_buy_count_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:isHideTimeBackground="false"
+            app:isShowDay="false"
+            app:isShowHour="false"
+            app:isShowMillisecond="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:isTimeTextBold="true"
+            app:suffixGravity="center"
+            app:suffixTextColor="#000000"
+            app:suffixTextSize="12sp"
+            app:timeBgRadius="5dp"
+            app:timeBgColor="#000000"
+            app:timeTextColor="#ffffff"
+            app:timeTextSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/limit_buy_count_view"
+            android:text="距离结束还有" />
+
+    </RelativeLayout>
 </LinearLayout>

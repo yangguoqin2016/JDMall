@@ -22,6 +22,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.iwgang.countdownview.CountdownView;
 
 /**
  * @项目名: JDMall
@@ -38,6 +39,7 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
     private List<LimitBuyBean.LimitBuyItemBean> mItemBeans;
     private LimitBuyAdapter mAdapter;
     private MainActivity mActivity;
+    private CountdownView mCountView;
 
     @Override
     protected String getUrl() {
@@ -81,7 +83,9 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
             listview的头部
          */
         View header = View.inflate(ResUtil.getContext(), R.layout.limit_buy_header, null);
+        mCountView = (CountdownView) header.findViewById(R.id.limit_buy_count_view);
         mLimitBuyLv.addHeaderView(header);
+        mCountView.start(60*60*1000);
         return rootView;
     }
 

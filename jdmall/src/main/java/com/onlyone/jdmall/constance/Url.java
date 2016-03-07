@@ -17,4 +17,6 @@ public interface Url {
 	String ADDRESS_BRAND = ADDRESS_SERVER + "/brand";//热门搜索
 	String ADDRESS_FAVORITE = ADDRESS_SERVER + "/favorites";//收藏夹
 	String ADDRESS_LIMIT_BUY = ADDRESS_SERVER + "/limitbuy";//限时抢购
+	/*地址管理*/
+	String ADDRESS_CONTACT_ADDRESS = ADDRESS_SERVER + "/addresslist";//地址列表
 }

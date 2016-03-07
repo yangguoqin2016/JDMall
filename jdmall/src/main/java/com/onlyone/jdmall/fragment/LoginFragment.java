@@ -58,15 +58,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     TextView mLoginTvForgetpwd;
 
 
-<<<<<<< Updated upstream
-    private LoadListener<LoginOrRegistBean> mListener;
-    private LoginOrRegistBean               mLoginBean;
-    private String                          mUsername;
-    private String                          mPassword;
-    private SPUtil                          mSp;
-    private TextView                        mLoginTvRegist;
     private MainActivity mMainActivity;
-=======
     private LoginOrRegistBean mLoginBean;
     private String            mUsername;
     private String            mPassword;
@@ -85,7 +77,6 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
         }*/
 
     }
->>>>>>> Stashed changes
 
     @Override
     public void onResume() {
@@ -130,12 +121,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
     @Override
     protected void loadData(LoadListener<LoginOrRegistBean> listener) {
-<<<<<<< Updated upstream
-        //        mListener = listener;
-=======
->>>>>>> Stashed changes
         listener.onSuccess(null);
-
 
     }
 

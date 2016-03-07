@@ -66,13 +66,9 @@ public class MineFragment extends BaseFragment<Object> implements View.OnClickLi
     @Bind(R.id.mine_tv_call)
     TextView     mMineTvCall;
 
-<<<<<<< Updated upstream
-    private MainActivity     mMainActivity;
     private MineHelpFragment mHelpFragment;
-=======
     private MainActivity mMainActivity;
     private Fragment mFavorableGiftFragment;
->>>>>>> Stashed changes
 
 
     @Override

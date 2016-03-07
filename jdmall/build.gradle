@@ -57,8 +57,7 @@ dependencies {
     compile files('lib/volley-1.0.19.jar')
     compile files('lib/gson-2.6.2.jar')
     compile files('lib/butterknife-7.0.1.jar')
-
-    compile(name:'picasso-transformations-2.0.0', ext: 'aar')
+    compile(name: 'picasso-transformations-2.0.0', ext: 'aar')
+    compile(name: 'countdownview-1.2', ext: 'aar')
     compile files('lib/gpuimage-library-1.3.0.jar')
-    compile 'com.github.iwgang:countdownview:1.2'
 }

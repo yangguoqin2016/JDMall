@@ -25,12 +25,15 @@ import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.adapter.MyBaseAdapter;
 import com.onlyone.jdmall.bean.CarProduct;
 import com.onlyone.jdmall.bean.CartBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.car.BalanceFragment;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.FragmentUtil;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.NetUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -108,7 +111,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 			return;
 		}
 
-		String url = Url.ADDRESS_CART + "?" + params;
+		String url = Url.ADDRESS_CART + "?sku=" + params;
 		mRequest = new StringRequest(Request.Method.GET, url,
 				new Response.Listener<String>() {
 					@Override
@@ -160,8 +163,14 @@ public class CarFragment extends BaseFragment<CartBean> {
 	private String getParams() {
 
 		//真正准备参数
+		String currentUser = getCurrentUser();
+
+		if (TextUtils.isEmpty(currentUser)) {
+			return null;
+		}
+
 		HashMap<CarProduct, Integer> savedCar = CarModel.getInstance()
-				.queryCar(getCurrentUser());
+				.queryCar(currentUser);
 		if (savedCar == null || savedCar.size() == 0) {
 			return null;
 		} else {
@@ -172,16 +181,18 @@ public class CarFragment extends BaseFragment<CartBean> {
 			Set<Map.Entry<CarProduct, Integer>> entrySet = savedCar.entrySet();
 			for (Map.Entry<CarProduct, Integer> entry : entrySet) {
 				int id = entry.getKey().id;
-				//// TODO: 2016/3/7
 				int[] prop = entry.getKey().prop;
 				int count = entry.getValue();
-				String productItem;
-				if (sb.length() == 0) {
-					productItem = String.format("%d:%d:%d", id, count, prop);
-				} else {
-					productItem = String.format("|%d:%d:%d", id, count, prop);
+
+				for (int i : prop) {
+					String productItem;
+					if (sb.length() == 0) {
+						productItem = String.format("%d:%d:%d", id, count, i);
+					} else {
+						productItem = String.format("|%d:%d:%d", id, count, i);
+					}
+					sb.append(productItem);
 				}
-				sb.append(productItem);
 			}
 
 			return sb.toString();
@@ -194,12 +205,12 @@ public class CarFragment extends BaseFragment<CartBean> {
 	 * @return
 	 */
 	private String getCurrentUser() {
-		// TODO: 3/6/2016 获取当前登录的用户的用户名
-		return null;
+		return new SPUtil(getContext()).getString(SP.USERNAME, null);
 	}
 
 	@Override
 	protected void handleError(Exception e) {
+		LogUtil.e(TAG, e);
 		showEmptyView();
 	}
 

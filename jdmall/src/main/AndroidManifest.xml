@@ -25,6 +25,8 @@
             android:label="@string/title_activity_product_detail"
             android:theme="@style/AppTheme">
         </activity>
+        <activity android:name=".activity.ProductDesActivity">
+        </activity>
     </application>
 
 </manifest>

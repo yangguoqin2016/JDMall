@@ -85,9 +85,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void init() {
         Intent intent = getIntent();
-         mProductId = intent.getIntExtra("id", 1);
-//        Random random = new Random();
-//        mProductId = random.nextInt(30)+1;   //假数据
+        mProductId = intent.getIntExtra("id", 1);
+        //        Random random = new Random();
+        //        mProductId = random.nextInt(30)+1;   //假数据
     }
 
     /**
@@ -133,7 +133,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     /**
      * 初始化监听事件
      */
-    private void initListener(){
+    private void initListener() {
         //轮播图滑动监听
         mProductDetailPicViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -143,9 +143,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                int index = position+1;
+                int index = position + 1;
                 int total = mProductDetailPicViewpager.getAdapter().getCount();
-                mProductDetailViewpagerIndicator.setText(index+"/"+total);
+                mProductDetailViewpagerIndicator.setText(index + "/" + total);
             }
 
             @Override
@@ -176,7 +176,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         //2.设置图片轮播图
         List<String> picUrls = mProductBean.pics;
         mProductDetailPicViewpager.setAdapter(new ProductPicAdapter(picUrls));
-        mProductDetailViewpagerIndicator.setText(1+"/"+picUrls.size());
+        mProductDetailViewpagerIndicator.setText(1 + "/" + picUrls.size());
     }
 
 
@@ -193,7 +193,7 @@ public class ProductDetailActivity extends AppCompatActivity {
      *
      * @param view
      */
-    @OnClick({R.id.product_detail_topbar_back, R.id.product_detail_topbar_share, R.id.product_detail_store, R.id.product_detail_addcar, R.id.product_detail_buy, R.id.product_detail_select_color_size})
+    @OnClick({R.id.product_detail_topbar_back, R.id.product_detail_topbar_share, R.id.product_detail_store, R.id.product_detail_addcar, R.id.product_detail_buy, R.id.product_detail_select_color_size,R.id.product_detail_enter_des})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.product_detail_topbar_back:
@@ -217,32 +217,41 @@ public class ProductDetailActivity extends AppCompatActivity {
                 //选择商品颜色与尺寸
                 selectColorAndSize();
                 break;
+            case R.id.product_detail_enter_des:
+                //进入详细描述界面
+                Intent intent = new Intent(this,ProductDesActivity.class);
+                intent.putExtra("bean",mProductBean);
+                startActivity(intent);
+                break;
         }
     }
 
+    //TODO:立即购买进入支付页面
     private void buyNow() {
         Toast.makeText(this, "立即购买,id=" + mProductId, Toast.LENGTH_SHORT).show();
     }
 
+    //TODO:获取商品属性并添加购物车
     private void addToCar() {
         CarModel carModel = CarModel.getInstance();
         Random random = new Random();
         //1.获取商品颜色,尺寸
-        int[] productPros = {1,2};  //{颜色,尺寸}
+        int[] productPros = {1, 2};  //{颜色,尺寸}
 
         //2.获取登录用户名
         SPUtil spUtil = new SPUtil(this);
         String userName = spUtil.getString(SP.USERNAME, "");
-        if(TextUtils.isEmpty(userName)) {
+        if (TextUtils.isEmpty(userName)) {
             Toast.makeText(this, "尚未登录...", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        carModel.addToCar(userName,mProductId,productPros);
+        carModel.addToCar(userName, mProductId, productPros);
         Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
 
     }
 
+    //TODO:选择商品颜色,尺寸
     private void selectColorAndSize() {
         //弹出对话框口选择产品
         ProductDialog dialog = new ProductDialog(this);
@@ -271,11 +280,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             //解决图片压缩失真问题
             RatioLayout rl = new RatioLayout(ResUtil.getContext());
             rl.setCurState(RatioLayout.RELATIVE_WIDTH);
-            float ratio = 224/340f;
+            float ratio = 224 / 340f;
             rl.setRatio(ratio);
             int width = getResources().getDisplayMetrics().widthPixels;
             int height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width,height);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
             rl.addView(iv, params);
 
             return rl;

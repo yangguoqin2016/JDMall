@@ -282,16 +282,18 @@
                 android:src="@mipmap/divider"
                 />
             <RelativeLayout
+                android:id="@+id/product_detail_enter_des"
                 android:clickable="true"
                 android:background="@drawable/selector_choose_color_size_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_centerVertical="true"
-                          android:layout_marginLeft="10dp"
-                          android:text="进入详情界面"
-                          android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="进入详情界面"
+                    android:textSize="18sp"/>
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"

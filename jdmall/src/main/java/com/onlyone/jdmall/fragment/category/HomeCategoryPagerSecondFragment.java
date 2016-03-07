@@ -29,10 +29,10 @@ import butterknife.ButterKnife;
  * @项目名: JDMall
  * @包名: com.onlyone.jdmall.fragment.category
  * @创建者: yangguoqin
- * @创建时间: 2016/3/6 14:52
- * @描述: 这是从分类主页跳转到的第一个条目的页面
+ * @创建时间: 2016/3/7 10:09
+ * @描述: ${TODO}
  */
-public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
+public class HomeCategoryPagerSecondFragment extends BaseFragment<ItemBean> {
     @Bind(R.id.category_common_pager_tv)
     TextView mCategoryCommonPagerTv;
     @Bind(R.id.category_common_pager_gv)
@@ -40,16 +40,16 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
     private List<HomeCategoryBean.HomeCategoryInfoBean> mListDatas;
     private MainActivity                                mActivity;
     private View                                        mTopBarView;
-    private MainActivity mMainactivity;
+    private MainActivity                                mMainactivity;
 
     @Override
     protected void refreshSuccessView(ItemBean data) {
-        mCategoryCommonPagerTv.setText("妈妈专区");
+        mCategoryCommonPagerTv.setText("时尚女装");
 
         //从分类的根页面获取到数据
-        mListDatas = HomeCategoryFragment.mFirstList;
+        mListDatas = HomeCategoryFragment.mSecondList;
         mCategoryCommonPagerGv.setAdapter(new CategoryFirstAdapter(mListDatas));
-        System.out.println("数据有多少个:"+mListDatas.size());
+        System.out.println("数据有多少个:" + mListDatas.size());
 
     }
 
@@ -69,7 +69,7 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
 
     @Override
     protected void handleError(Exception e) {
-        Toast.makeText(getContext(), "分类第一个页面出错", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "分类第二个页面出错", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -84,7 +84,7 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
             public void onClick(View v) {
                 FragmentManager manager = mActivity.getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.remove(HomeCategoryPagerFirstFragment.this);
+                transaction.remove(HomeCategoryPagerSecondFragment.this);
                 transaction.commit();
 
                 restoreHomeTopBar();
@@ -115,7 +115,7 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
     }
 
     //创建GridView的适配器
-    class CategoryFirstAdapter extends MyBaseAdapter<HomeCategoryBean.HomeCategoryInfoBean>{
+    class CategoryFirstAdapter extends MyBaseAdapter<HomeCategoryBean.HomeCategoryInfoBean> {
 
         public CategoryFirstAdapter(List<HomeCategoryBean.HomeCategoryInfoBean> datas) {
             super(datas);
@@ -170,6 +170,5 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
         int heightPixels = getResources().getDisplayMetrics().heightPixels;
 
     }
-
 
 }

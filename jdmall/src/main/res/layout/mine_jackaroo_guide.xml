@@ -1,163 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/mine_black_point_shape"
-            />
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="如何在mystreet上搜索商品"/>
-    </LinearLayout>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="答：在搜索栏上输入你想要的商品"
-        android:layout_marginLeft="40dp"
-        android:layout_marginBottom="20dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/mine_black_point_shape"
-            />
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            
-            android:text="在这里购物能保证我们的系统安全吗？"/>
-    </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="答：我们为试用装提供安全无忧虑,便捷方便的购物环境"
-        android:layout_marginLeft="40dp"
-        android:layout_marginBottom="20dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/mine_black_point_shape"
-            />
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="如何在mystreet上搜索商品"/>
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/mine_black_point_shape"
+                    />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="答：在搜索栏上输入你想要的商品"
-        android:layout_marginLeft="40dp"
-        android:layout_marginBottom="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="如何在mystreet上搜索商品"
+                    android:textColor="#99000000"
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/mine_black_point_shape"
-            />
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="在这里购物能保证我们的系统安全吗？"/>
-    </LinearLayout>
+                    android:textSize="18sp"/>
+            </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="答：我们为试用装提供安全无忧虑,便捷方便的购物环境"
-        android:layout_marginLeft="40dp"
-        android:layout_marginBottom="20dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/mine_black_point_shape"
-            />
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="如何在mystreet上搜索商品"/>
-    </LinearLayout>
+                android:text="答：在搜索栏上输入你想要的商品"
+                android:textColor="#99000000"
+                android:textSize="15sp"/>
 
-    <LinearLayout
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/mine_black_point_shape"
-            />
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="在这里购物能保证我们的系统安全吗？"/>
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="答：我们为试用装提供安全无忧虑,便捷方便的购物环境"
-        android:layout_marginLeft="40dp"
-        android:layout_marginBottom="20dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/mine_black_point_shape"
+                    />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="在这里购物能保证我们的系统安全吗？"
+                    android:textColor="#99000000"
+
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+
+                android:text="答：我们为试用装提供安全无忧虑,便捷方便的购物环境"
+                android:textColor="#99000000"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/mine_black_point_shape"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="如何在mystreet上搜索商品"
+                    android:textColor="#99000000"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+                android:text="答：在搜索栏上输入你想要的商品"
+                android:textColor="#99000000"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/mine_black_point_shape"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="在这里购物能保证我们的系统安全吗？"
+                    android:textColor="#99000000"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+
+                android:text="答：我们为试用装提供安全无忧虑,便捷方便的购物环境"
+                android:textColor="#99000000"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/mine_black_point_shape"
+                    />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="如何在mystreet上搜索商品"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/mine_black_point_shape"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="在这里购物能保证我们的系统安全吗？"
+                    android:textColor="#99000000"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+                android:text="答：我们为试用装提供安全无忧虑,便捷方便的购物环境"
+                android:textColor="#99000000"
+                android:textSize="15sp"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

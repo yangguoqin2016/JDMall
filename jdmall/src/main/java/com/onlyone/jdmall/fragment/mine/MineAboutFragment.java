@@ -1,4 +1,4 @@
-package com.onlyone.jdmall.fragment;
+package com.onlyone.jdmall.fragment.mine;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.fragment.BaseFragment;
+import com.onlyone.jdmall.fragment.MineFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 
@@ -72,6 +74,7 @@ public class MineAboutFragment extends BaseFragment<Object> implements View.OnCl
     @Override
     public void onPause() {
         super.onPause();
+        Log.d("aaa", "MineAboutFragment----onResume");
         mMainActivity.setHideTopBar(true);
     }
 }

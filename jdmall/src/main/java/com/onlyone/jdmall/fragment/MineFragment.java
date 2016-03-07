@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
-import com.onlyone.jdmall.fragment.home.MineHelpFragment;
+import com.onlyone.jdmall.fragment.mine.MineAboutFragment;
+import com.onlyone.jdmall.fragment.mine.MineHelpFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 
@@ -55,7 +57,8 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
     @Bind(R.id.mine_back_btn)
     Button       mMineBackBtn;
 
-    private MainActivity mMainActivity;
+    private MainActivity     mMainActivity;
+    private MineHelpFragment mHelpFragment;
 
 
     @Override
@@ -70,6 +73,10 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
         return successView;
     }
 
+    @Override
+    public int getMethod() {
+        return Request.Method.GET;
+    }
 
     @Override
     protected String getUrl() {
@@ -154,15 +161,17 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
             case R.id.fragment_ll_mine_record://浏览记录
                 break;
             case R.id.fragment_ll_mine_help://帮助中心
-                Fragment helpFragment = new MineHelpFragment();
-                changeFragment(helpFragment, TAG_MINEHELP_FRAGMENT);
+                if (mHelpFragment == null) {
+                    mHelpFragment = new MineHelpFragment();
+                }
+                changeFragment(mHelpFragment, TAG_MINEHELP_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_feedback://用户反馈
                 break;
             case R.id.fragment_ll_mine_about://关于
                 Toast.makeText(ResUtil.getContext(), "点我了", Toast.LENGTH_SHORT).show();
                 Fragment aboutFragment = new MineAboutFragment();
-                changeFragment(aboutFragment,TAG_MINEABOUT_FRAGMENT);
+                changeFragment(aboutFragment, TAG_MINEABOUT_FRAGMENT);
                 break;
             default:
                 break;
@@ -171,13 +180,16 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
 
     /**
      * 实现fragment跳转
+     *
      * @param fragment
      * @param tag
      */
-    private void changeFragment(Fragment fragment,String tag) {
+    private void changeFragment(Fragment fragment, String tag) {
         FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fl_content_container, fragment, tag);
+        transaction.add(R.id.fl_content_container, fragment, tag);
+        transaction.addToBackStack("aaa");
+
         transaction.commit();
     }
 }

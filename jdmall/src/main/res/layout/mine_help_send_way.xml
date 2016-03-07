@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="#fff"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
@@ -8,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textSize="18sp"
+        android:textColor="#99000000"
         android:text="所有购物均采用＂自有物流送货上门＂"
         />
 
@@ -16,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textSize="18sp"
+        android:textColor="#99000000"
         android:layout_below="@id/mine_textview"
         android:text="或者＂第三方物流配送方式＂。"
         />

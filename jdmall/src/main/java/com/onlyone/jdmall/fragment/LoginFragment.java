@@ -63,7 +63,8 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     private String                          mUsername;
     private String                          mPassword;
     private SPUtil                          mSp;
-    private TextView mLoginTvRegist;
+    private TextView                        mLoginTvRegist;
+    private MainActivity mMainActivity;
 
     @Override
     public void onResume() {
@@ -105,7 +106,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
     @Override
     protected void loadData(LoadListener<LoginOrRegistBean> listener) {
-//        mListener = listener;
+        //        mListener = listener;
         listener.onSuccess(null);
 
 
@@ -152,7 +153,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
         RequestQueue queue = Volley.newRequestQueue(ResUtil.getContext());
 
-//        String url = "http://10.0.2.2:8080/market/login?";
+              // String url = "http://10.0.2.2:8080/market/login?";
         String url = Url.ADDRESS_SERVER + "/login?";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -164,6 +165,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
                 if (mLoginBean.response.equals("login")) {
                     Toast.makeText(ResUtil.getContext(), "登录成功", Toast.LENGTH_SHORT).show();
                     mSp.putString(SP.USERNAME, mUsername);
+                    //登录成功,保存userid
                     mSp.putLong(SP.USERID, mLoginBean.userInfo.userid);
                     changeFragment();
 

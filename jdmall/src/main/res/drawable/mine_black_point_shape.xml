@@ -3,11 +3,6 @@
     android:shape="oval">
 
     <corners android:radius="2dp"/>
-    <padding
-        android:left="10dp"
-        android:bottom="10dp"
-        android:right="10dp"
-        android:top="10dp" />
     <solid android:color="#000"/>
     <size android:width="8dp"
           android:height="8dp"/>

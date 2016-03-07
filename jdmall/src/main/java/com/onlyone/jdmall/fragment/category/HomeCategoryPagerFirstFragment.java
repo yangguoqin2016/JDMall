@@ -92,12 +92,12 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
         });
 
         //点击back按键回退首页
-        mActivity.addOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
-            @Override
-            public void onPressed() {
-                restoreHomeTopBar();
-            }
-        });
+        mActivity.setOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
+			@Override
+			public void onPressed() {
+				restoreHomeTopBar();
+			}
+		});
     }
 
     /**

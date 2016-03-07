@@ -72,7 +72,7 @@
             android:layout_weight="3"
             android:background="@drawable/selector_buy_bg"
             android:textSize="18sp"
-            android:text="立即购买"/>
+            android:text="马上抢"/>
     </LinearLayout>
 
     <!--详情正文-->

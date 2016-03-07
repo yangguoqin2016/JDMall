@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -19,10 +20,12 @@ import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.adapter.BasePagerAdapter;
 import com.onlyone.jdmall.bean.ProductDetailBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 import com.onlyone.jdmall.view.ProductDialog;
 import com.onlyone.jdmall.view.RatioLayout;
 import com.squareup.picasso.Picasso;
@@ -222,14 +225,22 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void addToCar() {
-        Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
-
         CarModel carModel = CarModel.getInstance();
         Random random = new Random();
-        String[] users = {"aa","bb","cc"};
+        //1.获取商品颜色,尺寸
         int[] productPros = {1,2};  //{颜色,尺寸}
-        String userName = users[random.nextInt(2)];
+
+        //2.获取登录用户名
+        SPUtil spUtil = new SPUtil(this);
+        String userName = spUtil.getString(SP.USERNAME, "");
+        if(TextUtils.isEmpty(userName)) {
+            Toast.makeText(this, "尚未登录...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         carModel.addToCar(userName,mProductId,productPros);
+        Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
+
     }
 
     private void selectColorAndSize() {

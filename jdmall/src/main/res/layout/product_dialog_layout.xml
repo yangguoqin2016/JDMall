@@ -5,8 +5,10 @@
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:orientation="vertical">
+
+        <!--顶部-->
         <LinearLayout
             android:id="@+id/product_dialog_top"
             android:layout_width="match_parent"
@@ -14,73 +16,186 @@
             android:orientation="horizontal">
             <ImageView
                 android:id="@+id/product_dialog_pic"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:src="@mipmap/hot"
                 />
             <LinearLayout
-                android:padding="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:padding="20dp">
                 <TextView
                     android:id="@+id/product_dialog_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥160"
-                    android:textSize="26sp"
                     android:textColor="#f00"
+                    android:textSize="26sp"
                     />
                 <TextView
                     android:id="@+id/product_dialog_price_save"
-                    android:layout_marginTop="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="减少20元"
-                    android:textSize="18sp"
                     android:textColor="#bcb1b1"
+                    android:textSize="18sp"
                     />
             </LinearLayout>
         </LinearLayout>
 
-        <!--分割线-->
-        <View
-            android:id="@+id/product_dialog_divider"
-            android:layout_marginTop="2dp"
-            android:layout_below="@id/product_dialog_top"
-            android:background="#ece4e4"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"/>
-
-
-        <!--底部收藏栏-->
+        <!--底部-->
         <LinearLayout
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
+            android:visibility="visible"
+            android:id="@+id/product_dialog_bottom"
             android:layout_width="match_parent"
-            android:layout_height="53dp">
+            android:layout_height="53dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
             <TextView
                 android:id="@+id/product_dialog_addcar"
-                android:clickable="true"
-                android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/selector_addcar_bg"
-                android:textSize="18sp"
-                android:text="加入购物车"/>
-            <TextView
-                android:id="@+id/product_dialog_buy"
                 android:clickable="true"
                 android:gravity="center"
+                android:text="加入购物车"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/product_dialog_buy"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/selector_buy_bg"
-                android:textSize="18sp"
-                android:text="立即购买"/>
+                android:clickable="true"
+                android:gravity="center"
+                android:text="马上抢"
+                android:textSize="18sp"/>
         </LinearLayout>
 
+        <!--颜色尺寸选择-->
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/product_dialog_bottom"
+                    android:layout_below="@id/product_dialog_top">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="颜色分类"
+                    android:textColor="#f00"
+                    android:textSize="18sp"/>
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        style="@style/ProductPropertyStyle"
+                        android:text="红色"/>
+                    <RadioButton
+                        style="@style/ProductPropertyStyle"
+                        android:layout_marginLeft="20dp"
+                        android:text="绿色"/>
+                </RadioGroup>
+
+                <!--分割线-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:background="#ece4e4"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="尺寸"
+                    android:textSize="18sp"/>
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        style="@style/ProductPropertyStyle"
+                        android:text="M"/>
+                    <RadioButton
+                        style="@style/ProductPropertyStyle"
+                        android:layout_marginLeft="20dp"
+                        android:text="XXL"/>
+                    <RadioButton
+                        style="@style/ProductPropertyStyle"
+                        android:layout_marginLeft="20dp"
+                        android:text="XXXL"/>
+                </RadioGroup>
+
+                <!--分割线-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:background="#ece4e4"/>
+
+                <!--选择商品数量-->
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="购买数量"
+                        android:textSize="18sp"
+                        android:textColor="#000"/>
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(限购10件)"
+                        android:textSize="15sp"/>
+
+                    <ImageView
+                        android:id="@+id/product_dialog_num_reduce"
+                        android:layout_marginLeft="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_shopping_car_num_reduce"/>
+                    <EditText
+                        android:id="@+id/product_dialog_num_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/shopping_cart_product_num_edit"/>
+                    <ImageView
+                        android:id="@+id/product_dialog_num_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_shopping_car_num_add"/>
+                </LinearLayout>
+
+                <!--分割线-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:background="#ece4e4"/>
+
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
 
 </FrameLayout>

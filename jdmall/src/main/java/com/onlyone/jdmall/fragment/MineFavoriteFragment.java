@@ -1,9 +1,12 @@
 package com.onlyone.jdmall.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -21,10 +24,12 @@ import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.FavoriteBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -44,17 +49,17 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
     ListView mMineFavoriteLvContainer;
     private        FavoriteBean mFavoriteBean;
     private static View         mTopBar;
-    private MainActivity mMainActivity;
+    private        MainActivity mMainActivity;
 
     /*请求成功的回调*/
     @Override
     protected void refreshSuccessView(FavoriteBean data) {
-        if(data == null || data.productList.size() == 0){
+        if (data == null || data.productList.size() == 0) {
             /*如果返回数据为空或者用户没有收藏任何商品,展示空视图*/
             FrameLayout framelayout = mLoadPager.getRootView();
             framelayout.removeAllViews();
             /*获取空视图*/
-            View emptyView = View.inflate(ResUtil.getContext(),R.layout.item_searchresult_empty,null);
+            View emptyView = View.inflate(ResUtil.getContext(), R.layout.mine_favorite_empty, null);
             /*添加空视图*/
             framelayout.addView(emptyView);
         }
@@ -67,6 +72,9 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         View clear = mTopBar.findViewById(R.id.topbar_tv_clear);
         clear.setVisibility(mFavoriteBean.productList.size() == 0 ? View.GONE : View.VISIBLE);
 
+        //-------------------------------------------------------------------------------
+
+
     }
 
     @Override
@@ -74,6 +82,8 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         View view = View.inflate(ResUtil.getContext(), R.layout.mine_favorite, null);
         //        ButterKnife.bind(this, view);
         mMineFavoriteLvContainer = (ListView) view.findViewById(R.id.mine_favorite_lv_container);
+        /*设置条目监听事件*/
+        mMineFavoriteLvContainer.setOnItemClickListener(new FavoriteItemClickListener());
         return view;
     }
 
@@ -105,8 +115,11 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
             public Map<String, String> getHeaders() throws AuthFailureError {
 
                 Map<String, String> map = new HashMap<>();
-                map.put("userid", "20428");
-//                map.put("userid", "2042822");
+//                map.put("userid", "20428");
+                SPUtil spUtil = new SPUtil(ResUtil.getContext());
+                String userid = spUtil.getLong(SP.USERID,0)+"";
+                map.put("userid", userid);
+                Log.d("MineFavoriteFragment", "---------------" + userid);
                 return map;
             }
         };
@@ -119,13 +132,13 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         Toast.makeText(ResUtil.getContext(), "unknown error has occured:" + e.toString(), Toast.LENGTH_SHORT).show();
     }
 
-    @Override
+    /*@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
-    }
+    }*/
 
     @Override
     public void onDestroyView() {
@@ -139,6 +152,21 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         /*获取宿主对象*/
         mMainActivity = (MainActivity) getActivity();
         mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_favorite, null);
+        /*获取账户中心按钮*/
+        mTopBar.findViewById(R.id.topbar_tv_accountcenter);
+        /*点击回到账户中心*/
+        mTopBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = mMainActivity.getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                Fragment fragment = manager.findFragmentByTag(MineFragment.TAG_MINEFAVORITE_FRAGMENT);
+                transaction.remove(fragment);
+                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_mine);
+                transaction.commit();
+
+            }
+        });
 
         /*设置topBar*/
         mMainActivity.setTopBarView(mTopBar);
@@ -150,7 +178,27 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
     /*界面不可见*/
     @Override
     public void onPause() {
+        mMainActivity.setHideTopBar(true);
         super.onPause();
+    }
+
+    /*收藏条目点击事件的监听*/
+    class FavoriteItemClickListener implements AdapterView.OnItemClickListener {
+
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            View childAt = mMineFavoriteLvContainer.getChildAt(position);
+
+            ImageView selected = (ImageView) childAt.findViewById(R.id.item_favorite_selected);
+
+            FavoriteBean.ProductInfo productInfo = mFavoriteBean.productList.get(position);
+
+            selected.setVisibility(productInfo.isSelected ? View.GONE : View.VISIBLE);
+
+            productInfo.isSelected = !productInfo.isSelected;
+        }
     }
 
     class FavoriteAdapter extends BaseAdapter {
@@ -184,7 +232,7 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
                 holder = new ViewHolder(convertView);
 
                 convertView.setTag(holder);
-            }else{
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             /*赋值*/
@@ -194,16 +242,17 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
             /*商品数量*/
             holder.mItemFavoriteTvCount.setText("1");// TODO: 2016/3/6
             /*单价*/
-            holder.mItemFavoriteTvPrice.setText("单价: "+productInfo.price);
+            holder.mItemFavoriteTvPrice.setText("单价: " + productInfo.price);
             /*小计*/
-            holder.mItemFavoriteTvSum.setText("小计"+productInfo.price);
+            float sum = Long.parseLong((String) holder.mItemFavoriteTvCount.getText()) * productInfo.price;
+            holder.mItemFavoriteTvSum.setText("小计: " + sum);
             /*图片url*/
-            String url =Url.ADDRESS_SERVER+productInfo.pic;
+            String url = Url.ADDRESS_SERVER + productInfo.pic;
             Picasso.with(ResUtil.getContext())
                     .load(url)
                     .error(R.mipmap.brand_1)
                     .into(holder.mItemFavoriteIv);
-            return convertView;
+            return convertView;//奶粉
         }
 
         class ViewHolder {

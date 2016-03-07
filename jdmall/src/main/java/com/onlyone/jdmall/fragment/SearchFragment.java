@@ -94,6 +94,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		rootView.addView(tv);
 	}
 
+
 	@Override
 	protected SearchBean parseJson(String jsonStr) {
 		Gson gson = new Gson();
@@ -192,6 +193,12 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 
 	@Override
 	public void onPause() {
+		if(mSearchResultFragment!=null){
+			FragmentManager manager = mMainActivity.getSupportFragmentManager();
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.remove(mSearchResultFragment);
+			transaction.commit();
+		}
 		LogUtil.d("vivi", "onPause方法被调用了--------");
 		super.onPause();
 	}
@@ -348,7 +355,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		}
 		transaction.add(R.id.fl_content_container, mSearchResultFragment, TAG_SEARCHRESULT_FRAGMENT);
 		// TODO:回退栈,TopBar没有改变
-		 transaction.addToBackStack(null);
+		transaction.addToBackStack(null);
 		transaction.commit();
 	}
 

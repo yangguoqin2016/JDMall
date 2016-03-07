@@ -11,13 +11,24 @@
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:id="@+id/item_favorite_checkbox"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/shoucangjia_gouxuankuang"
+            android:background="@mipmap/shoucangjia_gouxuankuang"
+            >
+        <ImageView
+            android:id="@+id/item_favorite_selected"
+            android:visibility="gone"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/ok"
             />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/item_favorite_iv"
@@ -58,6 +69,7 @@
                     />
 
                 <RelativeLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 

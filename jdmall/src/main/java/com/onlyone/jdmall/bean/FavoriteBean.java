@@ -26,5 +26,6 @@ public class FavoriteBean {
         public String name;
         public String pic;
         public float  price;
+        public boolean isSelected;
     }
 }

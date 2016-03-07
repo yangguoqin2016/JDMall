@@ -26,16 +26,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="销量"
+                android:textColor="#f00"
                 android:textSize="16sp"
                 />
 
             <ImageView
+
                 android:id="@+id/searchresult_sale_jiantou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
+                android:visibility="gone"
                 android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
-
                 />
 
             <ImageView
@@ -60,8 +62,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="价格"
+                android:textColor="#000"
                 android:textSize="16sp"
                 />
+
 
             <ImageView
                 android:id="@+id/searchresult_price_jiantou"
@@ -69,8 +73,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
-                android:visibility="gone"
-
                 />
 
             <ImageView
@@ -95,6 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="好评量"
+                android:textColor="#000"
                 android:textSize="16sp"
                 />
 
@@ -130,6 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="上架时间"
+                android:textColor="#000"
                 android:textSize="16sp"
                 />
 

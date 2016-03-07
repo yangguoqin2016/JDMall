@@ -14,10 +14,6 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.fragment.FragmentFactory;
 import com.onlyone.jdmall.view.NoScrollLazyViewPager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -44,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	@Bind(R.id.rb_bottom_mine)
 	RadioButton mRbBottomMine;
 	@Bind(R.id.rg_bottom_nav)
-	public RadioGroup  mRgBottomNav;
+	public RadioGroup mRgBottomNav;
 	/*-------------------- 底部导航单选按钮组 - end --------------------*/
 
 	@Bind(R.id.vp_main)
@@ -154,9 +150,10 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
 	/**
 	 * 设置是否显示TopBar
+	 *
 	 * @param isHide true隐藏，false显示
 	 */
-	public void setHideTopBar(boolean isHide){
+	public void setHideTopBar(boolean isHide) {
 		mFlDaohang.setVisibility(isHide ? View.GONE : View.VISIBLE);
 	}
 
@@ -165,37 +162,27 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	 */
 	@Override
 	public void onBackPressed() {
+		if (mListener != null) {
+			mListener.onPressed();
+		}
 		super.onBackPressed();
-		notifyListener();
 	}
 
-	private List<OnBackPressedListener> mLisnters = new ArrayList<>();
+	private OnBackPressedListener mListener;
 
-	public  void addOnBackPreseedListener(OnBackPressedListener listener){
-		if (listener == null)
-			throw new NullPointerException();
-		if (!mLisnters.contains(listener)) {
-			mLisnters.add(listener);
-		}
-	}
-	public  void removeOnBackPreseedListener(OnBackPressedListener listener){
-		if(mLisnters.contains(listener)){
-			mLisnters.remove(listener);
-		}
+	/**
+	 * 设置实体返回键监听
+	 *
+	 * @param listener 返回键监听
+	 */
+	public void setOnBackPreseedListener(OnBackPressedListener listener) {
+		mListener = listener;
 	}
 
-	public void notifyListener() {
-			ListIterator<OnBackPressedListener> it = mLisnters.listIterator();
-			while(it.hasNext()){
-				OnBackPressedListener next = it.next();
-				next.onPressed();
-			}
-
-	}
 	/**
 	 * 如果需要监听返回键被按下的事件，可以实现这个接口
 	 */
-	public interface OnBackPressedListener{
+	public interface OnBackPressedListener {
 		void onPressed();
 	}
 }

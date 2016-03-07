@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,14 +20,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.adapter.MyBaseAdapter;
 import com.onlyone.jdmall.bean.CarProduct;
 import com.onlyone.jdmall.bean.CartBean;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.fragment.car.BalanceFragment;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.pager.LoadPager;
+import com.onlyone.jdmall.utils.FragmentUtil;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.squareup.picasso.Picasso;
 
@@ -67,9 +68,11 @@ public class CarFragment extends BaseFragment<CartBean> {
 	 */
 	private List<CartBean.CartEntity> mUnSelectedData = new ArrayList<>();
 
-	private MyAdapter     mAdapter;
-	private View          mEmptyView;
-	private StringRequest mRequest;
+	private MyAdapter       mAdapter;
+	private View            mEmptyView;
+	private StringRequest   mRequest;
+	private BalanceFragment mBalanceFragment;
+	private View            mBarView;
 
 	@Override
 	protected void refreshSuccessView(CartBean data) {
@@ -204,15 +207,18 @@ public class CarFragment extends BaseFragment<CartBean> {
 	 * 显示空购物车界面
 	 */
 	private void showEmptyView() {
-		mLoadPager.getRootView().removeAllViews();
 		mLoadPager.getRootView().addView(mEmptyView);
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 	}
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-
 		mAdapter = new MyAdapter(mData);
 
 		//初始化空购物车的视图
@@ -240,33 +246,32 @@ public class CarFragment extends BaseFragment<CartBean> {
 			}
 		};
 
-		return mLoadPager.getRootView();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
 		//加载顶部导航图视图并加入到顶部导航图中
-		View barView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
-		((MainActivity) getActivity()).setTopBarView(
-				barView);
+		if (mBarView == null) {
+			mBarView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
+			View tvRight = mBarView.findViewById(R.id.tv_car_bar_right);
+			tvRight.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (mBalanceFragment == null) {
+						mBalanceFragment = new BalanceFragment();
+					}
 
-		View tvRight = barView.findViewById(R.id.tv_car_bar_right);
-		tvRight.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(getContext(), "点击了去结算中心", Toast.LENGTH_SHORT).show();
-			}
-		});
-
+					FragmentUtil.replaceFragment(getActivity(), R.id.fl_content_container,
+							mBalanceFragment);
+				}
+			});
+		}
 		mLoadPager.performLoadData();
+
+		LogUtil.i(TAG, "CarFragment->onCreateView()");
+
+		return mLoadPager.getRootView();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
 		//视图不可见的时候取消网络加载任务b
 		NetUtil.getRequestQueue().cancelAll(new RequestQueue.RequestFilter() {
 			@Override
@@ -274,12 +279,21 @@ public class CarFragment extends BaseFragment<CartBean> {
 				return request == mRequest;
 			}
 		});
+
+		LogUtil.i(TAG, "CarFragment->onPause()");
 	}
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onDestroyView() {
 		ButterKnife.unbind(this);
+		super.onDestroyView();
+	}
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+
+		LogUtil.i(TAG, "CarFragment->onHiddenChanged()" + hidden);
+		super.onHiddenChanged(hidden);
 	}
 
 	/*-------------------- ListView适配器类 - begin --------------------*/
@@ -372,8 +386,6 @@ public class CarFragment extends BaseFragment<CartBean> {
 					updateTotalInfo();
 				}
 			};
-
-			// TODO: 3/6/2016 点击条目跳转到商品详情页面
 
 			viewHolder.mIvCarCheckbox.setOnClickListener(checkUncheckListener);
 

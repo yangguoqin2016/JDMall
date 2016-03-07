@@ -57,12 +57,12 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         });
 
         //点击back按键回退首页
-        mActivity.addOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
-            @Override
-            public void onPressed() {
-                restoreHomeTopBar();
-            }
-        });
+        mActivity.setOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
+			@Override
+			public void onPressed() {
+				restoreHomeTopBar();
+			}
+		});
 
     }
 

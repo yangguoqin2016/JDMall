@@ -123,24 +123,52 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView imageView;
+           /* ImageView imageView;
             System.out.println("正在设置界面");
             if(convertView==null){
                 imageView = new ImageView(getContext());
-                imageView.setLayoutParams(new GridView.LayoutParams(200,200));
-                imageView.setAdjustViewBounds(false);
+                imageView.setLayoutParams(new GridView.LayoutParams(400, 400));
+                //imageView.setAdjustViewBounds(true);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(10,10,10,10);
             }else{
                 imageView = (ImageView) convertView;
             }
 
-            Picasso.with(getContext()).load(Url.ADDRESS_SERVER + mListDatas.get(position).pic).into(imageView);
+            Picasso.with(getContext()).load(Url.ADDRESS_SERVER + mListDatas.get(position).pic)
+                    .fit().into(imageView);*/
+            Holder holder = null;
+            if(convertView == null){
+                holder = new Holder();
+                convertView = View.inflate(getContext(), R.layout.category_item, null);
 
-            return imageView;
+                holder.iv = (ImageView) convertView.findViewById(R.id.category_item_img);
+                holder.tv = (TextView) convertView.findViewById(R.id.category_item_tv);
+
+                convertView.setTag(holder);
+            }else{
+                holder = (Holder) convertView.getTag();
+            }
+
+            holder.tv.setText(mListDatas.get(position).name);
+            Picasso.with(getContext()).load(Url.ADDRESS_SERVER + mListDatas.get(position).pic)
+                    .fit().centerInside().into(holder.iv);
+            return convertView;
         }
     }
 
+    class Holder{
+        TextView tv;
+        ImageView iv;
+    }
+
+
+    private void getwindowsData(){
+
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+
+    }
 
 
 }

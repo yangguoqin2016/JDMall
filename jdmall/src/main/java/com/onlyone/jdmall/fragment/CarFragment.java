@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.adapter.MyBaseAdapter;
 import com.onlyone.jdmall.bean.CarProduct;
 import com.onlyone.jdmall.bean.CartBean;
@@ -29,7 +30,6 @@ import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.pager.LoadPager;
 import com.onlyone.jdmall.utils.FragmentUtil;
-import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.squareup.picasso.Picasso;
 
@@ -249,22 +249,25 @@ public class CarFragment extends BaseFragment<CartBean> {
 		//加载顶部导航图视图并加入到顶部导航图中
 		if (mBarView == null) {
 			mBarView = View.inflate(getContext(), R.layout.inflate_car_bar, null);
-			View tvRight = mBarView.findViewById(R.id.tv_car_bar_right);
-			tvRight.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (mBalanceFragment == null) {
-						mBalanceFragment = new BalanceFragment();
-					}
-
-					FragmentUtil.replaceFragment(getActivity(), R.id.fl_content_container,
-							mBalanceFragment);
-				}
-			});
 		}
-		mLoadPager.performLoadData();
 
-		LogUtil.i(TAG, "CarFragment->onCreateView()");
+		//修改了顶部bar的视图
+		((MainActivity) getActivity()).setTopBarView(mBarView);
+
+		View tvRight = mBarView.findViewById(R.id.tv_car_bar_right);
+		tvRight.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mBalanceFragment == null) {
+					mBalanceFragment = new BalanceFragment();
+				}
+
+				FragmentUtil.replaceFragment(getActivity(), R.id.fl_content_container,
+						mBalanceFragment);
+			}
+		});
+
+		mLoadPager.performLoadData();
 
 		return mLoadPager.getRootView();
 	}
@@ -279,21 +282,12 @@ public class CarFragment extends BaseFragment<CartBean> {
 				return request == mRequest;
 			}
 		});
-
-		LogUtil.i(TAG, "CarFragment->onPause()");
 	}
 
 	@Override
 	public void onDestroyView() {
 		ButterKnife.unbind(this);
 		super.onDestroyView();
-	}
-
-	@Override
-	public void onHiddenChanged(boolean hidden) {
-
-		LogUtil.i(TAG, "CarFragment->onHiddenChanged()" + hidden);
-		super.onHiddenChanged(hidden);
 	}
 
 	/*-------------------- ListView适配器类 - begin --------------------*/

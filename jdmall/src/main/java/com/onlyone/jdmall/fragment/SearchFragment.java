@@ -193,11 +193,16 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 
 	@Override
 	public void onPause() {
+		FragmentManager manager = mMainActivity.getSupportFragmentManager();
+		for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+			manager.popBackStack();
+		}
+
 		if(mSearchResultFragment!=null){
-			FragmentManager manager = mMainActivity.getSupportFragmentManager();
 			FragmentTransaction transaction = manager.beginTransaction();
 			transaction.remove(mSearchResultFragment);
 			transaction.commit();
+			mSearchResultFragment=null;
 		}
 		LogUtil.d("vivi", "onPause方法被调用了--------");
 		super.onPause();

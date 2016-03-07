@@ -23,6 +23,7 @@
             >
 
             <TextView
+                android:id="@+id/searchresult_tv_sale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="销量"
@@ -59,6 +60,7 @@
             >
 
             <TextView
+                android:id="@+id/searchresult_tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="价格"
@@ -97,6 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="好评量"
+                android:id="@+id/searchresult_tv_exaluate"
                 android:textColor="#000"
                 android:textSize="16sp"
                 />
@@ -130,6 +133,7 @@
             >
 
             <TextView
+                android:id="@+id/searchresult_tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="上架时间"

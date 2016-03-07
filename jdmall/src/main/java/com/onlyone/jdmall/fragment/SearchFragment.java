@@ -358,7 +358,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		if (mSearchResultFragment==null) {
 			mSearchResultFragment = new SearchResultFragment();
 		}
-		transaction.add(R.id.fl_content_container, mSearchResultFragment, TAG_SEARCHRESULT_FRAGMENT);
+		transaction.replace(R.id.fl_content_container, mSearchResultFragment, TAG_SEARCHRESULT_FRAGMENT);
 		// TODO:回退栈,TopBar没有改变
 		transaction.addToBackStack(null);
 		transaction.commit();

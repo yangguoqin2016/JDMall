@@ -1,7 +1,5 @@
 package com.onlyone.jdmall.fragment;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -158,13 +156,15 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         mTopBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = mMainActivity.getSupportFragmentManager();
+                /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 Fragment fragment = manager.findFragmentByTag(MineFragment.TAG_MINEFAVORITE_FRAGMENT);
                 transaction.remove(fragment);
                 mMainActivity.mRgBottomNav.check(R.id.rb_bottom_mine);
+                transaction.commit();*/
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.fl_content_container, new MineFragment());
                 transaction.commit();
-
             }
         });
 
@@ -240,7 +240,7 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
             /*商品名*/
             holder.mItemFavoriteTvName.setText(productInfo.name);
             /*商品数量*/
-            holder.mItemFavoriteTvCount.setText("1");// TODO: 2016/3/6
+            holder.mItemFavoriteTvCount.setText("2");// TODO: 2016/3/6
             /*单价*/
             holder.mItemFavoriteTvPrice.setText("单价: " + productInfo.price);
             /*小计*/

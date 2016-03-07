@@ -1,98 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:paddingBottom="14dp"
-				android:paddingTop="14dp">
-
-	<ImageView
-		android:id="@+id/iv_car_checkbox"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerVertical="true"
-		android:layout_marginLeft="20dp"
-		android:layout_marginRight="10dp"
-		android:background="@mipmap/car_sel_box"
-		android:src="@mipmap/car_sel"/>
-
-	<ImageView
-		android:id="@+id/iv_car_item_pic"
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:layout_marginRight="20dp"
-		android:layout_toRightOf="@id/iv_car_checkbox"/>
+<com.daimajia.swipe.SwipeLayout
+	android:id="@+id/sl_car_swipe"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
 	<LinearLayout
-		android:layout_width="wrap_content"
+		android:id="@+id/ll_car_delete"
+		android:layout_width="60dp"
 		android:layout_height="match_parent"
-		android:layout_toRightOf="@id/iv_car_item_pic"
-		android:gravity="center_vertical"
-		android:orientation="vertical">
+		android:background="#800E1F"
+		android:gravity="center">
 
-		<TextView
-			android:id="@+id/tv_car_shopname"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:singleLine="true"
-			android:text="冬装女甜美印花休闲棒球羽绒服"/>
+		<ImageView
+			android:layout_width="45dp"
+			android:layout_height="45dp"
+			android:src="@mipmap/trash"/>
+
+	</LinearLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingBottom="14dp"
+		android:paddingTop="14dp">
+
+		<ImageView
+			android:id="@+id/iv_car_item_pic"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:layout_marginRight="20dp"/>
 
 		<LinearLayout
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
-
-			<ImageView
-				android:id="@+id/tv_car_item_jian"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@mipmap/car_item_jian"/>
+			android:layout_height="match_parent"
+			android:layout_toRightOf="@id/iv_car_item_pic"
+			android:gravity="center_vertical"
+			android:orientation="vertical">
 
 			<TextView
-				android:id="@+id/tv_car_item_num"
+				android:id="@+id/tv_car_shopname"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:background="@mipmap/car_item_num"
-				android:gravity="center"
-				android:text="1"/>
+				android:singleLine="true"
+				android:text="冬装女甜美印花休闲棒球羽绒服"/>
 
-			<ImageView
-				android:id="@+id/tv_car_item_jia"
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
+
+				<ImageView
+					android:id="@+id/tv_car_item_jian"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@mipmap/car_item_jian"/>
+
+				<TextView
+					android:id="@+id/tv_car_item_num"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@mipmap/car_item_num"
+					android:gravity="center"
+					android:text="1"/>
+
+				<ImageView
+					android:id="@+id/tv_car_item_jia"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@mipmap/car_item_jia"/>
+
+			</LinearLayout>
+
+			<TextView
+				android:id="@+id/tv_car_item_price"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@mipmap/car_item_jia"/>
+				android:text="单价:256.00"/>
 
 		</LinearLayout>
 
-		<TextView
-			android:id="@+id/tv_car_item_price"
+		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="单价:256.00"/>
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="20dp"
+			android:gravity="bottom">
 
-	</LinearLayout>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="5dp"
+				android:singleLine="true"
+				android:text="小计:"/>
 
-	<LinearLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentRight="true"
-		android:layout_marginRight="20dp"
-		android:gravity="bottom">
+			<TextView
+				android:id="@+id/tv_car_item_xiaoji"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:singleLine="true"
+				android:text="256.00"/>
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingRight="5dp"
-			android:singleLine="true"
-			android:text="小计:"/>
-
-		<TextView
-			android:id="@+id/tv_car_item_xiaoji"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:singleLine="true"
-			android:text="256.00"/>
-
-	</LinearLayout>
+		</LinearLayout>
 
 
-</RelativeLayout>
+	</RelativeLayout>
+
+</com.daimajia.swipe.SwipeLayout>

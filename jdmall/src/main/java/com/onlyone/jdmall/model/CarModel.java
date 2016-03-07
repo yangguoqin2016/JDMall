@@ -1,10 +1,12 @@
 package com.onlyone.jdmall.model;
 
 import com.onlyone.jdmall.bean.CarProduct;
+import com.onlyone.jdmall.bean.CartBean;
 import com.onlyone.jdmall.constance.Serialize;
 import com.onlyone.jdmall.utils.SerializeUtil;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 项目名:	JDMall
@@ -55,6 +57,37 @@ public class CarModel {
 		result.put(goods, afterCount);
 
 		SerializeUtil.deserializeObject(tag, result);
+	}
+
+	public void refreshCar(String userName, HashMap<CarProduct, Integer> data) {
+		String tag = CAR_TAG + userName;
+		if (data != null) {
+			SerializeUtil.deserializeObject(tag, data);
+		}
+	}
+
+	public HashMap<CarProduct, Integer> transformData(List<CartBean.CartEntity> cartEntities) {
+		if (cartEntities == null) {
+			return null;
+		} else {
+			HashMap<CarProduct, Integer> result = new HashMap<>();
+			for (CartBean.CartEntity cartEntity : cartEntities) {
+				//读取商品的属性
+				List<CartBean.CartEntity.ProductEntity.ProductPropertyEntity> productProperty =
+						cartEntity.product.productProperty;
+				int[] props = new int[productProperty.size()];
+				for (int i = 0; i < props.length; i++) {
+					props[i] = productProperty.get(i).id;
+				}
+
+				//生成一个商品属性
+				CarProduct carProduct = new CarProduct(cartEntity.product.id, props);
+				//获取对应商品的数量
+				int prodNum = cartEntity.prodNum;
+				result.put(carProduct, prodNum);
+			}
+			return result;
+		}
 	}
 
 	/**

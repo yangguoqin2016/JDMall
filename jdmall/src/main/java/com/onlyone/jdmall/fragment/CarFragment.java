@@ -1,7 +1,5 @@
 package com.onlyone.jdmall.fragment;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,11 +17,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
-import com.onlyone.jdmall.adapter.MyBaseAdapter;
 import com.onlyone.jdmall.bean.CarProduct;
 import com.onlyone.jdmall.bean.CartBean;
 import com.onlyone.jdmall.constance.SP;
@@ -38,7 +38,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -62,26 +61,21 @@ public class CarFragment extends BaseFragment<CartBean> {
 	ListView mListView;
 
 	/**
-	 * 有效的购物车商品
+	 * 购物车商品集合
 	 */
-	private List<CartBean.CartEntity> mData = new ArrayList<>();
+	private ArrayList<CartBean.CartEntity> mData = new ArrayList<>();
 
-	/**
-	 * 购物车中不勾选的商品
-	 */
-	private List<CartBean.CartEntity> mUnSelectedData = new ArrayList<>();
-
-	private MyAdapter     mAdapter;
-	private View          mEmptyView;
-	private StringRequest mRequest;
-	private View          mBarView;
+	private MySwipeAdapter mAdapter;
+	private View           mEmptyView;
+	private StringRequest  mRequest;
+	private View           mBarView;
+	private String         mCurrentUser;
 
 	@Override
 	protected void refreshSuccessView(CartBean data) {
 		//将服务器请求到的数据设置到ListView上
 		mData.clear();
 		mData.addAll(data.cart);
-		mUnSelectedData.clear();
 
 		//更新购物车统计数据
 		updateTotalInfo();
@@ -144,11 +138,8 @@ public class CarFragment extends BaseFragment<CartBean> {
 		int totalCount = 0;
 		//首先计算出金额
 		for (CartBean.CartEntity cartEntity : mData) {
-			if (!mUnSelectedData.contains(cartEntity)) {
-				//只有在当前商品是选中状态下改变数量才会将金额计算到总金额中
-				totalMoney += cartEntity.product.price * cartEntity.prodNum;
-				totalCount += cartEntity.prodNum;
-			}
+			totalMoney += cartEntity.product.price * cartEntity.prodNum;
+			totalCount += cartEntity.prodNum;
 		}
 
 		mCartCountTotal.setText("数量总计: " + totalCount + "件");
@@ -205,7 +196,8 @@ public class CarFragment extends BaseFragment<CartBean> {
 	 * @return
 	 */
 	private String getCurrentUser() {
-		return new SPUtil(getContext()).getString(SP.USERNAME, null);
+		mCurrentUser = new SPUtil(getContext()).getString(SP.USERNAME, null);
+		return mCurrentUser;
 	}
 
 	@Override
@@ -230,7 +222,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-		mAdapter = new MyAdapter(mData);
+		mAdapter = new MySwipeAdapter();
 
 		//初始化空购物车的视图
 		mEmptyView = View.inflate(getContext(), R.layout.inflate_car_empty, null);
@@ -247,8 +239,10 @@ public class CarFragment extends BaseFragment<CartBean> {
 		tvRight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				FragmentUtil.replaceFragment(getActivity(), R.id.fl_content_container, new
-						BalanceFragment());
+				if (mData.size() > 0) {
+					FragmentUtil.replaceFragment(getActivity(), R.id.fl_content_container, new
+							BalanceFragment());
+				}
 			}
 		});
 
@@ -281,51 +275,84 @@ public class CarFragment extends BaseFragment<CartBean> {
 
 	/*-------------------- ListView适配器类 - begin --------------------*/
 
+	class MySwipeAdapter extends BaseSwipeAdapter {
 
-	class MyAdapter extends MyBaseAdapter<CartBean.CartEntity> {
-		public MyAdapter(List<CartBean.CartEntity> datas) {
-			super(datas);
+		class ViewHolder {
+			@Bind(R.id.iv_car_item_pic)
+			ImageView    mIvCarItemPic;
+			@Bind(R.id.tv_car_shopname)
+			TextView     mTvCarShopname;
+			@Bind(R.id.tv_car_item_jian)
+			ImageView    mTvCarItemJian;
+			@Bind(R.id.tv_car_item_num)
+			TextView     mTvCarItemNum;
+			@Bind(R.id.tv_car_item_jia)
+			ImageView    mTvCarItemJia;
+			@Bind(R.id.tv_car_item_price)
+			TextView     mTvCarItemPrice;
+			@Bind(R.id.tv_car_item_xiaoji)
+			TextView     mTvCarItemXiaoji;
+			@Bind(R.id.ll_car_delete)
+			LinearLayout mLl_car_delete;
+
+			ViewHolder(View view) {
+				ButterKnife.bind(this, view);
+				view.setTag(this);
+			}
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public int getSwipeLayoutResourceId(int i) {
+			return R.id.sl_car_swipe;
+		}
 
-			ViewHolder viewHolder = null;
-			if (convertView == null) {
-				convertView = View.inflate(getContext(), R.layout.inflate_car_listitem, null);
-				viewHolder = new ViewHolder(convertView);
-			} else {
-				viewHolder = (ViewHolder) convertView.getTag();
-			}
+		@Override
+		public View generateView(int position, ViewGroup viewGroup) {
 
-			final CartBean.CartEntity cartEntity = getItem(position);
+			return LayoutInflater.from(CarFragment.this.getContext())
+					.inflate(R.layout.inflate_car_listitem, null);
+		}
+
+		@Override
+		public void fillValues(final int position, final View view) {
+			final ViewHolder viewHolder = new ViewHolder(view);
+
+			final CartBean.CartEntity cartEntity = mData.get(position);
 
 			viewHolder.mTvCarItemPrice.setText("单价: " + cartEntity.product.price);
 			viewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
 			viewHolder.mTvCarShopname.setText(cartEntity.product.name);
 
-			if (mUnSelectedData.contains(cartEntity)) {
-				viewHolder.mIvCarCheckbox.setImageDrawable(
-						new ColorDrawable(Color.TRANSPARENT));
-			} else {
-				viewHolder.mIvCarCheckbox.setImageResource(R.mipmap.car_sel);
-			}
+			//设置点击删除的监听
+			viewHolder.mLl_car_delete.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					//点击了删除条目的按钮
+					mData.remove(position);
+					((SwipeLayout) view.findViewById(R.id.sl_car_swipe)).close(true);
+					//每次对购物车数据继续修改都保存到本地一次
+					HashMap<CarProduct, Integer> productToSave = CarModel.getInstance()
+							.transformData(mData);
+					CarModel.getInstance().refreshCar(mCurrentUser, productToSave);
+					notifyDataSetChanged();
+					updateTotalInfo();
+				}
+			});
+
 			//计算小结的金额
 			float money = cartEntity.prodNum * cartEntity.product.price;
 			viewHolder.mTvCarItemXiaoji.setText(money + "");
 
-
-			final ViewHolder finalViewHolder = viewHolder;
 			viewHolder.mTvCarItemJian.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (cartEntity.prodNum > 0) {
 						cartEntity.prodNum--;
-						finalViewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
+						viewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
 
 						//计算小结的金额
 						float money = cartEntity.prodNum * cartEntity.product.price;
-						finalViewHolder.mTvCarItemXiaoji.setText(money + "");
+						viewHolder.mTvCarItemXiaoji.setText(money + "");
 
 						//更新总共金钱
 						updateTotalInfo();
@@ -338,11 +365,11 @@ public class CarFragment extends BaseFragment<CartBean> {
 				public void onClick(View v) {
 					if (cartEntity.prodNum < cartEntity.product.buyLimit) {
 						cartEntity.prodNum++;
-						finalViewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
+						viewHolder.mTvCarItemNum.setText(cartEntity.prodNum + "");
 
 						//计算小结的金额
 						float money = cartEntity.prodNum * cartEntity.product.price;
-						finalViewHolder.mTvCarItemXiaoji.setText(money + "");
+						viewHolder.mTvCarItemXiaoji.setText(money + "");
 
 						//更新总共的金额
 						updateTotalInfo();
@@ -351,59 +378,29 @@ public class CarFragment extends BaseFragment<CartBean> {
 				}
 			});
 
-			View.OnClickListener checkUncheckListener = new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (mUnSelectedData.contains(cartEntity)) {
-						//操作之前图片应该显示为未选中状态,现在将图片设置成选中状态
-						mUnSelectedData.remove(cartEntity);
-						finalViewHolder.mIvCarCheckbox.setImageResource(R.mipmap.car_sel);
-					} else {
-						//当前图片为选中状态
-						mUnSelectedData.add(cartEntity);
-						finalViewHolder.mIvCarCheckbox.setImageDrawable(
-								new ColorDrawable(Color.TRANSPARENT));
-					}
-
-					//更新总共的金额
-					updateTotalInfo();
-				}
-			};
-
-			viewHolder.mIvCarCheckbox.setOnClickListener(checkUncheckListener);
-
 			Picasso.with(getContext())
 					.load(Url.ADDRESS_SERVER + cartEntity.product.pic)
 					.fit()
 					.centerCrop()
 					.into(viewHolder.mIvCarItemPic);
-
-			return convertView;
 		}
 
-
-		class ViewHolder {
-			@Bind(R.id.iv_car_checkbox)
-			ImageView mIvCarCheckbox;
-			@Bind(R.id.iv_car_item_pic)
-			ImageView mIvCarItemPic;
-			@Bind(R.id.tv_car_shopname)
-			TextView  mTvCarShopname;
-			@Bind(R.id.tv_car_item_jian)
-			ImageView mTvCarItemJian;
-			@Bind(R.id.tv_car_item_num)
-			TextView  mTvCarItemNum;
-			@Bind(R.id.tv_car_item_jia)
-			ImageView mTvCarItemJia;
-			@Bind(R.id.tv_car_item_price)
-			TextView  mTvCarItemPrice;
-			@Bind(R.id.tv_car_item_xiaoji)
-			TextView  mTvCarItemXiaoji;
-
-			ViewHolder(View view) {
-				ButterKnife.bind(this, view);
-				view.setTag(this);
+		@Override
+		public int getCount() {
+			if (mData != null) {
+				return mData.size();
 			}
+			return 0;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
 		}
 	}
 	/*-------------------- ListView适配器类 - end --------------------*/

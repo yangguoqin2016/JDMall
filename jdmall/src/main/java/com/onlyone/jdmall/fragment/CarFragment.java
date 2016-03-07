@@ -173,7 +173,8 @@ public class CarFragment extends BaseFragment<CartBean> {
 			Set<Map.Entry<CarProduct, Integer>> entrySet = savedCar.entrySet();
 			for (Map.Entry<CarProduct, Integer> entry : entrySet) {
 				int id = entry.getKey().id;
-				int prop = entry.getKey().prop;
+				//// TODO: 2016/3/7
+				int[] prop = entry.getKey().prop;
 				int count = entry.getValue();
 				String productItem;
 				if (sb.length() == 0) {

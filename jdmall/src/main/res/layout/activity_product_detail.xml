@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="Y 160"
+                    android:text="￥160"
                     android:textColor="#f11730"
                     android:textSize="20sp"/>
                 <RelativeLayout
@@ -145,7 +145,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="Y 200"
+                        android:text="￥200"
                         android:textColor="#9b9798"
                         android:textSize="16sp"/>
                     <View

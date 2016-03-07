@@ -59,12 +59,11 @@ public class CarModel {
 
 	/**
 	 * 添加商品到购物车
-	 *
-	 * @param userName    添加到指定用户名的购物车下
+	 *  @param userName    添加到指定用户名的购物车下
 	 * @param productId   商品Id
 	 * @param productProp 商品属性
 	 */
-	public synchronized void addToCar(String userName, int productId, int productProp) {
+	public synchronized void addToCar(String userName, int productId, int[] productProp) {
 		CarProduct product = new CarProduct(productId, productProp);
 		addToCar(userName, product);
 	}

@@ -17,7 +17,7 @@ public class CarProduct implements Serializable {
 	/**
 	 * 商品属性
 	 */
-	public int prop;
+	public int[] prop;
 
 	public CarProduct() {
 	}
@@ -26,7 +26,7 @@ public class CarProduct implements Serializable {
 	 * @param id   商品Id
 	 * @param prop 商品属性
 	 */
-	public CarProduct(int id, int prop) {
+	public CarProduct(int id, int[] prop) {
 		this.id = id;
 		this.prop = prop;
 	}
@@ -44,7 +44,7 @@ public class CarProduct implements Serializable {
 	@Override
 	public int hashCode() {
 		int result = id;
-		result = 31 * result + prop;
+		result = 31 * result + prop.length;
 		return result;
 	}
 }

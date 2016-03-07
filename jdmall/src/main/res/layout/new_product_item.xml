@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/hot_product_item_pic"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:scaleType="fitXY"/>
 
@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Y"
+                android:text="￥"
                 android:textColor="#f00"/>
             <TextView
                 android:id="@+id/hot_product_item_market_price"
@@ -73,15 +73,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$"
+                android:text="￥"
                 android:textColor="@android:color/white"
-                android:textSize="26sp"/>
+                android:textSize="23sp"/>
             <TextView
                 android:id="@+id/hot_product_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
                 android:text="99.00"
                 android:textColor="@android:color/white"/>
             <TextView

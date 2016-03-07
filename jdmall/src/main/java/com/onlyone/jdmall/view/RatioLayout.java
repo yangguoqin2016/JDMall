@@ -21,6 +21,10 @@ public class RatioLayout extends FrameLayout {
         mCurState = curState;
     }
 
+    public void setRatio(float ratio) {
+        mPicRatio = ratio;
+    }
+
     public float getPicRatio() {
         return mPicRatio;
     }

@@ -1,0 +1,87 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/product_dialog_top"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/product_dialog_pic"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/hot"
+                />
+            <LinearLayout
+                android:padding="20dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/product_dialog_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥160"
+                    android:textSize="26sp"
+                    android:textColor="#f00"
+                    />
+                <TextView
+                    android:id="@+id/product_dialog_price_save"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="减少20元"
+                    android:textSize="18sp"
+                    android:textColor="#bcb1b1"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--分割线-->
+        <View
+            android:id="@+id/product_dialog_divider"
+            android:layout_marginTop="2dp"
+            android:layout_below="@id/product_dialog_top"
+            android:background="#ece4e4"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+
+        <!--底部收藏栏-->
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="53dp">
+            <TextView
+                android:id="@+id/product_dialog_addcar"
+                android:clickable="true"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_addcar_bg"
+                android:textSize="18sp"
+                android:text="加入购物车"/>
+            <TextView
+                android:id="@+id/product_dialog_buy"
+                android:clickable="true"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_buy_bg"
+                android:textSize="18sp"
+                android:text="立即购买"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
+

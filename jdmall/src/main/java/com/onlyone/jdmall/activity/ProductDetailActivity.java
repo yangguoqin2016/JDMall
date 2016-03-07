@@ -20,11 +20,15 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.adapter.BasePagerAdapter;
 import com.onlyone.jdmall.bean.ProductDetailBean;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.view.ProductDialog;
+import com.onlyone.jdmall.view.RatioLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,7 +83,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void init() {
         Intent intent = getIntent();
         // mProductId = intent.getIntExtra("id", 1);
-        mProductId = 1;   //假数据
+        Random random = new Random();
+        mProductId = random.nextInt(30)+1;   //假数据
     }
 
     /**
@@ -151,16 +156,21 @@ public class ProductDetailActivity extends AppCompatActivity {
      * 记载数据后刷新视图
      */
     private void refreshUI() {
+        //商品姓名
         mProductDetailName.setText(mProductBean.name);
-        mProductDetailPrice.setText("Y " + mProductBean.price);
-        mProductDetailMarketprice.setText("Y " + mProductBean.marketPrice);
+        //商品会员价格
+        mProductDetailPrice.setText("￥" + mProductBean.price);
+        //商品市场价格
+        mProductDetailMarketprice.setText("￥" + mProductBean.marketPrice);
+        //商品评分
         mProductDetailStars.setRating(mProductBean.score);
+        //商品单件限购量
         mProductDetailBuyLimit.setText(mProductBean.buyLimit + "件");
 
         //1.剩余抢购时间倒计时
         refreshLeftTime();
 
-        //设置图片轮播图
+        //2.设置图片轮播图
         List<String> picUrls = mProductBean.pics;
         mProductDetailPicViewpager.setAdapter(new ProductPicAdapter(picUrls));
         mProductDetailViewpagerIndicator.setText(1+"/"+picUrls.size());
@@ -212,11 +222,20 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void addToCar() {
-        Toast.makeText(this, "加入购物车", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
+
+        CarModel carModel = CarModel.getInstance();
+        Random random = new Random();
+        String[] users = {"aa","bb","cc"};
+        int[] productPros = {1,2};  //{颜色,尺寸}
+        String userName = users[random.nextInt(2)];
+        carModel.addToCar(userName,mProductId,productPros);
     }
 
     private void selectColorAndSize() {
-        Toast.makeText(this, "选择商品尺寸颜色", Toast.LENGTH_SHORT).show();
+        //弹出对话框口选择产品
+        ProductDialog dialog = new ProductDialog(this);
+        dialog.show();
     }
 
 
@@ -238,7 +257,17 @@ public class ProductDetailActivity extends AppCompatActivity {
             iv.setScaleType(ImageView.ScaleType.FIT_XY);
             Picasso.with(ResUtil.getContext()).load(url).into(iv);
 
-            return iv;
+            //解决图片压缩失真问题
+            RatioLayout rl = new RatioLayout(ResUtil.getContext());
+            rl.setCurState(RatioLayout.RELATIVE_WIDTH);
+            float ratio = 224/340f;
+            rl.setRatio(ratio);
+            int width = getResources().getDisplayMetrics().widthPixels;
+            int height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width,height);
+            rl.addView(iv, params);
+
+            return rl;
         }
     }
 

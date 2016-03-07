@@ -13,4 +13,7 @@
 <!--购买-->
 	<color name="buy_normal_bg">#e24040</color>
 	<color name="buy_pressed_bg">#85b9e4</color>
+
+<!--商品弹出窗口背景-->
+	<color name="product_dialog_bg">#ffffff</color>
 </resources>

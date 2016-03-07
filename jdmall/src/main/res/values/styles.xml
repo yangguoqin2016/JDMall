@@ -83,5 +83,17 @@
 		<item name="android:background">@drawable/search_next</item>
 	</style>
 
+    <!--选择商品颜色与尺寸弹出窗口样式 -->
+    <style name="ProductDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/product_dialog_bg</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
 
 </resources>

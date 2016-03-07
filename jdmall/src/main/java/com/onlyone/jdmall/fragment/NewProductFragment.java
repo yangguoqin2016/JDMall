@@ -1,7 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.SystemClock;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -15,6 +14,7 @@ import com.onlyone.jdmall.bean.HotProductBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.NewProductHolder;
+import com.onlyone.jdmall.utils.FragmentUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -49,8 +49,10 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         mTopBarView.findViewById(R.id.new_product_topbar_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
-                transaction.remove(NewProductFragment.this).commit();
+               /* FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
+                transaction.remove(NewProductFragment.this).commit();*/
+
+                FragmentUtil.goBack(mActivity);
 
                 restoreHomeTopBar();
             }

@@ -41,20 +41,22 @@ import cn.iwgang.countdownview.CountdownView;
 public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements MainActivity.OnBackPressedListener, ViewPager.OnPageChangeListener {
 
     private static final int PAGENUMBER = 15;
-    @Bind(R.id.limit_buy_lv)
-    ListView mLimitBuyLv;
+    @Bind(R.id.limit_buy_view_pager)
+    ViewPager mViewPager;
+    @Bind(R.id.limit_buy_header_rec)
+    ImageView mRec;
+    @Bind(R.id.limit_buy_count_view)
+    CountdownView mCountView;
+    private ListView mLimitBuyLv;
     private List<LimitBuyBean.LimitBuyItemBean> mItemBeans;
     private LimitBuyAdapter mAdapter;
     private MainActivity mActivity;
-    private CountdownView mCountView;
-    private ViewPager mViewPager;
     private int[] PICS = {
             R.mipmap.juxing,
             R.mipmap.hot,
             R.mipmap.home_title_pic3,
             R.mipmap.home_new_product
     };
-    private ImageView mRec;
     private int mWidthPixels;
 
     @Override
@@ -100,16 +102,17 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
     @Override
     protected View loadSuccessView() {
         View rootView = View.inflate(ResUtil.getContext(), R.layout.limit_buy_fragment, null);
-        ButterKnife.bind(this, rootView);
+        mLimitBuyLv = (ListView) rootView.findViewById(R.id.limit_buy_lv);
         /*
             listview的头部
          */
         View header = View.inflate(ResUtil.getContext(), R.layout.limit_buy_header, null);
-        mCountView = (CountdownView) header.findViewById(R.id.limit_buy_count_view);
-        mViewPager = (ViewPager) header.findViewById(R.id.limit_buy_view_pager);
-        mRec = (ImageView) header.findViewById(R.id.limit_buy_header_rec);
+        ButterKnife.bind(this, header);
+
         mViewPager.setAdapter(new LimitAdapter());
         mLimitBuyLv.addHeaderView(header);
+
+        mCountView = (CountdownView) header.findViewById(R.id.limit_buy_count_view);
         mCountView.start(60 * 60 * 1000);
 
         //设置监听
@@ -154,19 +157,19 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mRec.getLayoutParams();
         float perPagerPixels = mWidthPixels / 4.0f;
-        params.leftMargin = (int) (position * perPagerPixels +perPagerPixels*positionOffset +0.5f+ DensityUtil.dip2Px(5));
+        params.leftMargin = (int) (position * perPagerPixels + perPagerPixels * positionOffset + 0.5f + DensityUtil.dip2Px(5));
         mRec.setLayoutParams(params);
     }
 
     @Override
     public void onPageSelected(int position) {
-
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
     }
+
 
     private class LimitBuyAdapter extends SuperBaseAdapter<LimitBuyBean.LimitBuyItemBean> {
         LimitBuyBean bean = null;

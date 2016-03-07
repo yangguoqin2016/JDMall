@@ -46,12 +46,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/limit_buy_header_time1"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="21:00"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/limit_buy_header_state1"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="已开抢"
@@ -66,12 +68,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/limit_buy_header_time2"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="00:00"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/limit_buy_header_state2"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="已开抢"
@@ -86,12 +90,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/limit_buy_header_time3"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="10:00"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/limit_buy_header_state3"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="开抢中"
@@ -106,12 +112,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/limit_buy_header_time4"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="12:00"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/limit_buy_header_state4"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="即将开抢"

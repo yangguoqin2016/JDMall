@@ -84,6 +84,9 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     private String       mSearchKey;
     private MyAdapter    mAdapter;
 
+    private int mCurOrderby;
+    private boolean mIsUp;
+
     @Override
     protected void refreshSuccessView(SearchResultBean data) {
 
@@ -152,7 +155,12 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     @Override
     protected void handleError(Exception e) {
         mTvResult.setText("搜索结果(0条)");
-        Toast.makeText(ResUtil.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        TextView tv = new TextView(ResUtil.getContext());
+        tv.setText("加载数据失败,请检查下你的网络..");
+        tv.setTextSize(DensityUtil.dip2Px(20));
+        tv.setTextColor(Color.BLACK);
+        tv.setGravity(Gravity.CENTER);
+        setContentView(tv);
     }
 
     @Override
@@ -190,6 +198,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     // 所有的点击事件
     @Override
     public void onClick(View v) {
+        String orderby = null;
         switch (v.getId()) {
             case R.id.topbar_tv_back:// 返回
                 removeCurFragment();
@@ -199,23 +208,35 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
                 /**
                  * 1.再通过关键字去请求网络 2.解析json得到数据 3.再更新UI
                  */
-                String orderby = "priceDown";
-
-                orderByKey(orderby);
+                orderby = "saleDown";
+                mCurOrderby = 0;
                 break;
             case R.id.searchresult_price:// 价格
-
+                if (mIsUp) {
+                    orderby = "priceDown";
+                }else{
+                    orderby = "priceUp";
+                }
+                mIsUp = !mIsUp;
+                mCurOrderby = 1;
                 break;
             case R.id.searchresult_evaluate:// 评价
-
+                orderby = "commentDown";
+                mCurOrderby = 2;
                 break;
             case R.id.searchresult_date:// 日期
-
+                orderby = "shelvesDown";
+                mCurOrderby = 3;
                 break;
 
             default:
                 break;
         }
+        orderByKey(orderby);
+        mSearchresultTvSale.setTextColor(mCurOrderby == 0 ? Color.RED : Color.BLACK);
+        mSearchresultTvPrice.setTextColor(mCurOrderby == 1 ? Color.RED : Color.BLACK);
+        mSearchresultTvExaluate.setTextColor(mCurOrderby == 2 ? Color.RED : Color.BLACK);
+        mSearchresultTvDate.setTextColor(mCurOrderby == 3 ? Color.RED : Color.BLACK);
     }
 
     /**
@@ -231,7 +252,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
             @Override
             public void onResponse(String jsonStr) {
                 SearchResultBean bean = parseJson(jsonStr);
-                if (bean != null || bean.productList.size() > 0) {
+                if (bean != null && bean.productList!=null) {
                     mResultData = bean;
                     mAdapter.notifyDataSetChanged();
                 }
@@ -302,7 +323,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
 
         @Override
         public int getCount() {
-            if (mResultData != null) {
+            if (mResultData != null && mResultData.productList.size()!=0) {
                 return mResultData.productList.size();
             }
             return 0;

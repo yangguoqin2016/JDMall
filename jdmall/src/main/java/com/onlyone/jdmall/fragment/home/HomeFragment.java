@@ -302,6 +302,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     }
 
 
+
     private class HomeTopicAdapter extends PagerAdapter {
         @Override
         public int getCount() {

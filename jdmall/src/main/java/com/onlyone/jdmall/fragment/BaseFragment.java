@@ -38,7 +38,7 @@ public abstract class BaseFragment<T> extends Fragment {
 			}
 
 			@Override
-			protected void handleError(Exception e) {
+			 protected void handleError(Exception e) {
 				BaseFragment.this.handleError(e);
 			}
 

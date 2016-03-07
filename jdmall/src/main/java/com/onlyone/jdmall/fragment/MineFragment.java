@@ -66,8 +66,13 @@ public class MineFragment extends BaseFragment<Object> implements View.OnClickLi
     @Bind(R.id.mine_tv_call)
     TextView     mMineTvCall;
 
+<<<<<<< Updated upstream
     private MainActivity     mMainActivity;
     private MineHelpFragment mHelpFragment;
+=======
+    private MainActivity mMainActivity;
+    private Fragment mFavorableGiftFragment;
+>>>>>>> Stashed changes
 
 
     @Override
@@ -147,6 +152,11 @@ public class MineFragment extends BaseFragment<Object> implements View.OnClickLi
                 changeFragment(addressManagerFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_gift://优惠券/礼品卡
+                if(mFavorableGiftFragment == null){
+                    mFavorableGiftFragment = new MineFavorableGiftFragment();
+                }
+                changeFragment(mFavorableGiftFragment, TAG_MINEFAVORITE_FRAGMENT);
+
                 break;
             case R.id.fragment_ll_mine_favorite://收藏夹
                 Fragment favoriteFrament = new MineFavoriteFragment();

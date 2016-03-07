@@ -58,6 +58,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     TextView mLoginTvForgetpwd;
 
 
+<<<<<<< Updated upstream
     private LoadListener<LoginOrRegistBean> mListener;
     private LoginOrRegistBean               mLoginBean;
     private String                          mUsername;
@@ -65,11 +66,33 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     private SPUtil                          mSp;
     private TextView                        mLoginTvRegist;
     private MainActivity mMainActivity;
+=======
+    private LoginOrRegistBean mLoginBean;
+    private String            mUsername;
+    private String            mPassword;
+    private SPUtil            mSp;
+    private TextView          mLoginTvRegist;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+       /* if(isSuccessLogin){
+            FragmentTransaction transaction = ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction();
+            //            transaction.remove(this);
+            transaction.replace(R.id.fl_content_container, new MineFragment());
+            transaction.commit();
+        }*/
+
+    }
+>>>>>>> Stashed changes
 
     @Override
     public void onResume() {
         super.onResume();
-
+       /* FragmentTransaction transaction = ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction();
+        transaction.remove(this);
+        transaction.commit();*/
     }
 
     @Override
@@ -86,6 +109,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
                 transaction.commit();
             }
         });
+
     }
 
     @Override
@@ -106,7 +130,10 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
     @Override
     protected void loadData(LoadListener<LoginOrRegistBean> listener) {
+<<<<<<< Updated upstream
         //        mListener = listener;
+=======
+>>>>>>> Stashed changes
         listener.onSuccess(null);
 
 
@@ -121,12 +148,9 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         mSp = new SPUtil(ResUtil.getContext());
-
         View topBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_login, null);
-        final MainActivity activity = (MainActivity) getActivity();
+        MainActivity activity = (MainActivity) getActivity();
         //设置登录界面的状态栏
         activity.setTopBarView(topBarView);
         mLoginTvRegist = (TextView) topBarView.findViewById(R.id.login_tv_regist);
@@ -134,6 +158,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
 
     @Override
     public void onDestroyView() {
@@ -167,6 +192,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
                     mSp.putString(SP.USERNAME, mUsername);
                     //登录成功,保存userid
                     mSp.putLong(SP.USERID, mLoginBean.userInfo.userid);
+                    mSp.putBoolean(SP.ISLOGINSUCCESS, true);
                     changeFragment();
 
                 } else {
@@ -204,7 +230,6 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
         //记住密码已勾选
         if (checked) {
             //保存密码
-            mSp.putString(SP.USERNAME, mUsername);
             mSp.putString(SP.PASSWORD, mPassword);
         }
     }

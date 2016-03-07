@@ -1,7 +1,9 @@
 package com.onlyone.jdmall.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,10 +24,12 @@ import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.FavoriteBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -46,8 +50,6 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
     private        FavoriteBean mFavoriteBean;
     private static View         mTopBar;
     private        MainActivity mMainActivity;
-    private static boolean isSelected = false;
-    private static int currentPosition;
 
     /*请求成功的回调*/
     @Override
@@ -69,6 +71,9 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         /*获得清空按钮(默认不可见),若收藏夹不为空,显示*/
         View clear = mTopBar.findViewById(R.id.topbar_tv_clear);
         clear.setVisibility(mFavoriteBean.productList.size() == 0 ? View.GONE : View.VISIBLE);
+
+        //-------------------------------------------------------------------------------
+
 
     }
 
@@ -110,11 +115,11 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
             public Map<String, String> getHeaders() throws AuthFailureError {
 
                 Map<String, String> map = new HashMap<>();
-                map.put("userid", "20428");
-                /*SPUtil spUtil = new SPUtil(ResUtil.getContext());
-                String userid = spUtil.getString(SP.USERID,"");
+//                map.put("userid", "20428");
+                SPUtil spUtil = new SPUtil(ResUtil.getContext());
+                String userid = spUtil.getLong(SP.USERID,0)+"";
                 map.put("userid", userid);
-                Log.d("MineFavoriteFragment", "---------------"+userid);*/
+                Log.d("MineFavoriteFragment", "---------------" + userid);
                 return map;
             }
         };
@@ -127,13 +132,13 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         Toast.makeText(ResUtil.getContext(), "unknown error has occured:" + e.toString(), Toast.LENGTH_SHORT).show();
     }
 
-    @Override
+    /*@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
-    }
+    }*/
 
     @Override
     public void onDestroyView() {
@@ -147,6 +152,21 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         /*获取宿主对象*/
         mMainActivity = (MainActivity) getActivity();
         mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_favorite, null);
+        /*获取账户中心按钮*/
+        mTopBar.findViewById(R.id.topbar_tv_accountcenter);
+        /*点击回到账户中心*/
+        mTopBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = mMainActivity.getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                Fragment fragment = manager.findFragmentByTag(MineFragment.TAG_MINEFAVORITE_FRAGMENT);
+                transaction.remove(fragment);
+                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_mine);
+                transaction.commit();
+
+            }
+        });
 
         /*设置topBar*/
         mMainActivity.setTopBarView(mTopBar);
@@ -158,6 +178,7 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
     /*界面不可见*/
     @Override
     public void onPause() {
+        mMainActivity.setHideTopBar(true);
         super.onPause();
     }
 
@@ -231,7 +252,7 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
                     .load(url)
                     .error(R.mipmap.brand_1)
                     .into(holder.mItemFavoriteIv);
-            return convertView;
+            return convertView;//奶粉
         }
 
         class ViewHolder {

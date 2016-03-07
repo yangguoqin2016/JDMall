@@ -81,15 +81,15 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean> im
     private List<HomeCategoryBean.HomeCategoryInfoBean>                                                           mDatasList;
     private Map<Integer, Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>>> mSuperDatas;
 
-    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFirstDatas;
-    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mSecondDatas;
-    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mThirdDatas;
-    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFourDatas;
-    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFiveDatas;
-    public  Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mSixDatas;
-    public  MainActivity                                                                            mMainActivity;
-    private View                                                                                    mTopBarView;
-    private MainActivity                                                                            mActivity;
+    public        Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFirstDatas;
+    public        Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mSecondDatas;
+    public        Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mThirdDatas;
+    public        Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFourDatas;
+    public        Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mFiveDatas;
+    public        Map<HomeCategoryBean.HomeCategoryInfoBean, List<HomeCategoryBean.HomeCategoryInfoBean>> mSixDatas;
+    public        MainActivity                                                                            mMainActivity;
+    private       View                                                                                    mTopBarView;
+    private       MainActivity                                                                            mActivity;
     //将总的数据拆分成每个大类对应的数据集合,做成静态,方便跳转页面时候获取到数据
     public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mFirstList;
     public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mSecondList;
@@ -97,9 +97,14 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean> im
     public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mFourList;
     public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mFiveList;
     public static List<HomeCategoryBean.HomeCategoryInfoBean>                                             mSixList;
-    private List<Map<HomeCategoryBean.HomeCategoryInfoBean,
-            List<HomeCategoryBean.HomeCategoryInfoBean>>>                                           mListDataFromSuper;
-    private HomeCategoryPagerFirstFragment                                                          mHomeCategoryPagerFirstFragment;
+    private       List<Map<HomeCategoryBean.HomeCategoryInfoBean,
+            List<HomeCategoryBean.HomeCategoryInfoBean>>>                                                 mListDataFromSuper;
+    private       HomeCategoryPagerFirstFragment                                                          mHomeCategoryPagerFirstFragment;
+    private       HomeCategoryPagerSecondFragment                                                         mHomeCategoryPagerSecondFragment;
+    private       HomeCategoryPagerThirdFragment                                                          mHomeCategoryPagerThirdFragment;
+    private       HomeCategoryPagerFourFragment                                                           mHomeCategoryPagerFourFragment;
+    private       HomeCategoryPagerFiveFragment                                                           mHomeCategoryPagerFiveFragment;
+    private       HomeCategoryPagerSixFragment                                                            mHomeCategoryPagerSixFragment;
 
     @Override
     protected void refreshSuccessView(HomeCategoryBean data) {
@@ -341,12 +346,12 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean> im
         });
 
         //点击back按键回退首页
-        mActivity.addOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
-            @Override
-            public void onPressed() {
-                restoreHomeTopBar();
-            }
-        });
+        mActivity.setOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
+			@Override
+			public void onPressed() {
+				restoreHomeTopBar();
+			}
+		});
     }
 
     /**
@@ -380,22 +385,42 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean> im
                 break;
             case R.id.category_first_pager_second_container:
                 //跳转到 时尚女装
+                if(mHomeCategoryPagerSecondFragment==null){
+                    mHomeCategoryPagerSecondFragment = new HomeCategoryPagerSecondFragment();
+                }
+                transaction.add(R.id.fl_content_container,mHomeCategoryPagerSecondFragment);
 
                 break;
             case R.id.category_first_pager_third_container:
                 //跳转到 宝宝用品
+                if(mHomeCategoryPagerThirdFragment==null){
+                    mHomeCategoryPagerThirdFragment = new HomeCategoryPagerThirdFragment();
+                }
+                transaction.add(R.id.fl_content_container,mHomeCategoryPagerThirdFragment);
 
                 break;
             case R.id.category_first_pager_four_container:
                 //跳转到 日常用品
+                if(mHomeCategoryPagerFourFragment==null){
+                    mHomeCategoryPagerFourFragment = new HomeCategoryPagerFourFragment();
+                }
+                transaction.add(R.id.fl_content_container,mHomeCategoryPagerFourFragment);
 
                 break;
             case R.id.category_first_pager_five_container:
                 //跳转到 儿童服饰
+                if(mHomeCategoryPagerFiveFragment==null){
+                    mHomeCategoryPagerFiveFragment = new HomeCategoryPagerFiveFragment();
+                }
+                transaction.add(R.id.fl_content_container,mHomeCategoryPagerFiveFragment);
 
                 break;
             case R.id.category_first_pager_six_container:
                 //跳转到 儿童玩具
+                if(mHomeCategoryPagerSixFragment==null){
+                    mHomeCategoryPagerSixFragment = new HomeCategoryPagerSixFragment();
+                }
+                transaction.add(R.id.fl_content_container,mHomeCategoryPagerSixFragment);
 
                 break;
             default:

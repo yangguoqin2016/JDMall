@@ -96,7 +96,7 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
     public void onResume() {
         super.onResume();
         mActivity = (MainActivity) getActivity();
-        mActivity.addOnBackPreseedListener(this);
+        mActivity.setOnBackPreseedListener(this);
         changeTitleBar();
     }
 

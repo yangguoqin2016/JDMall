@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="#FFF">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@mipmap/balance_bg"
+			android:orientation="horizontal"
+			android:paddingLeft="10dp">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:paddingTop="10dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:singleLine="true"
+					android:text="收货地址"
+					android:textColor="#FFF"
+					android:textSize="25sp"/>
+
+				<TextView
+					android:id="@+id/tv_balance_name"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:singleLine="true"
+					android:text="魏敏"
+					android:textColor="#FFF"
+					android:textSize="20sp"/>
+
+				<TextView
+					android:id="@+id/tv_balance_number"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:singleLine="true"
+					android:text="13800138000"
+					android:textColor="#FFF"
+					android:textSize="20sp"/>
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginRight="4dp"
+						android:background="@drawable/balance_address_default_bg"
+						android:text="默认"
+						android:textColor="#FFF"
+						android:textSize="18sp"/>
+
+					<TextView
+						android:id="@+id/tv_balance_address"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:singleLine="true"
+						android:text="朝阳区中心区中路新纪家园"
+						android:textColor="#FFF"
+						android:textSize="20sp"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</ScrollView>

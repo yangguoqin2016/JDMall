@@ -3,9 +3,6 @@ package com.onlyone.jdmall.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -13,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -28,17 +25,9 @@ import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.application.MyApplication;
 import com.onlyone.jdmall.bean.BrandBean;
 import com.onlyone.jdmall.constance.Url;
-import com.onlyone.jdmall.fragment.brand.BabyFragment;
-import com.onlyone.jdmall.fragment.brand.ChengRenFragment;
-import com.onlyone.jdmall.fragment.brand.ChildClothFragment;
-import com.onlyone.jdmall.fragment.brand.DailyFragment;
-import com.onlyone.jdmall.fragment.brand.FashionFragment;
-import com.onlyone.jdmall.fragment.brand.HuaZhuangFragment;
-import com.onlyone.jdmall.fragment.brand.MotherFragment;
-import com.onlyone.jdmall.fragment.brand.QingjieFragment;
-import com.onlyone.jdmall.fragment.brand.ShipinFragment;
 import com.onlyone.jdmall.utils.DensityUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,31 +53,35 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
     @Bind(R.id.brind_listview)
     ListView mBrindListview;
 
-    private List<BrandBean.BrandList.BrandValue> mMotherData  = new ArrayList();
-    private List<BrandBean.BrandList.BrandValue> mShipinData  = new ArrayList();
-    private List<BrandBean.BrandList.BrandValue> mBabyData    = new ArrayList();
-    private List<BrandBean.BrandList.BrandValue> mFashionData = new ArrayList();
-    private List<BrandBean.BrandList.BrandValue> mDailyData   = new ArrayList();
-    private List<BrandBean.BrandList.BrandValue> mQingjieData = new ArrayList();
+    @Nullable
+    @Bind(R.id.brind_gridview)
+    GridView mBrindGridview;
+
+    private List<BrandBean.BrandList.BrandValue> mMotherData     = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mShipinData     = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mBabyData       = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mFashionData    = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mDailyData      = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mQingjieData    = new ArrayList();
     private List<BrandBean.BrandList.BrandValue> mChildClothData = new ArrayList();
-    private List<BrandBean.BrandList.BrandValue> mChengRenData = new ArrayList();
-    private List<BrandBean.BrandList.BrandValue> mHuaZhuangData = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mChengRenData   = new ArrayList();
+    private List<BrandBean.BrandList.BrandValue> mHuaZhuangData  = new ArrayList();
 
-    //Fragment容器
-    private List<Fragment> mFragmentList = new ArrayList();
 
+    private List<List<BrandBean.BrandList.BrandValue>> mDataList = new ArrayList<>();
 
     private int PICS[] = new int[]{R.mipmap.tuijianpinpaitehuizhadan,
             R.mipmap.brand_1, R.mipmap.brand_2,
             R.mipmap.brand_3, R.mipmap.brand_4, R.mipmap.brand_5};
 
-    private AutoScrollTask                 mTask;
-    private BrandBean                      mBrandBean;
-    private ImageView                      mMIvBack;
-    private BrandListViewAdapter           mAdapter;
-    private BrandBean.BrandList.BrandValue mBrandValue;
-    FragmentManager mManager;
-    private FragmentTransaction mTransaction;
+    private AutoScrollTask                       mTask;
+    private BrandBean                            mBrandBean;
+    private ImageView                            mMIvBack;
+    private BrandListViewAdapter                 mAdapter;
+    private BrandBean.BrandList.BrandValue       mBrandValue;
+    private BrandBean.BrandList                  mBrandList;
+    private List<BrandBean.BrandList.BrandValue> mValue;
+    private GridAdapter                          mGridAdapter;
 
 
     @Override
@@ -172,20 +165,16 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         mMIvBack.setOnClickListener(this);
 
         LoadBrandList(data);
-        mManager = getActivity().getSupportFragmentManager();
 
+        //一进来显示第一页
+        List<BrandBean.BrandList.BrandValue> brandValues = mDataList.get(0);
+        mGridAdapter = new GridAdapter(brandValues);
+        mBrindGridview.setAdapter(mGridAdapter);
+        setGridViewHeightBasedOnChildren(mBrindGridview);
 
-        //当页面加载完成才显示
-        mBrandViewpager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                //默认显示品牌列表的第一个Fragment
-                mTransaction = mManager.beginTransaction();
-                mTransaction.replace(R.id.brand_fragment_container, mFragmentList.get(0));
-                mTransaction.commit();
-                mBrandViewpager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
+        mAdapter.notifyDataSetChanged();
+        mGridAdapter.notifyDataSetChanged();
+
     }
 
     /**
@@ -195,22 +184,23 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
      */
     private void LoadBrandList(BrandBean data) {
 
-		mMotherData.clear();
-		mShipinData.clear();
-		mBabyData.clear();
-		mFashionData.clear();
-		mDailyData.clear();
-		mQingjieData.clear();
-		mChildClothData.clear();
-		mChengRenData.clear();
-		mHuaZhuangData.clear();
+        mMotherData.clear();
+        mShipinData.clear();
+        mBabyData.clear();
+        mFashionData.clear();
+        mDailyData.clear();
+        mQingjieData.clear();
+        mChildClothData.clear();
+        mChengRenData.clear();
+        mHuaZhuangData.clear();
 
         for (int i = 0; i < data.getBrand().size(); i++) {
 
-            BrandBean.BrandList brandList = data.getBrand().get(i);
+            mBrandList = data.getBrand().get(i);
 
-            for (int j = 0; j < brandList.getValue().size(); j++) {
-                mBrandValue = brandList.getValue().get(j);
+            mValue = mBrandList.getValue();
+            for (int j = 0; j < mValue.size(); j++) {
+                mBrandValue = mBrandList.getValue().get(j);
                 switch (mBrandValue.getId()) {
                     case 1218:
                     case 1219:
@@ -250,25 +240,81 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
                     case 1222:
                         mQingjieData.add(mBrandValue); //清洁用品
                         break;
-
                     default:
                         break;
-
                 }
             }
         }
 
-        mFragmentList.add(new MotherFragment(mMotherData));
-        mFragmentList.add(new ShipinFragment(mShipinData));
-        mFragmentList.add(new BabyFragment(mBabyData));
-        mFragmentList.add(new ChildClothFragment(mChildClothData));
-        mFragmentList.add(new FashionFragment(mFashionData));
-        mFragmentList.add(new ChengRenFragment(mChengRenData));
-        mFragmentList.add(new DailyFragment(mDailyData));
-        mFragmentList.add(new HuaZhuangFragment(mHuaZhuangData));
-        mFragmentList.add(new QingjieFragment(mQingjieData));
+        mDataList.add(mMotherData);
+        mDataList.add(mShipinData);
+        mDataList.add(mBabyData);
+        mDataList.add(mChildClothData);
+        mDataList.add(mFashionData);
+        mDataList.add(mChengRenData);
+        mDataList.add(mDailyData);
+        mDataList.add(mHuaZhuangData);
+        mDataList.add(mQingjieData);
 
         mBrindListview.setOnItemClickListener(this);
+    }
+
+    private class GridAdapter extends BaseAdapter {
+
+        private final List<BrandBean.BrandList.BrandValue> mData;
+
+        public GridAdapter(List<BrandBean.BrandList.BrandValue> value) {
+            mData = value;
+        }
+
+        @Override
+        public int getCount() {
+            if (mData != null) {
+                return mData.size();
+            }
+            return 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            if (mData != null) {
+                return mData.get(position);
+            }
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = View.inflate(ResUtil.getContext(), R.layout.item_brand_gridview, null);
+                holder = new ViewHolder();
+                convertView.setTag(holder);
+                holder.image = (ImageView) convertView.findViewById(R.id.brand_gridview_image);
+                holder.text = (TextView) convertView.findViewById(R.id.brand_gridview_text);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            BrandBean.BrandList.BrandValue brandValue = mData.get(position);
+
+
+            String imageUrl = Url.ADDRESS_SERVER + brandValue.getPic();
+            Picasso.with(ResUtil.getContext()).load(imageUrl).into(holder.image);
+            holder.text.setText(brandValue.getName());
+
+            return convertView;
+        }
+
+        class ViewHolder {
+            ImageView image;
+            TextView  text;
+        }
     }
 
     class AutoScrollTask implements Runnable {
@@ -314,8 +360,9 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         //设置状态栏
         mainActivity.setTopBarView(topBrand);
 
-//        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
+        //        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
 
+        ButterKnife.bind(this, super.onCreateView(inflater, container, savedInstanceState));
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -401,10 +448,10 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             String key = brandList.getKey();
             holder.tv.setText(key);
             holder.tv.setTextColor(Color.BLACK);
-            holder.tv.setTextSize(DensityUtil.dip2Px(14));
+            holder.tv.setTextSize(DensityUtil.dip2Px(15));
             int left = DensityUtil.dip2Px(15);
-            int top = DensityUtil.dip2Px(6);
-            int bottom = DensityUtil.dip2Px(6);
+            int top = DensityUtil.dip2Px(10);
+            int bottom = DensityUtil.dip2Px(10);
             holder.tv.setPadding(left, top, 0, bottom);
 
             return convertView;
@@ -440,6 +487,29 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
     }
 
 
+    public void setGridViewHeightBasedOnChildren(GridView gridView) {
+        GridAdapter gridAdapter = (GridAdapter) gridView.getAdapter();
+        if (gridAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < gridAdapter.getCount() / 2 + .5; i++) {
+
+            if (gridAdapter.getCount() == 0) {
+                return;
+            }
+            View listItem = gridAdapter.getView(i, null, gridView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = (int) (totalHeight + ((gridAdapter.getCount() / 2 + .5) - 1));
+        params.height += 5;//if without this statement,the listview will be a little short
+        gridView.setLayoutParams(params);
+    }
+
     /**
      * 点击回退按钮调回到首页
      *
@@ -455,15 +525,14 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            mTransaction = mManager.beginTransaction();
+        List<BrandBean.BrandList.BrandValue> brandValues = mDataList.get(position);
 
-            Fragment fragment = mFragmentList.get(position);
+        mGridAdapter = new GridAdapter(brandValues);
+        mBrindGridview.setAdapter(mGridAdapter);
+        setGridViewHeightBasedOnChildren(mBrindGridview);
 
-            mTransaction.replace(R.id.brand_fragment_container, fragment);
-
-            mTransaction.commit();
-
+        mAdapter.notifyDataSetChanged();
+        mGridAdapter.notifyDataSetChanged();
     }
-
 }
 

@@ -22,6 +22,7 @@ import com.onlyone.jdmall.application.MyApplication;
 import com.onlyone.jdmall.bean.SearchResultBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
 import com.squareup.picasso.Picasso;
@@ -144,6 +145,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        LogUtil.d("vivi", "onDestroyView----------");
         ButterKnife.unbind(this);
     }
 
@@ -168,13 +170,14 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     @Override
     public void onPause() {
         mMainActivity.setTopBarView(SearchFragment.mTopBar);
+        LogUtil.d("vivi","onPause----------");
         super.onPause();
     }
 
 
     @Override
     public void onDestroy() {
-        removeCurFragment();
+        LogUtil.d("vivi", "onDestroy----------");
         super.onDestroy();
     }
 

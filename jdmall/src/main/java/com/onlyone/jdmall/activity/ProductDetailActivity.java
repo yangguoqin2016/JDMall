@@ -85,9 +85,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void init() {
         Intent intent = getIntent();
-        // mProductId = intent.getIntExtra("id", 1);
-        Random random = new Random();
-        mProductId = random.nextInt(30)+1;   //假数据
+         mProductId = intent.getIntExtra("id", 1);
+//        Random random = new Random();
+//        mProductId = random.nextInt(30)+1;   //假数据
     }
 
     /**

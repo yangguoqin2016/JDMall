@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/brand_gridview_image"
         android:layout_width="match_parent"
-        android:layout_height="80dp"/>
+        android:layout_height="55dp"/>
 
     <TextView
         android:gravity="center"

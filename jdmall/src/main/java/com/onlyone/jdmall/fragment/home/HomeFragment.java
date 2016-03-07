@@ -77,6 +77,8 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     private List<HomeBean.HomeTopicBean> mHomeTopics;
     private SwitchTask mTask;
     private MainActivity mMainActivity;
+    private View mAdView1;
+    private View mAdView2;
 
 
     @Override
@@ -130,6 +132,8 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     protected View loadSuccessView() {
         mRootView = (ScrollView) View.inflate(ResUtil.getContext(), R.layout.home_fragment, null);
+        mAdView1 = View.inflate(ResUtil.getContext(), R.layout.home_ad_layout, null);
+        mAdView2 = View.inflate(ResUtil.getContext(), R.layout.home_ad_layout2, null);
         ButterKnife.bind(this, mRootView);
         //添加点击事件的监听
         setListener();
@@ -145,7 +149,21 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         mHhomeLlCategory.setOnClickListener(this);
 
         //ViewFlipper动画
+        startFilpperAnimation();
+    }
 
+    /**
+     * flipper滑动效果
+     */
+    private void startFilpperAnimation() {
+        mHomeViewflipper.addView(mAdView1);
+        mHomeViewflipper.addView(mAdView2);
+
+        mHomeViewflipper.setInAnimation(ResUtil.getContext(), R.anim.ad_in);
+        mHomeViewflipper.setOutAnimation(ResUtil.getContext(), R.anim.ad_out);
+
+        mHomeViewflipper.setFlipInterval(2000);
+        mHomeViewflipper.startFlipping();
     }
 
 
@@ -300,7 +318,6 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 
 
     private class HomeTopicAdapter extends PagerAdapter {

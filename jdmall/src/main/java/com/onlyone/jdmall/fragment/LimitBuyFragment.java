@@ -1,8 +1,12 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.SystemClock;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -40,6 +44,12 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
     private LimitBuyAdapter mAdapter;
     private MainActivity mActivity;
     private CountdownView mCountView;
+    private ViewPager mViewPager;
+    private int[] PICS = {
+            R.mipmap.juxing,
+            R.mipmap.hot,
+            R.mipmap.home_title_pic3
+    };
 
     @Override
     protected String getUrl() {
@@ -84,8 +94,10 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
          */
         View header = View.inflate(ResUtil.getContext(), R.layout.limit_buy_header, null);
         mCountView = (CountdownView) header.findViewById(R.id.limit_buy_count_view);
+        mViewPager = (ViewPager) header.findViewById(R.id.limit_buy_view_pager);
+        mViewPager.setAdapter(new LimitAdapter());
         mLimitBuyLv.addHeaderView(header);
-        mCountView.start(60*60*1000);
+        mCountView.start(60 * 60 * 1000);
         return rootView;
     }
 
@@ -145,9 +157,35 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
                 String string = response.body().string();
                 bean = parseJson(string);
                 return bean.productList;
-            }else{
+            } else {
                 return null;
             }
+        }
+    }
+
+    private class LimitAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return 4;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView iv = new ImageView(ResUtil.getContext());
+            iv.setImageResource(PICS[position % 3]);
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            container.addView(iv);
+            return iv;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
         }
     }
 }

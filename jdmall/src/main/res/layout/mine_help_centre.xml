@@ -10,6 +10,7 @@
         android:orientation="vertical">
         <!-- 购物指南-->
         <LinearLayout
+            android:layout_gravity="center_vertical"
             android:id="@+id/help_buy_guide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,6 +34,7 @@
         </LinearLayout>
         <!--售后服务-->
         <LinearLayout
+            android:layout_gravity="center_vertical"
             android:id="@+id/help_buy_serve"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +59,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="15dp"
                     android:src="@mipmap/right_arrow"/>
             </RelativeLayout>
 
@@ -68,6 +69,7 @@
         </LinearLayout>
         <!-- 配送方式-->
         <LinearLayout
+            android:layout_gravity="center_vertical"
             android:id="@+id/help_send_way"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +94,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="15dp"
                     android:src="@mipmap/right_arrow"/>
             </RelativeLayout>
 
@@ -138,6 +139,7 @@
 
 
         <LinearLayout
+            android:id="@+id/help_center_tv_call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/mine_help_tv"

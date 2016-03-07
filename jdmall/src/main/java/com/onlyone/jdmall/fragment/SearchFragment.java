@@ -69,7 +69,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	private ArrayList<String> mHistoryList;
 	private boolean mIsHistoryArrowOpen = true;
 	private HistoryAdapter mAdapter;
-	private SearchResultFragment mSearchResultFragment;
 
 	@Override
 	protected String getUrl() {
@@ -193,17 +192,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 
 	@Override
 	public void onPause() {
-		FragmentManager manager = mMainActivity.getSupportFragmentManager();
-		for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
-			manager.popBackStack();
-		}
 
-		if(mSearchResultFragment!=null){
-			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.remove(mSearchResultFragment);
-			transaction.commit();
-			mSearchResultFragment=null;
-		}
 		LogUtil.d("vivi", "onPause方法被调用了--------");
 		super.onPause();
 	}
@@ -261,9 +250,21 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	}
 
 	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		LogUtil.d("vivi", "onDestroy方法被调用了--------");
+	}
+
+	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
+		FragmentManager manager = mMainActivity.getSupportFragmentManager();
+		for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+			manager.popBackStack();
+		}
 		ButterKnife.unbind(this);
+		LogUtil.d("vivi", "onDestroyView方法被调用了--------");
+
 	}
 
 	/**
@@ -355,11 +356,8 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		FragmentTransaction transaction = manager.beginTransaction();
 		// transaction.hide(this);
 
-		if (mSearchResultFragment==null) {
-			mSearchResultFragment = new SearchResultFragment();
-		}
-		transaction.replace(R.id.fl_content_container, mSearchResultFragment, TAG_SEARCHRESULT_FRAGMENT);
-		// TODO:回退栈,TopBar没有改变
+		transaction.replace(R.id.fl_content_container, new SearchResultFragment(),
+							TAG_SEARCHRESULT_FRAGMENT);
 		transaction.addToBackStack(null);
 		transaction.commit();
 	}

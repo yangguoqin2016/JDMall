@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:src="@mipmap/tuijian" />
+        android:src="@mipmap/tuijianpinpaigonggao1" />
     <TextView
-        android:text="粉色系暖心套装"
+        android:text="韩版棉袄"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

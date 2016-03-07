@@ -1,5 +1,9 @@
 package com.onlyone.jdmall.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,11 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.fragment.mine.AddressManagerFragment;
 import com.onlyone.jdmall.fragment.mine.MineAboutFragment;
 import com.onlyone.jdmall.fragment.mine.MineHelpFragment;
 import com.onlyone.jdmall.pager.LoadListener;
@@ -31,13 +36,15 @@ import butterknife.ButterKnife;
  * @描述: ${TODO}
  */
 
-public class MineFragment extends SuperBaseFragment<Object> implements View.OnClickListener {
+public class MineFragment extends BaseFragment<Object> implements View.OnClickListener {
 
     public static final String TAG_MINEABOUT_FRAGMENT = "tag_mineabout_fragment";
 
     public static final String TAG_MINEHELP_FRAGMENT = "tag_minehelp_fragment";
 
     public static final String TAG_MINEFAVORITE_FRAGMENT = "tag_minefavorite_fragment";
+
+    public static final String TAG_MINEADDRESSMANAGER_FRAGMENT = "tag_mineaddressmanager_fragment";
     @Bind(R.id.fragment_ll_mine_order)
     LinearLayout mFragmentLlMineOrder;
     @Bind(R.id.fragment_ll_mine_address)
@@ -56,6 +63,8 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
     LinearLayout mFragmentLlMineAbout;
     @Bind(R.id.mine_back_btn)
     Button       mMineBackBtn;
+    @Bind(R.id.mine_tv_call)
+    TextView     mMineTvCall;
 
     private MainActivity     mMainActivity;
     private MineHelpFragment mHelpFragment;
@@ -73,15 +82,6 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
         return successView;
     }
 
-    @Override
-    public int getMethod() {
-        return Request.Method.GET;
-    }
-
-    @Override
-    protected String getUrl() {
-        return null;
-    }
 
     @Override
     protected void loadData(LoadListener<Object> listener) {
@@ -93,10 +93,7 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
 
     }
 
-    @Override
-    protected Object parseJson(String jsonStr) {
-        return null;
-    }
+
 
     @Override
     public void onResume() {
@@ -114,6 +111,7 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
         mFragmentLlMineFeedback.setOnClickListener(this);
         mFragmentLlMineAbout.setOnClickListener(this);
         mMineBackBtn.setOnClickListener(this);
+        mMineTvCall.setOnClickListener(this);
 
         super.onResume();
     }
@@ -127,12 +125,6 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
         return rootView;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("aaa", "onPause");
-        mMainActivity.setHideTopBar(false);
-    }
 
     @Override
     public void onDestroyView() {
@@ -151,6 +143,8 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
             case R.id.fragment_ll_mine_order://我的订单
                 break;
             case R.id.fragment_ll_mine_address://地址管理
+                Fragment addressManagerFragment = new AddressManagerFragment();
+                changeFragment(addressManagerFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_gift://优惠券/礼品卡
                 break;
@@ -172,6 +166,37 @@ public class MineFragment extends SuperBaseFragment<Object> implements View.OnCl
                 Toast.makeText(ResUtil.getContext(), "点我了", Toast.LENGTH_SHORT).show();
                 Fragment aboutFragment = new MineAboutFragment();
                 changeFragment(aboutFragment, TAG_MINEABOUT_FRAGMENT);
+                break;
+            case R.id.mine_tv_call:
+                //客服电话
+                AlertDialog.Builder builder = new AlertDialog.Builder(mMainActivity);
+                builder.setTitle("系统提示")//设置对话框标题
+                        .setMessage("您有什么疑问？您需要联系客服处理吗？")//设置显示的内容
+                                //添加确定按钮
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                //当点击确定时就拨打电话
+                                //意图：想干什么事
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_CALL);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addCategory("android.intent.category.DEFAULT");
+                                //url:统一资源定位符
+                                //uri:统一资源标示符（更广）
+                                intent.setData(Uri.parse("tel://400-6666-6666"));
+                                //开启系统拨号器
+                                mMainActivity.startActivity(intent);
+                            }
+                        }).setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                    //添加返回按钮
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //响应事件返回更多设置的主界面
+
+                    }
+                }).show();
                 break;
             default:
                 break;

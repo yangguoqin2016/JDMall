@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.app.Fragment;
@@ -26,11 +27,13 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.activity.ProductDetailActivity;
 import com.onlyone.jdmall.application.MyApplication;
 import com.onlyone.jdmall.bean.SearchResultBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.DensityUtil;
+import com.onlyone.jdmall.utils.FragmentUtil;
 import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
@@ -84,17 +87,17 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     private String       mSearchKey;
     private MyAdapter    mAdapter;
 
-    private int mCurOrderby;
+    private int     mCurOrderby;
     private boolean mIsUp;
+    private int mSearchNum;
 
     @Override
     protected void refreshSuccessView(SearchResultBean data) {
 
         mResultData = data;
-        int searchNum = 0;
         if (data == null || data.productList.size() == 0) {
             // TODO: 2016/3/5 返回空界面
-            searchNum = 0;
+            mSearchNum = 0;
             /* 如果是空,返回一个空视图 */
 
             View view = View.inflate(ResUtil.getContext(), R.layout.item_searchresult_empty, null);
@@ -114,12 +117,12 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
             // 返回成功界面奶粉
             mAdapter = new MyAdapter();
             mSearchresultLv.setAdapter(mAdapter);
-            searchNum = data.productList.size();
+            mSearchNum = data.productList.size();
 
 			/* 设置listview条目点击事件 */
             mSearchresultLv.setOnItemClickListener(new ItemCilckListner());
         }
-        mTvResult.setText("搜索结果(" + searchNum + "条)");
+        mTvResult.setText("搜索结果(" + mSearchNum + "条)");
     }
 
     private void setContentView(View view) {
@@ -182,9 +185,17 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         TextView tvBack = (TextView) topBar.findViewById(R.id.topbar_tv_back);
         tvBack.setOnClickListener(this);
         mTvResult = (TextView) topBar.findViewById(R.id.topbar_tv_result);
-
+        mTvResult.setText("搜索结果(" + mSearchNum + "条)");
         mMainActivity = (MainActivity) getActivity();
         mMainActivity.setTopBarView(topBar);
+
+        mMainActivity.setOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
+            @Override
+            public void onPressed() {
+                mMainActivity.setTopBarView(SearchFragment.mTopBar);
+            }
+        });
+        LogUtil.d("vivi", "onResume----------");
         super.onResume();
     }
 
@@ -201,8 +212,10 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         String orderby = null;
         switch (v.getId()) {
             case R.id.topbar_tv_back:// 返回
-                removeCurFragment();
-                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
+//                removeCurFragment();
+//                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
+                FragmentUtil.goBack(mMainActivity);
+                mMainActivity.setTopBarView(SearchFragment.mTopBar);
                 break;
             case R.id.searchresult_sale:// 销量
                 /**
@@ -240,7 +253,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     }
 
     /**
-     * 排序
+     * 通过orderby排序去网络请求数据
      *
      * @param orderby
      */
@@ -286,9 +299,14 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
 
     @Override
     public void onPause() {
-        mMainActivity.setTopBarView(SearchFragment.mTopBar);
         LogUtil.d("vivi", "onPause----------");
         super.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        LogUtil.d("vivi", "onStart----------");
+        super.onStart();
     }
 
     @Override
@@ -303,8 +321,18 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         /* 商品条目的点击事件 */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(ResUtil.getContext(), mResultData.productList.get(position).name,
+            FragmentManager manager = mMainActivity.getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.addToBackStack(null);
+            transaction.commit();
+            //跳转商品详情页面
+            SearchResultBean.ProductList productList = mResultData.productList.get(position);
+            Toast.makeText(ResUtil.getContext(), productList.name,
                            Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(mMainActivity, ProductDetailActivity.class);
+            intent.putExtra("id",productList.id);
+            mMainActivity.startActivity(intent);
+
         }
     }
 

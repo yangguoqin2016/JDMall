@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
@@ -17,6 +19,7 @@ import com.onlyone.jdmall.bean.LimitBuyBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.LimitBuyHolder;
+import com.onlyone.jdmall.utils.DensityUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -35,7 +38,7 @@ import cn.iwgang.countdownview.CountdownView;
  * @创建时间: 2016/3/6 14:15
  * @描述: ${TODO}
  */
-public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements MainActivity.OnBackPressedListener {
+public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements MainActivity.OnBackPressedListener, ViewPager.OnPageChangeListener {
 
     private static final int PAGENUMBER = 15;
     @Bind(R.id.limit_buy_lv)
@@ -48,8 +51,11 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
     private int[] PICS = {
             R.mipmap.juxing,
             R.mipmap.hot,
-            R.mipmap.home_title_pic3
+            R.mipmap.home_title_pic3,
+            R.mipmap.home_new_product
     };
+    private ImageView mRec;
+    private int mWidthPixels;
 
     @Override
     protected String getUrl() {
@@ -64,6 +70,12 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
 
     @Override
     protected void handleError(Exception e) {
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
     }
 
@@ -95,9 +107,13 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
         View header = View.inflate(ResUtil.getContext(), R.layout.limit_buy_header, null);
         mCountView = (CountdownView) header.findViewById(R.id.limit_buy_count_view);
         mViewPager = (ViewPager) header.findViewById(R.id.limit_buy_view_pager);
+        mRec = (ImageView) header.findViewById(R.id.limit_buy_header_rec);
         mViewPager.setAdapter(new LimitAdapter());
         mLimitBuyLv.addHeaderView(header);
         mCountView.start(60 * 60 * 1000);
+
+        //设置监听
+        mViewPager.setOnPageChangeListener(this);
         return rootView;
     }
 
@@ -113,6 +129,7 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
         super.onResume();
         mActivity = (MainActivity) getActivity();
         mActivity.setOnBackPreseedListener(this);
+        mWidthPixels = mActivity.getResources().getDisplayMetrics().widthPixels;
         changeTitleBar();
     }
 
@@ -131,6 +148,24 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
     public void onPressed() {
         View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
         mActivity.setTopBarView(titlBar);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mRec.getLayoutParams();
+        float perPagerPixels = mWidthPixels / 4.0f;
+        params.leftMargin = (int) (position * perPagerPixels +perPagerPixels*positionOffset +0.5f+ DensityUtil.dip2Px(5));
+        mRec.setLayoutParams(params);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     private class LimitBuyAdapter extends SuperBaseAdapter<LimitBuyBean.LimitBuyItemBean> {
@@ -177,7 +212,7 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView iv = new ImageView(ResUtil.getContext());
-            iv.setImageResource(PICS[position % 3]);
+            iv.setImageResource(PICS[position]);
             iv.setScaleType(ImageView.ScaleType.FIT_XY);
             container.addView(iv);
             return iv;

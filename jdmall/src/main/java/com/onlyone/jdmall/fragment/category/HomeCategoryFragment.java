@@ -60,11 +60,10 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
     ImageView mCategoryFirstPagerSixImg;
     @Bind(R.id.category_first_pager_six_text)
     TextView  mCategoryFirstPagerSixText;
+    @Bind(R.id.category_first_pager_title_text)
+    TextView  mCategoryFirstPagerTitleText;
 
-    //访问的地址
-    String baseUrl = "http://188.188.5.72:8080/market";
-    /*@Bind(R.id.category_first_pager_title_text)
-    TextView     mCategoryFirstPagerTitleText;*/
+
     @Bind(R.id.category_first_pager_first_container)
     LinearLayout mCategoryFirstPagerFirstContainer;
     @Bind(R.id.category_first_pager_second_container)
@@ -108,12 +107,16 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
     private       HomeCategoryPagerFiveFragment                                                           mHomeCategoryPagerFiveFragment;
     private       HomeCategoryPagerSixFragment                                                            mHomeCategoryPagerSixFragment;
 
+
+
+
     @Override
-    protected void refreshSuccessView(HomeCategoryBean data) {
+    public void refreshSuccessView(HomeCategoryBean data) {
         //拿多一份数据去进行分类处理
         this.mDatasList = data.category;
 
         //子线程中去计算
+
         new Thread() {
             @Override
             public void run() {
@@ -125,42 +128,42 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
         }.start();
 
         //数据的前六条就是商品分类的根分类节点
-        System.out.println("获取第一个分类节点的访问地址:" + baseUrl + data.category.get(0).pic);
+        System.out.println("获取第一个分类节点的访问地址:" + Url.ADDRESS_SERVER + data.category.get(0).pic);
 
         //注意最大id为59,但对应的父ID超过153,则只能根据已有的id去设置到界面
         //妈妈专区
         Picasso.with(getContext())
-                .load(baseUrl + data.category.get(1).pic).error(R.drawable.kunian)
+                .load(Url.ADDRESS_SERVER + data.category.get(1).pic).error(R.drawable.kunian)
                 .centerCrop()
                 .fit()
                 .into(mCategoryFirstPagerFirstImg);
         //时尚女装
         Picasso.with(getContext())
-                .load(baseUrl + data.category.get(9).pic).error(R.drawable.kunian)
+                .load(Url.ADDRESS_SERVER + data.category.get(9).pic).error(R.drawable.kunian)
                 .centerCrop()
                 .fit()
                 .into(mCategoryFirstPagerSecondImg);
         //宝宝用品
         Picasso.with(getContext())
-                .load(baseUrl + data.category.get(23).pic).error(R.drawable.kunian)
+                .load(Url.ADDRESS_SERVER + data.category.get(23).pic).error(R.drawable.kunian)
                 .centerCrop()
                 .fit()
                 .into(mCategoryFirstPagerThirdImg);
         //日常用品
         Picasso.with(getContext())
-                .load(baseUrl + data.category.get(33).pic).error(R.drawable.kunian)
+                .load(Url.ADDRESS_SERVER + data.category.get(33).pic).error(R.drawable.kunian)
                 .centerCrop()
                 .fit()
                 .into(mCategoryFirstPagerFourImg);
         //儿童服饰
         Picasso.with(getContext())
-                .load(baseUrl + data.category.get(55).pic).error(R.drawable.kunian)
+                .load(Url.ADDRESS_SERVER + data.category.get(55).pic).error(R.drawable.kunian)
                 .centerCrop()
                 .fit()
                 .into(mCategoryFirstPagerFiveImg);
         //儿童玩具
         Picasso.with(getContext())
-                .load(baseUrl + data.category.get(26).pic).error(R.drawable.kunian)
+                .load(Url.ADDRESS_SERVER + data.category.get(26).pic).error(R.drawable.kunian)
                 .centerCrop()
                 .fit()
                 .into(mCategoryFirstPagerSixImg);
@@ -368,15 +371,6 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
                     }
                 });
     }
-/*
-        //点击back按键回退首页
-        mActivity.setOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
-			@Override
-			public void onPressed() {
-				restoreHomeTopBar();
-			}
-		});
-    }*/
 
     public void onClick(View v) {
         HolderFragment holderFragment = (HolderFragment) getParentFragment();

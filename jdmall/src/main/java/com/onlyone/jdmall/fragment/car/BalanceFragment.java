@@ -1,6 +1,9 @@
 package com.onlyone.jdmall.fragment.car;
 
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
@@ -8,7 +11,6 @@ import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.FragmentUtil;
-import com.onlyone.jdmall.utils.LogUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,13 +24,42 @@ import butterknife.ButterKnife;
  */
 public class BalanceFragment extends BaseFragment<Object> {
 	private static final String TAG = "BalanceFragment";
-
 	@Bind(R.id.tv_balance_name)
-	TextView mTvBalanceName;
+	TextView     mTvBalanceName;
 	@Bind(R.id.tv_balance_number)
-	TextView mTvBalanceNumber;
+	TextView     mTvBalanceNumber;
 	@Bind(R.id.tv_balance_address)
-	TextView mTvBalanceAddress;
+	TextView     mTvBalanceAddress;
+	@Bind(R.id.iv_balance_intoaddress)
+	ImageView    mIvBalanceIntoaddress;
+	@Bind(R.id.tv_balance_pay)
+	TextView     mTvBalancePay;
+	@Bind(R.id.iv_balance_intopay)
+	ImageView    mIvBalanceIntopay;
+	@Bind(R.id.tv_balance_time)
+	TextView     mTvBalanceTime;
+	@Bind(R.id.tv_balance_way)
+	TextView     mTvBalanceWay;
+	@Bind(R.id.iv_balance_intotime)
+	ImageView    mIvBalanceIntotime;
+	@Bind(R.id.tv_balance_type)
+	TextView     mTvBalanceType;
+	@Bind(R.id.iv_balance_intoticket)
+	ImageView    mIvBalanceIntoticket;
+	@Bind(R.id.ll_balance_images)
+	LinearLayout mLlBalanceImages;
+	@Bind(R.id.tv_balance_count)
+	TextView     mTvBalanceCount;
+	@Bind(R.id.iv_balance_intocar)
+	ImageView    mIvBalanceIntocar;
+	@Bind(R.id.tv_balance_moneytitle)
+	TextView     mTvBalanceMoneytitle;
+	@Bind(R.id.tv_balance_money)
+	TextView     mTvBalanceMoney;
+	@Bind(R.id.ll_balance_moneycount)
+	LinearLayout mLlBalanceMoneycount;
+	@Bind(R.id.btn_balance_commit)
+	Button       mBtnBalanceCommit;
 
 	private MainActivity mActivity;
 
@@ -41,14 +72,6 @@ public class BalanceFragment extends BaseFragment<Object> {
 		View view = View.inflate(getContext(), R.layout.balance_center, null);
 
 		ButterKnife.bind(this, view);
-
-		mTvBalanceAddress.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				LogUtil.i(TAG, "点击了地址栏");
-				FragmentUtil.goBack(mActivity);
-			}
-		});
 
 		return view;
 	}

@@ -10,4 +10,7 @@ package com.onlyone.jdmall.constance;
 public interface Serialize {
 	String TAG_HISTORY = "tag_history";//搜索历史的TAG
 	String TAG_CAR     = "tag_car"; //购物车TAG
+
+	String TAG_BROWSE = "tag_browse";  //商品浏览记录TAG
+	String TAG_STORE = "tag_store";  //商品收藏TAG
 }

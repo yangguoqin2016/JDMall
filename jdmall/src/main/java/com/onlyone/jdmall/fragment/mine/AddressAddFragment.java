@@ -69,7 +69,7 @@ public class AddressAddFragment extends BaseFragment<Object> {
     protected View loadSuccessView() {
 //        mAddView = View.inflate(getActivity(), R.layout.mine_address_add, null);
         mAddView = View.inflate(ResUtil.getContext(), R.layout.mine_address_add, null);
-//        initProvinceSelect(mAddView);
+        initProvinceSelect(mAddView);
 
         return mAddView;
     }
@@ -81,8 +81,9 @@ public class AddressAddFragment extends BaseFragment<Object> {
         tvOptions=(TextView) view.findViewById(R.id.addr_add_tv_province);
 
         //时间选择器
-        /*pvTime = new TimePickerView(mMainActivity, TimePickerView.Type.YEAR_MONTH_DAY);
-//        pvTime = new TimePickerView(getActivity(), TimePickerView.Type.YEAR_MONTH_DAY);
+//        pvTime = new TimePickerView(mMainActivity, TimePickerView.Type.YEAR_MONTH_DAY);
+        pvTime = new TimePickerView(getActivity(), TimePickerView.Type.YEAR_MONTH_DAY);
+//        pvTime = new TimePickerView(ResUtil.getContext(), TimePickerView.Type.YEAR_MONTH_DAY);
         //控制时间范围
         //        Calendar calendar = Calendar.getInstance();
         //        pvTime.setRange(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR));
@@ -104,7 +105,7 @@ public class AddressAddFragment extends BaseFragment<Object> {
             public void onClick(View v) {
                 pvTime.show();
             }
-        });*/
+        });
 
         //选项选择器
         pvOptions = new OptionsPickerView(getActivity());

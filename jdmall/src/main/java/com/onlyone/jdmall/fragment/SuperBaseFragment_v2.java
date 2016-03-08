@@ -18,7 +18,13 @@ import java.util.Map;
  * @包名: com.onlyone.jdmall.fragment
  * @创建者: lianjiacheng
  * @创建时间: 2016/3/5 15:34
- * @描述: ${TODO}
+ * @描述: 有6个抽象方法需要实现
+ * @描述: 1.getUrl() 设置请求的url,
+ * @描述: 2.getHeadersMap() 添加请求头到Map集合中
+ * @描述: 3.handleError(Exception e) 处理异常的方法
+ * @描述: 4.parseJson(String jsonStr) 解析json数据
+ * @描述: 5.loadSuccessView() 加载成功的视图
+ * @描述: 6.refreshSuccessView(T data) 加载数据完成,刷新UI,覆写这个方法的人,需要判断data是否为null
  */
 public abstract class SuperBaseFragment_v2<T> extends BaseFragment<T> {
 

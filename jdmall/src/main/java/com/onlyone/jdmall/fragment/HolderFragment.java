@@ -57,6 +57,8 @@ public abstract class HolderFragment extends Fragment {
 		FragmentManager childFragmentManager = getChildFragmentManager();
 		FragmentTransaction transaction = childFragmentManager.beginTransaction();
 
+		transaction.setCustomAnimations(R.anim.pager_enter,R.anim.pager_exit,
+				R.anim.pager_pop_enter,R.anim.pager_pop_exit);
 		transaction.replace(R.id.fl_content_container, fragment);
 
 		transaction.addToBackStack(this.getClass().getSimpleName());

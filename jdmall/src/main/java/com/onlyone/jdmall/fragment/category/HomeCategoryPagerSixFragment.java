@@ -1,7 +1,9 @@
 package com.onlyone.jdmall.fragment.category;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.activity.ProductDetailActivity;
 import com.onlyone.jdmall.adapter.MyBaseAdapter;
 import com.onlyone.jdmall.bean.HomeCategoryBean;
 import com.onlyone.jdmall.bean.ItemBean;
@@ -31,7 +34,7 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/7 10:11
  * @描述: ${TODO}
  */
-public class HomeCategoryPagerSixFragment extends BaseFragment<ItemBean> {
+public class HomeCategoryPagerSixFragment extends BaseFragment<ItemBean> implements AdapterView.OnItemClickListener {
     @Bind(R.id.category_common_pager_tv)
     TextView mCategoryCommonPagerTv;
     @Bind(R.id.category_common_pager_gv)
@@ -102,20 +105,6 @@ public class HomeCategoryPagerSixFragment extends BaseFragment<ItemBean> {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-           /* ImageView imageView;
-            System.out.println("正在设置界面");
-            if(convertView==null){
-                imageView = new ImageView(getContext());
-                imageView.setLayoutParams(new GridView.LayoutParams(400, 400));
-                //imageView.setAdjustViewBounds(true);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(10,10,10,10);
-            }else{
-                imageView = (ImageView) convertView;
-            }
-
-            Picasso.with(getContext()).load(Url.ADDRESS_SERVER + mListDatas.get(position).pic)
-                    .fit().into(imageView);*/
 
             Holder holder = null;
             if(convertView == null){
@@ -132,7 +121,7 @@ public class HomeCategoryPagerSixFragment extends BaseFragment<ItemBean> {
 
             holder.tv.setText(mListDatas.get(position).name);
             Picasso.with(getContext()).load(Url.ADDRESS_SERVER + mListDatas.get(position).pic)
-                    .fit().centerInside().into(holder.iv);
+                    .fit().centerCrop().into(holder.iv);
             return convertView;
         }
     }
@@ -140,5 +129,34 @@ public class HomeCategoryPagerSixFragment extends BaseFragment<ItemBean> {
     class Holder{
         TextView tv;
         ImageView iv;
+    }
+
+
+    private void getwindowsData(){
+
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+
+    }
+
+
+    /**
+     * 监听点击条目去跳转详情页面
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        //TODO:跳转详情页面
+
+        Intent intent = new Intent(ResUtil.getContext(), ProductDetailActivity.class);
+
+        intent.putExtra("id",3);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ResUtil.getContext().startActivity(intent);
+
     }
 }

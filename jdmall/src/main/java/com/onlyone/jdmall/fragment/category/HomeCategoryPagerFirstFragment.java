@@ -1,7 +1,9 @@
 package com.onlyone.jdmall.fragment.category;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.activity.ProductDetailActivity;
 import com.onlyone.jdmall.adapter.MyBaseAdapter;
 import com.onlyone.jdmall.bean.HomeCategoryBean;
 import com.onlyone.jdmall.bean.ItemBean;
@@ -31,7 +34,7 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/6 14:52
  * @描述: 这是从分类主页跳转到的第一个条目的页面
  */
-public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
+public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> implements AdapterView.OnItemClickListener {
 	@Bind(R.id.category_common_pager_tv)
 	TextView mCategoryCommonPagerTv;
 	@Bind(R.id.category_common_pager_gv)
@@ -45,10 +48,11 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
 	protected void refreshSuccessView(ItemBean data) {
 		mCategoryCommonPagerTv.setText("妈妈专区");
 
-		//从分类的根页面获取到数据
-		mListDatas = HomeCategoryFragment.mFirstList;
-		mCategoryCommonPagerGv.setAdapter(new CategoryFirstAdapter(mListDatas));
-		System.out.println("数据有多少个:" + mListDatas.size());
+        //从分类的根页面获取到数据
+        mListDatas = HomeCategoryFragment.mFirstList;
+        mCategoryCommonPagerGv.setAdapter(new CategoryFirstAdapter(mListDatas));
+        mCategoryCommonPagerGv.setOnItemClickListener(this);
+        System.out.println("数据有多少个:"+mListDatas.size());
 
 	}
 
@@ -104,20 +108,6 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-		   /* ImageView imageView;
-            System.out.println("正在设置界面");
-            if(convertView==null){
-                imageView = new ImageView(getContext());
-                imageView.setLayoutParams(new GridView.LayoutParams(400, 400));
-                //imageView.setAdjustViewBounds(true);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(10,10,10,10);
-            }else{
-                imageView = (ImageView) convertView;
-            }
-
-            Picasso.with(getContext()).load(Url.ADDRESS_SERVER + mListDatas.get(position).pic)
-                    .fit().into(imageView);*/
 
 			Holder holder = null;
 			if (convertView == null) {
@@ -132,15 +122,46 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> {
 				holder = (Holder) convertView.getTag();
 			}
 
-			holder.tv.setText(mListDatas.get(position).name);
-			Picasso.with(getContext()).load(Url.ADDRESS_SERVER + mListDatas.get(position).pic)
-					.fit().centerInside().into(holder.iv);
-			return convertView;
-		}
-	}
+            holder.tv.setText(mListDatas.get(position).name);
+            Picasso.with(getContext()).load(Url.ADDRESS_SERVER + mListDatas.get(position).pic)
+                    .fit().centerInside().into(holder.iv);
 
-	class Holder {
-		TextView  tv;
-		ImageView iv;
-	}
+            return convertView;
+        }
+    }
+
+    class Holder{
+        TextView tv;
+        ImageView iv;
+    }
+
+
+    private void getwindowsData(){
+
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+
+    }
+
+    /**
+     * 监听点击条目去跳转详情页面
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        //TODO:跳转详情页面
+
+        Intent intent = new Intent(ResUtil.getContext(), ProductDetailActivity.class);
+
+        intent.putExtra("id",1);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ResUtil.getContext().startActivity(intent);
+
+    }
+
+
 }

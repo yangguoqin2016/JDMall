@@ -173,6 +173,7 @@
                         android:textColor="#000"
                         android:textSize="18sp"/>
                     <TextView
+                        android:id="@+id/product_dialog_buy_limit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

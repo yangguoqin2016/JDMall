@@ -50,6 +50,8 @@ public class ProductDialog extends Dialog {
     EditText  mProductDialogNumEdit;
     @Bind(R.id.product_dialog_num_add)
     ImageView mProductDialogNumAdd;
+    @Bind(R.id.product_dialog_buy_limit)
+    TextView  mProductDialogBuyLimit;
 
     private ProductDetailBean.ProductEntity mPoductBean;
 
@@ -92,17 +94,20 @@ public class ProductDialog extends Dialog {
     private void initView() {
         //1.设置商品图标
         List<String> pics = mPoductBean.pics;
-        if(pics.size() == 0){
+        if (pics.size() == 0) {
             mProductDialogPic.setImageResource(R.mipmap.guide);
-        }else{
-            String url = Url.ADDRESS_SERVER+pics.get(0);
+        } else {
+            String url = Url.ADDRESS_SERVER + pics.get(0);
             Picasso.with(ResUtil.getContext()).load(url).into(mProductDialogPic);
         }
 
         //2.设置商品价格
-        mProductDialogPrice.setText("￥"+mPoductBean.price);
-        float savedMoney = mPoductBean.marketPrice-mPoductBean.price;
-        mProductDialogPriceSave.setText("节省"+savedMoney+"元");
+        mProductDialogPrice.setText("￥" + mPoductBean.price);
+        float savedMoney = mPoductBean.marketPrice - mPoductBean.price;
+        mProductDialogPriceSave.setText("节省" + savedMoney + "元");
+
+        //3.设置限购数量
+        mProductDialogBuyLimit.setText("(单品限购"+mPoductBean.buyLimit+"件)");
     }
 
     @OnClick({R.id.product_dialog_dismiss, R.id.product_dialog_addcar, R.id.product_dialog_buy, R.id.product_dialog_num_reduce, R.id.product_dialog_num_add})

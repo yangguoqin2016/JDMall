@@ -38,6 +38,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.iwgang.countdownview.CountdownView;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -71,6 +72,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView       mProductDetailBuyLimit;
     @Bind(R.id.product_detail_viewpager_indicator)
     TextView       mProductDetailViewpagerIndicator;
+    @Bind(R.id.limit_buy_count_view)
+    CountdownView  mLimitBuyCountView;
 
     private int                             mProductId;
     private ProductDetailBean.ProductEntity mProductBean;
@@ -142,7 +145,7 @@ public class ProductDetailActivity extends AppCompatActivity {
      */
     private void saveBrowseHistory(ProductDetailBean.ProductEntity productBean) {
         //1.只有登录状态才保存历史浏览记录
-        if(!isLogin()){
+        if (!isLogin()) {
             return;
         }
         //2.获取当前登录用户名
@@ -150,12 +153,12 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         //3.序列化取出保存的集合
         HashSet<ProductDetailBean.ProductEntity> set = SerializeUtil.serializeObject(userName);
-        if(set == null){
+        if (set == null) {
             set = new HashSet<>();
-        }else{
+        } else {
             //重复商品不添加到历史记录
             for (ProductDetailBean.ProductEntity productEntity : set) {
-                if(productBean.id == productEntity.id){
+                if (productBean.id == productEntity.id) {
                     return;
                 }
             }
@@ -206,26 +209,18 @@ public class ProductDetailActivity extends AppCompatActivity {
         //商品单件限购量
         mProductDetailBuyLimit.setText(mProductBean.buyLimit + "件");
 
-        //1.剩余抢购时间倒计时
-        refreshLeftTime();
+        //剩余抢购时间倒计时
+        mLimitBuyCountView.start(mProductBean.leftTime*1000);
 
-        //2.设置图片轮播图
+        //设置图片轮播图
         mPicUrls = mProductBean.pics;
         mProductDetailPicViewpager.setAdapter(new ProductPicAdapter());
 
-        if(mPicUrls == null || mPicUrls.size() == 0){
+        if (mPicUrls == null || mPicUrls.size() == 0) {
             mProductDetailViewpagerIndicator.setText("0/0");
-        }else{
+        } else {
             mProductDetailViewpagerIndicator.setText(1 + "/" + mPicUrls.size());
         }
-    }
-
-
-    /**
-     * //TODO:剩余抢购时间倒计时处理
-     */
-    private void refreshLeftTime() {
-        mProductDetailLeftTime.setText("剩余抢购时间" + mProductBean.leftTime + "秒");
     }
 
 
@@ -280,10 +275,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         int[] productPros = {1, 2};  //{颜色,尺寸}
 
         //2.获取登录用户名
-        String userName ;
-        if(isLogin()){
+        String userName;
+        if (isLogin()) {
             userName = getLoginUser();
-        }else{
+        } else {
             Toast.makeText(this, "尚未登录...", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -316,11 +311,11 @@ public class ProductDetailActivity extends AppCompatActivity {
      *
      * @return
      */
-    private String getLoginUser(){
-        if(isLogin()){
+    private String getLoginUser() {
+        if (isLogin()) {
             SPUtil spUtil = new SPUtil(this);
             return spUtil.getString(SP.USERNAME, "");
-        }else{
+        } else {
             return null;
         }
     }

@@ -220,6 +220,12 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
             mSp.putString(SP.PASSWORD, mPassword);
         }
     }
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMainActivity = (MainActivity)getActivity();
+        mMainActivity.setHideTopBar(true);
+    }
 
     private void changeFragment() {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

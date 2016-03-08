@@ -60,6 +60,22 @@ public abstract class BaseFragment<T> extends Fragment {
 	}
 
 	/**
+	 * 返回之前的页面
+	 */
+	public void goBack() {
+		((HolderFragment) getParentFragment()).goBack();
+	}
+
+	/**
+	 * 跳转到指定的页面
+	 *
+	 * @param fragment 页面
+	 */
+	public void goForward(Fragment fragment) {
+		((HolderFragment) getParentFragment()).goForward(fragment);
+	}
+
+	/**
 	 * 使用成功数据刷新视图
 	 *
 	 * @param data 数据

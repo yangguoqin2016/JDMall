@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ProductDetailBean;
+import com.onlyone.jdmall.constance.Serialize;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
@@ -125,7 +126,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 refreshUI();
 
                 //保存浏览的历史记录
-                saveBrowseHistory(mProductBean);
+                saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_BROWSE);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -137,11 +138,11 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     /**
-     * 将商品浏览的记录保存并序列化
-     *
+     * 1.将商品浏览的记录保存并序列化
+     * 2.商品收藏时将商品信息序列化
      * @param productBean
      */
-    private void saveBrowseHistory(ProductDetailBean.ProductEntity productBean) {
+    private void saveBrowseOrStoreHistory(ProductDetailBean.ProductEntity productBean, String tag) {
         //1.只有登录状态才保存历史浏览记录
         if (!UserLoginUtil.isLogin()) {
             return;
@@ -150,7 +151,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         String userName = UserLoginUtil.getLoginUser();
 
         //3.序列化取出保存的集合
-        HashSet<ProductDetailBean.ProductEntity> set = SerializeUtil.serializeObject(userName);
+        String keyTag = userName+"_"+tag;
+        HashSet<ProductDetailBean.ProductEntity> set = SerializeUtil.serializeObject(keyTag);
         if (set == null) {
             set = new HashSet<>();
         } else {
@@ -163,7 +165,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
         //4.集合序列化,tag为当前登录用户名
         set.add(productBean);
-        SerializeUtil.deserializeObject(userName, set);
+        SerializeUtil.deserializeObject(keyTag, set);
 
     }
 
@@ -237,7 +239,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "分享..", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.product_detail_store:
-                Toast.makeText(this, "收藏..", Toast.LENGTH_SHORT).show();
+                saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_STORE);
+                Toast.makeText(this, "已收藏..", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.product_detail_addcar:
                 //添加购物车
@@ -269,7 +272,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     //TODO:获取商品属性并添加购物车
     private void addToCar() {
         CarModel carModel = CarModel.getInstance();
-        //1.获取商品颜色,尺寸
+        //TODO:1.获取商品颜色,尺寸
         int[] productPros = {1, 2};  //{颜色,尺寸}
 
         //2.获取登录用户名

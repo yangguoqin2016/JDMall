@@ -146,7 +146,10 @@ public class ProductDialog extends Dialog {
         //2.获取登录用户名
         if(!UserLoginUtil.isLogin()) {
             Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
-            //TODO:跳转登录页面
+
+            //TODO:跳转登录页面,activity->fragment
+
+
         }else{
             String userName = UserLoginUtil.getLoginUser();
             carModel.addToCar(userName, mPoductBean.id, productPros);

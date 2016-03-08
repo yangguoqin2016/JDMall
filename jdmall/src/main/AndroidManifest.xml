@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
 
+
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
@@ -28,6 +29,7 @@
         </activity>
         <activity android:name=".activity.ProductDesActivity">
         </activity>
+
     </application>
 
 </manifest>

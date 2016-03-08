@@ -34,8 +34,8 @@
 
 
     <GridView
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
+        android:horizontalSpacing="15dp"
+        android:verticalSpacing="15dp"
         android:paddingTop="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

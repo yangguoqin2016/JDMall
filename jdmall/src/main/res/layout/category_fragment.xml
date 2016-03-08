@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:text="商品分类"
+                android:text=""
                 android:textColor="#fff"
                 android:textSize="18sp"/>
         </RelativeLayout>

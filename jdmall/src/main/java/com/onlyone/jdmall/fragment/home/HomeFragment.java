@@ -331,7 +331,6 @@ public class HomeFragment extends BaseFragment<Object>
 		((HolderFragment) getParentFragment()).goForward(fragment);
 	}
 
-
 	private class HomeTopicAdapter extends PagerAdapter {
 		@Override
 		public int getCount() {
@@ -400,7 +399,6 @@ public class HomeFragment extends BaseFragment<Object>
 		mMainActivity.setTopBarView(titlBar);
 	}
 
-
 //	private void changeTitleBar() {
 //		//设置titleBar
 //		View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
@@ -408,5 +406,6 @@ public class HomeFragment extends BaseFragment<Object>
 //		//TODO:主页title搜索的逻辑
 //		//3.得到MainActivity,再设置TopBar的Ui
 //	}
+
 
 }

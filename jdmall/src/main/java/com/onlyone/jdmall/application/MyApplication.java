@@ -25,6 +25,9 @@ public class MyApplication extends Application {
 	 */
 	public static int     sMainThreadID;
 
+
+
+
 	@Override
 	public void onCreate() {
 		super.onCreate();

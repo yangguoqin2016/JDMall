@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="这是在测试"
-            android:textColor="#000"
+            android:textColor="#424242"
             android:textSize="18sp"
             />
     </LinearLayout>

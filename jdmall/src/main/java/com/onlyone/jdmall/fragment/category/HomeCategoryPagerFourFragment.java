@@ -1,7 +1,9 @@
 package com.onlyone.jdmall.fragment.category;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.activity.ProductDetailActivity;
 import com.onlyone.jdmall.adapter.MyBaseAdapter;
 import com.onlyone.jdmall.bean.HomeCategoryBean;
 import com.onlyone.jdmall.bean.ItemBean;
@@ -31,7 +34,7 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/7 10:10
  * @描述: ${TODO}
  */
-public class HomeCategoryPagerFourFragment extends BaseFragment<ItemBean> {
+public class HomeCategoryPagerFourFragment extends BaseFragment<ItemBean> implements AdapterView.OnItemClickListener {
     @Bind(R.id.category_common_pager_tv)
     TextView mCategoryCommonPagerTv;
     @Bind(R.id.category_common_pager_gv)
@@ -48,6 +51,7 @@ public class HomeCategoryPagerFourFragment extends BaseFragment<ItemBean> {
         //从分类的根页面获取到数据
         mListDatas = HomeCategoryFragment.mFourList;
         mCategoryCommonPagerGv.setAdapter(new CategoryFirstAdapter(mListDatas));
+        mCategoryCommonPagerGv.setOnItemClickListener(this);
         System.out.println("数据有多少个:" + mListDatas.size());
 
     }
@@ -92,6 +96,8 @@ public class HomeCategoryPagerFourFragment extends BaseFragment<ItemBean> {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+
 
     //创建GridView的适配器
     class CategoryFirstAdapter extends MyBaseAdapter<HomeCategoryBean.HomeCategoryInfoBean> {
@@ -140,5 +146,33 @@ public class HomeCategoryPagerFourFragment extends BaseFragment<ItemBean> {
     class Holder{
         TextView tv;
         ImageView iv;
+    }
+
+
+    private void getwindowsData(){
+
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+
+    }
+
+    /**
+     * 监听点击条目去跳转详情页面
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        //TODO:跳转详情页面
+
+        Intent intent = new Intent(ResUtil.getContext(), ProductDetailActivity.class);
+
+        intent.putExtra("id",3);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ResUtil.getContext().startActivity(intent);
+
     }
 }

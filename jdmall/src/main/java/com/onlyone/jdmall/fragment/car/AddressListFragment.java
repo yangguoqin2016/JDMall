@@ -1,8 +1,11 @@
 package com.onlyone.jdmall.fragment.car;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,6 +19,8 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.SuperBaseFragment_v2;
 import com.onlyone.jdmall.holder.AddressListHolder;
 import com.onlyone.jdmall.holder.BaseHolder;
+import com.onlyone.jdmall.utils.DensityUtil;
+import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
 
 import java.util.Collections;
@@ -73,7 +78,14 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean> imple
      */
     @Override
     protected void handleError(Exception e) {
-
+        initTopBar();
+        FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
+        TextView tv = new TextView(ResUtil.getContext());
+        tv.setText("加载数据失败,请检查下你的网络..");
+        tv.setTextSize(DensityUtil.dip2Px(20));
+        tv.setTextColor(Color.BLACK);
+        tv.setGravity(Gravity.CENTER);
+        rootView.addView(tv);
     }
 
     /**
@@ -96,6 +108,7 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean> imple
     @Override
     protected View loadSuccessView() {
         initTopBar();
+        mTopbarTvAdd.setText("管理地址");
         mListView = new ListView(mMainActivity);
         return mListView;
     }
@@ -120,6 +133,7 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean> imple
      */
     @Override
     protected void refreshSuccessView(AddressBean addressBean) {
+        //TODO:需要判断请求回来的数据,来更新相应的UI
         mDatas = addressBean.addressList;
         //排序,让默认的地址在第一个
         Collections.sort(mDatas);
@@ -140,7 +154,7 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean> imple
         	case R.id.topbar_tv_back://返回
 
         		break;
-            case R.id.topbar_tv_add://新增地址
+            case R.id.topbar_tv_add://新增地址 / 管理地址
                 break;
         	default:
         		break;

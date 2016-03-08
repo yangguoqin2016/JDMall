@@ -76,7 +76,164 @@
 
 			</LinearLayout>
 
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:padding="15dp"
+				android:src="@mipmap/balance_right_white"/>
+
 		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginTop="20dp"
+			android:background="#666"/>
+
+		<RelativeLayout
+			android:id="@+id/rl_balance_pay"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="10dp">
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="支付方式"
+					android:textColor="#000"
+					android:textSize="20sp"/>
+
+				<TextView
+					android:id="@+id/tv_balance_pay"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="货到付款-现金支付(货到付款)"
+					android:textSize="15sp"/>
+
+			</LinearLayout>
+
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:padding="15dp"
+				android:src="@mipmap/balance_right_black"/>
+
+		</RelativeLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginBottom="20dp"
+			android:background="#666"/>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginTop="20dp"
+			android:background="#666"/>
+
+		<RelativeLayout
+			android:id="@+id/rl_balance_logistics"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="10dp">
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="送货时间与送货方式"
+					android:textColor="#000"
+					android:textSize="20sp"/>
+
+				<TextView
+					android:id="@+id/tv_balance_time"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="送货时间:仅双休日送货"
+					android:textSize="15sp"/>
+
+				<TextView
+					android:id="@+id/tv_balance_way"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="送货方式:快递"
+					android:textSize="15sp"/>
+
+			</LinearLayout>
+
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:padding="15dp"
+				android:src="@mipmap/balance_right_black"/>
+
+		</RelativeLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginBottom="20dp"
+			android:background="#666"/>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginTop="20dp"
+			android:background="#666"/>
+
+		<RelativeLayout
+			android:id="@+id/rl_balance_invoice"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="10dp">
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="索要发票"
+					android:textColor="#000"
+					android:textSize="20sp"/>
+
+				<TextView
+					android:id="@+id/tv_balance_type"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="个人/服饰"
+					android:textSize="15sp"/>
+
+			</LinearLayout>
+
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:padding="15dp"
+				android:src="@mipmap/balance_right_black"/>
+
+		</RelativeLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginBottom="20dp"
+			android:background="#666"/>
 
 	</LinearLayout>
 

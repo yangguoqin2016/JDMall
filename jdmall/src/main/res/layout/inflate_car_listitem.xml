@@ -52,9 +52,9 @@
 
 				<ImageView
 					android:id="@+id/tv_car_item_jian"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@mipmap/car_item_jian"/>
+					android:layout_width="15dp"
+					android:layout_height="15dp"
+					android:src="@drawable/selector_shopping_car_num_reduce"/>
 
 				<TextView
 					android:id="@+id/tv_car_item_num"
@@ -66,9 +66,9 @@
 
 				<ImageView
 					android:id="@+id/tv_car_item_jia"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@mipmap/car_item_jia"/>
+					android:layout_width="15dp"
+					android:layout_height="15dp"
+					android:src="@drawable/selector_shopping_car_num_add"/>
 
 			</LinearLayout>
 

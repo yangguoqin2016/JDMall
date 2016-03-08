@@ -2,8 +2,6 @@ package com.onlyone.jdmall.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,15 +89,11 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
         mLoginBtn.setOnClickListener(this);
 
         mLoginTvRegist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                //注册界面的背景需要添加为白色,否则登录与注册界面会重叠
-                transaction.replace(R.id.fl_content_container, new RegisterFragment());
-                transaction.commit();
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				((HolderFragment) getParentFragment()).goBack();
+			}
+		});
 
 
     }
@@ -222,8 +216,6 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     }
 
     private void changeFragment() {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.fl_content_container, new MineFragment());
-        transaction.commit();
+		((HolderFragment)getParentFragment()).goForward(new MineFragment());
     }
 }

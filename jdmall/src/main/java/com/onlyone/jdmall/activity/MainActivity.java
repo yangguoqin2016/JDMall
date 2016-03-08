@@ -11,12 +11,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.fragment.FragmentFactory;
-import com.onlyone.jdmall.fragment.MineFragment;
-import com.onlyone.jdmall.utils.LogUtil;
+import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.utils.SPUtil;
 import com.onlyone.jdmall.view.NoScrollLazyViewPager;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,8 +52,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
 	private FragmentManager mManager;
 	private NavAdapter      mNavAdapter;
-	private SPUtil mSPUtil;
+	private SPUtil          mSPUtil;
 	private static final String TAG = "MainActivity";
+
+	private HashMap<Integer, HolderFragment> mFragments = new HashMap<>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -142,14 +145,26 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 		}
 
 		@Override
-		public Fragment getItem(int position) {
-			boolean isLoginSuccess = mSPUtil.getBoolean(SP.ISLOGINSUCCESS, false);
-			LogUtil.d(TAG,"isLoginSuccess  =  "+isLoginSuccess );
-			if(position==4&& isLoginSuccess){
-				LogUtil.d(TAG,"进来newMineFragment了-------");
+		public Fragment getItem(final int position) {
+
+			HolderFragment fragment = new HolderFragment() {
+				@Override
+				protected Fragment getChildFragment() {
+					return FragmentFactory.getFragment(position);
+				}
+			};
+
+			mFragments.put(position, fragment);
+
+			return fragment;
+
+			/*boolean isLoginSuccess = mSPUtil.getBoolean(SP.ISLOGINSUCCESS, false);
+			LogUtil.d(TAG, "isLoginSuccess  =  " + isLoginSuccess);
+			if (position == 4 && isLoginSuccess) {
+				LogUtil.d(TAG, "进来newMineFragment了-------");
 				return new MineFragment();
 			}
-			return FragmentFactory.getFragment(position);
+			return FragmentFactory.getFragment(position);*/
 		}
 
 		@Override
@@ -172,21 +187,12 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	 */
 	@Override
 	public void onBackPressed() {
-		if (mListener != null) {
-			mListener.onPressed();
+		int current = mVpMain.getCurrentItem();
+		HolderFragment fragment = mFragments.get(current);
+		boolean result = fragment.goBack();
+		if (!result) {
+			super.onBackPressed();
 		}
-		super.onBackPressed();
-	}
-
-	private OnBackPressedListener mListener;
-
-	/**
-	 * 设置实体返回键监听
-	 *
-	 * @param listener 返回键监听
-	 */
-	public void setOnBackPreseedListener(OnBackPressedListener listener) {
-		mListener = listener;
 	}
 
 	/**

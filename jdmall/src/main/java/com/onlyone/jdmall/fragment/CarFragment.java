@@ -30,7 +30,6 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.car.BalanceFragment;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.pager.LoadListener;
-import com.onlyone.jdmall.utils.FragmentUtil;
 import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.SPUtil;
@@ -240,8 +239,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 			@Override
 			public void onClick(View v) {
 				if (mData.size() > 0) {
-					FragmentUtil.replaceFragment(getActivity(), R.id.fl_content_container, new
-							BalanceFragment());
+					((HolderFragment)getParentFragment()).goForward(new BalanceFragment());
 				}
 			}
 		});

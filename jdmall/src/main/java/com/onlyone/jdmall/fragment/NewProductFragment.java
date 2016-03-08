@@ -32,128 +32,112 @@ import java.util.List;
  */
 public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.ProductBean>> {
 
-    ListView mNewProductListView;
-    /**
-     * 当前加载的页数
-     */
-    private int mCurPageNum = 1;
-    private View                             mTopBarView;
-    private MainActivity mActivity;
+	ListView mNewProductListView;
+	/**
+	 * 当前加载的页数
+	 */
+	private int mCurPageNum = 1;
+	private View         mTopBarView;
+	private MainActivity mActivity;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mActivity = (MainActivity) getActivity();
-        mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_new_product, null);
-        mActivity.setTopBarView(mTopBarView);
+	@Override
+	public void onResume() {
+		super.onResume();
+		mActivity = (MainActivity) getActivity();
+		mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_new_product,
+				null);
+		mActivity.setTopBarView(mTopBarView);
 
-        mTopBarView.findViewById(R.id.new_product_topbar_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               /* FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
-                transaction.remove(NewProductFragment.this).commit();*/
+		mTopBarView.findViewById(R.id.new_product_topbar_back).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						FragmentUtil.goBack(mActivity);
+						((HolderFragment) getParentFragment()).goBack();
+					}
+				});
+	}
 
-                FragmentUtil.goBack(mActivity);
+	@Override
+	protected void refreshSuccessView(List<HotProductBean.ProductBean> datas) {
+		View topPic = View.inflate(ResUtil.getContext(), R.layout.new_product_top_pic, null);
+		mNewProductListView.addHeaderView(topPic);
+		mNewProductListView.setAdapter(new HotProductAdapter(mNewProductListView, datas));
+	}
 
-                restoreHomeTopBar();
-            }
-        });
+	@Override
+	protected View loadSuccessView() {
+		View newProductView = View.inflate(ResUtil.getContext(), R.layout.new_product, null);
+		mNewProductListView = (ListView) newProductView.findViewById(R.id.hot_product_list_view);
 
-        //点击back按键回退首页
-        mActivity.setOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
-			@Override
-			public void onPressed() {
-				restoreHomeTopBar();
+		return newProductView;
+	}
+
+	@Override
+	protected String getUrl() {
+		String url = Url.ADDRESS_SERVER + "/newproduct?page=" + mCurPageNum +
+				"&pageNum=15&orderby=saleDown";
+		return url;
+	}
+
+
+	@Override
+	protected void handleError(Exception e) {
+		Toast.makeText(ResUtil.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	protected List<HotProductBean.ProductBean> parseJson(String jsonStr) {
+		Gson gson = new Gson();
+		HotProductBean bean = gson.fromJson(jsonStr, HotProductBean.class);
+		List<HotProductBean.ProductBean> datas = bean.productList;
+		return datas;
+	}
+
+	/**
+	 * 热门品牌ListView展示数据所用的Adapter
+	 */
+	private class HotProductAdapter extends SuperBaseAdapter<HotProductBean.ProductBean> {
+
+		public HotProductAdapter(AbsListView hotProductListView,
+								 List<HotProductBean.ProductBean> datas) {
+			super(hotProductListView, datas);
+		}
+
+		@Override
+		public BaseHolder initSpecialHolder() {
+			NewProductHolder holder = new NewProductHolder();
+			return holder;
+		}
+
+
+		@Override
+		protected List<HotProductBean.ProductBean> doLoadMore() throws Exception {
+			SystemClock.sleep(1500);
+			mCurPageNum = mCurPageNum + 1;
+			String url = Url.ADDRESS_SERVER + "/newproduct?page=" + mCurPageNum +
+					"&pageNum=15&orderby=saleDown";
+			//网络请求数据
+			OkHttpClient client = new OkHttpClient();
+			Request request = new Request.Builder().url(url).get().build();
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				String result = response.body().string();
+				Gson gson = new Gson();
+				return gson.fromJson(result, HotProductBean.class).productList;
+			} else {
+				mCurPageNum--;
+				return null;
 			}
-		});
+		}
+	}
 
-    }
-
-    /**
-     * back键回退到首页,恢复首页的TopBar
-     */
-    private void restoreHomeTopBar() {
-        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-        mActivity.setTopBarView(titlBar);
-    }
-
-    @Override
-    protected void refreshSuccessView(List<HotProductBean.ProductBean> datas) {
-        View topPic = View.inflate(ResUtil.getContext(),R.layout.new_product_top_pic,null);
-        mNewProductListView.addHeaderView(topPic);
-        mNewProductListView.setAdapter(new HotProductAdapter(mNewProductListView, datas));
-    }
-
-    @Override
-    protected View loadSuccessView() {
-        View newProductView = View.inflate(ResUtil.getContext(), R.layout.new_product, null);
-        mNewProductListView = (ListView) newProductView.findViewById(R.id.hot_product_list_view);
-
-        return newProductView;
-    }
-
-    @Override
-    protected String getUrl() {
-        String url = Url.ADDRESS_SERVER + "/newproduct?page=" + mCurPageNum + "&pageNum=15&orderby=saleDown";
-        return url;
-    }
-
-
-    @Override
-    protected void handleError(Exception e) {
-        Toast.makeText(ResUtil.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected List<HotProductBean.ProductBean> parseJson(String jsonStr) {
-        Gson gson = new Gson();
-        HotProductBean bean = gson.fromJson(jsonStr, HotProductBean.class);
-        List<HotProductBean.ProductBean> datas = bean.productList;
-        return datas;
-    }
-
-    /**
-     * 热门品牌ListView展示数据所用的Adapter
-     */
-    private class HotProductAdapter extends SuperBaseAdapter<HotProductBean.ProductBean> {
-
-        public HotProductAdapter(AbsListView hotProductListView, List<HotProductBean.ProductBean> datas) {
-            super(hotProductListView,datas);
-        }
-
-        @Override
-        public BaseHolder initSpecialHolder() {
-            NewProductHolder holder = new NewProductHolder();
-            return holder;
-        }
-
-
-        @Override
-        protected List<HotProductBean.ProductBean> doLoadMore() throws Exception {
-            SystemClock.sleep(1500);
-            mCurPageNum = mCurPageNum + 1;
-            String url = Url.ADDRESS_SERVER + "/newproduct?page=" + mCurPageNum + "&pageNum=15&orderby=saleDown";
-            //网络请求数据
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder().url(url).get().build();
-            Response response = client.newCall(request).execute();
-            if(response.isSuccessful()){
-                String result = response.body().string();
-                Gson gson = new Gson();
-                return gson.fromJson(result,HotProductBean.class).productList;
-            }else{
-                mCurPageNum--;
-                return null;
-            }
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        FragmentManager manager = mActivity.getSupportFragmentManager();
-        for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
-            manager.popBackStack();
-        }
-    }
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		FragmentManager manager = mActivity.getSupportFragmentManager();
+		for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+			manager.popBackStack();
+		}
+	}
 }

@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.fragment.BaseFragment;
+import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.pager.LoadListener;
-import com.onlyone.jdmall.utils.FragmentUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,17 +85,17 @@ public class BalanceFragment extends BaseFragment<Object> {
 	public void onResume() {
 		super.onResume();
 		mActivity = (MainActivity) getActivity();
-		mActivity.setOnBackPreseedListener(null);
-
 		View myBar = View.inflate(getContext(), R.layout.inflate_topbar_balance, null);
+		mActivity.setTopBarView(myBar);
+
 		myBar.findViewById(R.id.tv_balance_return).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				FragmentUtil.goBack(mActivity);
+
+				((HolderFragment) getParentFragment()).goBack();
 			}
 		});
 
-		mActivity.setTopBarView(myBar);
 	}
 
 	@Override
@@ -107,18 +107,5 @@ public class BalanceFragment extends BaseFragment<Object> {
 	public void onDestroyView() {
 		super.onDestroyView();
 		ButterKnife.unbind(this);
-
-		View myBar = View.inflate(getContext(), R.layout.inflate_car_bar, null);
-		View rightView = myBar.findViewById(R.id.tv_car_bar_right);
-		rightView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				FragmentUtil.replaceFragment(mActivity, R.id.fl_content_container,
-						new BalanceFragment());
-			}
-		});
-
-		mActivity.setTopBarView(myBar);
-
 	}
 }

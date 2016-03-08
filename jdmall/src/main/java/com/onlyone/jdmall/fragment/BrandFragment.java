@@ -518,8 +518,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
      */
     @Override
     public void onClick(View v) {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
+		((HolderFragment)getParentFragment()).goBack();
     }
 
 

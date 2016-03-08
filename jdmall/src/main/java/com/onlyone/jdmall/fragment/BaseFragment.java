@@ -27,7 +27,7 @@ public abstract class BaseFragment<T> extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-		if(!(this instanceof MineFragment)){
+		if (!(this instanceof MineFragment)) {
 			MainActivity mainActivity = (MainActivity) getActivity();
 			mainActivity.setHideTopBar(false);
 		}
@@ -38,7 +38,7 @@ public abstract class BaseFragment<T> extends Fragment {
 			}
 
 			@Override
-			 protected void handleError(Exception e) {
+			protected void handleError(Exception e) {
 				BaseFragment.this.handleError(e);
 			}
 

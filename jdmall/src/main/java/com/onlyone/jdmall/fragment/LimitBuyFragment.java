@@ -20,7 +20,6 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.LimitBuyHolder;
 import com.onlyone.jdmall.utils.DensityUtil;
-import com.onlyone.jdmall.utils.FragmentUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -39,204 +38,194 @@ import cn.iwgang.countdownview.CountdownView;
  * @创建时间: 2016/3/6 14:15
  * @描述: ${TODO}
  */
-public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements MainActivity.OnBackPressedListener, ViewPager.OnPageChangeListener {
+public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean>
+		implements ViewPager.OnPageChangeListener
+{
 
-    private static final int PAGENUMBER = 15;
-    @Bind(R.id.limit_buy_view_pager)
-    ViewPager mViewPager;
-    @Bind(R.id.limit_buy_header_rec)
-    ImageView mRec;
-    @Bind(R.id.limit_buy_count_view)
-    CountdownView mCountView;
-    private ListView mLimitBuyLv;
-    private List<LimitBuyBean.LimitBuyItemBean> mItemBeans;
-    private LimitBuyAdapter mAdapter;
-    private MainActivity mActivity;
-    private int[] PICS = {
-            R.mipmap.juxing,
-            R.mipmap.hot,
-            R.mipmap.home_title_pic3,
-            R.mipmap.home_new_product
-    };
-    private int mWidthPixels;
-    private ImageView mIvBack;
+	private static final int PAGENUMBER = 15;
+	@Bind(R.id.limit_buy_view_pager)
+	ViewPager     mViewPager;
+	@Bind(R.id.limit_buy_header_rec)
+	ImageView     mRec;
+	@Bind(R.id.limit_buy_count_view)
+	CountdownView mCountView;
+	private ListView                            mLimitBuyLv;
+	private List<LimitBuyBean.LimitBuyItemBean> mItemBeans;
+	private LimitBuyAdapter                     mAdapter;
+	private MainActivity                        mActivity;
+	private int[] PICS = {
+			R.mipmap.juxing,
+			R.mipmap.hot,
+			R.mipmap.home_title_pic3,
+			R.mipmap.home_new_product
+	};
+	private int       mWidthPixels;
+	private ImageView mIvBack;
 
-    @Override
-    protected String getUrl() {
-        String url = generateUrl(0, PAGENUMBER);
-        return url;
-    }
+	@Override
+	protected String getUrl() {
+		String url = generateUrl(0, PAGENUMBER);
+		return url;
+	}
 
-    private String generateUrl(int page, int pageNum) {
-        String url = Url.ADDRESS_LIMIT_BUY + "?page=" + page + "&pageNum=" + pageNum;
-        return url;
-    }
+	private String generateUrl(int page, int pageNum) {
+		String url = Url.ADDRESS_LIMIT_BUY + "?page=" + page + "&pageNum=" + pageNum;
+		return url;
+	}
 
-    @Override
-    protected void handleError(Exception e) {
+	@Override
+	protected void handleError(Exception e) {
 
-    }
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    }
+	}
 
-    /**
-     * 解析数据
-     *
-     * @param jsonStr
-     * @return
-     */
-    @Override
-    protected LimitBuyBean parseJson(String jsonStr) {
-        Gson gson = new Gson();
-        LimitBuyBean limitBuyBean = gson.fromJson(jsonStr, LimitBuyBean.class);
-        return limitBuyBean;
-    }
+	/**
+	 * 解析数据
+	 *
+	 * @param jsonStr
+	 * @return
+	 */
+	@Override
+	protected LimitBuyBean parseJson(String jsonStr) {
+		Gson gson = new Gson();
+		LimitBuyBean limitBuyBean = gson.fromJson(jsonStr, LimitBuyBean.class);
+		return limitBuyBean;
+	}
 
-    /**
-     * 初始显示成功视图
-     *
-     * @return
-     */
-    @Override
-    protected View loadSuccessView() {
-        View rootView = View.inflate(ResUtil.getContext(), R.layout.limit_buy_fragment, null);
-        mLimitBuyLv = (ListView) rootView.findViewById(R.id.limit_buy_lv);
-        /*
-            listview的header
+	/**
+	 * 初始显示成功视图
+	 *
+	 * @return
+	 */
+	@Override
+	protected View loadSuccessView() {
+		View rootView = View.inflate(ResUtil.getContext(), R.layout.limit_buy_fragment, null);
+		mLimitBuyLv = (ListView) rootView.findViewById(R.id.limit_buy_lv);
+		/*
+			listview的header
          */
-        View header = View.inflate(ResUtil.getContext(), R.layout.limit_buy_header, null);
-        ButterKnife.bind(this, header);
+		View header = View.inflate(ResUtil.getContext(), R.layout.limit_buy_header, null);
+		ButterKnife.bind(this, header);
 
-        mViewPager.setAdapter(new LimitAdapter());
-        mLimitBuyLv.addHeaderView(header);
-        //倒计时控件
-        mCountView = (CountdownView) header.findViewById(R.id.limit_buy_count_view);
-        mCountView.start(60 * 60 * 1000);
+		mViewPager.setAdapter(new LimitAdapter());
+		mLimitBuyLv.addHeaderView(header);
+		//倒计时控件
+		mCountView = (CountdownView) header.findViewById(R.id.limit_buy_count_view);
+		mCountView.start(60 * 60 * 1000);
 
-        //设置监听
-        mViewPager.setOnPageChangeListener(this);
-        return rootView;
-    }
+		//设置监听
+		mViewPager.setOnPageChangeListener(this);
+		return rootView;
+	}
 
-    @Override
-    protected void refreshSuccessView(LimitBuyBean data) {
-        mItemBeans = data.productList;
-        mAdapter = new LimitBuyAdapter(mLimitBuyLv, mItemBeans);
-        mLimitBuyLv.setAdapter(mAdapter);
-    }
+	@Override
+	protected void refreshSuccessView(LimitBuyBean data) {
+		mItemBeans = data.productList;
+		mAdapter = new LimitBuyAdapter(mLimitBuyLv, mItemBeans);
+		mLimitBuyLv.setAdapter(mAdapter);
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //获取屏幕宽度
-        mActivity = (MainActivity) getActivity();
-        mActivity.setOnBackPreseedListener(this);
-        mWidthPixels = mActivity.getResources().getDisplayMetrics().widthPixels;
+	@Override
+	public void onResume() {
+		super.onResume();
+		//获取屏幕宽度
+		mActivity = (MainActivity) getActivity();
+		mWidthPixels = mActivity.getResources().getDisplayMetrics().widthPixels;
 
-        View view = View.inflate(ResUtil.getContext(), R.layout.limit_buy_title_bar, null);
-        mActivity.setTopBarView(view);
-        mIvBack = (ImageView) view.findViewById(R.id.limit_buy_topbar_back);
-        mIvBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentUtil.goBack(mActivity);
+		View view = View.inflate(ResUtil.getContext(), R.layout.limit_buy_title_bar, null);
+		mActivity.setTopBarView(view);
+		mIvBack = (ImageView) view.findViewById(R.id.limit_buy_topbar_back);
+		mIvBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((HolderFragment) getParentFragment()).goBack();
+			}
+		});
+	}
 
-                changeTitleBar();
-            }
-        });
-    }
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.unbind(this);
+	}
 
-    private void changeTitleBar() {
-        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-        mActivity.setTopBarView(titlBar);
-    }
+	@Override
+	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mRec.getLayoutParams();
+		float perPagerPixels = mWidthPixels / 4.0f;
+		params.leftMargin = (int) (position * perPagerPixels + perPagerPixels * positionOffset +
+				.5f + DensityUtil.dip2Px(5));
+		mRec.setLayoutParams(params);
+	}
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
+	@Override
+	public void onPageSelected(int position) {
+	}
 
-    @Override
-    public void onPressed() {
-        changeTitleBar();
-    }
+	@Override
+	public void onPageScrollStateChanged(int state) {
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mRec.getLayoutParams();
-        float perPagerPixels = mWidthPixels / 4.0f;
-        params.leftMargin = (int) (position * perPagerPixels + perPagerPixels * positionOffset + 0.5f + DensityUtil.dip2Px(5));
-        mRec.setLayoutParams(params);
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
+	}
 
 
-    private class LimitBuyAdapter extends SuperBaseAdapter<LimitBuyBean.LimitBuyItemBean> {
-        LimitBuyBean bean = null;
+	private class LimitBuyAdapter extends SuperBaseAdapter<LimitBuyBean.LimitBuyItemBean> {
+		LimitBuyBean bean = null;
 
-        public LimitBuyAdapter(AbsListView listView, List<LimitBuyBean.LimitBuyItemBean> datas) {
-            super(listView, datas);
-        }
+		public LimitBuyAdapter(AbsListView listView, List<LimitBuyBean.LimitBuyItemBean> datas) {
+			super(listView, datas);
+		}
 
-        @Override
-        public BaseHolder initSpecialHolder() {
+		@Override
+		public BaseHolder initSpecialHolder() {
 
-            return new LimitBuyHolder();
-        }
+			return new LimitBuyHolder();
+		}
 
-        @Override
-        protected List<LimitBuyBean.LimitBuyItemBean> doLoadMore() throws Exception {
-            SystemClock.sleep(1000);
-            OkHttpClient okhttp = new OkHttpClient();
-            String url = generateUrl(mItemBeans.size(), PAGENUMBER);
-            Request reuqest = new Request.Builder().url(url).get().build();
-            Response response = okhttp.newCall(reuqest).execute();
-            if (response.isSuccessful()) {
-                String string = response.body().string();
-                bean = parseJson(string);
-                return bean.productList;
-            } else {
-                return null;
-            }
-        }
-    }
+		@Override
+		protected List<LimitBuyBean.LimitBuyItemBean> doLoadMore() throws Exception {
+			SystemClock.sleep(1000);
+			OkHttpClient okhttp = new OkHttpClient();
+			String url = generateUrl(mItemBeans.size(), PAGENUMBER);
+			Request reuqest = new Request.Builder().url(url).get().build();
+			Response response = okhttp.newCall(reuqest).execute();
+			if (response.isSuccessful()) {
+				String string = response.body().string();
+				bean = parseJson(string);
+				return bean.productList;
+			} else {
+				return null;
+			}
+		}
+	}
 
-    private class LimitAdapter extends PagerAdapter {
-        @Override
-        public int getCount() {
-            return 4;
-        }
+	private class LimitAdapter extends PagerAdapter {
+		@Override
+		public int getCount() {
+			return 4;
+		}
 
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
+		@Override
+		public boolean isViewFromObject(View view, Object object) {
+			return view == object;
+		}
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ImageView iv = new ImageView(ResUtil.getContext());
-            iv.setImageResource(PICS[position]);
-            iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            container.addView(iv);
-            return iv;
-        }
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			ImageView iv = new ImageView(ResUtil.getContext());
+			iv.setImageResource(PICS[position]);
+			iv.setScaleType(ImageView.ScaleType.FIT_XY);
+			container.addView(iv);
+			return iv;
+		}
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-    }
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			container.removeView((View) object);
+		}
+	}
 }

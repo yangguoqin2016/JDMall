@@ -1,7 +1,5 @@
 package com.onlyone.jdmall.fragment.category;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -16,6 +14,7 @@ import com.onlyone.jdmall.bean.HomeCategoryBean;
 import com.onlyone.jdmall.bean.ItemBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
+import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.picasso.Picasso;
@@ -79,33 +78,13 @@ public class HomeCategoryPagerFourFragment extends BaseFragment<ItemBean> {
         mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_category_pager, null);
         mActivity.setTopBarView(mTopBarView);
         //点击返回图片返回首页
-        mTopBarView.findViewById(R.id.hot_product_topbar_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager manager = mActivity.getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.remove(HomeCategoryPagerFourFragment.this);
-                transaction.commit();
-
-                restoreHomeTopBar();
-            }
-        });
-
-        //点击back按键回退首页
-        mActivity.setOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
-            @Override
-            public void onPressed() {
-                restoreHomeTopBar();
-            }
-        });
-    }
-
-    /**
-     * back键回退到首页,恢复首页的TopBar
-     */
-    private void restoreHomeTopBar() {
-        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-        mActivity.setTopBarView(titlBar);
+        mTopBarView.findViewById(R.id.hot_product_topbar_back).setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						((HolderFragment)getParentFragment()).goBack();
+					}
+				});
     }
 
     @Override
@@ -161,13 +140,5 @@ public class HomeCategoryPagerFourFragment extends BaseFragment<ItemBean> {
     class Holder{
         TextView tv;
         ImageView iv;
-    }
-
-
-    private void getwindowsData(){
-
-        int widthPixels = getResources().getDisplayMetrics().widthPixels;
-        int heightPixels = getResources().getDisplayMetrics().heightPixels;
-
     }
 }

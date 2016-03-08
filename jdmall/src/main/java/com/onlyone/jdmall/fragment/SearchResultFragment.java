@@ -33,7 +33,6 @@ import com.onlyone.jdmall.bean.SearchResultBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.DensityUtil;
-import com.onlyone.jdmall.utils.FragmentUtil;
 import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
@@ -190,13 +189,6 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         mTvResult.setText("搜索结果(" + mSearchNum + "条)");
         mMainActivity = (MainActivity) getActivity();
         mMainActivity.setTopBarView(topBar);
-
-        mMainActivity.setOnBackPreseedListener(new MainActivity.OnBackPressedListener() {
-            @Override
-            public void onPressed() {
-                mMainActivity.setTopBarView(SearchFragment.mTopBar);
-            }
-        });
         LogUtil.d(TAG, "onResume----------");
         super.onResume();
     }
@@ -214,10 +206,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         String orderby = null;
         switch (v.getId()) {
             case R.id.topbar_tv_back:// 返回
-//                removeCurFragment();
-//                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
-                FragmentUtil.goBack(mMainActivity);
-                mMainActivity.setTopBarView(SearchFragment.mTopBar);
+				((HolderFragment)getParentFragment()).goBack();
                 return;
             case R.id.searchresult_sale:// 销量降序
                 /**

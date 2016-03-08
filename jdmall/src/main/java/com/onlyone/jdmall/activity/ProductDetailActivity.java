@@ -2,10 +2,11 @@ package com.onlyone.jdmall.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -18,24 +19,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.adapter.BasePagerAdapter;
 import com.onlyone.jdmall.bean.ProductDetailBean;
-import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
-import com.onlyone.jdmall.utils.SPUtil;
+import com.onlyone.jdmall.utils.SerializeUtil;
+import com.onlyone.jdmall.utils.UserLoginUtil;
 import com.onlyone.jdmall.view.ProductDialog;
 import com.onlyone.jdmall.view.RatioLayout;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.iwgang.countdownview.CountdownView;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -69,9 +70,12 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView       mProductDetailBuyLimit;
     @Bind(R.id.product_detail_viewpager_indicator)
     TextView       mProductDetailViewpagerIndicator;
+    @Bind(R.id.limit_buy_count_view)
+    CountdownView  mLimitBuyCountView;
 
     private int                             mProductId;
     private ProductDetailBean.ProductEntity mProductBean;
+    private List<String>                    mPicUrls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +90,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void init() {
         Intent intent = getIntent();
         mProductId = intent.getIntExtra("id", 1);
-        //        Random random = new Random();
-        //        mProductId = random.nextInt(30)+1;   //假数据
     }
 
     /**
@@ -97,6 +99,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -120,6 +123,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 //数据加载成功刷新UI
                 refreshUI();
+
+                //保存浏览的历史记录
+                saveBrowseHistory(mProductBean);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -128,6 +134,37 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
         queue.add(request);
+    }
+
+    /**
+     * 将商品浏览的记录保存并序列化
+     *
+     * @param productBean
+     */
+    private void saveBrowseHistory(ProductDetailBean.ProductEntity productBean) {
+        //1.只有登录状态才保存历史浏览记录
+        if (!UserLoginUtil.isLogin()) {
+            return;
+        }
+        //2.获取当前登录用户名
+        String userName = UserLoginUtil.getLoginUser();
+
+        //3.序列化取出保存的集合
+        HashSet<ProductDetailBean.ProductEntity> set = SerializeUtil.serializeObject(userName);
+        if (set == null) {
+            set = new HashSet<>();
+        } else {
+            //重复商品不添加到历史记录
+            for (ProductDetailBean.ProductEntity productEntity : set) {
+                if (productBean.id == productEntity.id) {
+                    return;
+                }
+            }
+        }
+        //4.集合序列化,tag为当前登录用户名
+        set.add(productBean);
+        SerializeUtil.deserializeObject(userName, set);
+
     }
 
     /**
@@ -170,21 +207,18 @@ public class ProductDetailActivity extends AppCompatActivity {
         //商品单件限购量
         mProductDetailBuyLimit.setText(mProductBean.buyLimit + "件");
 
-        //1.剩余抢购时间倒计时
-        refreshLeftTime();
+        //剩余抢购时间倒计时
+        mLimitBuyCountView.start(mProductBean.leftTime*1000);
 
-        //2.设置图片轮播图
-        List<String> picUrls = mProductBean.pics;
-        mProductDetailPicViewpager.setAdapter(new ProductPicAdapter(picUrls));
-        mProductDetailViewpagerIndicator.setText(1 + "/" + picUrls.size());
-    }
+        //设置图片轮播图
+        mPicUrls = mProductBean.pics;
+        mProductDetailPicViewpager.setAdapter(new ProductPicAdapter());
 
-
-    /**
-     * //TODO:剩余抢购时间倒计时处理
-     */
-    private void refreshLeftTime() {
-        mProductDetailLeftTime.setText("剩余抢购时间" + mProductBean.leftTime + "秒");
+        if (mPicUrls == null || mPicUrls.size() == 0) {
+            mProductDetailViewpagerIndicator.setText("0/0");
+        } else {
+            mProductDetailViewpagerIndicator.setText(1 + "/" + mPicUrls.size());
+        }
     }
 
 
@@ -193,7 +227,7 @@ public class ProductDetailActivity extends AppCompatActivity {
      *
      * @param view
      */
-    @OnClick({R.id.product_detail_topbar_back, R.id.product_detail_topbar_share, R.id.product_detail_store, R.id.product_detail_addcar, R.id.product_detail_buy, R.id.product_detail_select_color_size,R.id.product_detail_enter_des})
+    @OnClick({R.id.product_detail_topbar_back, R.id.product_detail_topbar_share, R.id.product_detail_store, R.id.product_detail_addcar, R.id.product_detail_buy, R.id.product_detail_select_color_size, R.id.product_detail_enter_des})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.product_detail_topbar_back:
@@ -219,8 +253,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                 break;
             case R.id.product_detail_enter_des:
                 //进入详细描述界面
-                Intent intent = new Intent(this,ProductDesActivity.class);
-                intent.putExtra("bean",mProductBean);
+                Intent intent = new Intent(this, ProductDesActivity.class);
+                intent.putExtra("bean", mProductBean);
                 startActivity(intent);
                 break;
         }
@@ -235,63 +269,61 @@ public class ProductDetailActivity extends AppCompatActivity {
     //TODO:获取商品属性并添加购物车
     private void addToCar() {
         CarModel carModel = CarModel.getInstance();
-        Random random = new Random();
         //1.获取商品颜色,尺寸
         int[] productPros = {1, 2};  //{颜色,尺寸}
 
         //2.获取登录用户名
-        SPUtil spUtil = new SPUtil(this);
-        String userName = spUtil.getString(SP.USERNAME, "");
-        if (TextUtils.isEmpty(userName)) {
-            Toast.makeText(this, "尚未登录...", Toast.LENGTH_SHORT).show();
-            return;
+        if(!UserLoginUtil.isLogin()) {
+            Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
+            //TODO:跳转登录页面
+        }else{
+            String userName = UserLoginUtil.getLoginUser();
+            carModel.addToCar(userName, mProductId, productPros);
+            Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
         }
-
-        carModel.addToCar(userName, mProductId, productPros);
-        Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
-
     }
 
     //TODO:选择商品颜色,尺寸
     private void selectColorAndSize() {
         //弹出对话框口选择产品
-        ProductDialog dialog = new ProductDialog(this);
+        ProductDialog dialog = new ProductDialog(this,mProductBean);
         dialog.show();
     }
 
-    /**
-     * 判断当前是否有用户登录
-     *
-     * @return
-     */
-    private boolean isLogin(){
-        SPUtil spUtil = new SPUtil(this);
-        String userName = spUtil.getString(SP.USERNAME, "");
-        if (TextUtils.isEmpty(userName)) {
-            Toast.makeText(this, "尚未登录...", Toast.LENGTH_SHORT).show();
-            return false;
-        }else{
-            return true;
-        }
-    }
 
-    private class ProductPicAdapter extends BasePagerAdapter<String> {
-        List<String> urls;
 
-        public ProductPicAdapter(List<String> data) {
-            super(data);
-            urls = data;
+    private class ProductPicAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            if (mPicUrls == null || mPicUrls.size() == 0) {
+                return 1;   //显示默认图片
+            } else {
+
+                return mPicUrls.size();
+            }
         }
 
         @Override
-        public View initView(int position) {
-            //http://localhost:8080/market/images/product/detail/c3.jpg
-            String url = urls.get(position);
-            url = Url.ADDRESS_SERVER + "/" + url;
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
 
             ImageView iv = new ImageView(ResUtil.getContext());
+
+            if (mPicUrls == null || mPicUrls.size() == 0) {
+                iv.setImageResource(R.mipmap.guide);
+                container.addView(iv);
+                iv.setScaleType(ImageView.ScaleType.FIT_XY);
+                return iv;
+            }
+            //http://localhost:8080/market/images/product/detail/c3.jpg
+            String url = mPicUrls.get(position);
+            url = Url.ADDRESS_SERVER + "/" + url;
+            Picasso.with(ResUtil.getContext()).load(url).error(R.mipmap.guide).into(iv);
             iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            Picasso.with(ResUtil.getContext()).load(url).into(iv);
 
             //解决图片压缩失真问题
             RatioLayout rl = new RatioLayout(ResUtil.getContext());
@@ -303,8 +335,16 @@ public class ProductDetailActivity extends AppCompatActivity {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
             rl.addView(iv, params);
 
+            container.addView(rl);
+
             return rl;
         }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
     }
+
 
 }

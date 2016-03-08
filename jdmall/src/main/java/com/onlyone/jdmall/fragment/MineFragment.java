@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -31,6 +30,7 @@ import com.onlyone.jdmall.fragment.mine.AddressManagerFragment;
 import com.onlyone.jdmall.fragment.mine.MineAboutFragment;
 import com.onlyone.jdmall.fragment.mine.MineHelpFragment;
 import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
@@ -96,7 +96,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     private Fragment                 mFavoriteFrament;
     private Fragment                 mAddressManagerFragment;
     private LoginFragment            mLoginFragment;
-
+    SPUtil spUtil = new SPUtil(ResUtil.getContext());
 
     @Override
     protected void refreshSuccessView(MineUserInfoBean data) {
@@ -113,7 +113,6 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
             return;
         }
 
-        SPUtil spUtil = new SPUtil(ResUtil.getContext());
         mMineTvUsername.setText(spUtil.getString(SP.USERNAME,""));
         mMineTvUserLevel.setText(data.userInfo.level);
         mMineTvUserBonus.setText(data.userInfo.bonus+"积分");
@@ -147,8 +146,8 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
             public void onResponse(String s) {
                 Gson gson = new Gson();
                 MineUserInfoBean userInfoBean = gson.fromJson(s, MineUserInfoBean.class);
-                Log.v("userInfoBean","userInfoBean--"+userInfoBean);
-                Log.v("userInfoBean","sssss--"+s);
+                //Log.v("userInfoBean","userInfoBean--"+userInfoBean);
+                //Log.v("userInfoBean","sssss--"+s);
                 listener.onSuccess(userInfoBean);
             }
         };
@@ -166,9 +165,9 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                SPUtil spUtil = new SPUtil(ResUtil.getContext());
+
                 String userid = spUtil.getLong(SP.USERID, 0)+"";
-                Log.v("userInfoBean","userid--"+userid);
+                //Log.v("userInfoBean","userid--"+userid);
                 map.put("userid", userid);
                 return map;
             }
@@ -213,6 +212,15 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_back_btn:
+                spUtil.putBoolean(SP.ISLOGINSUCCESS,false);
+                spUtil.putLong(SP.USERID, 0);
+
+                LogUtil.d("userid-1====" + spUtil.getLong(SP.USERID, 0));
+                LogUtil.d("ISLOGINSUCCESS-1====" + spUtil.getBoolean(SP.ISLOGINSUCCESS, false));
+                if (mLoginFragment == null) {
+                    mLoginFragment = new LoginFragment();
+                }
+                changeFragment(mLoginFragment, TAG_LOGIN_FRAGMENT);
                 //退出登录
                 break;
             case R.id.fragment_ll_mine_order://我的订单
@@ -289,6 +297,11 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 }).show();
                 break;
             case R.id.mine_userinfo_btn_relogin://跳转到登陆界面
+                /*spUtil.putBoolean(SP.ISLOGINSUCCESS,false);
+                spUtil.putLong(SP.USERID, 0);
+
+                LogUtil.d("userid-1====" + spUtil.getLong(SP.USERID, 0));
+                LogUtil.d("ISLOGINSUCCESS-1===="+ spUtil.getBoolean(SP.ISLOGINSUCCESS,false));*/
                 if (mLoginFragment == null) {
                     mLoginFragment = new LoginFragment();
                 }

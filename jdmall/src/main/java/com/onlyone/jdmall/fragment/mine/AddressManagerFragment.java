@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,13 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
     private MainActivity mMainActivity;
     private View         mTopBar;
     private AddressBean  mAddressBean;
+    /*给四个不同的界面设置标记*/
+    private static final int ADDRESS_LIST_EMPTY   = 0;
+    private static final int ADDRESS_LIST_ADD     = 1;
+    private static final int ADDRESS_LIST         = 2;
+    private static final int ADDRESS_LIST_MANAGER = 3;
+    private static final int ADDRESS_LIST_MODIFY  = 4;
+    private static       int mCurrentPager        = -1;
 
     @Override
     protected View loadSuccessView() {
@@ -82,7 +90,7 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
                 Map<String, String> map = new HashMap<>();
                 //                map.put("userid", "20428");
                 SPUtil spUtil = new SPUtil(ResUtil.getContext());
-                String userid = spUtil.getLong(SP.USERID,0)+"";
+                String userid = spUtil.getLong(SP.USERID, 0) + "";
                 map.put("userid", userid);
                 return map;
             }
@@ -99,10 +107,19 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
 
     @Override
     protected void refreshSuccessView(AddressBean data) {
+        /*判断用户有没有添加地址*/
+        /*if(data.addressList.size()==0){
+            showEmptyView();
+            return;
+        }*/
         mAddressBean = data;
         ListView lvAddresses = (ListView) mSucessView.findViewById(R.id.mine_address_lv_container);
         lvAddresses.setAdapter(new AddressAdapter());
     }
+
+    /*private void showEmptyView() {
+
+    }*/
 
     @Override
     public void onResume() {
@@ -127,19 +144,35 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
         tvAdd.setOnClickListener(listener);
     }
 
-    class TopBarItemListener implements View.OnClickListener{
+    class TopBarItemListener implements View.OnClickListener {
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.topbar_addrmng_back:
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    //                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.add(R.id.fl_content_container, new MineFragment());
                     transaction.commit();
                     break;
 
                 case R.id.topbar_addrmng_add:
 
+                    AddressAddFragment addressAddFragment = new AddressAddFragment();
+
+
+                    FrameLayout rootView = mLoadPager.getRootView();
+                    rootView.removeAllViews();
+//                    rootView.addView(new AddressAddFragment().loadSuccessView());
+                    rootView.addView(addressAddFragment.loadSuccessView());
+
+                    //FragmentManager manager = mMainActivity.getSupportFragmentManager();
+//                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.add(R.id.fl_content_container, addressAddFragment);
+//                    transaction.addToBackStack("aaa");
+
+                    transaction.commit();
                     break;
             }
         }
@@ -177,7 +210,7 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
                 convertView = View.inflate(ResUtil.getContext(), R.layout.item_address, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
-            }else{
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             /*赋值*/

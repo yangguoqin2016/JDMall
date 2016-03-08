@@ -3,7 +3,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <!--商品详情顶部导航栏-->
     <RelativeLayout
@@ -105,8 +105,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:text="1/5"
+                    android:gravity="center"
                     android:background="@drawable/product_detail_indicator_bg"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
             </RelativeLayout>
 
@@ -202,9 +203,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="80dp"
-                    android:text="剩余抢购时间10秒"/>
+                    android:layout_marginLeft="30dp"
+                    android:text="剩余抢购时间"/>
 
+                <cn.iwgang.countdownview.CountdownView
+                    android:id="@+id/limit_buy_count_view"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    app:isHideTimeBackground="false"
+                    app:isShowDay="false"
+                    app:isShowHour="true"
+                    app:isShowMillisecond="false"
+                    app:isShowMinute="true"
+                    app:isShowSecond="true"
+                    app:isTimeTextBold="true"
+                    app:suffixGravity="center"
+                    app:suffixTextColor="#000000"
+                    app:suffixTextSize="12sp"
+                    app:timeBgColor="#fafafa"
+                    app:timeBgRadius="5dp"
+                    app:timeTextColor="#f00"/>
             </LinearLayout>
 
             <!--销量,好评,喜欢-->

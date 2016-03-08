@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -112,7 +114,18 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	 * @param view Bar视图
 	 */
 	public void setTopBarView(View view) {
+		if (view == null) {
+			return;
+		}
+
+		ViewParent parent = view.getParent();
+		if (parent != null && parent instanceof ViewGroup){
+			((ViewGroup) parent).removeView(view);
+		}
+
 		mFlDaohang.removeAllViews();
+
+
 		mFlDaohang.addView(view);
 	}
 

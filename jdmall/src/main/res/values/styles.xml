@@ -95,6 +95,7 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
+
     <!--商品颜色与尺寸Button样式-->
     <style name="ProductPropertyStyle">
         <item name="android:button">@null</item>

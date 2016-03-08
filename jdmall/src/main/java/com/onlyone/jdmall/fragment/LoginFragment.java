@@ -148,6 +148,13 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mMainActivity = (MainActivity)getActivity();
+        mMainActivity.setHideTopBar(true);
+    }
+
+    @Override
     public void onClick(View v) {
         mUsername = mLoginEtUsername.getText().toString().trim();
         mPassword = mLoginEtPassword.getText().toString().trim();

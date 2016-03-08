@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:textColor="#fff"
         android:textSize="16sp"
-        android:text="您的账号我登录或登陆有误，请登陆！"/>
+        android:text="您的账号未登录或登陆有误，请登陆！"/>
 
 
     <Button

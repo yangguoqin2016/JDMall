@@ -2,6 +2,7 @@ package com.onlyone.jdmall.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -22,7 +23,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
-import com.onlyone.jdmall.application.MyApplication;
 import com.onlyone.jdmall.bean.BrandBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.DensityUtil;
@@ -317,15 +317,15 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         }
     }
 
-    class AutoScrollTask implements Runnable {
+    class AutoScrollTask extends Handler implements Runnable {
 
         public void start() {
-
-            MyApplication.sGlobalHandler.postDelayed(this, 2000);
+            this.removeCallbacks(this);
+            this.postDelayed(this, 2000);
         }
 
         public void stop() {
-            MyApplication.sGlobalHandler.removeCallbacks(this);
+            this.removeCallbacks(this);
         }
 
         @Override

@@ -16,4 +16,6 @@
 
 <!--商品弹出窗口背景-->
 	<color name="product_dialog_bg">#ffffff</color>
+	<!-- 地址列表不选中时候的背景-->
+	<color name="addresslist_selected_false_bg">#fff</color>
 </resources>

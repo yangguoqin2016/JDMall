@@ -1,8 +1,8 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -81,7 +81,7 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
         mRegistBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeFragment();
+                changeFragment(new LoginFragment());
             }
         });
     }
@@ -136,10 +136,11 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
                 mRegistBean = gson.fromJson(s, LoginOrRegistBean.class);
                 if (mRegistBean.response.equals("register")) {
                     Toast.makeText(ResUtil.getContext(), "注册成功", Toast.LENGTH_SHORT).show();
-                    SystemClock.sleep(1500);
+                    mSp.putString(SP.USERNAME, mUsername);
+                    mSp.putString(SP.PASSWORD, mPassword);
                     //注册成功,保存userid
                     mSp.putLong(SP.USERID, mRegistBean.userInfo.userid);
-                    changeFragment();
+                    changeFragment(new MineFragment());
 
 
                 } else {
@@ -170,10 +171,10 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
 
     }
 
-    private void changeFragment() {
+    private void changeFragment(Fragment fragment) {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.remove(RegisterFragment.this);
-        transaction.add(R.id.fl_content_container, new LoginFragment());
+        transaction.add(R.id.fl_content_container, fragment);
         transaction.commit();
     }
 }

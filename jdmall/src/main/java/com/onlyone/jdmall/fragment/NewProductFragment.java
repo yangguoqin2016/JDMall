@@ -1,6 +1,7 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.SystemClock;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -144,6 +145,15 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
                 mCurPageNum--;
                 return null;
             }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        FragmentManager manager = mActivity.getSupportFragmentManager();
+        for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+            manager.popBackStack();
         }
     }
 }

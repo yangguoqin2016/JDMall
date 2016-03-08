@@ -228,6 +228,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     //TODO:立即购买进入支付页面
     private void buyNow() {
+
         Toast.makeText(this, "立即购买,id=" + mProductId, Toast.LENGTH_SHORT).show();
     }
 
@@ -258,6 +259,21 @@ public class ProductDetailActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * 判断当前是否有用户登录
+     *
+     * @return
+     */
+    private boolean isLogin(){
+        SPUtil spUtil = new SPUtil(this);
+        String userName = spUtil.getString(SP.USERNAME, "");
+        if (TextUtils.isEmpty(userName)) {
+            Toast.makeText(this, "尚未登录...", Toast.LENGTH_SHORT).show();
+            return false;
+        }else{
+            return true;
+        }
+    }
 
     private class ProductPicAdapter extends BasePagerAdapter<String> {
         List<String> urls;

@@ -1,6 +1,7 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.SystemClock;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -49,10 +50,6 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         mTopBarView.findViewById(R.id.hot_product_topbar_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* FragmentManager manager = mActivity.getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.remove(HotProductFragment.this);
-                transaction.commit();*/
                 FragmentUtil.goBack(mActivity);
 
                 restoreHomeTopBar();
@@ -75,6 +72,7 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
         View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
         mActivity.setTopBarView(titlBar);
     }
+
 
     @Override
     protected void refreshSuccessView(List<HotProductBean.ProductBean> datas) {
@@ -141,6 +139,18 @@ public class HotProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
                 mCurPageNum--;
                 return null;
             }
+        }
+    }
+
+    /**
+     * view销毁时遍历所有入栈的Fragment并退出
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        FragmentManager manager = mActivity.getSupportFragmentManager();
+        for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+            manager.popBackStack();
         }
     }
 }

@@ -29,7 +29,7 @@ public class AddressBean {
 
     public List<AddressList> addressList;
 
-    public static class AddressList {
+    public static class AddressList implements Comparable<AddressList> {
         public String addressArea;
         public String addressDetail;
         public String city;
@@ -39,5 +39,15 @@ public class AddressBean {
         public String phoneNumber;
         public String province;
         public String zipCode;
+
+        @Override
+        public int compareTo(AddressList another) {
+            if(this==another){
+                return 0;
+            }
+            return another.isDefault - isDefault;
+        }
     }
+
+
 }

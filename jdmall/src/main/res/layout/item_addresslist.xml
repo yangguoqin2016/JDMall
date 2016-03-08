@@ -2,9 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_margin="20dp"
               android:orientation="vertical">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="15dp"
+        android:layout_height="match_parent">
     <TextView
         android:id="@+id/item_addresslist_tv_name"
         android:layout_width="wrap_content"
@@ -25,10 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="1233211234567"
+            android:textColor="#000"
             android:textSize="18sp"
             />
 
         <ImageView
+            android:id="@+id/item_addresslist_iv_selected"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
@@ -41,14 +46,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:textColor="#000"
         android:singleLine="true"
         android:text="朝鲜半岛平壤市解放路1号万花楼总部,"
         android:textSize="18sp"
         />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="#2000"/>
+    </LinearLayout>
 </LinearLayout>

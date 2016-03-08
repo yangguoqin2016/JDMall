@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,6 +38,7 @@ import com.onlyone.jdmall.fragment.NewProductFragment;
 import com.onlyone.jdmall.fragment.category.HomeCategoryFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.DensityUtil;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.picasso.Picasso;
 
@@ -403,7 +405,15 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     private void changeTitleBar() {
         //设置titleBar
         View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-        //TODO:主页title搜索的逻辑
+        EditText tvSearch = (EditText) titlBar.findViewById(R.id.home_tb_et);
+        tvSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                LogUtil.d("HomeFragment", "hasFocus =" + hasFocus);
+                if(hasFocus)
+                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
+            }
+        });
         //3.得到MainActivity,再设置TopBar的Ui
         mMainActivity.setTopBarView(titlBar);
     }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:focusableInTouchMode="true"
     android:layout_height="48dp">
     <ImageView
         android:src="@mipmap/mystreet"
@@ -33,6 +34,7 @@
         android:orientation="horizontal"
         android:layout_height="48dp">
         <EditText
+            android:id="@+id/home_tb_et"
             android:background="@null"
             android:layout_weight="5"
             android:layout_width="0dp"

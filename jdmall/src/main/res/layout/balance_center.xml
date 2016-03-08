@@ -384,6 +384,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
+			android:gravity="center"
 			android:background="@drawable/balance_commit"
 			android:text="提交订单"
 			android:textColor="#FFF"

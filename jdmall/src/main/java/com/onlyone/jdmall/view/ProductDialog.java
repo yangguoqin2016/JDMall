@@ -11,6 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.bean.ProductDetailBean;
+import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.utils.ResUtil;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,13 +51,19 @@ public class ProductDialog extends Dialog {
     @Bind(R.id.product_dialog_num_add)
     ImageView mProductDialogNumAdd;
 
+    private ProductDetailBean.ProductEntity mPoductBean;
+
     public ProductDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
 
     public ProductDialog(Context context) {
-        //设置窗口属性
+        super(context);
+    }
+
+    public ProductDialog(Context context, ProductDetailBean.ProductEntity productBean) {
         this(context, R.style.ProductDialogStyle);
+        mPoductBean = productBean;
 
         //拿到窗口属性
         WindowManager.LayoutParams attributes = getWindow().getAttributes();
@@ -73,6 +85,24 @@ public class ProductDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_dialog_layout);
         ButterKnife.bind(this);
+
+        initView();
+    }
+
+    private void initView() {
+        //1.设置商品图标
+        List<String> pics = mPoductBean.pics;
+        if(pics.size() == 0){
+            mProductDialogPic.setImageResource(R.mipmap.guide);
+        }else{
+            String url = Url.ADDRESS_SERVER+pics.get(0);
+            Picasso.with(ResUtil.getContext()).load(url).into(mProductDialogPic);
+        }
+
+        //2.设置商品价格
+        mProductDialogPrice.setText("￥"+mPoductBean.price);
+        float savedMoney = mPoductBean.marketPrice-mPoductBean.price;
+        mProductDialogPriceSave.setText("节省"+savedMoney+"元");
     }
 
     @OnClick({R.id.product_dialog_dismiss, R.id.product_dialog_addcar, R.id.product_dialog_buy, R.id.product_dialog_num_reduce, R.id.product_dialog_num_add})

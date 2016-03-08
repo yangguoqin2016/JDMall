@@ -290,7 +290,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     //TODO:选择商品颜色,尺寸
     private void selectColorAndSize() {
         //弹出对话框口选择产品
-        ProductDialog dialog = new ProductDialog(this);
+        ProductDialog dialog = new ProductDialog(this,mProductBean);
         dialog.show();
     }
 

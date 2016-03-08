@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -313,6 +314,7 @@ public class HomeFragment extends BaseFragment<Object>
 				fragment = new HomeFastSaleFragment();
 				break;
 			case R.id.home_ll_recommend: //推荐品牌
+				mMainActivity.mRgBottomNav.check(R.id.rb_bottom_band);
 				str = "推荐品牌";
 				break;
 			case R.id.home_ll_category: //商品分类
@@ -397,16 +399,16 @@ public class HomeFragment extends BaseFragment<Object>
 		super.onResume();
 		mMainActivity = (MainActivity) getActivity();
 		View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+		EditText homeEt = (EditText) titlBar.findViewById(R.id.home_tb_et);
+		homeEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus){
+					mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
+				}
+			}
+		});
 		mMainActivity.setTopBarView(titlBar);
 	}
-
-
-//	private void changeTitleBar() {
-//		//设置titleBar
-//		View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-//		mMainActivity.setTopBarView(titlBar);
-//		//TODO:主页title搜索的逻辑
-//		//3.得到MainActivity,再设置TopBar的Ui
-//	}
 
 }

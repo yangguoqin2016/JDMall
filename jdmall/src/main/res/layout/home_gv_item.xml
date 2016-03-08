@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.onlyone.jdmall.view.RatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:rlRelative="width"
+    app:rlPicRatio="0.67"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ImageView
+    android:id="@+id/home_gv_item_iv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+</com.onlyone.jdmall.view.RatioLayout>

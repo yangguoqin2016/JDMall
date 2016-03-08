@@ -3,7 +3,7 @@ package com.onlyone.jdmall.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,7 +11,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.fragment.FragmentFactory;
+import com.onlyone.jdmall.fragment.MineFragment;
+import com.onlyone.jdmall.utils.LogUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 import com.onlyone.jdmall.view.NoScrollLazyViewPager;
 
 import butterknife.Bind;
@@ -48,11 +52,12 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
 	private FragmentManager mManager;
 	private NavAdapter      mNavAdapter;
-
+	private SPUtil mSPUtil;
+	private static final String TAG = "MainActivity";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		mSPUtil = new SPUtil(this);
 		initView();
 		initEvent();
 		intData();
@@ -131,14 +136,19 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 	}
 
 
-	class NavAdapter extends FragmentPagerAdapter {
-
+	class NavAdapter extends FragmentStatePagerAdapter {
 		public NavAdapter(FragmentManager fm) {
 			super(fm);
 		}
 
 		@Override
 		public Fragment getItem(int position) {
+			boolean isLoginSuccess = mSPUtil.getBoolean(SP.ISLOGINSUCCESS, false);
+			LogUtil.d(TAG,"isLoginSuccess  =  "+isLoginSuccess );
+			if(position==4&& isLoginSuccess){
+				LogUtil.d(TAG,"进来newMineFragment了-------");
+				return new MineFragment();
+			}
 			return FragmentFactory.getFragment(position);
 		}
 

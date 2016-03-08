@@ -9,51 +9,60 @@
         android:orientation="vertical">
 
         <!--顶部-->
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/product_dialog_top"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
+            android:layout_height="120dp">
             <ImageView
                 android:id="@+id/product_dialog_pic"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
                 android:src="@mipmap/hot"
                 />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="20dp">
-                <TextView
-                    android:id="@+id/product_dialog_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥160"
-                    android:textColor="#f00"
-                    android:textSize="26sp"
-                    />
-                <TextView
-                    android:id="@+id/product_dialog_price_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="减少20元"
-                    android:textColor="#bcb1b1"
-                    android:textSize="18sp"
-                    />
-            </LinearLayout>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/product_dialog_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/product_dialog_pic"
+                android:text="￥160"
+                android:textColor="#f00"
+                android:textSize="26sp"
+                />
+            <TextView
+                android:id="@+id/product_dialog_price_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_dialog_price"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/product_dialog_pic"
+                android:text="减少20元"
+                android:textColor="#bcb1b1"
+                android:textSize="18sp"
+                />
+            <ImageView
+                android:id="@+id/product_dialog_dismiss"
+                android:layout_alignParentRight="true"
+                android:scaleType="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/img_cancel"
+                />
+        </RelativeLayout>
 
         <!--底部-->
         <LinearLayout
-            android:visibility="visible"
             android:id="@+id/product_dialog_bottom"
             android:layout_width="match_parent"
             android:layout_height="53dp"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
             <TextView
                 android:id="@+id/product_dialog_addcar"
                 android:layout_width="0dp"
@@ -78,11 +87,11 @@
 
         <!--颜色尺寸选择-->
         <ScrollView
-            android:scrollbars="none"
             android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/product_dialog_bottom"
-                    android:layout_below="@id/product_dialog_top">
+            android:layout_height="match_parent"
+            android:layout_above="@id/product_dialog_bottom"
+            android:layout_below="@id/product_dialog_top"
+            android:scrollbars="none">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -121,8 +130,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="尺寸"
-                    android:textSize="18sp"
-                    android:textColor="#000"/>
+                    android:textColor="#000"
+                    android:textSize="18sp"/>
                 <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,36 +160,38 @@
 
                 <!--选择商品数量-->
                 <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
                     <TextView
-                        android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="购买数量"
-                        android:textSize="18sp"
-                        android:textColor="#000"/>
+                        android:textColor="#000"
+                        android:textSize="18sp"/>
                     <TextView
-                        android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="(限购10件)"
                         android:textSize="15sp"/>
 
                     <ImageView
                         android:id="@+id/product_dialog_num_reduce"
-                        android:layout_marginLeft="30dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
                         android:background="@drawable/selector_shopping_car_num_reduce"/>
                     <EditText
                         android:id="@+id/product_dialog_num_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/shopping_cart_product_num_edit"/>
+                        android:background="@mipmap/shopping_cart_product_num_edit"
+                        android:inputType="number"
+                        android:textColor="#000"/>
                     <ImageView
                         android:id="@+id/product_dialog_num_add"
                         android:layout_width="wrap_content"

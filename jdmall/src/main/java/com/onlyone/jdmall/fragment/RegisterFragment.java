@@ -59,7 +59,7 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
     private String mPassword;
     private String mConfirmPwd;
     LoginOrRegistBean mRegistBean;
-    private SPUtil mSp;
+    private SPUtil   mSp;
     private TextView mRegistBack;
 
     @Override
@@ -126,8 +126,8 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
 
         RequestQueue queue = Volley.newRequestQueue(ResUtil.getContext());
 
-//        String url = "http://10.0.2.2:8080/market/register?";
-                String url = Url.ADDRESS_SERVER+"/register?";
+        //        String url = "http://10.0.2.2:8080/market/register?";
+        String url = Url.ADDRESS_SERVER + "/register?";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {

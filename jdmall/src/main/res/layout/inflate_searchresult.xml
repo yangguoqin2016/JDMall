@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:background="#fff"
               android:layout_height="match_parent"
+              android:background="#fff"
               android:orientation="vertical">
 
 
@@ -37,8 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:visibility="gone"
                 android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
+                android:visibility="gone"
                 />
 
             <ImageView
@@ -68,14 +68,30 @@
                 android:textSize="16sp"
                 />
 
-
-            <ImageView
-                android:id="@+id/searchresult_price_jiantou"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
-                />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/searchresult_price_jiantou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
+                    />
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/searchresult_price_jiantouDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:rotation="180"
+                    android:rotationX="0.5"
+                    android:rotationY="0.5"
+                    android:src="@mipmap/shousuojieguo_jiage_xuanzejiantou"
+                    />
+            </FrameLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -96,10 +112,10 @@
             >
 
             <TextView
+                android:id="@+id/searchresult_tv_exaluate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="好评量"
-                android:id="@+id/searchresult_tv_exaluate"
                 android:textColor="#000"
                 android:textSize="16sp"
                 />

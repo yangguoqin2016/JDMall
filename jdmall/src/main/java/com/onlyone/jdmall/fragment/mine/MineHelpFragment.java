@@ -1,9 +1,16 @@
 package com.onlyone.jdmall.fragment.mine;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,8 +35,9 @@ import butterknife.ButterKnife;
  * @描述: ${TODO}
  */
 public class MineHelpFragment extends BaseFragment<Object> implements View.OnClickListener {
-    public static final  String HELP_USER_GUIDE_FRAGMENT = "help_user_guide_fragment";
-    private static final String    HELP_SEND_WAY_FRAGMENT   = "help_send_way_fragment";
+    public static final  String HELP_USER_GUIDE_FRAGMENT     = "help_user_guide_fragment";
+    private static final String HELP_SEND_WAY_FRAGMENT       = "help_send_way_fragment";
+    private static final String HELP_SELLED_SERVICE_FRAGMENT = "help_selled_service_fragment";
     @Bind(R.id.help_buy_guide)
     LinearLayout mHelpBuyGuide;
     @Bind(R.id.help_buy_serve)
@@ -40,14 +48,17 @@ public class MineHelpFragment extends BaseFragment<Object> implements View.OnCli
     ImageView    mMineBtnBye;
     @Bind(R.id.mine_btn_look_order)
     ImageView    mMineBtnLookOrder;
+    @Bind(R.id.help_center_tv_call)
+    LinearLayout mHelpCenterTvCall;
 
 
-    private MainActivity          mMainActivity;
-    private View                  mTopBarView;
-    private TextView              mHelpBack;
-    private HelpUserGuideFragment mHelpUserGuideFragment;
-    private FragmentManager       mManager;
-    private HelpSendWayFragment   mHelpSendWayFragment;
+    private MainActivity            mMainActivity;
+    private View                    mTopBarView;
+    private TextView                mHelpBack;
+    private HelpUserGuideFragment   mHelpUserGuideFragment;
+    private FragmentManager         mManager;
+    private HelpSendWayFragment     mHelpSendWayFragment;
+    private HelpUserServiceFragment mHelpUserServiceFragment;
 
     @Override
     public void onResume() {
@@ -75,6 +86,7 @@ public class MineHelpFragment extends BaseFragment<Object> implements View.OnCli
         mHelpSendWay.setOnClickListener(this);
         mMineBtnBye.setOnClickListener(this);
         mMineBtnLookOrder.setOnClickListener(this);
+        mHelpCenterTvCall.setOnClickListener(this);
         return rootView;
     }
 
@@ -90,7 +102,7 @@ public class MineHelpFragment extends BaseFragment<Object> implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.mine_tv_help_back://返回
                 mManager = mMainActivity.getSupportFragmentManager();
                 FragmentTransaction transaction = mManager.beginTransaction();
@@ -100,25 +112,60 @@ public class MineHelpFragment extends BaseFragment<Object> implements View.OnCli
                 transaction.commit();
                 break;
             case R.id.help_buy_guide://购物指南
-                Toast.makeText(ResUtil.getContext(),"购物指南",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ResUtil.getContext(), "购物指南", Toast.LENGTH_SHORT).show();
                 if (mHelpUserGuideFragment == null) {
                     mHelpUserGuideFragment = new HelpUserGuideFragment();
                 }
-                changeFragment(mHelpUserGuideFragment,HELP_USER_GUIDE_FRAGMENT);
+                changeFragment(mHelpUserGuideFragment, HELP_USER_GUIDE_FRAGMENT);
                 break;
             case R.id.help_buy_serve://售后服务
+                if (mHelpUserServiceFragment == null) {
+                    mHelpUserServiceFragment = new HelpUserServiceFragment();
+                }
+                changeFragment(mHelpUserServiceFragment, HELP_SELLED_SERVICE_FRAGMENT);
                 break;
             case R.id.help_send_way://配送方式
                 if (mHelpSendWayFragment == null) {
                     mHelpSendWayFragment = new HelpSendWayFragment();
                 }
-                changeFragment(mHelpSendWayFragment,HELP_SEND_WAY_FRAGMENT);
+                changeFragment(mHelpSendWayFragment, HELP_SEND_WAY_FRAGMENT);
                 break;
             case R.id.mine_btn_bye://继续购物
                 //TODO：点击继续购物按钮，跳转到主界面
                 break;
             case R.id.mine_btn_look_order://查看订单
                 //TODO：点击查看订单按钮，跳转到订单详情界面
+                break;
+            case R.id.help_center_tv_call:
+                //打客服电话
+                AlertDialog.Builder builder = new AlertDialog.Builder(mMainActivity);
+                builder.setTitle("系统提示")//设置对话框标题
+                        .setMessage("您有什么疑问？您需要联系客服处理吗？")//设置显示的内容
+                                //添加确定按钮
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                //当点击确定时就拨打电话
+                                //意图：想干什么事
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_CALL);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addCategory("android.intent.category.DEFAULT");
+                                //url:统一资源定位符
+                                //uri:统一资源标示符（更广）
+                                intent.setData(Uri.parse("tel://400-6666-6666"));
+                                //开启系统拨号器
+                                mMainActivity.startActivity(intent);
+                            }
+                        }).setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                    //添加返回按钮
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //响应事件返回更多设置的主界面
+
+                    }
+                }).show();
                 break;
         }
     }
@@ -138,14 +185,23 @@ public class MineHelpFragment extends BaseFragment<Object> implements View.OnCli
 
     /**
      * 实现fragment跳转
+     *
      * @param fragment
      * @param tag
      */
-    private void changeFragment(Fragment fragment,String tag) {
+    private void changeFragment(Fragment fragment, String tag) {
         FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fl_content_container, fragment, tag);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 }

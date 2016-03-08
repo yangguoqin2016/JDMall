@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class ProductDetailBean {
     public ProductEntity product;
     public String        response;
 
-    public static class ProductEntity {
+    public static class ProductEntity implements Serializable {
         public boolean available;
         public int     buyLimit;   //单品购买上限
         public int     commentCount;
@@ -37,10 +38,30 @@ public class ProductDetailBean {
         public List<ProductPropertyBean> productProperty;
 
 
-        public static class ProductPropertyBean {
+        public static class ProductPropertyBean implements Serializable{
             public int    id;
             public String k;
             public String v;
+        }
+
+        @Override
+        public String toString() {
+            return "ProductEntity{" +
+                    "available=" + available +
+                    ", buyLimit=" + buyLimit +
+                    ", commentCount=" + commentCount +
+                    ", id=" + id +
+                    ", inventoryArea='" + inventoryArea + '\'' +
+                    ", leftTime=" + leftTime +
+                    ", limitPrice=" + limitPrice +
+                    ", marketPrice=" + marketPrice +
+                    ", name='" + name + '\'' +
+                    ", price=" + price +
+                    ", score=" + score +
+                    ", bigPic=" + bigPic +
+                    ", pics=" + pics +
+                    ", productProperty=" + productProperty +
+                    '}';
         }
     }
 }

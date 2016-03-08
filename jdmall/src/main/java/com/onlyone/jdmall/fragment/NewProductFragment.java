@@ -13,6 +13,7 @@ import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.adapter.SuperBaseAdapter;
 import com.onlyone.jdmall.bean.HotProductBean;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.fragment.home.HomeFragment;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.NewProductHolder;
 import com.onlyone.jdmall.utils.FragmentUtil;
@@ -73,7 +74,7 @@ public class NewProductFragment extends SuperBaseFragment<List<HotProductBean.Pr
      * back键回退到首页,恢复首页的TopBar
      */
     private void restoreHomeTopBar() {
-        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+        View titlBar = HomeFragment.mTitleBar;
         mActivity.setTopBarView(titlBar);
     }
 

@@ -88,12 +88,11 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		if (mHistoryList == null) {
 			mHistoryList = new ArrayList<>();
 		}
-		initTopBar();
+//		initTopBar();
 
 		FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
 		TextView tv = new TextView(ResUtil.getContext());
 		tv.setText("加载数据失败,请检查下你的网络..");
-		tv.setTextSize(DensityUtil.dip2Px(20));
 		tv.setTextColor(Color.BLACK);
 		tv.setGravity(Gravity.CENTER);
 		rootView.addView(tv);

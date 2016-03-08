@@ -1,14 +1,15 @@
 package com.onlyone.jdmall.holder;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.ProductDetailActivity;
 import com.onlyone.jdmall.bean.LimitBuyBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -41,6 +42,7 @@ public class LimitBuyHolder extends BaseHolder<LimitBuyBean.LimitBuyItemBean> im
     Button mLimitItemBtn;
     @Bind(R.id.limit_item_tv_saled)
     TextView mLimitItemTvSaled;
+    private LimitBuyBean.LimitBuyItemBean mData;
 
     @Override
     public View initHolderView() {
@@ -51,6 +53,7 @@ public class LimitBuyHolder extends BaseHolder<LimitBuyBean.LimitBuyItemBean> im
 
     @Override
     public void setDataAndRefreshUI(LimitBuyBean.LimitBuyItemBean data) {
+        mData = data;
         //设置图片
         String url = Url.ADDRESS_SERVER + data.pic;
         Picasso.with(ResUtil.getContext()).load(url).into(mLimitItemIv);
@@ -75,6 +78,9 @@ public class LimitBuyHolder extends BaseHolder<LimitBuyBean.LimitBuyItemBean> im
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(ResUtil.getContext(), "点击了", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent( ResUtil.getContext() , ProductDetailActivity.class);
+        intent.putExtra("id", mData.id);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ResUtil.getContext().startActivity(intent);
     }
 }

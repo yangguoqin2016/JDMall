@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -319,11 +317,13 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
      * @param tag
      */
     private void changeFragment(Fragment fragment, String tag) {
-        FragmentManager manager = mMainActivity.getSupportFragmentManager();
+        /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fl_content_container, fragment, tag);
         transaction.addToBackStack("aaa");
 
-        transaction.commit();
+        transaction.commit();*/
+        HolderFragment parentFragmrnt = (HolderFragment) getParentFragment();
+        parentFragmrnt.goForward(fragment);
     }
 }

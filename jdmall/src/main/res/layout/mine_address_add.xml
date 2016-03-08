@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#FFD105A8"
+              android:background="#fff"
               android:orientation="vertical"
               android:padding="10dp">
 
@@ -101,13 +101,10 @@
                 android:textSize="20sp"/>
         </RelativeLayout>
 
-        <EditText
-            android:id="@+id/addr_add_et_province"
+        <TextView
+            android:id="@+id/addr_add_tv_province"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:autoLink="none"
-            android:background="@null"
-            android:hint="(必填)"
             android:textSize="18sp"/>
 
     </LinearLayout>
@@ -154,6 +151,21 @@
         android:layout_height="1dp"
         android:layout_marginTop="2dp"
         android:src="@mipmap/neirong_fengexian_shangmian60px_shurukuang"/>
+
+
+    <View
+        android:id="@+id/vMasker"
+        android:visibility="gone"
+        android:background="#e0000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:visibility="gone"
+        android:layout_margin="50dp"
+        android:id="@+id/tvTime"
+        android:text="时间"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
 
 
 </LinearLayout>

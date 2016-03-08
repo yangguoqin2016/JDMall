@@ -1,6 +1,7 @@
 package com.onlyone.jdmall.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
@@ -167,26 +168,31 @@ public class CarFragment extends BaseFragment<CartBean> {
 			//本地储存的购物车有数据
 			//使用本地储存的购物车数据来生成请求服务器的链接
 
-			StringBuilder sb = new StringBuilder();
-			Set<Map.Entry<CarProduct, Integer>> entrySet = savedCar.entrySet();
-			for (Map.Entry<CarProduct, Integer> entry : entrySet) {
-				int id = entry.getKey().id;
-				int[] prop = entry.getKey().prop;
-				int count = entry.getValue();
-
-				for (int i : prop) {
-					String productItem;
-					if (sb.length() == 0) {
-						productItem = String.format("%d:%d:%d", id, count, i);
-					} else {
-						productItem = String.format("|%d:%d:%d", id, count, i);
-					}
-					sb.append(productItem);
-				}
-			}
+			StringBuilder sb = buildStringFromCar(savedCar);
 
 			return sb.toString();
 		}
+	}
+
+	@NonNull
+	public static StringBuilder buildStringFromCar(HashMap<CarProduct, Integer> savedCar) {
+		StringBuilder sb = new StringBuilder();
+		Set<Map.Entry<CarProduct, Integer>> entrySet = savedCar.entrySet();
+		for (Map.Entry<CarProduct, Integer> entry : entrySet) {
+			int id = entry.getKey().id;
+			int[] prop = entry.getKey().prop;
+			int count = entry.getValue();
+
+			String productItem;
+			if (sb.length() == 0) {
+				productItem = String.format("%d:%d:%d", id, count, prop[0]);
+			} else {
+				productItem = String.format("|%d:%d:%d", id, count, prop[0]);
+			}
+			sb.append(productItem);
+
+		}
+		return sb;
 	}
 
 	/**
@@ -239,7 +245,7 @@ public class CarFragment extends BaseFragment<CartBean> {
 			@Override
 			public void onClick(View v) {
 				if (mData.size() > 0) {
-					((HolderFragment)getParentFragment()).goForward(new BalanceFragment());
+					((HolderFragment) getParentFragment()).goForward(new BalanceFragment());
 				}
 			}
 		});
@@ -352,6 +358,11 @@ public class CarFragment extends BaseFragment<CartBean> {
 						float money = cartEntity.prodNum * cartEntity.product.price;
 						viewHolder.mTvCarItemXiaoji.setText(money + "");
 
+						//每次对购物车数据继续修改都保存到本地一次
+						HashMap<CarProduct, Integer> productToSave = CarModel.getInstance()
+								.transformData(mData);
+						CarModel.getInstance().refreshCar(mCurrentUser, productToSave);
+
 						//更新总共金钱
 						updateTotalInfo();
 					}
@@ -368,6 +379,11 @@ public class CarFragment extends BaseFragment<CartBean> {
 						//计算小结的金额
 						float money = cartEntity.prodNum * cartEntity.product.price;
 						viewHolder.mTvCarItemXiaoji.setText(money + "");
+
+						//每次对购物车数据继续修改都保存到本地一次
+						HashMap<CarProduct, Integer> productToSave = CarModel.getInstance()
+								.transformData(mData);
+						CarModel.getInstance().refreshCar(mCurrentUser, productToSave);
 
 						//更新总共的金额
 						updateTotalInfo();

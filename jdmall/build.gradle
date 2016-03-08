@@ -62,4 +62,5 @@ dependencies {
 	compile files('lib/gpuimage-library-1.3.0.jar')
 	compile files('lib/AndroidSwipeLayout-v1.1.8.jar')
 	//compile 'com.bigkoo:pickerview:2.0.8'
+	compile(name: 'pickerview-2.0.8', ext: 'aar')
 }

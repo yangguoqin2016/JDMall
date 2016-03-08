@@ -1,10 +1,10 @@
 package com.onlyone.jdmall.fragment.mine;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +22,7 @@ import com.onlyone.jdmall.bean.AddressBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
+import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.fragment.MineFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.NetUtil;
@@ -41,6 +42,7 @@ import butterknife.ButterKnife;
  */
 public class AddressManagerFragment extends BaseFragment<AddressBean> {
 
+    private static final String ADDRESS_ADD_FRAGMENT = "address_add_fragment";
     private View         mSucessView;
     private MainActivity mMainActivity;
     private View         mTopBar;
@@ -52,6 +54,7 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
     private static final int ADDRESS_LIST_MANAGER = 3;
     private static final int ADDRESS_LIST_MODIFY  = 4;
     private static       int mCurrentPager        = -1;
+    private AddressAddFragment mAddressAddFragment;
 
     @Override
     protected View loadSuccessView() {
@@ -159,23 +162,37 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
 
                 case R.id.topbar_addrmng_add:
 
-                    AddressAddFragment addressAddFragment = new AddressAddFragment();
+                    mAddressAddFragment = new AddressAddFragment();
+                    /*
+                    FragmentManager manager = mMainActivity.getSupportFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.add(R.id.fl_content_container, addressAddFragment);
+                    transaction.addToBackStack("aaa");
 
+                    transaction.commit();
 
                     FrameLayout rootView = mLoadPager.getRootView();
                     rootView.removeAllViews();
-//                    rootView.addView(new AddressAddFragment().loadSuccessView());
-                    rootView.addView(addressAddFragment.loadSuccessView());
+                    //                    rootView.addView(addressAddFragment.loadSuccessView());
+                    rootView.addView(addressAddFragment.loadSuccessView());*/
+                    if (mAddressAddFragment == null) {
+                        mAddressAddFragment = new AddressAddFragment();
+                    }
+                    changeFragment(mAddressAddFragment, ADDRESS_ADD_FRAGMENT);
 
-                    //FragmentManager manager = mMainActivity.getSupportFragmentManager();
-//                    FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.add(R.id.fl_content_container, addressAddFragment);
-//                    transaction.addToBackStack("aaa");
-
-                    transaction.commit();
                     break;
             }
         }
+    }
+
+    private void changeFragment(Fragment fragment, String tag) {
+        /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.fl_content_container, fragment, tag);
+        transaction.addToBackStack(null);
+        transaction.commit();*/
+        HolderFragment parentFragment = (HolderFragment) getParentFragment();
+        parentFragment.goForward(fragment);
     }
 
 

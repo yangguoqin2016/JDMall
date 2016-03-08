@@ -82,7 +82,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     private MainActivity mMainActivity;
     private View mAdView1;
     private View mAdView2;
-
+    public static View mTitleBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
 
     @Override
     public void onAttach(Context context) {
@@ -399,13 +399,14 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     public void onResume() {
         super.onResume();
         mMainActivity = (MainActivity) getActivity();
+        LogUtil.d("HomeFragment", "onResume =" );
     }
 
 
     private void changeTitleBar() {
         //设置titleBar
-        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-        EditText tvSearch = (EditText) titlBar.findViewById(R.id.home_tb_et);
+
+        EditText tvSearch = (EditText) mTitleBar.findViewById(R.id.home_tb_et);
         tvSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -415,7 +416,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
             }
         });
         //3.得到MainActivity,再设置TopBar的Ui
-        mMainActivity.setTopBarView(titlBar);
+        mMainActivity.setTopBarView(mTitleBar);
     }
 
 }

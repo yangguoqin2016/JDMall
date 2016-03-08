@@ -3,7 +3,6 @@ package com.onlyone.jdmall.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -190,7 +189,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	 */
 	@Override
 	public void onResume() {
-
+		initTopBar();
 		LogUtil.d("vivi", "onResume方法被调用了--------");
 		super.onResume();
 	}
@@ -371,14 +370,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		}
 		SerializeUtil.deserializeObject(Serialize.TAG_HISTORY, mHistoryList);
 
-		FragmentManager manager = mMainActivity.getSupportFragmentManager();
-		FragmentTransaction transaction = manager.beginTransaction();
-		// transaction.hide(this);
-
-		transaction.replace(R.id.fl_content_container, new SearchResultFragment(),
-							TAG_SEARCHRESULT_FRAGMENT);
-		transaction.addToBackStack(null);
-		transaction.commit();
+		((HolderFragment)getParentFragment()).goForward(new SearchResultFragment());
 	}
 
 	/**

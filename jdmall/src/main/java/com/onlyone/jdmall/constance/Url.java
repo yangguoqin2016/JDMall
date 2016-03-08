@@ -19,4 +19,8 @@ public interface Url {
 	String ADDRESS_LIMIT_BUY = ADDRESS_SERVER + "/limitbuy";//限时抢购
 	/*地址管理*/
 	String ADDRESS_CONTACT_ADDRESS = ADDRESS_SERVER + "/addresslist";//地址列表
+
+	/*用户中心*/
+//	http://188.188.5.59:8080/market/userinfo
+	String ADDRESS_USERINFO = ADDRESS_SERVER+"/userinfo";//用户中心地址
 }

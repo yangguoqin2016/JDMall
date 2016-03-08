@@ -101,6 +101,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
             }
         });
 
+
     }
 
     @Override

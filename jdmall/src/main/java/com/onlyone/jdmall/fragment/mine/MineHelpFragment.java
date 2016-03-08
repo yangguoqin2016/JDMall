@@ -56,9 +56,9 @@ public class MineHelpFragment extends BaseFragment<Object> implements View.OnCli
     private View                    mTopBarView;
     private TextView                mHelpBack;
     private HelpUserGuideFragment   mHelpUserGuideFragment;
-    private FragmentManager         mManager;
     private HelpSendWayFragment     mHelpSendWayFragment;
     private HelpUserServiceFragment mHelpUserServiceFragment;
+    private FragmentManager         mManager;
 
     @Override
     public void onResume() {

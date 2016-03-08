@@ -23,4 +23,5 @@ public interface Url {
 	/*用户中心*/
 //	http://188.188.5.59:8080/market/userinfo
 	String ADDRESS_USERINFO = ADDRESS_SERVER+"/userinfo";//用户中心地址
+	String ADDRESS_ADDRESSLIST = ADDRESS_SERVER + "/addresslist";//地址列表
 }

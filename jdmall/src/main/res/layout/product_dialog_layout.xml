@@ -184,7 +184,7 @@
                         android:id="@+id/product_dialog_num_reduce"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="20dp"
                         android:background="@drawable/selector_shopping_car_num_reduce"/>
                     <EditText
                         android:id="@+id/product_dialog_num_edit"
@@ -194,6 +194,7 @@
                         android:inputType="number"
                         android:text="1"
                         android:gravity="center"
+                        android:cursorVisible="false"
                         android:textColor="#000"/>
                     <ImageView
                         android:id="@+id/product_dialog_num_add"

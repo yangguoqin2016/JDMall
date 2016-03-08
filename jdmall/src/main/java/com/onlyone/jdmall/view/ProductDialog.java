@@ -3,12 +3,14 @@ package com.onlyone.jdmall.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ProductDetailBean;
@@ -107,7 +109,8 @@ public class ProductDialog extends Dialog {
         mProductDialogPriceSave.setText("节省" + savedMoney + "元");
 
         //3.设置限购数量
-        mProductDialogBuyLimit.setText("(单品限购"+mPoductBean.buyLimit+"件)");
+        mProductDialogBuyLimit.setText("(单品限购" + mPoductBean.buyLimit + "件)");
+
     }
 
     @OnClick({R.id.product_dialog_dismiss, R.id.product_dialog_addcar, R.id.product_dialog_buy, R.id.product_dialog_num_reduce, R.id.product_dialog_num_add})
@@ -121,10 +124,50 @@ public class ProductDialog extends Dialog {
             case R.id.product_dialog_buy:
                 break;
             case R.id.product_dialog_num_reduce:
+                reduceNum();
                 break;
             case R.id.product_dialog_num_add:
+                addNum();
                 break;
         }
+    }
+
+    /**
+     * 添加商品数量
+     */
+    private void addNum() {
+        String productNum = mProductDialogNumEdit.getText().toString();
+        if (TextUtils.isEmpty(productNum)) {
+            productNum = "1";
+        }
+        int num = Integer.parseInt(productNum);
+        if (num >= mPoductBean.buyLimit) {
+            //达到限购数
+            Toast.makeText(ResUtil.getContext(), "单品您只能买" + mPoductBean.buyLimit + "件哟~", Toast.LENGTH_SHORT).show();
+            num = mPoductBean.buyLimit;
+        } else {
+            num++;
+        }
+        mProductDialogNumEdit.setText(num + "");
+    }
+
+    /**
+     * 减少商品数量
+     */
+    private void reduceNum() {
+        String productNum = mProductDialogNumEdit.getText().toString();
+        if (TextUtils.isEmpty(productNum)) {
+            productNum = "1";
+        }
+        int num = Integer.parseInt(productNum);
+        if (num > 10) {
+            num = 10;
+        } else if (num <= 1) {
+            num = 1;
+        } else {
+            num--;
+        }
+        mProductDialogNumEdit.setText(num + "");
     }
 
 }

@@ -221,7 +221,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     public void onDestroyView() {
         super.onDestroyView();
         //页面销毁的时候，弹出所有的栈
-        if(null != mMainActivity){
+        if (null != mMainActivity) {
             FragmentManager manager = mMainActivity.getSupportFragmentManager();
             for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
                 manager.popBackStack();
@@ -399,7 +399,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     public void onResume() {
         super.onResume();
         mMainActivity = (MainActivity) getActivity();
-        LogUtil.d("HomeFragment", "onResume =" );
+        LogUtil.d("HomeFragment", "onResume =");
     }
 
 
@@ -410,9 +410,10 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         tvSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                LogUtil.d("HomeFragment", "hasFocus =" + hasFocus);
-                if(hasFocus)
-                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
+                if (hasFocus) {
+                    LogUtil.d("HomeFragment", "hasFocus =");
+                    mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
+                }
             }
         });
         //3.得到MainActivity,再设置TopBar的Ui

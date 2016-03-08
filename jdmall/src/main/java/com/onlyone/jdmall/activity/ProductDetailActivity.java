@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,13 +20,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ProductDetailBean;
-import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
-import com.onlyone.jdmall.utils.SPUtil;
 import com.onlyone.jdmall.utils.SerializeUtil;
+import com.onlyone.jdmall.utils.UserLoginUtil;
 import com.onlyone.jdmall.view.ProductDialog;
 import com.onlyone.jdmall.view.RatioLayout;
 import com.squareup.picasso.Picasso;
@@ -145,11 +143,11 @@ public class ProductDetailActivity extends AppCompatActivity {
      */
     private void saveBrowseHistory(ProductDetailBean.ProductEntity productBean) {
         //1.只有登录状态才保存历史浏览记录
-        if (!isLogin()) {
+        if (!UserLoginUtil.isLogin()) {
             return;
         }
         //2.获取当前登录用户名
-        String userName = getLoginUser();
+        String userName = UserLoginUtil.getLoginUser();
 
         //3.序列化取出保存的集合
         HashSet<ProductDetailBean.ProductEntity> set = SerializeUtil.serializeObject(userName);
@@ -275,16 +273,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         int[] productPros = {1, 2};  //{颜色,尺寸}
 
         //2.获取登录用户名
-        if(!isLogin()) {
+        if(!UserLoginUtil.isLogin()) {
             Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
             //TODO:跳转登录页面
         }else{
-            String userName = getLoginUser();
+            String userName = UserLoginUtil.getLoginUser();
             carModel.addToCar(userName, mProductId, productPros);
             Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     //TODO:选择商品颜色,尺寸
@@ -294,30 +290,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    /**
-     * 判断当前是否有用户登录
-     *
-     * @return
-     */
-    private boolean isLogin() {
-        SPUtil spUtil = new SPUtil(this);
-        String userName = spUtil.getString(SP.USERNAME, "");
-        return !TextUtils.isEmpty(userName);
-    }
 
-    /**
-     * 获取登录用户名
-     *
-     * @return
-     */
-    private String getLoginUser() {
-        if (isLogin()) {
-            SPUtil spUtil = new SPUtil(this);
-            return spUtil.getString(SP.USERNAME, "");
-        } else {
-            return null;
-        }
-    }
 
     private class ProductPicAdapter extends PagerAdapter {
         @Override

@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ProductDetailBean;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.UserLoginUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -120,6 +122,7 @@ public class ProductDialog extends Dialog {
                 dismiss();
                 break;
             case R.id.product_dialog_addcar:
+                addToCar();
                 break;
             case R.id.product_dialog_buy:
                 break;
@@ -130,6 +133,27 @@ public class ProductDialog extends Dialog {
                 addNum();
                 break;
         }
+    }
+
+    /**
+     * 加入购物车
+     */
+    private void addToCar() {
+        CarModel carModel = CarModel.getInstance();
+        //1.获取商品颜色,尺寸,这里根据选择的来调整
+        int[] productPros = {1, 2};  //{颜色,尺寸}
+
+        //2.获取登录用户名
+        if(!UserLoginUtil.isLogin()) {
+            Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
+            //TODO:跳转登录页面
+        }else{
+            String userName = UserLoginUtil.getLoginUser();
+            carModel.addToCar(userName, mPoductBean.id, productPros);
+            Toast.makeText(ResUtil.getContext(), "已加入购物车", Toast.LENGTH_SHORT).show();
+        }
+
+        dismiss();
     }
 
     /**
@@ -145,6 +169,8 @@ public class ProductDialog extends Dialog {
             //达到限购数
             Toast.makeText(ResUtil.getContext(), "单品您只能买" + mPoductBean.buyLimit + "件哟~", Toast.LENGTH_SHORT).show();
             num = mPoductBean.buyLimit;
+        } else if (num <= 0) {
+            num = 1;
         } else {
             num++;
         }

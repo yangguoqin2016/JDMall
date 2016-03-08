@@ -275,16 +275,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         int[] productPros = {1, 2};  //{颜色,尺寸}
 
         //2.获取登录用户名
-        String userName;
-        if (isLogin()) {
-            userName = getLoginUser();
-        } else {
-            Toast.makeText(this, "尚未登录...", Toast.LENGTH_SHORT).show();
-            return;
+        if(!isLogin()) {
+            Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
+            //TODO:跳转登录页面
+        }else{
+            String userName = getLoginUser();
+            carModel.addToCar(userName, mProductId, productPros);
+            Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
         }
 
-        carModel.addToCar(userName, mProductId, productPros);
-        Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
 
     }
 

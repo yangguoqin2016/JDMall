@@ -105,8 +105,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
                     android:text="1/5"
+                    android:gravity="center"
                     android:background="@drawable/product_detail_indicator_bg"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
             </RelativeLayout>
 

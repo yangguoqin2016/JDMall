@@ -449,7 +449,8 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             holder.tv.setText(key);
             holder.tv.setTextColor(Color.BLACK);
             holder.tv.setTextSize(DensityUtil.dip2Px(15));
-            int left = DensityUtil.dip2Px(15);
+            holder.tv.setBackgroundResource(R.drawable.selector_brand_tv_bg);
+            int left = DensityUtil.dip2Px(25);
             int top = DensityUtil.dip2Px(10);
             int bottom = DensityUtil.dip2Px(10);
             holder.tv.setPadding(left, top, 0, bottom);

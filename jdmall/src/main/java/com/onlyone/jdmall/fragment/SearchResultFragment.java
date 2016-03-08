@@ -58,7 +58,9 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     @Bind(R.id.searchresult_sale)
     LinearLayout mSearchresultSale;
     @Bind(R.id.searchresult_price_jiantou)
-    ImageView    mSearchresultPriceJiantou;
+    ImageView    mSearchresultPriceJiantouUp;
+    @Bind(R.id.searchresult_price_jiantouDown)
+    ImageView    mSearchresultPriceJiantouDown;
     @Bind(R.id.searchresult_price)
     LinearLayout mSearchresultPrice;
     @Bind(R.id.searchresult_evaluate_jiantou)
@@ -90,7 +92,7 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
     private int     mCurOrderby;
     private boolean mIsUp;
     private int mSearchNum;
-
+    private static final String TAG = "SearchResultFragment";
     @Override
     protected void refreshSuccessView(SearchResultBean data) {
 
@@ -195,14 +197,14 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
                 mMainActivity.setTopBarView(SearchFragment.mTopBar);
             }
         });
-        LogUtil.d("vivi", "onResume----------");
+        LogUtil.d(TAG, "onResume----------");
         super.onResume();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LogUtil.d("vivi", "onDestroyView----------");
+        LogUtil.d(TAG, "onDestroyView----------");
         ButterKnife.unbind(this);
     }
 
@@ -216,8 +218,8 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
 //                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_search);
                 FragmentUtil.goBack(mMainActivity);
                 mMainActivity.setTopBarView(SearchFragment.mTopBar);
-                break;
-            case R.id.searchresult_sale:// 销量
+                return;
+            case R.id.searchresult_sale:// 销量降序
                 /**
                  * 1.再通过关键字去请求网络 2.解析json得到数据 3.再更新UI
                  */
@@ -226,18 +228,20 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
                 break;
             case R.id.searchresult_price:// 价格
                 if (mIsUp) {
-                    orderby = "priceDown";
+                    orderby = "priceDown";//降序
                 }else{
-                    orderby = "priceUp";
+                    orderby = "priceUp";//升序
                 }
+                mSearchresultPriceJiantouUp.setVisibility(mIsUp?View.VISIBLE:View.GONE);
+                mSearchresultPriceJiantouDown.setVisibility(mIsUp?View.GONE:View.VISIBLE);
                 mIsUp = !mIsUp;
                 mCurOrderby = 1;
                 break;
-            case R.id.searchresult_evaluate:// 评价
+            case R.id.searchresult_evaluate:// 评价降序
                 orderby = "commentDown";
                 mCurOrderby = 2;
                 break;
-            case R.id.searchresult_date:// 日期
+            case R.id.searchresult_date:// 上架时间降序
                 orderby = "shelvesDown";
                 mCurOrderby = 3;
                 break;
@@ -299,19 +303,19 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
 
     @Override
     public void onPause() {
-        LogUtil.d("vivi", "onPause----------");
+        LogUtil.d(TAG, "onPause----------");
         super.onPause();
     }
 
     @Override
     public void onStart() {
-        LogUtil.d("vivi", "onStart----------");
+        LogUtil.d(TAG, "onStart----------");
         super.onStart();
     }
 
     @Override
     public void onDestroy() {
-        LogUtil.d("vivi", "onDestroy----------");
+        LogUtil.d(TAG, "onDestroy----------");
         super.onDestroy();
     }
 
@@ -321,16 +325,17 @@ public class SearchResultFragment extends SuperBaseFragment<SearchResultBean> im
         /* 商品条目的点击事件 */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            FragmentManager manager = mMainActivity.getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.addToBackStack(null);
-            transaction.commit();
+//            FragmentManager manager = mMainActivity.getSupportFragmentManager();
+//            FragmentTransaction transaction = manager.beginTransaction();
+//            transaction.addToBackStack(null);
+//            transaction.commit();
             //跳转商品详情页面
             SearchResultBean.ProductList productList = mResultData.productList.get(position);
             Toast.makeText(ResUtil.getContext(), productList.name,
                            Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(mMainActivity, ProductDetailActivity.class);
             intent.putExtra("id",productList.id);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mMainActivity.startActivity(intent);
 
         }

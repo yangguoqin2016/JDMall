@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -84,6 +85,12 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	 */
 	@Override
 	protected void handleError(Exception e) {
+		mHistoryList = SerializeUtil.serializeObject(Serialize.TAG_HISTORY);
+		if (mHistoryList == null) {
+			mHistoryList = new ArrayList<>();
+		}
+		initTopBar();
+
 		FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
 		TextView tv = new TextView(ResUtil.getContext());
 		tv.setText("加载数据失败,请检查下你的网络..");
@@ -93,6 +100,11 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		rootView.addView(tv);
 	}
 
+	@Override
+	public void onAttach(Context context) {
+		mMainActivity = (MainActivity) context;
+		super.onAttach(context);
+	}
 
 	@Override
 	protected SearchBean parseJson(String jsonStr) {
@@ -102,6 +114,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 
 	@Override
 	protected View loadSuccessView() {
+		initTopBar();
 
 		// 先移除掉.
 		FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
@@ -112,6 +125,26 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		// 设置箭头的点击箭头事件
 		mItemHotArrow.setOnClickListener(this);
 		return contentView;
+	}
+
+	private void initTopBar() {
+		// 1.得到TopBar.
+		mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_search, null);
+
+		// 得到TopBar的孩子,设置监听事件
+		TextView tvBack = (TextView) mTopBar.findViewById(R.id.topbar_tv_back);
+		TextView tvSearch = (TextView) mTopBar.findViewById(R.id.topbar_tv_search);
+		ImageView tvIconSearch = (ImageView) mTopBar.findViewById(R.id.topbar_iv_iconsearch);
+		mEtKey = (EditText) mTopBar.findViewById(R.id.topbar_et_key);
+
+		tvBack.setOnClickListener(this);
+		tvSearch.setOnClickListener(this);
+		tvIconSearch.setOnClickListener(this);
+		// 2.首先先拿到Fragment关联的Activity
+//		mMainActivity = (MainActivity) getActivity();
+
+		// 3.得到MainActivity,再设置TopBar的Ui
+		mMainActivity.setTopBarView(mTopBar);
 	}
 
 	@Override
@@ -157,23 +190,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	 */
 	@Override
 	public void onResume() {
-		// 1.得到TopBar.
-		mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_search, null);
 
-		// 得到TopBar的孩子,设置监听事件
-		TextView tvBack = (TextView) mTopBar.findViewById(R.id.topbar_tv_back);
-		TextView tvSearch = (TextView) mTopBar.findViewById(R.id.topbar_tv_search);
-		ImageView tvIconSearch = (ImageView) mTopBar.findViewById(R.id.topbar_iv_iconsearch);
-		mEtKey = (EditText) mTopBar.findViewById(R.id.topbar_et_key);
-
-		tvBack.setOnClickListener(this);
-		tvSearch.setOnClickListener(this);
-		tvIconSearch.setOnClickListener(this);
-		// 2.首先先拿到Fragment关联的Activity
-		mMainActivity = (MainActivity) getActivity();
-
-		// 3.得到MainActivity,再设置TopBar的Ui
-		mMainActivity.setTopBarView(mTopBar);
 		LogUtil.d("vivi", "onResume方法被调用了--------");
 		super.onResume();
 	}
@@ -199,9 +216,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
-		if (!hidden) {
-			mMainActivity.setTopBarView(mTopBar);
-		}
 		LogUtil.d("vivi", "onHiddenChanged方法被调用了--------" + hidden);
 		super.onHiddenChanged(hidden);
 	}
@@ -258,9 +272,12 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		FragmentManager manager = mMainActivity.getSupportFragmentManager();
-		for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
-			manager.popBackStack();
+		if(mMainActivity!=null){
+
+			FragmentManager manager = mMainActivity.getSupportFragmentManager();
+			for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+				manager.popBackStack();
+			}
 		}
 		ButterKnife.unbind(this);
 		LogUtil.d("vivi", "onDestroyView方法被调用了--------");
@@ -349,7 +366,9 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 				mHistoryList.add(0,searchKey);
 			}
 		}
-		mAdapter.notifyDataSetChanged();
+		if(mAdapter!=null){
+			mAdapter.notifyDataSetChanged();
+		}
 		SerializeUtil.deserializeObject(Serialize.TAG_HISTORY, mHistoryList);
 
 		FragmentManager manager = mMainActivity.getSupportFragmentManager();

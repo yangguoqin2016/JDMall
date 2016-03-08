@@ -77,6 +77,7 @@
 			</LinearLayout>
 
 			<ImageView
+				android:id="@+id/iv_balance_intoaddress"
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
 				android:padding="15dp"
@@ -91,7 +92,6 @@
 			android:background="#666"/>
 
 		<RelativeLayout
-			android:id="@+id/rl_balance_pay"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:paddingLeft="10dp">
@@ -118,6 +118,7 @@
 			</LinearLayout>
 
 			<ImageView
+				android:id="@+id/iv_balance_intopay"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -139,7 +140,7 @@
 			android:background="#666"/>
 
 		<RelativeLayout
-			android:id="@+id/rl_balance_logistics"
+			android:gravity="center_vertical"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:paddingLeft="10dp">
@@ -173,6 +174,7 @@
 			</LinearLayout>
 
 			<ImageView
+				android:id="@+id/iv_balance_intotime"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -194,7 +196,6 @@
 			android:background="#666"/>
 
 		<RelativeLayout
-			android:id="@+id/rl_balance_invoice"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:paddingLeft="10dp">
@@ -221,6 +222,7 @@
 			</LinearLayout>
 
 			<ImageView
+				android:id="@+id/iv_balance_intoticket"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -279,6 +281,7 @@
 					android:textSize="20sp"/>
 
 				<ImageView
+					android:id="@+id/iv_balance_intocar"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignParentRight="true"
@@ -335,7 +338,8 @@
 			<RelativeLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true">
+				android:layout_alignParentRight="true"
+				android:paddingRight="10dp">
 
 				<LinearLayout
 					android:id="@+id/ll_balance_moneycount"
@@ -362,14 +366,6 @@
 						android:textSize="20sp"/>
 
 				</LinearLayout>
-
-				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_toRightOf="@id/ll_balance_moneycount"
-					android:padding="15dp"
-					android:src="@mipmap/balance_right_black"/>
-
 			</RelativeLayout>
 
 		</RelativeLayout>
@@ -381,11 +377,12 @@
 			android:background="#666"/>
 
 		<Button
+			android:id="@+id/btn_balance_commit"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
-			android:gravity="center"
 			android:background="@drawable/balance_commit"
+			android:gravity="center"
 			android:text="提交订单"
 			android:textColor="#FFF"
 			android:textSize="25sp"/>

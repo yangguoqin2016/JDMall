@@ -3,6 +3,7 @@ package com.onlyone.jdmall.fragment.home;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -217,6 +218,14 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //页面销毁的时候，弹出所有的栈
+        if(null != mMainActivity){
+            FragmentManager manager = mMainActivity.getSupportFragmentManager();
+            for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+                manager.popBackStack();
+            }
+        }
+
         ButterKnife.unbind(this);
     }
 
@@ -387,6 +396,7 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     public void onResume() {
         super.onResume();
+        mMainActivity = (MainActivity) getActivity();
     }
 
 
@@ -394,9 +404,6 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         //设置titleBar
         View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
         //TODO:主页title搜索的逻辑
-        //2.首先先拿到Fragment关联的Activity
-        mMainActivity = (MainActivity) getActivity();
-
         //3.得到MainActivity,再设置TopBar的Ui
         mMainActivity.setTopBarView(titlBar);
     }

@@ -235,6 +235,160 @@
 			android:layout_marginBottom="20dp"
 			android:background="#666"/>
 
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingLeft="10dp"
+			android:text="商品明细"
+			android:textColor="#000"
+			android:textSize="20sp"/>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginTop="10dp"
+			android:background="#666"/>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:id="@+id/ll_balance_images"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_marginLeft="20dp"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
+
+				<TextView
+					android:id="@+id/tv_balance_count"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="共三件"
+					android:textColor="#000"
+					android:textSize="20sp"/>
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:padding="15dp"
+					android:src="@mipmap/balance_right_black"/>
+
+			</LinearLayout>
+
+		</RelativeLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginBottom="20dp"
+			android:background="#666"/>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginTop="10dp"
+			android:background="#666"/>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingBottom="10dp"
+			android:paddingLeft="10dp"
+			android:paddingTop="10dp">
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<TextView
+					android:id="@+id/tv_balance_moneytitle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="商品金额"
+					android:textColor="#000"
+					android:textSize="20sp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_below="@id/tv_balance_moneytitle"
+					android:paddingTop="10dp"
+					android:text="运费"
+					android:textColor="#000"
+					android:textSize="20sp"/>
+
+
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true">
+
+				<LinearLayout
+					android:id="@+id/ll_balance_moneycount"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:gravity="right"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/tv_balance_money"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="￥1232"
+						android:textColor="#F00"
+						android:textSize="20sp"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@id/tv_balance_money"
+						android:paddingTop="10dp"
+						android:text="+￥0.00"
+						android:textColor="#F00"
+						android:textSize="20sp"/>
+
+				</LinearLayout>
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_toRightOf="@id/ll_balance_moneycount"
+					android:padding="15dp"
+					android:src="@mipmap/balance_right_black"/>
+
+			</RelativeLayout>
+
+		</RelativeLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginBottom="20dp"
+			android:background="#666"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:background="@drawable/balance_commit"
+			android:text="提交订单"
+			android:textColor="#FFF"
+			android:textSize="25sp"/>
+
 	</LinearLayout>
 
 </ScrollView>

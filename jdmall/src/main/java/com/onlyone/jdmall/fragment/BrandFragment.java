@@ -452,9 +452,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             holder.tv.setGravity(Gravity.CENTER);
             holder.tv.setBackgroundResource(R.drawable.selector_brand_tv_bg);
             int left = DensityUtil.dip2Px(10);
-            int top = DensityUtil.dip2Px(10);
-            int bottom = DensityUtil.dip2Px(10);
-            holder.tv.setPadding(left, top, 0, bottom);
+            holder.tv.setPadding(left, left, left, left);
 
             return convertView;
         }
@@ -519,8 +517,8 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
      */
     @Override
     public void onClick(View v) {
-//		((HolderFragment)getParentFragment()).goBack();
-        ((MainActivity)getActivity()).mRgBottomNav.check(R.id.rb_bottom_home);
+        //		((HolderFragment)getParentFragment()).goBack();
+        ((MainActivity) getActivity()).mRgBottomNav.check(R.id.rb_bottom_home);
     }
 
 

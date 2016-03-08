@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/topbar_addradd_add"
+        android:id="@+id/topbar_addradd_save"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:text="保存"

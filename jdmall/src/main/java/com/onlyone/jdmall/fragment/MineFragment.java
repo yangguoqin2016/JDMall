@@ -27,6 +27,7 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.mine.AddressManagerFragment;
 import com.onlyone.jdmall.fragment.mine.MineAboutFragment;
 import com.onlyone.jdmall.fragment.mine.MineHelpFragment;
+import com.onlyone.jdmall.fragment.mine.MyIndentFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.NetUtil;
@@ -57,7 +58,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
 
     public static final  String TAG_MINEADDRESSMANAGER_FRAGMENT = "tag_mineaddressmanager_fragment";
     public static final  String TAG_USERFEEDBACK_FRAGMENT       = "tag_userfeedback_fragment";
-    private static final String    TAG_LOGIN_FRAGMENT              = "tag_login_fragment";
+    private static final String TAG_LOGIN_FRAGMENT              = "tag_login_fragment";
 
     @Bind(R.id.fragment_ll_mine_order)
     LinearLayout mFragmentLlMineOrder;
@@ -95,6 +96,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     private Fragment                 mAddressManagerFragment;
     private LoginFragment            mLoginFragment;
     SPUtil spUtil = new SPUtil(ResUtil.getContext());
+    private MyIndentFragment mMyIndentFragment;
 
     @Override
     protected void refreshSuccessView(MineUserInfoBean data) {
@@ -111,9 +113,9 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
             return;
         }
 
-        mMineTvUsername.setText(spUtil.getString(SP.USERNAME,""));
+        mMineTvUsername.setText(spUtil.getString(SP.USERNAME, ""));
         mMineTvUserLevel.setText(data.userInfo.level);
-        mMineTvUserBonus.setText(data.userInfo.bonus+"积分");
+        mMineTvUserBonus.setText(data.userInfo.bonus + "积分");
     }
 
     @Override
@@ -164,7 +166,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
 
-                String userid = spUtil.getLong(SP.USERID, 0)+"";
+                String userid = spUtil.getLong(SP.USERID, 0) + "";
                 //Log.v("userInfoBean","userid--"+userid);
                 map.put("userid", userid);
                 return map;
@@ -210,7 +212,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_back_btn:
-                spUtil.putBoolean(SP.ISLOGINSUCCESS,false);
+                spUtil.putBoolean(SP.ISLOGINSUCCESS, false);
                 spUtil.putLong(SP.USERID, 0);
 
                 LogUtil.d("userid-1====" + spUtil.getLong(SP.USERID, 0));
@@ -222,9 +224,14 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 //退出登录
                 break;
             case R.id.fragment_ll_mine_order://我的订单
+                if (mMyIndentFragment == null) {
+                    mMyIndentFragment = new MyIndentFragment();
+                }
+                changeFragment(mMyIndentFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
+
                 break;
             case R.id.fragment_ll_mine_address://地址管理
-                if (mAddressManagerFragment==null) {
+                if (mAddressManagerFragment == null) {
                     mAddressManagerFragment = new AddressManagerFragment();
                 }
                 changeFragment(mAddressManagerFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
@@ -237,7 +244,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
 
                 break;
             case R.id.fragment_ll_mine_favorite://收藏夹
-                if(mFavoriteFrament==null) {
+                if (mFavoriteFrament == null) {
                     mFavoriteFrament = new MineFavoriteFragment();
                 }
                 changeFragment(mFavoriteFrament, TAG_MINEFAVORITE_FRAGMENT);

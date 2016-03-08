@@ -24,15 +24,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收货人:  "
+                android:textColor="#000"
                 android:textSize="20sp"/>
         </RelativeLayout>
 
         <EditText
-            android:id="@+id/addr_add_et_contact"
+            android:textColor="#000"
+            android:id="@+id/addr_add_et_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
             android:hint="(必填)"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
             android:textSize="18sp"/>
 
     </LinearLayout>
@@ -57,6 +61,7 @@
             >
 
             <TextView
+                android:textColor="#000"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +74,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
+            android:textColor="#000"
             android:hint="(必填)"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
             android:textSize="18sp"/>
 
     </LinearLayout>
@@ -94,6 +102,7 @@
             >
 
             <TextView
+                android:textColor="#000"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,6 +112,9 @@
 
         <TextView
             android:id="@+id/addr_add_tv_province"
+            android:drawableLeft="@mipmap/lishishousuo_xialajiantou"
+            android:textColor="#000"
+            android:text="点击选择所在地"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="18sp"/>
@@ -129,6 +141,7 @@
             >
 
             <TextView
+                android:textColor="#000"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -141,7 +154,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
+            android:textColor="#000"
             android:hint="(必填)"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
             android:textSize="18sp"/>
 
     </LinearLayout>

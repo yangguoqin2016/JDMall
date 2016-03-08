@@ -1,39 +1,60 @@
 package com.onlyone.jdmall.fragment.mine;
 
+import android.util.Log;
 import android.view.View;
+import android.text.TextUtils;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
+import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.bean.AddressAddBean;
 import com.onlyone.jdmall.bean.ProvinceBean;
+import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author Never
  * @Date 2016/3/8 9:33
  * @Desc ${新增地址界面}
  */
-public class AddressAddFragment extends BaseFragment<Object> {
+public class AddressAddFragment extends BaseFragment<AddressAddBean> {
 
     public  View         mAddView;
     private View         mTopBarView;
     private MainActivity mMainActivity;
 
-    private ArrayList<ProvinceBean> options1Items = new ArrayList<ProvinceBean>();
-    private ArrayList<ArrayList<String>> options2Items = new ArrayList<ArrayList<String>>();
+    private ArrayList<ProvinceBean>                 options1Items = new ArrayList<ProvinceBean>();
+    private ArrayList<ArrayList<String>>            options2Items = new ArrayList<ArrayList<String>>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<ArrayList<ArrayList<String>>>();
     private TextView tvTime, tvOptions;
-    TimePickerView pvTime;
+    TimePickerView    pvTime;
     OptionsPickerView pvOptions;
-    View vMasker;
+    View              vMasker;
+    private EditText       mEtName;
+    private EditText       mEtPhone;
+    private EditText       mEtDetailAddr;
+    private TextView       mTvProvince;
+    private AddressAddBean mAddressAddBean;
 
 
     @Override
@@ -41,8 +62,100 @@ public class AddressAddFragment extends BaseFragment<Object> {
         mMainActivity = (MainActivity) getActivity();
         mTopBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_addressadd, null);
         mMainActivity.setTopBarView(mTopBarView);
-//        mMainActivity.setHideTopBar(false);
+        mMainActivity.setHideTopBar(false);
+
+        /*获得topBar条目的点击事件*/
+        View tvBack = mTopBarView.findViewById(R.id.topbar_addradd_back);
+        View tvSave = mTopBarView.findViewById(R.id.topbar_addradd_save);
+
+        AddTopBarItemClickListener listener = new AddTopBarItemClickListener();
+        tvBack.setOnClickListener(listener);
+        tvSave.setOnClickListener(listener);
+
         super.onResume();
+    }
+
+    class AddTopBarItemClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.topbar_addradd_back) {
+
+                goBack();
+
+            } else {
+                insertInfosIntoDB();
+            }
+        }
+    }
+
+    private void insertInfosIntoDB() {
+        final String name = mEtName.getText().toString().trim();
+        final String phone = mEtPhone.getText().toString().trim();
+        String province = mTvProvince.getText().toString().trim();
+        final String detailAddr = mEtDetailAddr.getText().toString().trim();
+        /*用户输入校验*/
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(ResUtil.getContext(), "姓名不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(phone)) {
+            Toast.makeText(ResUtil.getContext(), "手机号码不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(province) || "点击选择所在地".equals(province)) {
+            Toast.makeText(ResUtil.getContext(), "请选择省市", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(detailAddr)) {
+            Toast.makeText(ResUtil.getContext(), "详细地址不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        RequestQueue queue = NetUtil.getRequestQueue();
+
+        Response.Listener success = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String jsonString) {
+                Gson gson = new Gson();
+                mAddressAddBean = gson.fromJson(jsonString, AddressAddBean.class);
+                Toast.makeText(ResUtil.getContext(), "保存成功", Toast.LENGTH_SHORT).show();
+
+            }
+        };
+
+        Response.ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ResUtil.getContext(), "保存失败", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        //http://localhost:8080/market/addresssave
+        String url = Url.ADDRESS_SERVER + "/addresssave";
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, success, error) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> map = new HashMap<>();
+                map.put("name", name);
+                map.put("phoneNumber", phone);
+                map.put("province", detailAddr.substring(0, 2));
+                map.put("city", detailAddr.substring(2, 4));
+                map.put("addressArea", detailAddr.substring(4));
+                //万家丽路960号
+                map.put("addressDetail", detailAddr);
+                map.put("zipCode", 231343 + "");
+                map.put("isDefault", 1 + "");
+
+                Log.d("AddressAddFragment", "name=" + map.get("name") + "phone=" + map.get("phoneNumber") + "detailAddr=" + map.get("addressArea"));
+                return map;
+            }
+        };
+
+        queue.add(request);
     }
 
     @Override
@@ -60,15 +173,23 @@ public class AddressAddFragment extends BaseFragment<Object> {
     protected void handleError(Exception e) {
 
     }
+
     @Override
-    protected void refreshSuccessView(Object data) {
+    protected void refreshSuccessView(AddressAddBean data) {
 
     }
 
     @Override
     protected View loadSuccessView() {
-//        mAddView = View.inflate(getActivity(), R.layout.mine_address_add, null);
+        //        mAddView = View.inflate(getActivity(), R.layout.mine_address_add, null);
         mAddView = View.inflate(ResUtil.getContext(), R.layout.mine_address_add, null);
+
+        /*获取mAddView上面的控件*/
+        mEtName = (EditText) mAddView.findViewById(R.id.addr_add_et_name);
+        mEtPhone = (EditText) mAddView.findViewById(R.id.addr_add_et_phone);
+        mEtDetailAddr = (EditText) mAddView.findViewById(R.id.addr_add_et_detailaddr);
+        mTvProvince = (TextView) mAddView.findViewById(R.id.addr_add_tv_province);
+
         initProvinceSelect(mAddView);
 
         return mAddView;
@@ -76,14 +197,14 @@ public class AddressAddFragment extends BaseFragment<Object> {
 
     private void initProvinceSelect(View view) {
 
-        vMasker=view.findViewById(R.id.vMasker);
-        tvTime=(TextView) view.findViewById(R.id.tvTime);
-        tvOptions=(TextView) view.findViewById(R.id.addr_add_tv_province);
+        vMasker = view.findViewById(R.id.vMasker);
+        tvTime = (TextView) view.findViewById(R.id.tvTime);
+        tvOptions = (TextView) view.findViewById(R.id.addr_add_tv_province);
 
         //时间选择器
-//        pvTime = new TimePickerView(mMainActivity, TimePickerView.Type.YEAR_MONTH_DAY);
+        //        pvTime = new TimePickerView(mMainActivity, TimePickerView.Type.YEAR_MONTH_DAY);
         pvTime = new TimePickerView(getActivity(), TimePickerView.Type.YEAR_MONTH_DAY);
-//        pvTime = new TimePickerView(ResUtil.getContext(), TimePickerView.Type.YEAR_MONTH_DAY);
+        //        pvTime = new TimePickerView(ResUtil.getContext(), TimePickerView.Type.YEAR_MONTH_DAY);
         //控制时间范围
         //        Calendar calendar = Calendar.getInstance();
         //        pvTime.setRange(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR));
@@ -111,21 +232,21 @@ public class AddressAddFragment extends BaseFragment<Object> {
         pvOptions = new OptionsPickerView(getActivity());
 
         //选项1
-        options1Items.add(new ProvinceBean(0,"广东","广东省，以岭南东道、广南东路得名","其他数据"));
-        options1Items.add(new ProvinceBean(1,"湖南","湖南省地处中国中部、长江中游，因大部分区域处于洞庭湖以南而得名湖南","芒果TV"));
-        options1Items.add(new ProvinceBean(3,"广西","嗯～～",""));
+        options1Items.add(new ProvinceBean(0, "广东", "广东省，以岭南东道、广南东路得名", "其他数据"));
+        options1Items.add(new ProvinceBean(1, "湖南", "湖南省地处中国中部、长江中游，因大部分区域处于洞庭湖以南而得名湖南", "芒果TV"));
+        options1Items.add(new ProvinceBean(3, "广西", "嗯～～", ""));
 
         //选项2
-        ArrayList<String> options2Items_01=new ArrayList<String>();
+        ArrayList<String> options2Items_01 = new ArrayList<String>();
         options2Items_01.add("广州");
         options2Items_01.add("佛山");
         options2Items_01.add("东莞");
         options2Items_01.add("阳江");
         options2Items_01.add("珠海");
-        ArrayList<String> options2Items_02=new ArrayList<String>();
+        ArrayList<String> options2Items_02 = new ArrayList<String>();
         options2Items_02.add("长沙");
         options2Items_02.add("岳阳");
-        ArrayList<String> options2Items_03=new ArrayList<String>();
+        ArrayList<String> options2Items_03 = new ArrayList<String>();
         options2Items_03.add("桂林");
         options2Items.add(options2Items_01);
         options2Items.add(options2Items_02);
@@ -135,45 +256,45 @@ public class AddressAddFragment extends BaseFragment<Object> {
         ArrayList<ArrayList<String>> options3Items_01 = new ArrayList<ArrayList<String>>();
         ArrayList<ArrayList<String>> options3Items_02 = new ArrayList<ArrayList<String>>();
         ArrayList<ArrayList<String>> options3Items_03 = new ArrayList<ArrayList<String>>();
-        ArrayList<String> options3Items_01_01=new ArrayList<String>();
+        ArrayList<String> options3Items_01_01 = new ArrayList<String>();
         options3Items_01_01.add("白云");
         options3Items_01_01.add("天河");
         options3Items_01_01.add("海珠");
         options3Items_01_01.add("越秀");
         options3Items_01.add(options3Items_01_01);
-        ArrayList<String> options3Items_01_02=new ArrayList<String>();
+        ArrayList<String> options3Items_01_02 = new ArrayList<String>();
         options3Items_01_02.add("南海");
         options3Items_01_02.add("高明");
         options3Items_01_02.add("顺德");
         options3Items_01_02.add("禅城");
         options3Items_01.add(options3Items_01_02);
-        ArrayList<String> options3Items_01_03=new ArrayList<String>();
+        ArrayList<String> options3Items_01_03 = new ArrayList<String>();
         options3Items_01_03.add("其他");
         options3Items_01_03.add("常平");
         options3Items_01_03.add("虎门");
         options3Items_01.add(options3Items_01_03);
-        ArrayList<String> options3Items_01_04=new ArrayList<String>();
+        ArrayList<String> options3Items_01_04 = new ArrayList<String>();
         options3Items_01_04.add("其他1");
         options3Items_01_04.add("其他2");
         options3Items_01_04.add("其他3");
         options3Items_01.add(options3Items_01_04);
-        ArrayList<String> options3Items_01_05=new ArrayList<String>();
+        ArrayList<String> options3Items_01_05 = new ArrayList<String>();
         options3Items_01_05.add("其他1");
         options3Items_01_05.add("其他2");
         options3Items_01_05.add("其他3");
         options3Items_01.add(options3Items_01_05);
 
-        ArrayList<String> options3Items_02_01=new ArrayList<String>();
-        options3Items_02_01.add("长沙长沙长沙长沙长沙长沙长沙长沙长沙1111111111");
-        options3Items_02_01.add("长沙2");
-        options3Items_02_01.add("长沙3");
-        options3Items_02_01.add("长沙4");
-        options3Items_02_01.add("长沙5");
+        ArrayList<String> options3Items_02_01 = new ArrayList<String>();
+        options3Items_02_01.add("雨花");
+        options3Items_02_01.add("芙蓉");
+        options3Items_02_01.add("天心");
+        options3Items_02_01.add("开福");
+        options3Items_02_01.add("岳麓");
         options3Items_02_01.add("长沙6");
         options3Items_02_01.add("长沙7");
         options3Items_02_01.add("长沙8");
         options3Items_02.add(options3Items_02_01);
-        ArrayList<String> options3Items_02_02=new ArrayList<String>();
+        ArrayList<String> options3Items_02_02 = new ArrayList<String>();
         options3Items_02_02.add("岳1");
         options3Items_02_02.add("岳2");
         options3Items_02_02.add("岳3");
@@ -184,7 +305,7 @@ public class AddressAddFragment extends BaseFragment<Object> {
         options3Items_02_02.add("岳8");
         options3Items_02_02.add("岳9");
         options3Items_02.add(options3Items_02_02);
-        ArrayList<String> options3Items_03_01=new ArrayList<String>();
+        ArrayList<String> options3Items_03_01 = new ArrayList<String>();
         options3Items_03_01.add("好山水");
         options3Items_03.add(options3Items_03_01);
 
@@ -227,6 +348,4 @@ public class AddressAddFragment extends BaseFragment<Object> {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return format.format(date);
     }
-
-
 }

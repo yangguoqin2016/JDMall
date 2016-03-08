@@ -131,6 +131,8 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
      */
     @Override
     protected View loadSuccessView() {
+        //设置一次titlebar
+        changeTitleBar();
         mRootView = (ScrollView) View.inflate(ResUtil.getContext(), R.layout.home_fragment, null);
         mAdView1 = View.inflate(ResUtil.getContext(), R.layout.home_ad_layout, null);
         mAdView2 = View.inflate(ResUtil.getContext(), R.layout.home_ad_layout2, null);
@@ -202,7 +204,9 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
      */
     @Override
     protected void handleError(Exception e) {
-//        Toast.makeText(ResUtil.getContext(), "数据加载失败", Toast.LENGTH_SHORT).show();
+        //设置一次titlebar
+        changeTitleBar();
+
         FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
         TextView tv = new TextView(ResUtil.getContext());
         tv.setText("加载数据失败,请检查下你的网络..");
@@ -383,7 +387,6 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
     @Override
     public void onResume() {
         super.onResume();
-        changeTitleBar();
     }
 
 
@@ -397,4 +400,5 @@ public class HomeFragment extends BaseFragment<Object> implements ViewPager.OnPa
         //3.得到MainActivity,再设置TopBar的Ui
         mMainActivity.setTopBarView(titlBar);
     }
+
 }

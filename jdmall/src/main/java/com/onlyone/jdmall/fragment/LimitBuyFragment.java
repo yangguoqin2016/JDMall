@@ -20,6 +20,7 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.LimitBuyHolder;
 import com.onlyone.jdmall.utils.DensityUtil;
+import com.onlyone.jdmall.utils.FragmentUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -58,6 +59,7 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
             R.mipmap.home_new_product
     };
     private int mWidthPixels;
+    private ImageView mIvBack;
 
     @Override
     protected String getUrl() {
@@ -104,14 +106,14 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
         View rootView = View.inflate(ResUtil.getContext(), R.layout.limit_buy_fragment, null);
         mLimitBuyLv = (ListView) rootView.findViewById(R.id.limit_buy_lv);
         /*
-            listview的头部
+            listview的header
          */
         View header = View.inflate(ResUtil.getContext(), R.layout.limit_buy_header, null);
         ButterKnife.bind(this, header);
 
         mViewPager.setAdapter(new LimitAdapter());
         mLimitBuyLv.addHeaderView(header);
-
+        //倒计时控件
         mCountView = (CountdownView) header.findViewById(R.id.limit_buy_count_view);
         mCountView.start(60 * 60 * 1000);
 
@@ -130,15 +132,27 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
     @Override
     public void onResume() {
         super.onResume();
+        //获取屏幕宽度
         mActivity = (MainActivity) getActivity();
         mActivity.setOnBackPreseedListener(this);
         mWidthPixels = mActivity.getResources().getDisplayMetrics().widthPixels;
-        changeTitleBar();
+
+        View view = View.inflate(ResUtil.getContext(), R.layout.limit_buy_title_bar, null);
+        mActivity.setTopBarView(view);
+        mIvBack = (ImageView) view.findViewById(R.id.limit_buy_topbar_back);
+        mIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentUtil.goBack(mActivity);
+
+                changeTitleBar();
+            }
+        });
     }
 
     private void changeTitleBar() {
-        View view = View.inflate(ResUtil.getContext(), R.layout.limit_buy_title_bar, null);
-        mActivity.setTopBarView(view);
+        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
+        mActivity.setTopBarView(titlBar);
     }
 
     @Override
@@ -149,8 +163,7 @@ public class LimitBuyFragment extends SuperBaseFragment<LimitBuyBean> implements
 
     @Override
     public void onPressed() {
-        View titlBar = View.inflate(ResUtil.getContext(), R.layout.home_title, null);
-        mActivity.setTopBarView(titlBar);
+        changeTitleBar();
     }
 
     @Override

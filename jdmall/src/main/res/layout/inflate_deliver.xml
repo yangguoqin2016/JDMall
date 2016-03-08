@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical">
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:background="@mipmap/neirongqu_sekuai"
+		android:gravity="center"
+		android:text="送货时间"
+		android:textColor="#fff"
+		android:textSize="20sp"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="20dp"
+		android:gravity="center_vertical">
+
+		<ImageView
+			android:id="@+id/deliver_iv_all"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/selector_pay_bg"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="30dp"
+			android:text="周一至周五送货"
+			android:textColor="#000"
+			android:textSize="18sp"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="20dp"
+		android:gravity="center_vertical">
+
+		<ImageView
+			android:id="@+id/deliver_iv_weekend"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/selector_pay_bg"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="30dp"
+			android:text="双休日及公众假期送货"
+			android:textColor="#000"
+			android:textSize="18sp"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="20dp"
+		android:gravity="center_vertical">
+
+		<ImageView
+			android:id="@+id/deliver_iv_weekday"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/selector_pay_bg"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="30dp"
+			android:text="时间不限，工作日双休日及公众假期均可送货"
+			android:textColor="#000"
+			android:textSize="18sp"/>
+	</LinearLayout>
+</LinearLayout>

@@ -88,7 +88,8 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 	Button       mBtnBalanceCommit;
 	private String mUserId;
 
-	private int mPayWay = 1; //默认使用现金支付
+	private int mPayWay      = 1; //默认使用现金支付
+	private int mDeliverTime = 1;//默认周一至周五送货
 
 	public BalanceFragment() {
 		mSPUtil = new SPUtil(ResUtil.getContext());
@@ -121,13 +122,36 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 				fragment.setOnResultBackListener(new OnResultBack() {
 					@Override
 					public void onResult(Object result) {
+						int time = (int) result;
+						if (time < 3) {
+							mDeliverTime = time;
+						} else {
+							mDeliverTime = (time - 1);
+						}
+						LogUtil.i(TAG, "当前选择的支付方式是:", mPayWay);
+					}
+				});
+				goForward(fragment);
+			}
+		});
+
+		mIvBalanceIntotime.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				DeliverFragment fragment = new DeliverFragment();
+				Bundle args = new Bundle();
+				args.putInt("deliverWay", mPayWay);
+				fragment.setArguments(args);
+				fragment.setOnResultBackListener(new OnResultBack() {
+					@Override
+					public void onResult(Object result) {
 						int way = (int) result;
 						if (way < 3) {
 							mPayWay = way;
 						} else {
 							mPayWay = (way - 1);
 						}
-						LogUtil.i(TAG, "当前选择的支付方式是:", mPayWay);
+						LogUtil.i(TAG, "当前选择的送货时间是:", mPayWay);
 					}
 				});
 				goForward(fragment);

@@ -10,7 +10,7 @@
         android:layout_marginTop="10dp"
         android:background="@mipmap/neirongqu_sekuai"
         android:gravity="center"
-        android:text="送货时间"
+        android:text="支付方式"
         android:textColor="#fff"
         android:textSize="20sp"/>
 

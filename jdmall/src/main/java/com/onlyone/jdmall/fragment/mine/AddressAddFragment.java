@@ -1,8 +1,9 @@
 package com.onlyone.jdmall.fragment.mine;
 
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +21,14 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.AddressAddBean;
 import com.onlyone.jdmall.bean.ProvinceBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
+import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +59,8 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
     private EditText       mEtDetailAddr;
     private TextView       mTvProvince;
     private AddressAddBean mAddressAddBean;
+
+    private String TAG_ADDRESSADD_FRAGMENT = "tag_addressadd_fragment";
 
 
     @Override
@@ -92,7 +98,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
     private void insertInfosIntoDB() {
         final String name = mEtName.getText().toString().trim();
         final String phone = mEtPhone.getText().toString().trim();
-        String province = mTvProvince.getText().toString().trim();
+        final String province = mTvProvince.getText().toString().trim();
         final String detailAddr = mEtDetailAddr.getText().toString().trim();
         /*用户输入校验*/
         if (TextUtils.isEmpty(name)) {
@@ -119,7 +125,8 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
             public void onResponse(String jsonString) {
                 Gson gson = new Gson();
                 mAddressAddBean = gson.fromJson(jsonString, AddressAddBean.class);
-                Toast.makeText(ResUtil.getContext(), "保存成功", Toast.LENGTH_SHORT).show();
+                Log.d("AddressAddFragment", "jsonString==" + jsonString);
+//                Toast.makeText(ResUtil.getContext(), mAddressAddBean.userInfo.province, Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -142,20 +149,48 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
                 Map<String, String> map = new HashMap<>();
                 map.put("name", name);
                 map.put("phoneNumber", phone);
-                map.put("province", detailAddr.substring(0, 2));
-                map.put("city", detailAddr.substring(2, 4));
-                map.put("addressArea", detailAddr.substring(4));
+                map.put("province", province.substring(0, 2));
+                map.put("city", province.substring(2, 4));
+                map.put("addressArea", province.substring(4,6));
                 //万家丽路960号
-                map.put("addressDetail", detailAddr);
+                map.put("addressDetail",detailAddr );
                 map.put("zipCode", 231343 + "");
                 map.put("isDefault", 1 + "");
 
-                Log.d("AddressAddFragment", "name=" + map.get("name") + "phone=" + map.get("phoneNumber") + "detailAddr=" + map.get("addressArea"));
+                Log.d("AddressAddFragment", "name=" + map.get("name") + "phone=" + map.get("phoneNumber") + "detailAddr=" + map.get("addressDetail"));
                 return map;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<>();
+
+                SPUtil spUtil = new SPUtil(ResUtil.getContext());
+                String userid = spUtil.getLong(SP.USERID,0)+"";
+                headers.put("userid", userid);
+                Log.d("MineFavoriteFragment", "---------------" + userid);
+                return headers;
             }
         };
 
         queue.add(request);
+
+        /*跳转到上级界面*/
+        AddressManagerFragment fragment = new AddressManagerFragment();
+        changeFragment(fragment,TAG_ADDRESSADD_FRAGMENT);
+
+    }
+
+    private void changeFragment(Fragment fragment, String tag) {
+        /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.fl_content_container, fragment, tag);
+        transaction.addToBackStack("aaa");
+
+        transaction.commit();*/
+        HolderFragment parentFragmrnt = (HolderFragment) getParentFragment();
+        parentFragmrnt.goForward(fragment);
     }
 
     @Override

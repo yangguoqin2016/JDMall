@@ -37,14 +37,15 @@
 
 
     <Button
+        android:clickable="true"
         android:id="@+id/mine_userinfo_btn_relogin"
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/mine_login_bg_shape"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textColor="#99000000"
-        android:text="登录"/>
+        android:text="登 录"/>
     </LinearLayout>
 
 </LinearLayout>

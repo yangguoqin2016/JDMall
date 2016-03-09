@@ -33,6 +33,39 @@
 					compile(name:'picasso-transformations-2.0.0', ext: 'aar')
 					compile files('lib/gpuimage-library-1.3.0.jar')
 
+3.屏幕适配问题
+
+		1.可以先获得当前设备的DensityDpi
+		/**
+		 * 获得当前设备DensityDpi
+		 * @return
+		 */
+		public static float getDensityDpi() {
+			return ResUtil.getResource().getDisplayMetrics().densityDpi;
+		}
+
+		2.再通过Dpi逐个判断,假设我想设置一个TextView的文本大小
+		public float getTextSizeByDensity(){
+			float size = 0;
+			switch ((int) DensityUtil.getDensityDpi()) {
+				case 120:
+					size = 20;
+					break;
+				case 160:
+					size = 20;
+					break;
+				case 240:
+					size = 15;
+					break;
+				case 320:
+					size = 20;
+					break;
+				default:
+					break;
+			}
+			return size;
+		}
+
 ##Bug列表(解决的BUG就在前面加上"已解决"三个字)：
 1. 全新进入app然后点击home键退出app再重新进入之后点击首页上方的轮播图就会崩溃,错误是轮播的mTask为空
 2. (已解决)ScrollView嵌套ListView不能完全显示,不行滚动的BUGBug列表：

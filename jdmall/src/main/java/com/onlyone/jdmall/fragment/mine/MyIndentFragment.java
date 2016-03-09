@@ -2,8 +2,6 @@ package com.onlyone.jdmall.fragment.mine;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -217,7 +215,9 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            changeFragment(new IndentDetailsFragment());
+            IndentMesListBean indentMesListBean = mListBeans.get(position);
+            long orderId = indentMesListBean.orderId;
+            ((HolderFragment)getParentFragment()).goForward(new IndentDetailMessageFragment(orderId));
         }
 
         @Override
@@ -226,13 +226,7 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
         }
     }
 
-    public void changeFragment(Fragment fragment){
-        FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
 
-        transaction.replace(R.id.fl_content_container,fragment);
-
-        transaction.commit();
-    }
 
 
 

@@ -1,6 +1,5 @@
 package com.onlyone.jdmall.fragment;
 
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -161,9 +160,10 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
                 transaction.remove(fragment);
                 mMainActivity.mRgBottomNav.check(R.id.rb_bottom_mine);
                 transaction.commit();*/
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                /*FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.fl_content_container, new MineFragment());
-                transaction.commit();
+                transaction.commit();*/
+                ((HolderFragment)getParentFragment()).goBack();
             }
         });
 

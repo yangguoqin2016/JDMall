@@ -24,7 +24,6 @@ import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.fragment.HolderFragment;
-import com.onlyone.jdmall.fragment.MineFragment;
 import com.onlyone.jdmall.fragment.car.AddressModifyFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.NetUtil;
@@ -170,8 +169,9 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
             switch (v.getId()) {
                 case R.id.topbar_addrmng_back:
                     //                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.fl_content_container, new MineFragment());
-                    transaction.commit();
+                    /*transaction.add(R.id.fl_content_container, new MineFragment());
+                    transaction.commit();*/
+                    ((HolderFragment)getParentFragment()).goBack();
                     break;
 
                 case R.id.topbar_addrmng_add:

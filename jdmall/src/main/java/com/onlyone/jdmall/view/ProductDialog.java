@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -187,7 +188,7 @@ public class ProductDialog extends Dialog {
         mProductDialogColorGridview.setAdapter(mColorAdapter);
         mProductDialogSizeGridview.setAdapter(mSizeAdapter);
 
-        mProductDialogColorGridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
+     //   mProductDialogColorGridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
         mProductDialogSizeGridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
         //设置两个GriView的监听事件
@@ -329,6 +330,34 @@ public class ProductDialog extends Dialog {
      * 点击选择商品颜色 尺寸
      */
     private void setGridItemClickListener() {
+        mProductDialogColorGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for (int i = 0; i < mColorPropertyBeans.size(); i++) {
+                    ProductDetailBean.ProductEntity.ProductPropertyBean propertyBean = mColorPropertyBeans.get(i);
+                    propertyBean.isSelected = (i==position);
+                    mColorAdapter.notifyDataSetChanged();
+                }
+                Toast.makeText(ResUtil.getContext(), "position=" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mProductDialogSizeGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(ResUtil.getContext(), "position=" + position, Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < mSizePropertyBeans.size(); i++) {
+                    ProductDetailBean.ProductEntity.ProductPropertyBean propertyBean = mSizePropertyBeans.get(i);
+                    propertyBean.isSelected = (i==position);
+                    mSizeAdapter.notifyDataSetChanged();
+                }
+                Toast.makeText(ResUtil.getContext(), "position=" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
         //颜色adapter条目点击
         mColorAdapter.setOnItemClickListener(new PropertyAdapter.OnItemClickListener() {
             @Override

@@ -1,6 +1,8 @@
 package com.onlyone.jdmall.fragment.car;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
@@ -151,15 +153,38 @@ public class AddressModifyFragment extends BaseFragment<Object> implements View.
                 setDefault();
                 break;
             case R.id.addressmodify_iv_delete://删除地址
-                // TODO: 2016/3/9 弹出一个对话框再次确认 
-                deleteAddress();
-                goBack();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                AlertDialog dialog = builder.create();
+                DialogButtonClickListener listener = new DialogButtonClickListener();
+                builder.setTitle("温馨提示")
+                        .setMessage("主淫,真的要删除该地址吗?")
+                        .setPositiveButton("确认删除",listener)
+                        .setNegativeButton("我点错了",listener)
+                        .create()
+                        .show();
+//                deleteAddress();
+//                goBack();
+
 
                 break;
             default:
                 break;
         }
     }
+
+    class DialogButtonClickListener implements DialogInterface.OnClickListener{
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if(which == -1){
+                deleteAddress();
+                goBack();
+            }else{
+                dialog.dismiss();
+            }
+        }
+    }
+
 
     private void setDefault() {
         RequestQueue queue = NetUtil.getRequestQueue();

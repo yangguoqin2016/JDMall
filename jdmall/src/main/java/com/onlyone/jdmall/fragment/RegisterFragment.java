@@ -61,7 +61,7 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
     LoginOrRegistBean mRegistBean;
     private SPUtil   mSp;
     private TextView mRegistBack;
-
+    private  MainActivity mMainActivity;
     @Override
     protected void refreshSuccessView(LoginOrRegistBean data) {
 
@@ -99,7 +99,8 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
         //设置注册的状态栏
         View topBarRegistView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_regist, null);
         mRegistBack = (TextView) topBarRegistView.findViewById(R.id.regist_back);
-        ((MainActivity) getActivity()).setTopBarView(topBarRegistView);
+        mMainActivity =(MainActivity) getActivity();
+        (mMainActivity).setTopBarView(topBarRegistView);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -141,9 +142,9 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
                     mSp.putString(SP.PASSWORD, mPassword);
                     //注册成功,保存userid
                     mSp.putLong(SP.USERID, mRegistBean.userInfo.userid);
-                    changeFragment(new MineFragment());
-
-
+                    //changeFragment(new MineFragment());
+                    //((HolderFragment)getParentFragment()).goBack();
+                    mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
                 } else {
                     Toast.makeText(ResUtil.getContext(), "该用户名已被注册...", Toast.LENGTH_SHORT).show();
                     return;

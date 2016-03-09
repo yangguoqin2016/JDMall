@@ -467,39 +467,14 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             holder.tv.setText(key);
 
             if (mCurrentItem == position) {
-                holder.tv.setBackgroundColor(Color.parseColor("#800E1F"));
+//                holder.tv.setBackgroundColor(Color.parseColor("#800E1F"));
+                holder.tv.setBackgroundResource(R.drawable.shape_brand_listview_selected);
                 holder.tv.setTextColor(Color.WHITE);
             } else {
                 holder.tv.setBackgroundColor(Color.TRANSPARENT);
                 holder.tv.setTextColor(Color.BLACK);
+                holder.tv.setBackgroundResource(R.drawable.shape_brand_listview_normal);
             }
-
-            final ViewHolder finalHolder = holder;
-            holder.tv.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            finalHolder.tv.setBackgroundColor(Color.parseColor("#800E1F"));
-                            break;
-
-                        case MotionEvent.ACTION_MOVE:
-                            finalHolder.tv.setBackgroundColor(Color.parseColor("#fff"));
-                            break;
-
-                        case MotionEvent.ACTION_UP:
-                        case MotionEvent.ACTION_CANCEL:
-                            finalHolder.tv.setBackgroundColor(Color.parseColor("#fff"));
-                            break;
-
-                        default:
-                            break;
-                    }
-                    return false;
-                }
-            });
-
             return convertView;
         }
     }

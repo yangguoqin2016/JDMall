@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/brand_listview_selected_bg" android:state_enabled="true"></item>
-    <item android:drawable="@color/brand_listview_selected_bg" android:state_pressed="true"></item>
-    <item android:drawable="@color/brand_listview_normal_bg" android:state_enabled="false"></item>
+    <item android:drawable="@drawable/shape_brand_listview_selected" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/shape_brand_listview_normal"></item>
 
 
 <!--    <item android:drawable="@color/brand_listview_selected_bg" android:state_pressed="true"></item>

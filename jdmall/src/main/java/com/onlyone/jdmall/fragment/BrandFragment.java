@@ -82,6 +82,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
     private BrandBean.BrandList                  mBrandList;
     private List<BrandBean.BrandList.BrandValue> mValue;
     private GridAdapter                          mGridAdapter;
+    private int mCurrentItem = 0;
 
 
     @Override
@@ -177,7 +178,14 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
     }
 
-    private int mCurrentItem = 0;
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //页面切换时重置当前选中条目,要不然会造成ListView条目和GridView内容显示不一致的BUG
+        mCurrentItem = 0;
+    }
+
 
     /**
      * 加载品牌列表

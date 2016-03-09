@@ -25,11 +25,12 @@ public interface Url {
 	String ADDRESS_USERINFO    = ADDRESS_SERVER + "/userinfo";//用户中心地址
 	String ADDRESS_ADDRESSLIST = ADDRESS_SERVER + "/addresslist";//地址列表
 
-	String ADDRESS_CHECKOUT = ADDRESS_SERVER + "/checkout"; //结算中心
-	String INVOICE          = ADDRESS_SERVER + "/invoice"; //发票类型
+	String ADDRESS_CHECKOUT       = ADDRESS_SERVER + "/checkout"; //结算中心
+	String INVOICE                = ADDRESS_SERVER + "/invoice"; //发票类型
 	/*删除地址*/
-	String ADDRESS_ADDRESSDELETE = ADDRESS_SERVER + "/addressdelete";
+	String ADDRESS_ADDRESSDELETE  = ADDRESS_SERVER + "/addressdelete";
 	/*修改默认地址*/
 	String ADDRESS_ADDRESSDEFAULT = ADDRESS_SERVER + "/addressdefault";
 
+	String Address_COMMIT = ADDRESS_SERVER + "/ordersumbit"; //提交结算
 }

@@ -172,14 +172,13 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 			for (AddressBean.AddressList data : mDatas) {
 				if (data.isDefault != 0) {
 					mListener.onResult(new BalanceFragment.AddressInfo(data.name, data
-							.phoneNumber, data.addressArea + data.addressDetail));
+							.phoneNumber, data.addressArea + data.addressDetail, data.id));
 					break;
 				}
 			}
 		}
 	}
 
-	//TODO:事件逻辑实现
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

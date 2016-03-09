@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,7 +49,7 @@ import butterknife.ButterKnife;
  * 创建时间:	3/6/2016 19:07
  * 描述:		结算中心界面
  */
-public class BalanceFragment extends BaseFragment<CheckoutBean> {
+public class BalanceFragment extends BaseFragment<CheckoutBean> implements View.OnClickListener {
 	private static final String TAG = "BalanceFragment";
 	private final SPUtil mSPUtil;
 	@Bind(R.id.tv_balance_name)
@@ -209,6 +210,8 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 					.fit()
 					.into(iv);
 		}
+
+		mBtnBalanceCommit.setOnClickListener(this);
 	}
 
 	@Override
@@ -406,6 +409,74 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 		}
 	}
 
+	@Override
+	public void onClick(View v) {
+		StringRequest request = new StringRequest(Request.Method.POST,
+				Url.Address_COMMIT,
+				new Response.Listener<String>() {
+					@Override
+					public void onResponse(String s) {
+						LogUtil.i(TAG, s);
+					}
+				},
+				new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError volleyError) {
+						LogUtil.i(TAG, volleyError);
+					}
+				})
+		{
+			@Override
+			public Map<String, String> getHeaders() throws AuthFailureError {
+				HashMap<String, String> map = new HashMap<>();
+				map.put("userid", mSPUtil.getLong(SP.USERID, 0) + "");
+				return map;
+			}
+
+			@Override
+			public byte[] getBody() throws AuthFailureError {
+				HashMap<CarProduct, Integer> shopList = CarModel.getInstance()
+						.queryCar(mSPUtil.getString(SP.USERNAME, ""));
+				Set<Map.Entry<CarProduct, Integer>> entries = shopList.entrySet();
+				StringBuilder sb = new StringBuilder();
+				sb.append("sku=");
+				for (Map.Entry<CarProduct, Integer> entry : entries) {
+					CarProduct key = entry.getKey();
+					Integer value = entry.getValue();
+					sb.append(String.format("%d:%d:%s|", key.id, value, translateProp(key
+							.prop)));
+				}
+				sb.substring(0, sb.length() - 1);
+				sb.append("&addressId=")
+						.append(mAddressInfo.mId)
+						.append("&paymentType=")
+						.append(mPayWay)
+						.append("&deliveryType=")
+						.append(mDeliverTime)
+						.append("&invoiceType=")
+						.append(mTicketInfo.mTicketHeadType)
+						.append("&invoiceTitle=")
+						.append(mTicketInfo.mTicketHeader)
+						.append("&invoiceContent=")
+						.append(mTicketInfo.mTicketType);
+
+				return sb.toString().getBytes();
+			}
+		};
+
+		NetUtil.getRequestQueue().add(request);
+	}
+
+	public String translateProp(int[] prop) {
+		StringBuilder sb = new StringBuilder();
+		for (int aProp : prop) {
+			sb.append(aProp);
+			sb.append(",");
+		}
+		sb.substring(0, sb.length() - 1);
+		return sb.toString();
+	}
+
 	public interface OnResultBack {
 		void onResult(Object result);
 	}
@@ -441,14 +512,16 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 		public String mName;
 		public String mNumber;
 		public String mAddress;
+		public int    mId;
 
 		public AddressInfo() {
 		}
 
-		public AddressInfo(String name, String number, String address) {
+		public AddressInfo(String name, String number, String address, int id) {
 			mName = name;
 			mNumber = number;
 			mAddress = address;
+			mId = id;
 		}
 	}
 }

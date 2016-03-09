@@ -156,7 +156,7 @@ public class IndentDetailMessageFragment extends SuperBaseFragment<IndentMesList
 
     @Override
     protected View loadSuccessView() {
-        View indentDetailView = View.inflate(ResUtil.getContext(), R.layout.inflate_indentdetail, null);
+        View indentDetailView = View.inflate(ResUtil.getContext(), R.layout.inflate_orderdetail, null);
         ButterKnife.bind(this, indentDetailView);
 
         return indentDetailView;

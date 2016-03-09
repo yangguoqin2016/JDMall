@@ -1,6 +1,5 @@
 package com.onlyone.jdmall.fragment.mine;
 
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -126,7 +125,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
                 Gson gson = new Gson();
                 mAddressAddBean = gson.fromJson(jsonString, AddressAddBean.class);
                 Log.d("AddressAddFragment", "jsonString==" + jsonString);
-//                Toast.makeText(ResUtil.getContext(), mAddressAddBean.userInfo.province, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ResUtil.getContext(), "保存成功", Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -182,7 +181,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
 
     }
 
-    private void changeFragment(Fragment fragment, String tag) {
+    private void changeFragment(BaseFragment fragment, String tag) {
         /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fl_content_container, fragment, tag);

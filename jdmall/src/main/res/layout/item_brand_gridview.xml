@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/brand_gridview_image"
+        android:src="@mipmap/ic_launcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
@@ -18,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:text="廉价成是傻逼"
         android:paddingBottom="5dp"
         android:textColor="#685959"/>
 

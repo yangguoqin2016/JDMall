@@ -214,9 +214,10 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.mine_back_btn:
+            case R.id.mine_back_btn://退出登录
                 spUtil.putBoolean(SP.ISLOGINSUCCESS, false);
                 spUtil.putLong(SP.USERID, 0);
+                spUtil.putString(SP.USERNAME,"");
 
                 LogUtil.d("userid-1====" + spUtil.getLong(SP.USERID, 0));
                 LogUtil.d("ISLOGINSUCCESS-1====" + spUtil.getBoolean(SP.ISLOGINSUCCESS, false));
@@ -227,11 +228,6 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 //退出登录
                 break;
             case R.id.fragment_ll_mine_order://我的订单
-                if (mMyIndentFragment == null) {
-                    mMyIndentFragment = new MyIndentFragment();
-                }
-                changeFragment(mMyIndentFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
-
                 if (mMyIndentFragment == null) {
                     mMyIndentFragment = new MyIndentFragment();
                 }

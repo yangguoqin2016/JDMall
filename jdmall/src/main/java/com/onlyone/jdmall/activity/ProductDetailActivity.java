@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,8 +33,13 @@ import com.onlyone.jdmall.view.ProductDialog;
 import com.onlyone.jdmall.view.RatioLayout;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -301,8 +308,8 @@ public class ProductDetailActivity extends AppCompatActivity {
                     switchToLoginActivity();
                 }else{
 
-                    saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_STORE);
-                    Toast.makeText(this, "已收藏..", Toast.LENGTH_SHORT).show();
+                //    saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_STORE);
+                    storeProduct();
                 }
                 break;
             case R.id.product_detail_addcar:
@@ -326,11 +333,50 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 收藏商品
+     */
+    private void storeProduct() {
+        String url = Url.ADDRESS_SERVER+"/product/favorites?pId="+mProductBean.id;
+        RequestQueue queue = NetUtil.getRequestQueue();
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String result  = (String) jsonObject.get("response");
+                    if("addfavorites".equals(result)) {
+                        Toast.makeText(ProductDetailActivity.this, "收藏成功~", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(ProductDetailActivity.this, "请重新登录", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ProductDetailActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> map = new HashMap<>();
+                map.put("userid",UserLoginUtil.getLoginUser());
+                return map;
+            }
+        };
+
+        queue.add(request);
+
+    }
+
     //TODO:立即购买进入支付页面
     private void buyNow() {
 
         if(!UserLoginUtil.isLogin()) {
-            Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
+            //还未登录
             switchToLoginActivity();
 
         }else{
@@ -368,9 +414,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         //2.获取登录用户名
         if (!UserLoginUtil.isLogin()) {
-            Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
-
-            //TODO:跳转登录页面
+            //跳转登录页面
             switchToLoginActivity();
 
         } else {

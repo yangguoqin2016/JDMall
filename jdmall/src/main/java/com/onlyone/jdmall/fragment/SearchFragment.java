@@ -150,20 +150,22 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 		mStringList = data.searchKeywords;
 		// 动态添加文本
 		for (int i = 0; i < mStringList.size(); i++) {
+			LinearLayout linearLayout = new LinearLayout(mMainActivity);
 			TextView tv = new TextView(ResUtil.getContext());
 			String text = mStringList.get(i);
 			tv.setText(text);
 			tv.setTextColor(Color.BLACK);
 			tv.setTextSize(DensityUtil.dip2Px(18));
-			int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+			int width = LinearLayout.LayoutParams.MATCH_PARENT;
 			int height = LinearLayout.LayoutParams.WRAP_CONTENT;
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
 			params.leftMargin = DensityUtil.dip2Px(15);
 			params.topMargin = DensityUtil.dip2Px(6);
 			params.bottomMargin = DensityUtil.dip2Px(6);
-			tv.setOnClickListener(this);
+			linearLayout.addView(tv);
+			linearLayout.setOnClickListener(this);
 			// 添加热门搜索的数据到容器
-			mSearchHotItemContainer.addView(tv, params);
+			mSearchHotItemContainer.addView(linearLayout, params);
 			if (i != mStringList.size() - 1) {
 				View line = new View(ResUtil.getContext());
 				int lineWidth = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -255,7 +257,10 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 			mIsHotArrowOpen = !mIsHotArrowOpen;
 			break;
 		default: // 热门搜索的条目点击事件
-			String clickSearchKey = ((TextView) v).getText().toString().trim();
+//			String clickSearchKey = ((TextView) v).getText().toString().trim();
+			TextView tv = (TextView) ((LinearLayout) v).getChildAt(0);
+			String clickSearchKey = tv.getText().toString().trim();
+			Toast.makeText(mMainActivity, clickSearchKey, Toast.LENGTH_SHORT).show();
 			processSearchKey(clickSearchKey, true);
 			break;
 		}

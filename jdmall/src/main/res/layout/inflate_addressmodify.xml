@@ -168,8 +168,20 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/neirong_sheweimorendizhi_anniu_tingliuciye_moren"/>
+            android:background="@mipmap/neirong_shanchucidizhi_anniu_tingliuciye_moren"/>
     </RelativeLayout>
-
+    <View
+        android:id="@+id/vMasker"
+        android:visibility="gone"
+        android:background="#e0000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:visibility="gone"
+        android:layout_margin="50dp"
+        android:id="@+id/tvTime"
+        android:text="时间"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
 
 </LinearLayout>

@@ -88,8 +88,9 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 	Button       mBtnBalanceCommit;
 	private String mUserId;
 
-	private int mPayWay      = 1; //默认使用现金支付
-	private int mDeliverTime = 1;//默认周一至周五送货
+	private int        mPayWay      = 1; //默认使用现金支付
+	private int        mDeliverTime = 1;//默认周一至周五送货
+	private TicketInfo mTicketInfo  = new TicketInfo(1, "二狗子", 1);//发票信息
 
 	public BalanceFragment() {
 		mSPUtil = new SPUtil(ResUtil.getContext());
@@ -152,6 +153,28 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 							mPayWay = (way - 1);
 						}
 						LogUtil.i(TAG, "当前选择的送货时间是:", mPayWay);
+					}
+				});
+				goForward(fragment);
+			}
+		});
+
+		mIvBalanceIntoticket.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ReceiptFragment fragment = new ReceiptFragment();
+
+				Bundle args = new Bundle();
+				args.putInt("ticketType", mTicketInfo.mTicketType);
+				args.putInt("headerType", mTicketInfo.mTicketHeadType);
+				args.putString("header", mTicketInfo.mTicketHeader);
+
+				fragment.setArguments(args);
+				fragment.setOnResultBackListener(new OnResultBack() {
+					@Override
+					public void onResult(Object result) {
+						mTicketInfo = (TicketInfo) result;
+						LogUtil.i(TAG, mTicketInfo);
 					}
 				});
 				goForward(fragment);
@@ -280,5 +303,32 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 
 	public interface OnResultBack {
 		void onResult(Object result);
+	}
+
+	/**
+	 * 发票信息
+	 */
+	public static class TicketInfo {
+		public TicketInfo(int ticketHeadType, String ticketHeader, int ticketType) {
+			mTicketHeadType = ticketHeadType;
+			mTicketHeader = ticketHeader;
+			mTicketType = ticketType;
+		}
+
+		public TicketInfo() {
+		}
+
+		public int    mTicketHeadType;
+		public String mTicketHeader;
+		public int    mTicketType;
+
+		@Override
+		public String toString() {
+			return "TicketInfo{" +
+					"mTicketHeadType=" + mTicketHeadType +
+					", mTicketHeader='" + mTicketHeader + '\'' +
+					", mTicketType=" + mTicketType +
+					'}';
+		}
 	}
 }

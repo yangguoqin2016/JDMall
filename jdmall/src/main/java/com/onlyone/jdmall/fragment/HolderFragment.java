@@ -53,18 +53,22 @@ public abstract class HolderFragment extends Fragment {
 		}
 	}
 
-	public void goForward(Fragment fragment) {
-		FragmentManager childFragmentManager = getChildFragmentManager();
-		FragmentTransaction transaction = childFragmentManager.beginTransaction();
+	public void goForward(BaseFragment fragment) {
 
-		transaction.setCustomAnimations(R.anim.pager_enter,R.anim.pager_exit,
-				R.anim.pager_pop_enter,R.anim.pager_pop_exit);
-		transaction.replace(R.id.fl_content_container, fragment);
+		if (fragment.preGoForward()) {
 
-		transaction.addToBackStack(this.getClass().getSimpleName());
-		transaction.commit();
+			FragmentManager childFragmentManager = getChildFragmentManager();
+			FragmentTransaction transaction = childFragmentManager.beginTransaction();
+
+			transaction.setCustomAnimations(R.anim.pager_enter, R.anim.pager_exit,
+					R.anim.pager_pop_enter, R.anim.pager_pop_exit);
+			transaction.replace(R.id.fl_content_container, fragment);
+
+			transaction.addToBackStack(this.getClass().getSimpleName());
+			transaction.commit();
+		}
 	}
-	
+
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();

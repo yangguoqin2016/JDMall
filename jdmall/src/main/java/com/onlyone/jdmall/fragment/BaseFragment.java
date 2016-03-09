@@ -63,7 +63,18 @@ public abstract class BaseFragment<T> extends Fragment {
 	 * 返回之前的页面
 	 */
 	public void goBack() {
-		((HolderFragment) getParentFragment()).goBack();
+		if (preGoBack()) {
+			((HolderFragment) getParentFragment()).goBack();
+		}
+	}
+
+	/**
+	 * 返回上一个Fragment之前被调用
+	 *
+	 * @return true - 能返回
+	 */
+	public boolean preGoBack() {
+		return true;
 	}
 
 	/**
@@ -71,8 +82,17 @@ public abstract class BaseFragment<T> extends Fragment {
 	 *
 	 * @param fragment 页面
 	 */
-	public void goForward(Fragment fragment) {
+	public void goForward(BaseFragment fragment) {
 		((HolderFragment) getParentFragment()).goForward(fragment);
+	}
+
+	/**
+	 * 前进到下一个Fragment之前被调用
+	 *
+	 * @return true - 允许跳转到下一个页面
+	 */
+	public boolean preGoForward() {
+		return true;
 	}
 
 	/**

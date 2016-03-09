@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:background="@mipmap/neirongqu_sekuai"
+			android:gravity="center"
+			android:text="发票抬头"
+			android:textColor="#fff"
+			android:textSize="20sp"/>
+
+		<RadioGroup
+			android:id="@+id/rg_receipt_head"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<RadioButton
+				android:id="@+id/rb_receipt_person"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="20dp"
+				android:button="@null"
+				android:checked="true"
+				android:drawableLeft="@drawable/selector_ticket_bg"
+				android:drawablePadding="30dp"
+				android:text="个人"
+				android:textColor="#000"
+				android:textSize="18sp"/>
+
+			<RadioButton
+				android:id="@+id/rb_receipt_company"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:layout_marginLeft="20dp"
+				android:layout_marginTop="15dp"
+				android:button="@null"
+				android:drawableLeft="@drawable/selector_ticket_bg"
+				android:drawablePadding="30dp"
+				android:text="单位"
+				android:textColor="#000"
+				android:textSize="18sp"/>
+
+		</RadioGroup>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:background="@mipmap/neirongqu_sekuai"
+			android:gravity="center"
+			android:text="发票内容"
+			android:textColor="#fff"
+			android:textSize="20sp"/>
+
+		<EditText
+			android:id="@+id/et_receipt_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:hint="填写发票抬头"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_marginTop="20dp"
+			android:text="请选择发票类型:"
+			android:textSize="20sp"/>
+
+		<RadioGroup
+			android:id="@+id/rg_receipt_content"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<RadioButton
+				android:id="@+id/rb_receipt_book"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="20dp"
+				android:button="@null"
+				android:checked="true"
+				android:drawableLeft="@drawable/selector_ticket_bg"
+				android:drawablePadding="30dp"
+				android:text="图书"
+				android:textColor="#000"
+				android:textSize="18sp"/>
+
+			<RadioButton
+				android:id="@+id/rb_receipt_sound"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="20dp"
+				android:button="@null"
+				android:drawableLeft="@drawable/selector_ticket_bg"
+				android:drawablePadding="30dp"
+				android:text="音响"
+				android:textColor="#000"
+				android:textSize="18sp"/>
+
+			<RadioButton
+				android:id="@+id/rb_receipt_game"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="20dp"
+				android:button="@null"
+				android:drawableLeft="@drawable/selector_ticket_bg"
+				android:drawablePadding="30dp"
+				android:text="游戏"
+				android:textColor="#000"
+				android:textSize="18sp"/>
+
+			<RadioButton
+				android:id="@+id/rb_receipt_software"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="20dp"
+				android:button="@null"
+				android:drawableLeft="@drawable/selector_ticket_bg"
+				android:drawablePadding="30dp"
+				android:text="软件"
+				android:textColor="#000"
+				android:textSize="18sp"/>
+
+			<RadioButton
+				android:id="@+id/rb_receipt_ziliao"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="20dp"
+				android:button="@null"
+				android:drawableLeft="@drawable/selector_ticket_bg"
+				android:drawablePadding="30dp"
+				android:text="资料"
+				android:textColor="#000"
+				android:textSize="18sp"/>
+
+		</RadioGroup>
+
+	</LinearLayout>
+
+</ScrollView>

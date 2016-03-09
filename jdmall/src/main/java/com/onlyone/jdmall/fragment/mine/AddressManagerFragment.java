@@ -1,6 +1,5 @@
 package com.onlyone.jdmall.fragment.mine;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,7 +184,7 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
         }
     }
 
-    private void changeFragment(Fragment fragment, String tag) {
+    private void changeFragment(BaseFragment fragment, String tag) {
         /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fl_content_container, fragment, tag);

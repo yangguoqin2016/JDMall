@@ -1,7 +1,7 @@
 package com.onlyone.jdmall.holder;
 
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
@@ -20,13 +20,13 @@ import butterknife.ButterKnife;
  */
 public class AddressListHolder extends BaseHolder<AddressBean.AddressList> {
 	@Bind(R.id.item_addresslist_tv_name)
-	public TextView  mItemAddresslistTvName;
+	public TextView mItemAddresslistTvName;
 	@Bind(R.id.item_addresslist_tv_num)
-	public TextView  mItemAddresslistTvNum;
+	public TextView mItemAddresslistTvNum;
 	@Bind(R.id.item_addresslist_tv_position)
-	public TextView  mItemAddresslistTvPosition;
+	public TextView mItemAddresslistTvPosition;
 	@Bind(R.id.item_addresslist_iv_selected)
-	public ImageView mItemAddresslistIvSelected;
+	public CheckBox mItemAddresslistIvSelected;
 
 	@Override
 	public View initHolderView() {
@@ -39,7 +39,7 @@ public class AddressListHolder extends BaseHolder<AddressBean.AddressList> {
 	public void setDataAndRefreshUI(AddressBean.AddressList data) {
 		mItemAddresslistTvName.setText(data.name);
 		mItemAddresslistTvNum.setText(data.phoneNumber);
-		mItemAddresslistIvSelected.setSelected(data.isDefault == 1 ? true : false);
+		mItemAddresslistIvSelected.setChecked(data.isDefault == 1);
 		mItemAddresslistTvPosition.setText(data.city + data.addressArea + data.addressDetail);
 	}
 }

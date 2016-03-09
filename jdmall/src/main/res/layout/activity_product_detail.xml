@@ -280,21 +280,21 @@
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ischeck"
                     android:drawablePadding="8dp"
-                    android:text="7天退货"/>
+                    android:text="正品保证"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ischeck"
                     android:drawablePadding="8dp"
-                    android:text="先行赔付"/>
+                    android:text="急速退款"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableLeft="@mipmap/ischeck"
                     android:drawablePadding="8dp"
-                    android:text="退货补贴"/>
+                    android:text="七天退换"/>
             </LinearLayout>
 
             <!--进入详情界面-->
@@ -314,7 +314,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="进入详情界面"
+                    android:text="查看图文详情"
                     android:textSize="18sp"/>
                 <ImageView
                     android:layout_width="48dp"

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -188,7 +187,7 @@ public class ProductDialog extends Dialog {
         mProductDialogColorGridview.setAdapter(mColorAdapter);
         mProductDialogSizeGridview.setAdapter(mSizeAdapter);
 
-     //   mProductDialogColorGridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        mProductDialogColorGridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
         mProductDialogSizeGridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
         //设置两个GriView的监听事件
@@ -259,27 +258,21 @@ public class ProductDialog extends Dialog {
         //2.获取登录用户名
         if (!UserLoginUtil.isLogin()) {
             Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
-
             //TODO:跳转登录页面,activity->fragment
-            //先跳转到MainActivity
-            //Intent intent = new Intent(ResUtil.getContext(), MainActivity.class);
-            //intent.putExtra("productDialog", 1);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //ResUtil.getContext().startActivity(intent);
-
-            //            HolderFragment holderFragment = new HolderFragment() {
-            //                @Override
-            //                protected Fragment getChildFragment() {
-            //                    return FragmentFactory.getFragment(4);
-            //                }
-            //            };
-            //            LoginFragment loginFragment = new LoginFragment();
-            //            holderFragment.goForward(loginFragment);
-
-
         } else {
             String userName = UserLoginUtil.getLoginUser();
-            carModel.addToCar(userName, mPoductBean.id, productPros);
+            String string = mProductDialogNumEdit.getText().toString();
+            int num = Integer.parseInt(string);
+            if(num>10){
+                num = 10;
+            }
+            if(num<=0){
+                num = 1;
+            }
+            for (int i = 0; i < num; i++) {
+                //多件商品循环加入
+                carModel.addToCar(userName, mPoductBean.id, productPros);
+            }
             Toast.makeText(ResUtil.getContext(), "已加入购物车", Toast.LENGTH_SHORT).show();
         }
 
@@ -305,6 +298,8 @@ public class ProductDialog extends Dialog {
             num++;
         }
         mProductDialogNumEdit.setText(num + "");
+        //商品数量赋值
+        ProductDetailActivity.mProductNum = num;
     }
 
     /**
@@ -324,40 +319,14 @@ public class ProductDialog extends Dialog {
             num--;
         }
         mProductDialogNumEdit.setText(num + "");
+        //商品数量赋值
+        ProductDetailActivity.mProductNum = num;
     }
 
     /**
      * 点击选择商品颜色 尺寸
      */
     private void setGridItemClickListener() {
-        mProductDialogColorGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (int i = 0; i < mColorPropertyBeans.size(); i++) {
-                    ProductDetailBean.ProductEntity.ProductPropertyBean propertyBean = mColorPropertyBeans.get(i);
-                    propertyBean.isSelected = (i==position);
-                    mColorAdapter.notifyDataSetChanged();
-                }
-                Toast.makeText(ResUtil.getContext(), "position=" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mProductDialogSizeGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ResUtil.getContext(), "position=" + position, Toast.LENGTH_SHORT).show();
-                for (int i = 0; i < mSizePropertyBeans.size(); i++) {
-                    ProductDetailBean.ProductEntity.ProductPropertyBean propertyBean = mSizePropertyBeans.get(i);
-                    propertyBean.isSelected = (i==position);
-                    mSizeAdapter.notifyDataSetChanged();
-                }
-                Toast.makeText(ResUtil.getContext(), "position=" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-
         //颜色adapter条目点击
         mColorAdapter.setOnItemClickListener(new PropertyAdapter.OnItemClickListener() {
             @Override

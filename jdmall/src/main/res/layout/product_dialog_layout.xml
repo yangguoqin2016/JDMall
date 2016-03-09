@@ -5,7 +5,7 @@
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:layout_height="360dp"
         android:orientation="vertical">
 
         <!--顶部-->
@@ -42,15 +42,49 @@
                 android:layout_marginTop="2dp"
                 android:layout_toRightOf="@id/product_dialog_pic"
                 android:text="减少20元"
-                android:textColor="#bcb1b1"
-                android:textSize="18sp"
+                android:textColor="#88000000"
+                android:textSize="16sp"
                 />
+            <TextView
+                android:id="@+id/product_dialog_please_select_color_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_dialog_price_save"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/product_dialog_pic"
+                android:text="请选择"
+                android:textColor="#88000000"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:id="@+id/product_dialog_select_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_dialog_price_save"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/product_dialog_please_select_color_size"
+                android:text="颜色"
+                android:textColor="#88000000"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/product_dialog_select_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_dialog_price_save"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/product_dialog_select_color"
+                android:text="尺寸"
+                android:textColor="#88000000"
+                android:textSize="16sp"/>
             <ImageView
                 android:id="@+id/product_dialog_dismiss"
-                android:layout_alignParentRight="true"
-                android:scaleType="center"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:scaleType="center"
                 android:src="@mipmap/img_cancel"
                 />
         </RelativeLayout>
@@ -100,23 +134,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="颜色分类"
+                    android:text="颜色"
                     android:textColor="#000"
                     android:textSize="18sp"/>
-                <RadioGroup
+                <com.onlyone.jdmall.view.MyGridView
+                    android:id="@+id/product_dialog_color_gridview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        style="@style/ProductPropertyStyle"
-                        android:text="红色"/>
-                    <RadioButton
-                        style="@style/ProductPropertyStyle"
-                        android:layout_marginLeft="20dp"
-                        android:text="绿色"/>
-                </RadioGroup>
+                    android:numColumns="3"
+                    />
 
                 <!--分割线-->
                 <View
@@ -132,24 +158,13 @@
                     android:text="尺寸"
                     android:textColor="#000"
                     android:textSize="18sp"/>
-                <RadioGroup
+                <com.onlyone.jdmall.view.MyGridView
+                    android:id="@+id/product_dialog_size_gridview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        style="@style/ProductPropertyStyle"
-                        android:text="M"/>
-                    <RadioButton
-                        style="@style/ProductPropertyStyle"
-                        android:layout_marginLeft="20dp"
-                        android:text="XXL"/>
-                    <RadioButton
-                        style="@style/ProductPropertyStyle"
-                        android:layout_marginLeft="20dp"
-                        android:text="XXXL"/>
-                </RadioGroup>
+                    android:numColumns="3"
+                    />
+
 
                 <!--分割线-->
                 <View
@@ -191,10 +206,10 @@
                         android:layout_width="35dp"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/shopping_cart_product_num_edit"
+                        android:cursorVisible="false"
+                        android:gravity="center"
                         android:inputType="number"
                         android:text="1"
-                        android:gravity="center"
-                        android:cursorVisible="false"
                         android:textColor="#000"/>
                     <ImageView
                         android:id="@+id/product_dialog_num_add"

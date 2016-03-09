@@ -42,29 +42,35 @@ import cn.iwgang.countdownview.CountdownView;
 public class ProductDetailActivity extends AppCompatActivity {
 
     @Bind(R.id.product_detail_topbar_back)
-    ImageView      mProductDetailTopbarBack;
+    ImageView mProductDetailTopbarBack;
     @Bind(R.id.product_detail_topbar_share)
-    ImageView      mProductDetailTopbarShare;
+    ImageView mProductDetailTopbarShare;
     @Bind(R.id.product_detail_store)
-    TextView       mProductDetailStore;
+    TextView  mProductDetailStore;
     @Bind(R.id.product_detail_addcar)
-    TextView       mProductDetailAddcar;
+    TextView  mProductDetailAddcar;
     @Bind(R.id.product_detail_buy)
-    TextView       mProductDetailBuy;
+    TextView  mProductDetailBuy;
     @Bind(R.id.product_detail_pic_viewpager)
-    ViewPager      mProductDetailPicViewpager;
+    ViewPager mProductDetailPicViewpager;
     @Bind(R.id.product_detail_name)
-    TextView       mProductDetailName;
+    TextView  mProductDetailName;
     @Bind(R.id.product_detail_price)
-    TextView       mProductDetailPrice;
+    TextView  mProductDetailPrice;
     @Bind(R.id.product_detail_marketprice)
-    TextView       mProductDetailMarketprice;
+    TextView  mProductDetailMarketprice;
     @Bind(R.id.product_detail_stars)
-    RatingBar      mProductDetailStars;
+    RatingBar mProductDetailStars;
     @Bind(R.id.product_detail_left_time)
-    TextView       mProductDetailLeftTime;
-    @Bind(R.id.product_detail_selected_color_size)
-    TextView       mProductDetailSelectedColorSize;
+    TextView  mProductDetailLeftTime;
+
+    /*--------------------静态只能用findViewById找-----------------*/
+  //  @Bind(R.id.product_detail_selected_color_size)
+    public static TextView mProductDetailSelectedColorSize;
+  //  @Bind(R.id.product_detail_please_select)
+    public static TextView mProductDetailPleaseSelect;
+    /*--------------------静态控件-----------------*/
+
     @Bind(R.id.product_detail_select_color_size)
     RelativeLayout mProductDetailSelectColorSize;
     @Bind(R.id.product_detail_buy_limit)
@@ -78,15 +84,21 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ProductDetailBean.ProductEntity mProductBean;
     private List<String>                    mPicUrls;
 
+    public static ProductDetailBean.ProductEntity.ProductPropertyBean[] mPropertyBeanArr = new ProductDetailBean.ProductEntity.ProductPropertyBean[2];
+    private ProductDialog mProductDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mPropertyBeanArr[0] = new ProductDetailBean.ProductEntity.ProductPropertyBean();
+        mPropertyBeanArr[1] = new ProductDetailBean.ProductEntity.ProductPropertyBean();
+
         init();
         initView();
         initData();
-        initListener();
     }
+
 
     private void init() {
         Intent intent = getIntent();
@@ -98,6 +110,10 @@ public class ProductDetailActivity extends AppCompatActivity {
      */
     private void initView() {
         setContentView(R.layout.activity_product_detail);
+/*--------------------fbc查找控件-----------------*/
+        mProductDetailSelectedColorSize = (TextView) findViewById(R.id.product_detail_selected_color_size);
+        mProductDetailPleaseSelect = (TextView) findViewById(R.id.product_detail_please_select);
+/*--------------------fbc查找控件-----------------*/
         ButterKnife.bind(this);
     }
 
@@ -121,7 +137,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 ProductDetailBean productDetailBean = gson.fromJson(s, ProductDetailBean.class);
                 mProductBean = productDetailBean.product;
-
+                mProductDialog = new ProductDialog(ProductDetailActivity.this, mProductBean);
                 //数据加载成功刷新UI
                 refreshUI();
 
@@ -140,6 +156,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     /**
      * 1.将商品浏览的记录保存并序列化
      * 2.商品收藏时将商品信息序列化
+     *
      * @param productBean
      */
     private void saveBrowseOrStoreHistory(ProductDetailBean.ProductEntity productBean, String tag) {
@@ -151,7 +168,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         String userName = UserLoginUtil.getLoginUser();
 
         //3.序列化取出保存的集合
-        String keyTag = userName+"_"+tag;
+        String keyTag = userName + "_" + tag;
         HashSet<ProductDetailBean.ProductEntity> set = SerializeUtil.serializeObject(keyTag);
         if (set == null) {
             set = new HashSet<>();
@@ -170,7 +187,39 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     /**
-     * 初始化监听事件
+     * 记载数据后刷新视图
+     */
+    private void refreshUI() {
+        //商品姓名
+        mProductDetailName.setText(mProductBean.name);
+        //商品会员价格
+        mProductDetailPrice.setText("￥" + mProductBean.price);
+        //商品市场价格
+        mProductDetailMarketprice.setText("￥" + mProductBean.marketPrice);
+        //商品评分
+        mProductDetailStars.setRating(mProductBean.score);
+        //商品单件限购量
+        mProductDetailBuyLimit.setText(mProductBean.buyLimit + "件");
+
+        //剩余抢购时间倒计时
+        mLimitBuyCountView.start(mProductBean.leftTime * 1000);
+
+        //设置图片轮播图
+        mPicUrls = mProductBean.pics;
+        mProductDetailPicViewpager.setAdapter(new ProductPicAdapter());
+
+        if (mPicUrls == null || mPicUrls.size() == 0) {
+            mProductDetailViewpagerIndicator.setText("0/0");
+        } else {
+            mProductDetailViewpagerIndicator.setText(1 + "/" + mPicUrls.size());
+        }
+
+        //设置监听事件
+        initListener();
+    }
+
+    /**
+     * 设置监听事件
      */
     private void initListener() {
         //轮播图滑动监听
@@ -192,37 +241,58 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             }
         });
+
+        //利用接口回调监听ProductDialog关闭
+        mProductDialog.setOnDialogDismissListener(new ProductDialog.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                System.out.println("窗口关闭了###########");
+                boolean isColorSelected = mPropertyBeanArr[0].isSelected;
+                boolean isSizeSelected = mPropertyBeanArr[1].isSelected;
+
+                System.out.println("isColorSelected="+isColorSelected);
+                System.out.println("isSizeSelected="+isSizeSelected);
+
+            }
+        });
     }
 
-    /**
-     * 记载数据后刷新视图
-     */
-    private void refreshUI() {
-        //商品姓名
-        mProductDetailName.setText(mProductBean.name);
-        //商品会员价格
-        mProductDetailPrice.setText("￥" + mProductBean.price);
-        //商品市场价格
-        mProductDetailMarketprice.setText("￥" + mProductBean.marketPrice);
-        //商品评分
-        mProductDetailStars.setRating(mProductBean.score);
-        //商品单件限购量
-        mProductDetailBuyLimit.setText(mProductBean.buyLimit + "件");
+    /*###############当ProductDialog中的颜色与尺寸发生改变时就调用该方法##############*/
+    /*###################################*/
+    public static void showSelectedColorAndSize(){
 
-        //剩余抢购时间倒计时
-        mLimitBuyCountView.start(mProductBean.leftTime*1000);
 
-        //设置图片轮播图
-        mPicUrls = mProductBean.pics;
-        mProductDetailPicViewpager.setAdapter(new ProductPicAdapter());
+        boolean isColorSelected = mPropertyBeanArr[0].isSelected;
+        boolean isSizeSelected = mPropertyBeanArr[1].isSelected;
 
-        if (mPicUrls == null || mPicUrls.size() == 0) {
-            mProductDetailViewpagerIndicator.setText("0/0");
-        } else {
-            mProductDetailViewpagerIndicator.setText(1 + "/" + mPicUrls.size());
+        System.out.println("isColorSelected="+isColorSelected);
+        System.out.println("isSizeSelected="+isSizeSelected);
+
+        String color = mPropertyBeanArr[0].v;
+        String size = mPropertyBeanArr[1].v;
+        if (isColorSelected && isSizeSelected) {
+            mProductDetailPleaseSelect.setText("已选择");
+            mProductDetailSelectedColorSize.setText(color + " " + size);
+        }
+
+        if (isColorSelected && !isSizeSelected) {
+            mProductDetailPleaseSelect.setText("请选择");
+            mProductDetailSelectedColorSize.setText("尺寸");
+        }
+
+        if (!isColorSelected && isSizeSelected) {
+            mProductDetailPleaseSelect.setText("请选择");
+            mProductDetailSelectedColorSize.setText("颜色");
+        }
+
+        if (!isColorSelected && !isSizeSelected) {
+            mProductDetailPleaseSelect.setText("请选择");
+            mProductDetailSelectedColorSize.setText("颜色　尺寸");
         }
     }
 
+    /*#############################*/
+    /*###################################*/
 
     /**
      * 监听控件点击事件
@@ -269,30 +339,51 @@ public class ProductDetailActivity extends AppCompatActivity {
         Toast.makeText(this, "立即购买,id=" + mProductId, Toast.LENGTH_SHORT).show();
     }
 
-    //TODO:获取商品属性并添加购物车
+    /**
+     * 获取商品属性并添加购物车
+     */
     private void addToCar() {
+
+        boolean isColorSelected = mPropertyBeanArr[0].isSelected;
+        boolean isSizeSelected = mPropertyBeanArr[1].isSelected;
+
+        if(!isColorSelected && isSizeSelected) {
+            Toast.makeText(this, "请选择颜色", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(isColorSelected && !isSizeSelected) {
+            Toast.makeText(this, "请选择尺寸", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!isColorSelected && !isSizeSelected) {
+            Toast.makeText(this, "请选择颜色和尺寸", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         CarModel carModel = CarModel.getInstance();
-        //TODO:1.获取商品颜色,尺寸
-        int[] productPros = {1, 2};  //{颜色,尺寸}
+        //1.获取商品颜色,尺寸
+        int[] productPros = {mPropertyBeanArr[0].id,mPropertyBeanArr[1].id };  //{颜色,尺寸}
 
         //2.获取登录用户名
-        if(!UserLoginUtil.isLogin()) {
+        if (!UserLoginUtil.isLogin()) {
             Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
             //TODO:跳转登录页面
-        }else{
+        } else {
             String userName = UserLoginUtil.getLoginUser();
             carModel.addToCar(userName, mProductId, productPros);
             Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
         }
     }
 
-    //TODO:选择商品颜色,尺寸
+    /**
+     * 弹出对话框选择颜色与尺寸
+     */
     private void selectColorAndSize() {
         //弹出对话框口选择产品
-        ProductDialog dialog = new ProductDialog(this,mProductBean);
-        dialog.show();
+        mProductDialog.show();
     }
-
 
 
     private class ProductPicAdapter extends PagerAdapter {

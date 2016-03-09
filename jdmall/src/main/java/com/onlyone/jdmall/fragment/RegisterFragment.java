@@ -81,7 +81,8 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
         mRegistBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeFragment(new LoginFragment());
+//                changeFragment(new LoginFragment());
+                ((HolderFragment)getParentFragment()).goBack();
             }
         });
     }

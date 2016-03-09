@@ -42,6 +42,8 @@ public class ProductDetailBean {
             public int    id;
             public String k;
             public String v;
+
+            public boolean isSelected;  //是否选中
         }
 
         @Override

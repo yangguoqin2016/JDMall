@@ -21,6 +21,7 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.CarProduct;
 import com.onlyone.jdmall.bean.CheckoutBean;
+import com.onlyone.jdmall.bean.CommitBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
@@ -411,18 +412,38 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> implements View.
 
 	@Override
 	public void onClick(View v) {
+
+		if (mAddressInfo.isEmpty()) {
+			Toast.makeText(ResUtil.getContext(), "请确认订单信息", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		StringRequest request = new StringRequest(Request.Method.POST,
 				Url.Address_COMMIT,
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String s) {
-						LogUtil.i(TAG, s);
+						Gson gson = new Gson();
+						CommitBean bean = gson.fromJson(s, CommitBean.class);
+						if (bean.response.equalsIgnoreCase("orderSubmit")) {
+							LogUtil.i(TAG, s);
+							//清理购物车
+							CarModel.getInstance().clearCar(mSPUtil.getString(SP.USERNAME, ""));
+							//提交成功,前往提交结果页面
+							CommitFragment commitFragment = new CommitFragment();
+							Bundle args = new Bundle();
+							args.putString("dingdanHao", bean.orderInfo.orderId);
+							args.putString("dingdanQian", bean.orderInfo.price + "");
+							args.putString("dingdanFangshi", bean.orderInfo.paymentType + "");
+							commitFragment.setArguments(args);
+							goForward(commitFragment);
+						}
 					}
 				},
 				new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError volleyError) {
-						LogUtil.i(TAG, volleyError);
+						Toast.makeText(ResUtil.getContext(), "提交失败", Toast.LENGTH_SHORT).show();
 					}
 				})
 		{
@@ -522,6 +543,10 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> implements View.
 			mNumber = number;
 			mAddress = address;
 			mId = id;
+		}
+
+		public boolean isEmpty() {
+			return mName.isEmpty() && mNumber.isEmpty() && mAddress.isEmpty();
 		}
 	}
 }

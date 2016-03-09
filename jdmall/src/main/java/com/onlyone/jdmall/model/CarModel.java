@@ -3,8 +3,11 @@ package com.onlyone.jdmall.model;
 import com.onlyone.jdmall.bean.CarProduct;
 import com.onlyone.jdmall.bean.CartBean;
 import com.onlyone.jdmall.constance.Serialize;
+import com.onlyone.jdmall.utils.FileUtil;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.SerializeUtil;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +19,7 @@ import java.util.List;
  * 描述:		${TODO}
  */
 public class CarModel {
+	private static final String TAG     = "CarModel";
 	private static final String CAR_TAG = Serialize.TAG_CAR;
 	private static CarModel sInstance;
 
@@ -63,6 +67,15 @@ public class CarModel {
 		String tag = CAR_TAG + userName;
 		if (data != null) {
 			SerializeUtil.deserializeObject(tag, data);
+		}
+	}
+
+	public void clearCar(String userName) {
+		String tag = CAR_TAG + userName;
+		File file = new File(FileUtil.getCachePath()+tag);
+		if (file.exists()) {
+			LogUtil.i(TAG, "存在文件并且已经删除");
+			file.delete();
 		}
 	}
 

@@ -2,7 +2,6 @@ package com.onlyone.jdmall.fragment.mine;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +50,7 @@ import butterknife.ButterKnife;
  */
 public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements View.OnClickListener {
 
+
     private static final String TAG = "MyIndentFragment";
     @Bind(R.id.myindent_nowonemonthindent)
     TextView mNowonemonthindent;
@@ -66,7 +66,15 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
     private MyIndentBean            mMyIndentBean;
     private MyIndentAdapter         mMyIndentAdapter;
     private List<IndentMesListBean> mListBeans;
-    private boolean                 isChecked = true;
+
+    private int mType;
+    private int mPage;
+    private int mPageNum;
+    private int mCurrState = 1;
+
+    public MyIndentFragment(int state){
+        this.mCurrState = state;
+    }
 
     @Nullable
     @Override
@@ -118,10 +126,10 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> map = new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 SPUtil sp = new SPUtil(ResUtil.getContext());
                 long userid = sp.getLong(SP.USERID, 0);
-                map.put("userid",""+userid);
+                map.put("userid", "" + userid);
                 return map;
             }
         };
@@ -140,15 +148,23 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
     @Override
     protected View loadSuccessView() {
         mMyIndentView = View.inflate(ResUtil.getContext(), R.layout.mine_myindent_fragment, null);
-        ButterKnife.bind(this,mMyIndentView);
+        ButterKnife.bind(this, mMyIndentView);
         return mMyIndentView;
     }
 
     @Override
     protected void refreshSuccessView(MyIndentBean data) {
-        Log.d(TAG, "*******");
-        mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected1);
-        netLoadData(getUrl(1, 0, 10));
+        if (mCurrState == 1) {
+            mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected1);
+            netLoadData(getUrl(1, 0, 10));
+        } else if (mCurrState == 2) {
+            mBeforeonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected2);
+            netLoadData(getUrl(2, 0, 10));
+        } else if (mCurrState == 3) {
+            mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected3);
+            netLoadData(getUrl(3, 0, 10));
+        }
+
 
         mNowonemonthindent.setOnClickListener(this);
         mBeforeonemonthindent.setOnClickListener(this);
@@ -164,46 +180,44 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.myindent_nowonemonthindent:
-                   mBeforeonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal2);
-                   mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal3);
-                   mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected1);
-                isChecked = !isChecked;
-
-          /*      IndentMesListBean indentMesListBean = new IndentMesListBean();
-                indentMesListBean.orderId = 111111;
-                indentMesListBean.price = 180.00f;
-                indentMesListBean.status = "未处理";
-                mListBeans.add(indentMesListBean);
-//*/
+                mCurrState = 1;
+                mBeforeonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal2);
+                mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal3);
+                mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected1);
                 //清空集合
                 mListBeans.removeAll(mListBeans);
                 //请求数据添加到集合中
                 netLoadData(getUrl(1, 0, 10));
                 break;
             case R.id.myindent_beforeonemonthindent:
+                mCurrState = 2;
                 mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal1);
                 mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal3);
                 mBeforeonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected2);
                 mListBeans.removeAll(mListBeans);
-                netLoadData(getUrl(2, 0,10));
+                mType = 2;
+                mPage = 0;
+                netLoadData(getUrl(2, 0, 10));
                 break;
             case R.id.myindent_cancleindent:
+                mCurrState = 3;
                 mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal1);
                 mBeforeonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal2);
                 mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected3);
 
                 mListBeans.removeAll(mListBeans);
-                netLoadData(getUrl(3, 0,10));
+                netLoadData(getUrl(3, 0, 10));
                 break;
             case R.id.myindent_back:
-                ((HolderFragment)getParentFragment()).goBack();
+                mCurrState = 1;
+                ((HolderFragment) getParentFragment()).goBack();
                 break;
         }
     }
 
-    private class MyIndentAdapter extends SuperBaseAdapter<IndentMesListBean>{
+    private class MyIndentAdapter extends SuperBaseAdapter<IndentMesListBean> {
         public MyIndentAdapter(AbsListView listView, List<IndentMesListBean> datas) {
             super(listView, datas);
         }
@@ -217,17 +231,20 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             IndentMesListBean indentMesListBean = mListBeans.get(position);
             long orderId = indentMesListBean.orderId;
-            ((HolderFragment)getParentFragment()).goForward(new IndentDetailMessageFragment(orderId));
+            ((HolderFragment) getParentFragment()).goForward(new IndentDetailMessageFragment(orderId));
         }
 
         @Override
         protected List<IndentMesListBean> doLoadMore() throws Exception {
+          /*  mPage = mPage+1;
+            String url = getUrl(mType, mPage, mPageNum);
+            netLoadData(url);
+            if(mListBeans == null){
+                mPage--;
+            }*/
             return super.doLoadMore();
         }
     }
-
-
-
 
 
 }

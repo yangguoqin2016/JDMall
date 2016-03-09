@@ -93,5 +93,5 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/neirong_fengexian_shangmian175px_anniu_tiaozhuan"/>
+        android:background="@mipmap/neirong_fengexian_shangmian175px_anniu_tiaozhuan"/>
 </LinearLayout>

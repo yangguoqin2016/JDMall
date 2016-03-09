@@ -158,6 +158,23 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
             int width = LinearLayout.LayoutParams.MATCH_PARENT;
             int height = LinearLayout.LayoutParams.WRAP_CONTENT;
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
+            LogUtil.d("density", DensityUtil.getDensity());
+
+            //TODO:屏幕适配问题
+            switch ((int) DensityUtil.getDensityDpi()) {
+                case 120:
+
+                    break;
+                case 160:
+
+                    break;
+                case 240:
+                    break;
+                case 320:
+                    break;
+                default:
+                    break;
+            }
             params.leftMargin = DensityUtil.dip2Px(15);
             params.topMargin = DensityUtil.dip2Px(6);
             params.bottomMargin = DensityUtil.dip2Px(6);

@@ -155,7 +155,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
                 //万家丽路960号
                 map.put("addressDetail",detailAddr );
                 map.put("zipCode", 231343 + "");
-                map.put("isDefault", 1 + "");
+                map.put("isDefault", 0 + "");
 
                 Log.d("AddressAddFragment", "name=" + map.get("name") + "phone=" + map.get("phoneNumber") + "detailAddr=" + map.get("addressDetail"));
                 return map;

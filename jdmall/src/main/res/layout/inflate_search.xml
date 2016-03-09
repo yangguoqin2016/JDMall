@@ -38,7 +38,7 @@
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:layout_marginRight="60dp"
+                    android:layout_marginRight="10dp"
                     android:src="@mipmap/lishishousuo_xialajiantou"/>
 
                 <ImageView

@@ -7,10 +7,11 @@
 
     <ImageView
         android:id="@+id/search_result_empty_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerInParent="true"
-        android:src="@mipmap/shousuowujieguo_wujieguotupian"
+        android:scaleType="center"
+        android:background="@mipmap/shousuowujieguo_wujieguotupian"
         />
     <TextView
         android:layout_below="@id/search_result_empty_iv"
@@ -18,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textColor="#FF232425"
         android:text="客官,您要的没有T_T~~~"
         />

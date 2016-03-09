@@ -1,5 +1,7 @@
 package com.onlyone.jdmall.utils;
 
+import android.util.TypedValue;
+
 /**
  * 项目名:	JDMall<br/>
  * 包名:		com.onlyone.jdmall.utils<br/>
@@ -31,5 +33,16 @@ public final class DensityUtil {
 	public static int px2Dip(float pxValue) {
 		final float scale = ResUtil.getResource().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
+	}
+
+
+	/**
+	 * px转为sp.设置文本大小方面
+	 * @param pxValue
+	 * @return
+	 */
+	public static float px2Sp(float pxValue){
+		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, pxValue,
+											   ResUtil.getResource().getDisplayMetrics());
 	}
 }

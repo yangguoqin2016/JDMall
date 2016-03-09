@@ -22,11 +22,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ProductDetailBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Serialize;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 import com.onlyone.jdmall.utils.SerializeUtil;
 import com.onlyone.jdmall.utils.UserLoginUtil;
 import com.onlyone.jdmall.view.ProductDialog;
@@ -342,6 +344,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                System.out.println("s====="+s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     String result  = (String) jsonObject.get("response");
@@ -361,11 +364,15 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         }){
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map = new HashMap<>();
-                map.put("userid",UserLoginUtil.getLoginUser());
-                return map;
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<>();
+
+                SPUtil spUtil = new SPUtil(ResUtil.getContext());
+                String userid = spUtil.getLong(SP.USERID,0)+"";
+                headers.put("userid", userid);
+                return headers;
             }
+
         };
 
         queue.add(request);

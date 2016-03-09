@@ -140,8 +140,8 @@
                       android:layout_marginLeft="10dp"
                       android:layout_marginTop="10dp"
                       android:text="品牌特卖"
-                      android:textColor="#dd000000"
-                      android:textSize="16sp"/>
+                      android:textColor="#dde60909"
+                      android:textSize="20sp"/>
 
             <ImageView
                 android:layout_width="match_parent"

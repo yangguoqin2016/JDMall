@@ -321,10 +321,10 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             Picasso.with(ResUtil.getContext()).load(imageUrl).into(holder.image);
 
 
-/*            //解决图片压缩失真问题
-            RatioLayout rl = new RatioLayout(ResUtil.getContext());
+            //解决图片压缩失真问题
+/*            RatioLayout rl = new RatioLayout(ResUtil.getContext());
             rl.setCurState(RatioLayout.RELATIVE_WIDTH);
-            float ratio = 224 / 340f;
+            float ratio = 1.58f;
             rl.setRatio(ratio);
             int width = getResources().getDisplayMetrics().widthPixels;
             int height = RelativeLayout.LayoutParams.WRAP_CONTENT;
@@ -479,11 +479,6 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             BrandBean.BrandList brandList = mBrandBean.getBrand().get(position);
             String key = brandList.getKey();
             holder.tv.setText(key);
-
-/*            holder.tv.setTextSize(DensityUtil.dip2Px(15));
-            holder.tv.setGravity(Gravity.CENTER);
-            int left = DensityUtil.dip2Px(10);
-            holder.tv.setPadding(left, left, left, left);*/
 
             if(mCurrentItem == position){
                 holder.tv.setBackgroundColor(Color.parseColor("#800E1F"));

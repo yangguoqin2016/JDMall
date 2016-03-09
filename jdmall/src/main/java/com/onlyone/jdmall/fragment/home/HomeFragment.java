@@ -1,10 +1,10 @@
 package com.onlyone.jdmall.fragment.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
@@ -283,6 +283,8 @@ public class HomeFragment extends BaseFragment<Object>
         TextView tv = new TextView(ResUtil.getContext());
         tv.setText("加载数据失败,请检查下你的网络..");
         tv.setGravity(Gravity.CENTER);
+        tv.setTextColor(Color.BLACK);
+
         rootView.addView(tv);
     }
 

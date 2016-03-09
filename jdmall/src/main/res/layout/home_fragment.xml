@@ -157,10 +157,42 @@
                 android:flipInterval="1600"></ViewFlipper>
         </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/home_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_guess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="猜你喜欢"
+                android:textColor="#aaffffff" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="2dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/tv_guess"
+                android:background="#aaffffff" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="2dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/tv_guess"
+                android:background="#aaffffff"
+                />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/home_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 </ScrollView>

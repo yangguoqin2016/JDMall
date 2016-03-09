@@ -1,9 +1,7 @@
 package com.onlyone.jdmall.fragment;
 
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -67,14 +65,8 @@ public class MineUserFeedbackFragment extends BaseFragment<Object> implements Vi
         UIUtil.getUiHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMainActivity = (MainActivity) getActivity();
-                mManager = mMainActivity.getSupportFragmentManager();
-                FragmentTransaction transaction = mManager.beginTransaction();
-                Fragment fragment = mManager.findFragmentByTag(MineFragment.TAG_USERFEEDBACK_FRAGMENT);
-                transaction.remove(fragment);
-                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_mine);
-                transaction.commit();
+                ((HolderFragment)getParentFragment()).goBack();
             }
-        }, 1500);
+        }, 1000);
     }
 }

@@ -180,7 +180,7 @@ public class MineHelpFragment extends BaseFragment<Object> implements View.OnCli
     public void onPause() {
         super.onPause();
         LogUtil.i("ninini", "MineAboutFragment----onPause");
-        mMainActivity.setHideTopBar(true);
+        //mMainActivity.setHideTopBar(true);
     }
 
     @Override

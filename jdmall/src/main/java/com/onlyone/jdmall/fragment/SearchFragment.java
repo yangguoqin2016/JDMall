@@ -419,7 +419,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
 
     public float getTextSizeByDensity(){
         float size = 0;
-        LogUtil.d("density", DensityUtil.getDensity());
         switch ((int) DensityUtil.getDensityDpi()) {
             case 120:
                 size = 20;

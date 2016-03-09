@@ -91,7 +91,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
         mLoginTvRegist.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((HolderFragment) getParentFragment()).goBack();
+				((HolderFragment) getParentFragment()).goForward(new RegisterFragment());
 			}
 		});
 

@@ -3,6 +3,7 @@ package com.onlyone.jdmall.fragment;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +38,7 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
  * @创建时间: 2016/3/5 11:36
  * @描述: 这是主页点击促销快报后跳转的, 促销快报页面
  */
-public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> implements View.OnClickListener {
+public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> implements View.OnClickListener, AdapterView.OnItemClickListener {
     @Bind(R.id.fastsale_gird_r1_left)
     ImageView      mFastsaleGridR1Left;
     @Bind(R.id.fastsale_gird_r1_right)
@@ -97,18 +98,6 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
 
         //使用Picasso添加了两个地址,第一次使用的时候会访问网络,匹配后以后则不会访问网络
         //第一行两个
-        System.out.println("地址:"+ Url.ADDRESS_SERVER +data.topic.get(0).pic);
-        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(1).pic);
-        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(2).pic);
-        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(3).pic);
-        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(4).pic);
-        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(5).pic);
-        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(6).pic);
-        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(7).pic);
-
-
-
-
         Picasso.with(getContext()).load(Url.ADDRESS_SERVER + data.topic.get(0).pic)
                 .transform(new CropCircleTransformation()).into(mFastsaleGridR1Left);
         Picasso.with(getContext()).load(Url.ADDRESS_SERVER + data.topic.get(1).pic)
@@ -134,7 +123,7 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
 
         mDataList = data.topic;
         mFastsale_listView.setAdapter(new PicAdapter());
-
+        mFastsale_listView.setOnItemClickListener(this);
     }
 
     @Override
@@ -197,9 +186,6 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
             public void onClick(View v) {
 
                 //当组图按钮点击时的回调
-                Toast.makeText(ResUtil.getContext(), "点击了图标", Toast.LENGTH_SHORT)
-                        .show();
-
                 //如果当前显示的是listView，就显示gridview。否则相反
                 mFastsale_listView.setVisibility(isShowList
                         ? View.GONE
@@ -209,16 +195,14 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
                         : View.GONE);
 
                 //改变图标
-                mTypeIv.setImageResource(isShowList
+                mTypeIv.setBackgroundResource(isShowList
                         ? R.drawable.icon_pic_grid_type
                         : R.drawable.icon_pic_list_type);
 
-                //该变状态
+                //改变状态
                 isShowList = !isShowList;
             }
         });
-
-
 
         mActivity.setTopBarView(mTopBarView);
         //点击返回图片返回首页
@@ -231,7 +215,9 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
                 });
     }
 
-
+    /**
+     * list风格的时候的适配器数据处理
+     */
     private class PicAdapter extends BaseAdapter {
 
         @Override
@@ -280,13 +266,11 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
             holder.tvTitle.setText(bean.name);
 
             //处理图片变形
+            int width = getResources().getDisplayMetrics().widthPixels;
             RatioLayout rl = new RatioLayout(ResUtil.getContext());
             rl.setCurState(RatioLayout.RELATIVE_WIDTH);
-            float ratio = 224 / 340f;
+            float ratio = 240/140f;
             rl.setRatio(ratio);
-            int width = getResources().getDisplayMetrics().widthPixels;
-            int height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
 
 
             return convertView;
@@ -298,8 +282,6 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
         TextView  tvTitle;
     }
 
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -309,24 +291,38 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
 
     @Override
     public void onClick(View v) {
-
-
-
-
         switch (v.getId()) {
 
             default:
-                Random random = new Random();
-                int id = random.nextInt(9);
-                System.out.println("点击了");
-                Intent intent = new Intent(ResUtil.getContext(), ProductDetailActivity.class);
-                intent.putExtra("id", id);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ResUtil.getContext().startActivity(intent);
+                changePager();
                 break;
         }
-
     }
+
+    /**
+     * listview的条目点击跳转
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        changePager();
+    }
+
+    /**
+     * 跳转页面
+     */
+    private void changePager() {
+        Random random = new Random();
+        int id = random.nextInt(9);
+        Intent intent = new Intent(ResUtil.getContext(), ProductDetailActivity.class);
+        intent.putExtra("id", id);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ResUtil.getContext().startActivity(intent);
+    }
+
 
 
 }

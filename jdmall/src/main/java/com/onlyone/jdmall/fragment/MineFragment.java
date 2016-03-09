@@ -333,7 +333,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
      *  @param fragment
      * @param tag
 	 */
-    private void changeFragment(BaseFragment fragment, String tag) {
+    public  void changeFragment(BaseFragment fragment, String tag) {
         /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fl_content_container, fragment, tag);

@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
 	}
 
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

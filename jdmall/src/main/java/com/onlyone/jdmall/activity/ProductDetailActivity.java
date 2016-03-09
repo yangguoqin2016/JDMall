@@ -252,8 +252,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         boolean isColorSelected = mPropertyBeanArr[0].isSelected;
         boolean isSizeSelected = mPropertyBeanArr[1].isSelected;
 
-        System.out.println("isColorSelected=" + isColorSelected);
-        System.out.println("isSizeSelected=" + isSizeSelected);
+       // System.out.println("isColorSelected=" + isColorSelected);
+       // System.out.println("isSizeSelected=" + isSizeSelected);
 
         String color = mPropertyBeanArr[0].v;
         String size = mPropertyBeanArr[1].v;
@@ -298,6 +298,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             case R.id.product_detail_store:
                 if(!UserLoginUtil.isLogin()) {
                     Toast.makeText(this, "您还未登录~", Toast.LENGTH_SHORT).show();
+                    switchToLoginActivity();
                 }else{
 
                     saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_STORE);
@@ -330,6 +331,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         if(!UserLoginUtil.isLogin()) {
             Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
+            switchToLoginActivity();
+
         }else{
 
             Toast.makeText(ResUtil.getContext(), "立即进入结算中心购买", Toast.LENGTH_SHORT).show();
@@ -368,6 +371,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
 
             //TODO:跳转登录页面
+            switchToLoginActivity();
 
         } else {
             String userName = UserLoginUtil.getLoginUser();
@@ -443,6 +447,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
         }
+    }
+
+    /**
+     * 跳转到ExtraLoginActivity
+     */
+    public void switchToLoginActivity(){
+
+       startActivity(new Intent(this,ExtraLoginActivity.class));
+
     }
 
 

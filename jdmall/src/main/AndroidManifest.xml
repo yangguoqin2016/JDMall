@@ -30,7 +30,8 @@
         </activity>
         <activity android:name=".activity.ProductDesActivity">
         </activity>
-
+        <activity android:name=".activity.ExtraLoginActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -177,6 +177,8 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
     }
 
+    private int mCurrentItem = 0;
+
     /**
      * 加载品牌列表
      *
@@ -290,6 +292,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+
             ViewHolder holder = null;
             if (convertView == null) {
                 convertView = View.inflate(ResUtil.getContext(), R.layout.item_brand_gridview, null);
@@ -346,6 +349,8 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         TextView tv = new TextView(ResUtil.getContext());
         tv.setText("加载数据失败,请检查下你的网络..");
         tv.setGravity(Gravity.CENTER);
+        tv.setTextColor(Color.BLACK);
+        tv.setTextSize(DensityUtil.dip2Px(15));
         rootView.addView(tv);
     }
 
@@ -447,12 +452,19 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             BrandBean.BrandList brandList = mBrandBean.getBrand().get(position);
             String key = brandList.getKey();
             holder.tv.setText(key);
-            holder.tv.setTextColor(Color.BLACK);
+
             holder.tv.setTextSize(DensityUtil.dip2Px(15));
             holder.tv.setGravity(Gravity.CENTER);
-            holder.tv.setBackgroundResource(R.drawable.selector_brand_tv_bg);
             int left = DensityUtil.dip2Px(10);
             holder.tv.setPadding(left, left, left, left);
+
+            if(mCurrentItem == position){
+                holder.tv.setBackgroundColor(Color.RED);
+                holder.tv.setTextColor(Color.WHITE);
+            }else{
+                holder.tv.setBackgroundColor(Color.TRANSPARENT);
+                holder.tv.setTextColor(Color.BLACK);
+            }
 
             return convertView;
         }
@@ -524,6 +536,8 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        mCurrentItem = position;
 
         List<BrandBean.BrandList.BrandValue> brandValues = mDataList.get(position);
 

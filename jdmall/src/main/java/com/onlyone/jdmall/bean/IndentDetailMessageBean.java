@@ -16,10 +16,14 @@ public class IndentDetailMessageBean {
     public DeliveryInfoBean      deliveryInfo;
     public InvoiceInfoBean       invoiceInfo;
     public List<ProductListBean> productList;
-    public List<String> checkoutProm;
+    public List<String> prom;
     public CheckoutAddupBean checkoutAddup;
+    public PaymentInfoBean paymentInfo;
 
 
+    public class PaymentInfoBean{
+       public int type;
+    }
     public class OrderInfoBean {
         public long   orderId;
         public String status;

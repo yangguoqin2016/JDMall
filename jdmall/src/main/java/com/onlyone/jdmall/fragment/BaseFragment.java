@@ -31,9 +31,11 @@ public abstract class BaseFragment<T> extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
+		MainActivity mainActivity = (MainActivity) getActivity();
 		if (!(this instanceof MineFragment)) {
-			MainActivity mainActivity = (MainActivity) getActivity();
 			mainActivity.setHideTopBar(false);
+		} else {
+			mainActivity.setHideTopBar(true);
 		}
 		mLoadPager = new LoadPager<T>(getActivity()) {
 			@Override

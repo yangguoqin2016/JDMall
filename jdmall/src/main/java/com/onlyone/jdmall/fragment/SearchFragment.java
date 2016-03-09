@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
@@ -69,7 +70,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
     public static View mTopBar;
     private boolean mIsHotArrowOpen = true;
     private ArrayList<String> mHistoryList;
-    private boolean mIsHistoryArrowOpen = true;
     private HistoryAdapter mAdapter;
 
     @Override
@@ -194,6 +194,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
      */
     @Override
     public void onResume() {
+        mIsHotArrowOpen = true;
         initTopBar();
         LogUtil.d("vivi", "onResume方法被调用了--------");
         super.onResume();
@@ -248,7 +249,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
             case R.id.item_hot_arrow:// 热门搜索的箭头
                 mSearchHotItemContainer.measure(0, 0);
                 int start = mSearchHotItemContainer.getMeasuredHeight();
-                int end =  0;
+                int end = 0;
                 if (mIsHotArrowOpen) {
                     // 当前状态是打开,就折叠
                     doAnimationByHot(start, end);
@@ -395,10 +396,33 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int value = (int) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = mSearchHotItemContainer.getLayoutParams();
-                layoutParams.height = value;
-                mSearchHotItemContainer.setLayoutParams(layoutParams);
+                    int value = (int) valueAnimator.getAnimatedValue();
+                if (mSearchHotItemContainer != null) {
+                    ViewGroup.LayoutParams layoutParams = mSearchHotItemContainer.getLayoutParams();
+                    layoutParams.height = value;
+                    mSearchHotItemContainer.setLayoutParams(layoutParams);
+                }
+            }
+        });
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
             }
         });
         valueAnimator.start();

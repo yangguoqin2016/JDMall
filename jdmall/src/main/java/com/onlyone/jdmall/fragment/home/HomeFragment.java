@@ -480,46 +480,4 @@ public class HomeFragment extends BaseFragment<Object>
         mMainActivity.setTopBarView(titlBar);
     }
 
-
-//    private class HomeGridViewAdapter extends BaseAdapter{
-//
-//        @Override
-//        public int getCount() {
-//            if(mProductList != null){
-//                return mProductList.size();
-//            }
-//            return 0;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ViewHolder holder = null;
-//            if(convertView == null){
-//                holder = new ViewHolder();
-//                convertView = View.inflate(ResUtil.getContext(), R.layout.home_gv_item, null);
-//                holder.iv = (ImageView) convertView.findViewById(R.id.home_gv_item_iv);
-//                convertView.setTag(holder);
-//            }else{
-//                holder = (ViewHolder) convertView.getTag();
-//            }
-//
-//            String url = Url.ADDRESS_SERVER+mProductList.get(position).pic;
-//            LogUtil.d("vovo","url = "+url);
-//            Picasso.with(ResUtil.getContext()).load(url).into(holder.iv);
-//            return convertView;
-//        }
-//        public class ViewHolder{
-//            ImageView iv;
-//        }
-//    }
 }

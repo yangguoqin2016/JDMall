@@ -546,7 +546,12 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> implements View.
 		}
 
 		public boolean isEmpty() {
-			return mName.isEmpty() && mNumber.isEmpty() && mAddress.isEmpty();
+			return mName == null
+					|| mNumber == null
+					|| mAddress == null
+					|| mName.isEmpty()
+					&& mNumber.isEmpty()
+					&& mAddress.isEmpty();
 		}
 	}
 }

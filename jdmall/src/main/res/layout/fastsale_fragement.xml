@@ -8,393 +8,407 @@
     android:orientation="vertical"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="20dp">
+        android:layout_height="match_parent">
 
-        <!--这是第一行-->
-        <RelativeLayout
-            android:id="@+id/fastsale_listview_r1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <com.onlyone.jdmall.view.ListViewForScrollView
+            android:id="@+id/fastsale_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-            <!--第一行第一个-->
-            <RelativeLayout
-                android:id="@+id/fastsale_listview_r1_left_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        </com.onlyone.jdmall.view.ListViewForScrollView>
 
-                <ImageView
-                    android:id="@+id/fastsale_listview_r1_left"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:background="@mipmap/neirong_yuan_tiaozhuan"
-                    />
-
-                <!--以下是显示字体的块状布局-->
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.6"
-                        android:background="#CAFF00"/>
-
-                    <TextView
-                        android:id="@+id/fastsale_listview_r1_left_text_top"
-                        android:layout_width="80dp"
-                        android:layout_height="20dp"
-                        android:text="任性单品"
-                        android:textColor="#fff"
-                        android:textSize="15sp"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="20dp"
-                        android:layout_below="@+id/fastsale_listview_r1_left_text_top"
-                        android:text="8折优惠"
-                        android:textColor="#fff"
-                        android:textSize="13sp"/>
-                </RelativeLayout>
-            </RelativeLayout>
-
-
-            <!--第一行第二个-->
-            <RelativeLayout
-                android:id="@+id/fastsale_listview_r1_right_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/fastsale_listview_r1_right"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@mipmap/neirong_yuan_tiaozhuan"
-                    />
-                <!--以下是显示字体的块状布局-->
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.6"
-                        android:background="#CC0000"/>
-
-                    <TextView
-                        android:id="@+id/fastsale_listview_r1_right_text_top"
-                        style="@style/fastsale_text_top"
-                        android:text="任性单品"
-                        />
-
-                    <TextView
-                        style="@style/fastsale_text_bottom"
-                        android:layout_below="@+id/fastsale_listview_r1_right_text_top"
-                        android:text="8折优惠"/>
-                </RelativeLayout>
-            </RelativeLayout>
-        </RelativeLayout>
-
-
-        <!--这是第二行-->
-        <RelativeLayout
-            android:id="@+id/fastsale_listview_r2"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/fastsale_gridview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
+            android:visibility="visible">
 
-            <!--第二行第一个-->
+            <!--这是第一行-->
             <RelativeLayout
-                android:id="@+id/fastsale_listview_r2_left_container"
+                android:id="@+id/fastsale_gird_r1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/fastsale_listview_r2_left"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:background="@mipmap/neirong_yuan_tiaozhuan"
-                    />
-
-                <!--以下是显示字体的块状布局-->
+                <!--第一行第一个-->
                 <RelativeLayout
+                    android:id="@+id/fastsale_gird_r1_left_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.6"
-                        android:background="#44CC00"/>
+                        android:id="@+id/fastsale_gird_r1_left"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:background="@mipmap/neirong_yuan_tiaozhuan"
+                        />
 
-                    <TextView
-                        android:id="@+id/fastsale_listview_r2_left_text_top"
-                        android:layout_width="80dp"
-                        android:layout_height="20dp"
-                        android:text="任性单品"
-                        android:textColor="#fff"
-                        android:textSize="15sp"
-                        android:textStyle="bold"/>
+                    <!--以下是显示字体的块状布局-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="20dp"
-                        android:layout_below="@+id/fastsale_listview_r2_left_text_top"
-                        android:text="8折优惠"
-                        android:textColor="#fff"
-                        android:textSize="13sp"/>
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:alpha="0.6"
+                            android:background="#CAFF00"/>
+
+                        <TextView
+                            android:id="@+id/fastsale_gird_r1_left_text_top"
+                            android:layout_width="80dp"
+                            android:layout_height="20dp"
+                            android:text="任性单品"
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="20dp"
+                            android:layout_below="@+id/fastsale_gird_r1_left_text_top"
+                            android:text="8折优惠"
+                            android:textColor="#fff"
+                            android:textSize="13sp"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <!--第一行第二个-->
+                <RelativeLayout
+                    android:id="@+id/fastsale_gird_r1_right_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/fastsale_gird_r1_right"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@mipmap/neirong_yuan_tiaozhuan"
+                        />
+                    <!--以下是显示字体的块状布局-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:alpha="0.6"
+                            android:background="#CC0000"/>
+
+                        <TextView
+                            android:id="@+id/fastsale_gird_r1_right_text_top"
+                            style="@style/fastsale_text_top"
+                            android:text="任性单品"
+                            />
+
+                        <TextView
+                            style="@style/fastsale_text_bottom"
+                            android:layout_below="@+id/fastsale_gird_r1_right_text_top"
+                            android:text="8折优惠"/>
+                    </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
 
 
-            <!--第二行第二个-->
+            <!--这是第二行-->
             <RelativeLayout
-                android:id="@+id/fastsale_listview_r2_right_container"
+                android:id="@+id/fastsale_gird_r2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp">
 
-                <ImageView
-                    android:id="@+id/fastsale_listview_r2_right"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@mipmap/neirong_yuan_tiaozhuan"
-                    />
-                <!--以下是显示字体的块状布局-->
+                <!--第二行第一个-->
                 <RelativeLayout
+                    android:id="@+id/fastsale_gird_r2_left_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.6"
-                        android:background="#8877DD"/>
-
-                    <TextView
-                        android:id="@+id/fastsale_listview_r2_right_text_top"
-                        style="@style/fastsale_text_top"
-                        android:text="任性单品"
+                        android:id="@+id/fastsale_gird_r2_left"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:background="@mipmap/neirong_yuan_tiaozhuan"
                         />
 
-                    <TextView
-                        style="@style/fastsale_text_bottom"
-                        android:layout_below="@+id/fastsale_listview_r2_right_text_top"
-                        android:text="8折优惠"/>
+                    <!--以下是显示字体的块状布局-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:alpha="0.6"
+                            android:background="#44CC00"/>
+
+                        <TextView
+                            android:id="@+id/fastsale_gird_r2_left_text_top"
+                            android:layout_width="80dp"
+                            android:layout_height="20dp"
+                            android:text="任性单品"
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="20dp"
+                            android:layout_below="@+id/fastsale_gird_r2_left_text_top"
+                            android:text="8折优惠"
+                            android:textColor="#fff"
+                            android:textSize="13sp"/>
+                    </RelativeLayout>
                 </RelativeLayout>
-            </RelativeLayout>
-        </RelativeLayout>
 
 
-        <!--这是第三行-->
-        <RelativeLayout
-            android:id="@+id/fastsale_listview_r3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp">
-
-            <!--第三行第一个-->
-            <RelativeLayout
-                android:id="@+id/fastsale_listview_r3_left_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/fastsale_listview_r3_left"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:background="@mipmap/neirong_yuan_tiaozhuan"
-                    />
-
-                <!--以下是显示字体的块状布局-->
+                <!--第二行第二个-->
                 <RelativeLayout
+                    android:id="@+id/fastsale_gird_r2_right_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.6"
-                        android:background="#CAFF00"/>
-
-                    <TextView
-                        android:id="@+id/fastsale_listview_r3_left_text_top"
-                        style="@style/fastsale_text_top"
-                        android:text="任性单品"
+                        android:id="@+id/fastsale_gird_r2_right"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@mipmap/neirong_yuan_tiaozhuan"
                         />
+                    <!--以下是显示字体的块状布局-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        style="@style/fastsale_text_bottom"
-                        android:layout_below="@+id/fastsale_listview_r3_left_text_top"
-                        android:text="8折优惠"
-                        />
-                </RelativeLayout>
-            </RelativeLayout>
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:alpha="0.6"
+                            android:background="#8877DD"/>
 
+                        <TextView
+                            android:id="@+id/fastsale_gird_r2_right_text_top"
+                            style="@style/fastsale_text_top"
+                            android:text="任性单品"
+                            />
 
-            <!--第三行第二个-->
-            <RelativeLayout
-                android:id="@+id/fastsale_listview_r3_right_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/fastsale_listview_r3_right"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@mipmap/neirong_yuan_tiaozhuan"
-                    />
-                <!--以下是显示字体的块状布局-->
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.6"
-                        android:background="#44CC11"/>
-
-                    <TextView
-                        android:id="@+id/fastsale_listview_r3_right_text_top"
-                        style="@style/fastsale_text_top"
-                        android:text="任性单品"
-                        />
-
-                    <TextView
-                        style="@style/fastsale_text_bottom"
-                        android:layout_below="@+id/fastsale_listview_r3_right_text_top"
-                        android:text="8折优惠"/>
-                </RelativeLayout>
-            </RelativeLayout>
-        </RelativeLayout>
-
-
-        <!--这是第四行-->
-        <RelativeLayout
-            android:paddingBottom="10dp"
-            android:id="@+id/fastsale_listview_r4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="15dp">
-
-            <!--第四行第一个-->
-            <RelativeLayout
-                android:id="@+id/fastsale_listview_r4_left_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/fastsale_listview_r4_left"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:background="@mipmap/neirong_yuan_tiaozhuan"
-                    />
-
-                <!--以下是显示字体的块状布局-->
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.6"
-                        android:background="#00FF00"/>
-
-                    <TextView
-                        android:id="@+id/fastsale_listview_r4_left_text_top"
-                        style="@style/fastsale_text_top"
-                        android:text="任性单品"
-                        />
-
-                    <TextView
-                        style="@style/fastsale_text_bottom"
-                        android:layout_below="@+id/fastsale_listview_r4_left_text_top"
-                        android:text="8折优惠"
-                        />
+                        <TextView
+                            style="@style/fastsale_text_bottom"
+                            android:layout_below="@+id/fastsale_gird_r2_right_text_top"
+                            android:text="8折优惠"/>
+                    </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
 
 
-            <!--第四行第二个-->
+            <!--这是第三行-->
             <RelativeLayout
-                android:id="@+id/fastsale_listview_r4_right_container"
+                android:id="@+id/fastsale_gird_r3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp">
 
-                <ImageView
-                    android:id="@+id/fastsale_listview_r4_right"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@mipmap/neirong_yuan_tiaozhuan"
-                    />
-                <!--以下是显示字体的块状布局-->
+                <!--第三行第一个-->
                 <RelativeLayout
+                    android:id="@+id/fastsale_gird_r3_left_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.6"
-                        android:background="#BB4400"/>
-
-                    <TextView
-                        android:id="@+id/fastsale_listview_r4_right_text_top"
-                        style="@style/fastsale_text_top"
-                        android:text="任性单品"
+                        android:id="@+id/fastsale_gird_r3_left"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:background="@mipmap/neirong_yuan_tiaozhuan"
                         />
 
-                    <TextView
-                        style="@style/fastsale_text_bottom"
-                        android:layout_below="@+id/fastsale_listview_r4_right_text_top"
-                        android:text="8折优惠"/>
+                    <!--以下是显示字体的块状布局-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:alpha="0.6"
+                            android:background="#CAFF00"/>
+
+                        <TextView
+                            android:id="@+id/fastsale_gird_r3_left_text_top"
+                            style="@style/fastsale_text_top"
+                            android:text="任性单品"
+                            />
+
+                        <TextView
+                            style="@style/fastsale_text_bottom"
+                            android:layout_below="@+id/fastsale_gird_r3_left_text_top"
+                            android:text="8折优惠"
+                            />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <!--第三行第二个-->
+                <RelativeLayout
+                    android:id="@+id/fastsale_gird_r3_right_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/fastsale_gird_r3_right"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@mipmap/neirong_yuan_tiaozhuan"
+                        />
+                    <!--以下是显示字体的块状布局-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:alpha="0.6"
+                            android:background="#44CC11"/>
+
+                        <TextView
+                            android:id="@+id/fastsale_gird_r3_right_text_top"
+                            style="@style/fastsale_text_top"
+                            android:text="任性单品"
+                            />
+
+                        <TextView
+                            style="@style/fastsale_text_bottom"
+                            android:layout_below="@+id/fastsale_gird_r3_right_text_top"
+                            android:text="8折优惠"/>
+                    </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
-        </RelativeLayout>
 
 
-    </LinearLayout>
+            <!--这是第四行-->
+            <RelativeLayout
+                android:id="@+id/fastsale_gird_r4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="15dp">
 
+                <!--第四行第一个-->
+                <RelativeLayout
+                    android:id="@+id/fastsale_gird_r4_left_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/fastsale_gird_r4_left"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:background="@mipmap/neirong_yuan_tiaozhuan"
+                        />
+
+                    <!--以下是显示字体的块状布局-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:alpha="0.6"
+                            android:background="#00FF00"/>
+
+                        <TextView
+                            android:id="@+id/fastsale_gird_r4_left_text_top"
+                            style="@style/fastsale_text_top"
+                            android:text="任性单品"
+                            />
+
+                        <TextView
+                            style="@style/fastsale_text_bottom"
+                            android:layout_below="@+id/fastsale_gird_r4_left_text_top"
+                            android:text="8折优惠"
+                            />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <!--第四行第二个-->
+                <RelativeLayout
+                    android:id="@+id/fastsale_gird_r4_right_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/fastsale_gird_r4_right"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@mipmap/neirong_yuan_tiaozhuan"
+                        />
+                    <!--以下是显示字体的块状布局-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:alpha="0.6"
+                            android:background="#BB4400"/>
+
+                        <TextView
+                            android:id="@+id/fastsale_gird_r4_right_text_top"
+                            style="@style/fastsale_text_top"
+                            android:text="任性单品"
+                            />
+
+                        <TextView
+                            style="@style/fastsale_text_bottom"
+                            android:layout_below="@+id/fastsale_gird_r4_right_text_top"
+                            android:text="8折优惠"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

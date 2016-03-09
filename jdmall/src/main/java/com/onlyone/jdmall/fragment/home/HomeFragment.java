@@ -30,7 +30,7 @@ import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.adapter.StaggeredAdapter;
 import com.onlyone.jdmall.application.MyApplication;
 import com.onlyone.jdmall.bean.HomeBean;
-import com.onlyone.jdmall.bean.HotProductBean;
+import com.onlyone.jdmall.bean.LimitBuyBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.fragment.HolderFragment;
@@ -50,6 +50,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -92,7 +93,7 @@ public class HomeFragment extends BaseFragment<Object>
     private MainActivity mMainActivity;
     private View mAdView1;
     private View mAdView2;
-    private List<HotProductBean.ProductBean> mProductList;
+    private List<LimitBuyBean.LimitBuyItemBean> mProductList;
 //    private HomeGridViewAdapter mHomeGridViewAdapter;
 
 
@@ -146,7 +147,10 @@ public class HomeFragment extends BaseFragment<Object>
     }
 
     private void loadDataForRecyclerView() {
-        String url = Url.ADDRESS_SERVER + "/newproduct?page=0" + "&pageNum=8&orderby=saleDown";
+        Random random = new Random();
+        int page = random.nextInt(20);
+
+        String url = Url.ADDRESS_SERVER + "/limitbuy?page=" + page + "&pageNum=8";
         OkHttpClient okHttpClient = new OkHttpClient();
         com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder().url(url).get().build();
         Callback callback = new Callback() {
@@ -157,7 +161,6 @@ public class HomeFragment extends BaseFragment<Object>
 
             @Override
             public void onResponse(com.squareup.okhttp.Response response) throws IOException {
-                LogUtil.d("vovo", "====load success====");
                 parseResponse(response);
             }
         };
@@ -166,30 +169,26 @@ public class HomeFragment extends BaseFragment<Object>
 
     private void parseResponse(com.squareup.okhttp.Response response) {
         if (response.isSuccessful()) {
-            LogUtil.d("vovo", "====parse response====");
+            LogUtil.d("vovo", "====load success====");
             String result = null;
             try {
                 result = response.body().string();
+                LogUtil.d("vovo", "====result====" +result);
                 Gson gson = new Gson();
-                mProductList = gson.fromJson(result, HotProductBean.class).productList;
-//                MyApplication.sGlobalHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mHomeGridViewAdapter.notifyDataSetChanged();
-//                    }
-//                });\
+                mProductList = gson.fromJson(result, LimitBuyBean.class).productList;
+                LogUtil.d("vovo", "====productList size====" + mProductList.size());
+
                 MyApplication.sGlobalHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         ExStaggeredGridLayoutManager staggeredLayoutManager = new ExStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//                        mHomeRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
                         mHomeRecyclerView.setLayoutManager(staggeredLayoutManager);
                         StaggeredAdapter adapter = new StaggeredAdapter(mProductList, mHomeRecyclerView);
                         mHomeRecyclerView.setAdapter(adapter);
                     }
                 });
-                LogUtil.d("vovo", "====productList size====" + mProductList.size());
             } catch (IOException e) {
+                LogUtil.d("vovo", "====gson exception====" + e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -291,7 +290,7 @@ public class HomeFragment extends BaseFragment<Object>
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-		/*//页面销毁的时候，弹出所有的栈
+        /*//页面销毁的时候，弹出所有的栈
 		if (null != mMainActivity) {
 			FragmentManager manager = mMainActivity.getSupportFragmentManager();
 			for (int i = 0; i < manager.getBackStackEntryCount(); i++) {

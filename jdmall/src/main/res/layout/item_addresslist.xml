@@ -1,56 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="15dp"
-        android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/item_addresslist_tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="金正恩"
-        android:textColor="#000"
-        android:textSize="20sp"
-        />
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_margin="15dp"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/item_addresslist_tv_name"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="金正恩"
+			android:textColor="#000"
+			android:textSize="20sp"
+			/>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
 
 
-        <TextView
-            android:id="@+id/item_addresslist_tv_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="1233211234567"
-            android:textColor="#000"
-            android:textSize="18sp"
-            />
+			<TextView
+				android:id="@+id/item_addresslist_tv_num"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:text="1233211234567"
+				android:textColor="#000"
+				android:textSize="18sp"
+				/>
 
-        <ImageView
-            android:id="@+id/item_addresslist_iv_selected"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/selector_choose_bg"/>
-    </RelativeLayout>
+			<CheckBox
+				android:id="@+id/item_addresslist_iv_selected"
+				android:layout_width="22dp"
+				android:layout_height="22dp"
+				android:layout_alignParentRight="true"
+				android:layout_marginRight="20dp"
+				android:button="@null"
+				android:clickable="false"
+				android:focusable="false"
+				android:focusableInTouchMode="false"
+				android:background="@drawable/selector_choose_bg"/>
 
-    <TextView
-        android:id="@+id/item_addresslist_tv_position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textColor="#000"
-        android:singleLine="true"
-        android:text="朝鲜半岛平壤市解放路1号万花楼总部,"
-        android:textSize="18sp"
-        />
+			<!-- <ImageView
+					android:id="@+id/item_addresslist_iv_selected"
+					android:layout_width="22dp"
+					android:layout_height="22dp"
+					android:layout_alignParentRight="true"
+					android:layout_marginRight="20dp"
+					android:background="@drawable/selector_choose_bg"/>-->
+		</RelativeLayout>
 
-    </LinearLayout>
+		<TextView
+			android:id="@+id/item_addresslist_tv_position"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp"
+			android:singleLine="true"
+			android:text="朝鲜半岛平壤市解放路1号万花楼总部,"
+			android:textColor="#000"
+			android:textSize="18sp"
+			/>
+
+	</LinearLayout>
 </LinearLayout>

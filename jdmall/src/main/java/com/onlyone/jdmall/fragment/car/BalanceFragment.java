@@ -1,6 +1,7 @@
 package com.onlyone.jdmall.fragment.car;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -88,9 +89,10 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 	Button       mBtnBalanceCommit;
 	private String mUserId;
 
-	private int        mPayWay      = 1; //默认使用现金支付
-	private int        mDeliverTime = 1;//默认周一至周五送货
-	private TicketInfo mTicketInfo  = new TicketInfo(1, "二狗子", 1);//发票信息
+	private int         mPayWay      = 1; //默认使用现金支付
+	private int         mDeliverTime = 1;//默认周一至周五送货
+	private TicketInfo  mTicketInfo  = new TicketInfo(1, "二狗子", 1);//发票信息
+	private AddressInfo mAddressInfo = new AddressInfo();
 
 	public BalanceFragment() {
 		mSPUtil = new SPUtil(ResUtil.getContext());
@@ -98,10 +100,19 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 
 	@Override
 	protected void refreshSuccessView(CheckoutBean data) {
+
+		updateShowInfo();
+
 		mIvBalanceIntoaddress.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				AddressListFragment addressFragment = new AddressListFragment();
+				addressFragment.setOnResultBackListener(new OnResultBack() {
+					@Override
+					public void onResult(Object result) {
+						mAddressInfo = (AddressInfo) result;
+					}
+				});
 				goForward(addressFragment);
 			}
 		});
@@ -123,11 +134,11 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 				fragment.setOnResultBackListener(new OnResultBack() {
 					@Override
 					public void onResult(Object result) {
-						int time = (int) result;
-						if (time < 3) {
-							mDeliverTime = time;
+						int payWay = (int) result;
+						if (payWay < 3) {
+							mPayWay = payWay;
 						} else {
-							mDeliverTime = (time - 1);
+							mPayWay = (payWay - 1);
 						}
 						LogUtil.i(TAG, "当前选择的支付方式是:", mPayWay);
 					}
@@ -141,18 +152,18 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 			public void onClick(View v) {
 				DeliverFragment fragment = new DeliverFragment();
 				Bundle args = new Bundle();
-				args.putInt("deliverWay", mPayWay);
+				args.putInt("deliverWay", mDeliverTime);
 				fragment.setArguments(args);
 				fragment.setOnResultBackListener(new OnResultBack() {
 					@Override
 					public void onResult(Object result) {
-						int way = (int) result;
-						if (way < 3) {
-							mPayWay = way;
+						int time = (int) result;
+						if (time < 3) {
+							mDeliverTime = time;
 						} else {
-							mPayWay = (way - 1);
+							mDeliverTime = (time - 1);
 						}
-						LogUtil.i(TAG, "当前选择的送货时间是:", mPayWay);
+						LogUtil.i(TAG, "当前选择的送货时间是:", mDeliverTime);
 					}
 				});
 				goForward(fragment);
@@ -288,17 +299,111 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 			}
 		});
 
+		updateShowInfo();
 	}
 
 	@Override
 	protected void handleError(Exception e) {
-		Toast.makeText(BalanceFragment.this.getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(BalanceFragment.this.getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				SystemClock.sleep(1000);
+				goBack();
+			}
+		}).start();
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		ButterKnife.unbind(this);
+	}
+
+	/**
+	 * 更新界面显示信息
+	 */
+	public void updateShowInfo() {
+
+		if (mTvBalanceName != null) {
+			mTvBalanceName.setText(mAddressInfo.mName);
+		}
+
+		if (mTvBalanceAddress != null) {
+			mTvBalanceAddress.setText(mAddressInfo.mAddress);
+		}
+
+		if (mTvBalanceNumber != null) {
+			mTvBalanceNumber.setText(mAddressInfo.mNumber);
+		}
+
+		//更新显示信息
+		String payWay = "";
+		switch (mPayWay) {
+			case 1:
+				payWay = "货到付款-现金支付(货到付款)";
+				break;
+			case 2:
+				payWay = "货到付款-现金支付(Pos机支付)";
+				break;
+			case 3:
+				payWay = "提前支付-在线付款(支付宝支付)";
+				break;
+		}
+
+		if (mTvBalancePay != null) {
+			mTvBalancePay.setText(payWay);
+		}
+
+		String sendTime = "";
+		switch (mDeliverTime) {
+			case 1:
+				sendTime = "周一至周五送货";
+				break;
+			case 2:
+				sendTime = "双休日及公众假期送货";
+				break;
+			case 3:
+				sendTime = "时间不限,工作日双休日及公众假期均可送货";
+				break;
+		}
+
+		if (mTvBalanceTime != null) {
+			mTvBalanceTime.setText("送货时间" + sendTime);
+		}
+
+		String ticketHeader = "";
+		String ticketType = "";
+		switch (mTicketInfo.mTicketHeadType) {
+			case 1:
+				ticketHeader = "个人";
+				break;
+			case 2:
+				ticketHeader = "公司";
+				break;
+		}
+
+		switch (mTicketInfo.mTicketType) {
+			case 1:
+				ticketType = "图书";
+				break;
+			case 2:
+				ticketType = "服装";
+				break;
+			case 3:
+				ticketType = "耗材";
+				break;
+			case 4:
+				ticketType = "软件";
+				break;
+			case 5:
+				ticketType = "资料";
+				break;
+		}
+
+		if (mTvBalanceType != null) {
+			mTvBalanceType.setText(ticketHeader + "/" + ticketType);
+		}
 	}
 
 	public interface OnResultBack {
@@ -329,6 +434,21 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> {
 					", mTicketHeader='" + mTicketHeader + '\'' +
 					", mTicketType=" + mTicketType +
 					'}';
+		}
+	}
+
+	public static class AddressInfo {
+		public String mName;
+		public String mNumber;
+		public String mAddress;
+
+		public AddressInfo() {
+		}
+
+		public AddressInfo(String name, String number, String address) {
+			mName = name;
+			mNumber = number;
+			mAddress = address;
 		}
 	}
 }

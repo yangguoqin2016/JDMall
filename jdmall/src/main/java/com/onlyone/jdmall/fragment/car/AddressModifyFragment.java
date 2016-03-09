@@ -28,7 +28,6 @@ import com.onlyone.jdmall.bean.ProvinceBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
-import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.fragment.mine.AddressManagerFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.NetUtil;
@@ -320,8 +319,9 @@ public class AddressModifyFragment extends BaseFragment<Object> implements View.
     }
 
     private void changeFragment(BaseFragment fragment, String tag) {
-        HolderFragment parentFragmrnt = (HolderFragment) getParentFragment();
-        parentFragmrnt.goForward(fragment);
+        /*HolderFragment parentFragmrnt = (HolderFragment) getParentFragment();
+        parentFragmrnt.goForward(fragment);*/
+        goBack();
     }
 
     private void initProvinceSelect(View view) {

@@ -84,6 +84,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ProductDetailBean.ProductEntity mProductBean;
     private List<String>                    mPicUrls;
 
+    public static int mProductNum = 0;  //选中商品数量
+
     public static ProductDetailBean.ProductEntity.ProductPropertyBean[] mPropertyBeanArr = new ProductDetailBean.ProductEntity.ProductPropertyBean[2];
     private ProductDialog mProductDialog;
 
@@ -241,20 +243,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             }
         });
-
-/*        //利用接口回调监听ProductDialog关闭
-        mProductDialog.setOnDialogDismissListener(new ProductDialog.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                System.out.println("窗口关闭了###########");
-                boolean isColorSelected = mPropertyBeanArr[0].isSelected;
-                boolean isSizeSelected = mPropertyBeanArr[1].isSelected;
-
-                System.out.println("isColorSelected="+isColorSelected);
-                System.out.println("isSizeSelected="+isSizeSelected);
-
-            }
-        });*/
     }
 
     /*###############当ProductDialog中的颜色与尺寸发生改变时就调用该方法##############*/
@@ -383,7 +371,14 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         } else {
             String userName = UserLoginUtil.getLoginUser();
-            carModel.addToCar(userName, mProductId, productPros);
+
+            if(mProductNum == 0){
+                mProductNum = 1;
+            }
+            for (int i = 0; i < mProductNum; i++) {
+
+                carModel.addToCar(userName, mProductId, productPros);
+            }
             Toast.makeText(this, "已加入购物车", Toast.LENGTH_SHORT).show();
         }
     }

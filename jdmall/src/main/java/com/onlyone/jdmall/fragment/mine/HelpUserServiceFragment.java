@@ -27,11 +27,12 @@ import com.onlyone.jdmall.utils.ResUtil;
  */
 public class HelpUserServiceFragment extends BaseFragment<Object> implements View.OnClickListener {
 
-    private View            mSuccessView;
-    private MainActivity    mMainActivity;
-    private View            mTopBarView;
-    private TextView        mHelpBack;
-    private FragmentManager mManager;
+    private View             mSuccessView;
+    private MainActivity     mMainActivity;
+    private View             mTopBarView;
+    private TextView         mHelpBack;
+    private FragmentManager  mManager;
+    //private MineHelpFragment mMineHelpFragment;
 
     @Override
     public void onPause() {
@@ -53,12 +54,18 @@ public class HelpUserServiceFragment extends BaseFragment<Object> implements Vie
         mMainActivity = (MainActivity) getActivity();
         mMainActivity.setTopBarView(mTopBarView);
         mMainActivity.setHideTopBar(false);
+       /* if (mMineHelpFragment == null) {
+            mMineHelpFragment = new MineHelpFragment();
+        }
+        ((HolderFragment)getParentFragment()).goForward(mMineHelpFragment);*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
         View topBarView = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_sendway, null);
+        TextView tvTopTItle = (TextView) topBarView.findViewById(R.id.mine_tv_top_title);
+        tvTopTItle.setText("售后服务");
         mMainActivity = (MainActivity) getActivity();
         mMainActivity.setTopBarView(topBarView);
 

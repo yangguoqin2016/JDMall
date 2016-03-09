@@ -1,8 +1,5 @@
 package com.onlyone.jdmall.fragment.mine;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -10,7 +7,7 @@ import android.widget.TextView;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.fragment.BaseFragment;
-import com.onlyone.jdmall.fragment.MineFragment;
+import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
 
@@ -63,12 +60,13 @@ public class MineAboutFragment extends BaseFragment<Object> implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        FragmentManager manager = mMainActivity.getSupportFragmentManager();
+        /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = manager.findFragmentByTag(MineFragment.TAG_MINEABOUT_FRAGMENT);
         transaction.remove(fragment);
         mMainActivity.mRgBottomNav.check(R.id.rb_bottom_mine);
-        transaction.commit();
+        transaction.commit();*/
+        ((HolderFragment)getParentFragment()).goBack();
     }
 
     @Override

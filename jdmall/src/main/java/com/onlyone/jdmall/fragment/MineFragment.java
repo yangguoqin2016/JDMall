@@ -206,6 +206,10 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
     @Override
     public void onClick(View v) {
@@ -223,6 +227,11 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 //退出登录
                 break;
             case R.id.fragment_ll_mine_order://我的订单
+                if (mMyIndentFragment == null) {
+                    mMyIndentFragment = new MyIndentFragment();
+                }
+                changeFragment(mMyIndentFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
+
                 if (mMyIndentFragment == null) {
                     mMyIndentFragment = new MyIndentFragment();
                 }

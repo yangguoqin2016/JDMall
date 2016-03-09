@@ -29,7 +29,7 @@ import com.onlyone.jdmall.bean.IndentMesListBean;
 import com.onlyone.jdmall.bean.MyIndentBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
-import com.onlyone.jdmall.fragment.MineFragment;
+import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.fragment.SuperBaseFragment;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.holder.MyIndentHolder;
@@ -200,7 +200,7 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
                 netLoadData(getUrl(3, 0,10));
                 break;
             case R.id.myindent_back:
-                changeFragment(new MineFragment());
+                ((HolderFragment)getParentFragment()).goBack();
                 break;
         }
     }

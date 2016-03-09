@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
     <TextView
-        android:text="账户中心"
+        android:text="返回"
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
         android:textSize="15sp"

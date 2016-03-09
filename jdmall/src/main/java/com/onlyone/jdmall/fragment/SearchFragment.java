@@ -155,7 +155,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
             tv.setText(text);
             tv.setTextColor(Color.BLACK);
 
-            //TODO:屏幕适配问题
+            //TODO:屏幕适配
             tv.setTextSize(getTextSizeByDensity());
             int width = LinearLayout.LayoutParams.MATCH_PARENT;
             int height = LinearLayout.LayoutParams.WRAP_CONTENT;

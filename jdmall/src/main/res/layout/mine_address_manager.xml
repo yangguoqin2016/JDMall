@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#fff"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:orientation="vertical">
 
     <ListView
         android:id="@+id/mine_address_lv_container"
@@ -13,4 +13,30 @@
 
     </ListView>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/mine_address_ll_emptyview"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="您还没有添加任何地址"
+            android:textColor="#000"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/guide_more"
+            android:visibility="visible"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

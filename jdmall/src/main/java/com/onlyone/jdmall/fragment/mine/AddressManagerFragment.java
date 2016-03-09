@@ -45,23 +45,20 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
 
     private static final String ADDRESS_ADD_FRAGMENT       = "address_add_fragment";
     private static final String TAG_ADDRESSMODIFY_FRAGMENT = "tag_addressmodify_fragment";
-    private View         mSucessView;
-    private MainActivity mMainActivity;
-    private View         mTopBar;
-    private AddressBean  mAddressBean;
-    /*给四个不同的界面设置标记*/
-    private static final int ADDRESS_LIST_EMPTY   = 0;
-    private static final int ADDRESS_LIST_ADD     = 1;
-    private static final int ADDRESS_LIST         = 2;
-    private static final int ADDRESS_LIST_MANAGER = 3;
-    private static final int ADDRESS_LIST_MODIFY  = 4;
-    private static       int mCurrentPager        = -1;
+    private View               mSucessView;
+    private MainActivity       mMainActivity;
+    private View               mTopBar;
+    private AddressBean        mAddressBean;
     private AddressAddFragment mAddressAddFragment;
+    private View mEmptyView;
 
     @Override
     protected View loadSuccessView() {
         mSucessView = View.inflate(ResUtil.getContext(), R.layout.mine_address_manager, null);
 
+        mEmptyView = mSucessView.findViewById(R.id.mine_address_ll_emptyview);
+        /*默认不显示*/
+        mEmptyView.setVisibility(View.GONE);
         return mSucessView;
     }
 
@@ -113,12 +110,13 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
     @Override
     protected void refreshSuccessView(AddressBean data) {
         /*判断用户有没有添加地址*/
-        /*if(data.addressList.size()==0){
+        if(data.addressList.size()==0){
             showEmptyView();
             return;
-        }*/
+        }
         mAddressBean = data;
         ListView lvAddresses = (ListView) mSucessView.findViewById(R.id.mine_address_lv_container);
+
         lvAddresses.setAdapter(new AddressAdapter());
         /*设置点击监听*/
         lvAddresses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -133,9 +131,10 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
         });
     }
 
-    /*private void showEmptyView() {
-
-    }*/
+    /*地址列表为空时候的视图*/
+    private void showEmptyView() {
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void onResume() {

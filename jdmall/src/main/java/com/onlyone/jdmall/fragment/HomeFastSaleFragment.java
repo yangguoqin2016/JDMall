@@ -19,6 +19,7 @@ import com.onlyone.jdmall.bean.HomeFastSaleBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.view.ListViewForScrollView;
+import com.onlyone.jdmall.view.RatioLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -97,6 +98,16 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
         //使用Picasso添加了两个地址,第一次使用的时候会访问网络,匹配后以后则不会访问网络
         //第一行两个
         System.out.println("地址:"+ Url.ADDRESS_SERVER +data.topic.get(0).pic);
+        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(1).pic);
+        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(2).pic);
+        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(3).pic);
+        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(4).pic);
+        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(5).pic);
+        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(6).pic);
+        System.out.println("地址:" + Url.ADDRESS_SERVER + data.topic.get(7).pic);
+
+
+
 
         Picasso.with(getContext()).load(Url.ADDRESS_SERVER + data.topic.get(0).pic)
                 .transform(new CropCircleTransformation()).into(mFastsaleGridR1Left);
@@ -157,7 +168,6 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
     protected void handleError(Exception e) {
         //处理加载数据失败的异常
         Toast.makeText(getContext(), "数据加载失败", Toast.LENGTH_SHORT).show();
-
     }
 
 
@@ -268,6 +278,16 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
                     .load(url)
                     .into(holder.ivPic);
             holder.tvTitle.setText(bean.name);
+
+            //处理图片变形
+            RatioLayout rl = new RatioLayout(ResUtil.getContext());
+            rl.setCurState(RatioLayout.RELATIVE_WIDTH);
+            float ratio = 224 / 340f;
+            rl.setRatio(ratio);
+            int width = getResources().getDisplayMetrics().widthPixels;
+            int height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+
 
             return convertView;
         }

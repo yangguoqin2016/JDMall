@@ -59,7 +59,6 @@ public class RatioLayout extends FrameLayout {
             //使其强制贴合自己,避免有些事，子view使用wrap_content的属性或者100dp等具体值，导致失效
             measureChildrenInThisClass(selfWidth, selfHeight);
 
-
             //保存测量的结果
             setMeasuredDimension(selfWidth, selfHeight);
         } else if (heightMode == MeasureSpec.EXACTLY && mCurState == RELATIVE_WIDTH) {

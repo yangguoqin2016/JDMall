@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-    android:padding="8dp">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/item_pic_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="4dp"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/item_pic_iv_pic"
+        <com.onlyone.jdmall.view.RatioLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:id="@+id/item_pic_iv_pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </com.onlyone.jdmall.view.RatioLayout>
 
         <TextView
             android:id="@+id/item_pic_tv_title"
@@ -25,5 +33,4 @@
     </LinearLayout>
 
 
-
-</RelativeLayout>
+</FrameLayout>

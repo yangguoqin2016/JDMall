@@ -70,7 +70,6 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
     public static View mTopBar;
     private boolean mIsHotArrowOpen = true;
     private ArrayList<String> mHistoryList;
-    private boolean mIsHistoryArrowOpen = true;
     private HistoryAdapter mAdapter;
 
     @Override
@@ -195,6 +194,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
      */
     @Override
     public void onResume() {
+        mIsHotArrowOpen = true;
         initTopBar();
         LogUtil.d("vivi", "onResume方法被调用了--------");
         super.onResume();

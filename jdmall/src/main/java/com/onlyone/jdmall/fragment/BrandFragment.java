@@ -467,13 +467,13 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             holder.tv.setText(key);
 
             if (mCurrentItem == position) {
-//                holder.tv.setBackgroundColor(Color.parseColor("#800E1F"));
-                holder.tv.setBackgroundResource(R.drawable.shape_brand_listview_selected);
+                holder.tv.setBackgroundColor(Color.parseColor("#800E1F"));
+//                holder.tv.setBackgroundResource(R.drawable.shape_brand_listview_selected);
                 holder.tv.setTextColor(Color.WHITE);
             } else {
                 holder.tv.setBackgroundColor(Color.TRANSPARENT);
                 holder.tv.setTextColor(Color.BLACK);
-                holder.tv.setBackgroundResource(R.drawable.shape_brand_listview_normal);
+//                holder.tv.setBackgroundResource(R.drawable.shape_brand_listview_normal);
             }
             return convertView;
         }

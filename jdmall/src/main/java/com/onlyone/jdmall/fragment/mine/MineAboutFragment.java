@@ -72,7 +72,7 @@ public class MineAboutFragment extends BaseFragment<Object> implements View.OnCl
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("aaa", "MineAboutFragment----onResume");
-        mMainActivity.setHideTopBar(true);
+        //Log.d("aaa", "MineAboutFragment----onResume");
+        //mMainActivity.setHideTopBar(true);
     }
 }

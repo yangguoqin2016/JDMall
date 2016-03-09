@@ -96,6 +96,11 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
         //拿加载成功返回的数据刷新页面
 
         //使用Picasso添加了两个地址,第一次使用的时候会访问网络,匹配后以后则不会访问网络
+        for(int i = 0;i<data.topic.size();i++){
+
+            System.out.println("地址:" + data.topic.get(i).pic);
+
+        }
         //第一行两个
         Picasso.with(getContext()).load(Url.ADDRESS_SERVER + data.topic.get(0).pic)
                 .transform(new CropCircleTransformation()).into(mFastsaleGridR1Left);
@@ -268,7 +273,7 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
             int width = getResources().getDisplayMetrics().widthPixels;
             RatioLayout rl = new RatioLayout(ResUtil.getContext());
             rl.setCurState(RatioLayout.RELATIVE_WIDTH);
-            float ratio = 240/140f;
+            float ratio = 1.0f;
             rl.setRatio(ratio);
 
 

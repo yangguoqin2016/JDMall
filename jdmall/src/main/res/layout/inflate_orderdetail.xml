@@ -24,11 +24,11 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
 
@@ -113,7 +113,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:padding="10dp">
 
                     <TextView
@@ -129,11 +128,17 @@
                         android:textColor="#000"/>
                 </LinearLayout>
 
-                <ListView
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/neirong_fengexian_shangmian175px_anniu_tiaozhuan"/>
+
+
+                <com.onlyone.jdmall.view.ListViewForScrollView
                     android:id="@+id/indentdetail_listview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </ListView>
+                    android:layout_height="match_parent">
+                </com.onlyone.jdmall.view.ListViewForScrollView>
 
                 <ImageView
                     android:layout_width="match_parent"

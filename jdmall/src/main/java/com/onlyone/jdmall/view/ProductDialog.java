@@ -2,7 +2,7 @@ package com.onlyone.jdmall.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.activity.ProductDetailActivity;
 import com.onlyone.jdmall.bean.ProductDetailBean;
 import com.onlyone.jdmall.constance.Url;
@@ -102,7 +103,8 @@ public class ProductDialog extends Dialog {
         WindowManager.LayoutParams attributes = getWindow().getAttributes();
         //设置窗口对齐方式
         attributes.gravity = Gravity.BOTTOM;
-        attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
+        //宽度用屏幕宽度
+        attributes.width = ResUtil.getContext().getResources().getDisplayMetrics().widthPixels;
         attributes.height = WindowManager.LayoutParams.MATCH_PARENT;
         //设置窗口属性
         getWindow().setAttributes(attributes);
@@ -191,14 +193,13 @@ public class ProductDialog extends Dialog {
         switch (view.getId()) {
             case R.id.product_dialog_dismiss:
                 dismiss();
-                /*###############接口回调将选中的颜色尺寸传回去##############*/
-                /*###################################*/
-              //TODO:  mDismissListener.onDismiss();
+                //Depricated:  mDismissListener.onDismiss();
                 break;
             case R.id.product_dialog_addcar:
                 addToCar();
                 break;
             case R.id.product_dialog_buy:
+                buyNow();
                 break;
             case R.id.product_dialog_num_reduce:
                 reduceNum();
@@ -210,6 +211,13 @@ public class ProductDialog extends Dialog {
     }
 
     /**
+     * 立即购买
+     */
+    private void buyNow() {
+
+    }
+
+    /**
      * 加入购物车
      */
     private void addToCar() {
@@ -217,15 +225,15 @@ public class ProductDialog extends Dialog {
         boolean isColorSelected = ProductDialog.mColorPropertyBean.isSelected;
         boolean isSizeSlected = ProductDialog.mSizePropertyBean.isSelected;
 
-        if(!isColorSelected && isSizeSlected) {
+        if (!isColorSelected && isSizeSlected) {
             Toast.makeText(ResUtil.getContext(), "请选择颜色", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(isColorSelected && !isSizeSlected) {
+        if (isColorSelected && !isSizeSlected) {
             Toast.makeText(ResUtil.getContext(), "请选择尺寸", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(!isColorSelected && !isSizeSlected) {
+        if (!isColorSelected && !isSizeSlected) {
             Toast.makeText(ResUtil.getContext(), "请选择颜色和尺寸", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -239,6 +247,21 @@ public class ProductDialog extends Dialog {
             Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
 
             //TODO:跳转登录页面,activity->fragment
+            //先跳转到MainActivity
+            Intent intent = new Intent(ResUtil.getContext(), MainActivity.class);
+            intent.putExtra("productDialog",1);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+       //     ResUtil.getContext().startActivity(intent);
+
+//            HolderFragment holderFragment = new HolderFragment() {
+//                @Override
+//                protected Fragment getChildFragment() {
+//                    return FragmentFactory.getFragment(4);
+//                }
+//            };
+//            LoginFragment loginFragment = new LoginFragment();
+//            holderFragment.goForward(loginFragment);
+
 
 
         } else {
@@ -348,32 +371,35 @@ public class ProductDialog extends Dialog {
         });
     }
 
-    /**
-     * 接口回调监听窗口关闭
-     *
-     * @param listener
-     */
-    @Override
-    public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
-        super.setOnDismissListener(listener);
-        mDismissListener.onDismiss();
-        System.out.println("窗口关闭了.......");
-
-    }
-
-    private OnDismissListener mDismissListener;
-
-    public interface OnDismissListener {
-        void onDismiss();
-    }
-
-    public void setOnDialogDismissListener(OnDismissListener listener) {
-        mDismissListener = listener;
-    }
+    //    /**
+    //     * 接口回调监听窗口关闭
+    //     *
+    //     * @param listener
+    //     */
+    //    @Override
+    //    public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
+    //        super.setOnDismissListener(listener);
+    //        mDismissListener.onDismiss();
+    //        System.out.println("窗口关闭了.......");
+    //
+    //    }
+    //
+    //    private OnDismissListener mDismissListener;
+    //
+    //    public interface OnDismissListener {
+    //        void onDismiss();
+    //    }
+    //
+    //    public void setOnDialogDismissListener(OnDismissListener listener) {
+    //        mDismissListener = listener;
+    //    }
 
 
 }
 
+/**
+ * 颜色与尺寸Adapter接收外界数据注入与对外提供回调接口
+ */
 class PropertyAdapter extends BaseAdapter {
 
     List<ProductDetailBean.ProductEntity.ProductPropertyBean> mDatas;
@@ -458,25 +484,25 @@ class PropertyAdapter extends BaseAdapter {
         String color = ProductDialog.mColorPropertyBean.v;
         String size = ProductDialog.mSizePropertyBean.v;
 
-        if(isColorSelected && isSizeSlected){
+        if (isColorSelected && isSizeSlected) {
             ProductDialog.mSelectColorSize.setText("已选择");
             ProductDialog.mSelectColor.setText(color);
             ProductDialog.mSelectSize.setText(size);
         }
 
-        if(isColorSelected && !isSizeSlected){
+        if (isColorSelected && !isSizeSlected) {
             ProductDialog.mSelectColorSize.setText("请选择");
             ProductDialog.mSelectColor.setText("");
             ProductDialog.mSelectSize.setText("尺寸");
         }
 
-        if(!isColorSelected && isSizeSlected) {
+        if (!isColorSelected && isSizeSlected) {
             ProductDialog.mSelectColorSize.setText("请选择");
             ProductDialog.mSelectColor.setText("颜色");
             ProductDialog.mSelectSize.setText("");
         }
 
-        if(!isColorSelected && !isSizeSlected) {
+        if (!isColorSelected && !isSizeSlected) {
             ProductDialog.mSelectColorSize.setText("请选择");
             ProductDialog.mSelectColor.setText("颜色");
             ProductDialog.mSelectSize.setText("尺寸");

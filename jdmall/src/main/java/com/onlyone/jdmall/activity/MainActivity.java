@@ -66,7 +66,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 		initView();
 		initEvent();
 		intData();
+
 	}
+
 
 	@Override
 	protected void onDestroy() {

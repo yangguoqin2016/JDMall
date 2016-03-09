@@ -22,6 +22,9 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ProductDetailBean;
 import com.onlyone.jdmall.constance.Serialize;
 import com.onlyone.jdmall.constance.Url;
+import com.onlyone.jdmall.fragment.HolderFragment;
+import com.onlyone.jdmall.fragment.LoginFragment;
+import com.onlyone.jdmall.fragment.MineFragment;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -65,9 +68,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView  mProductDetailLeftTime;
 
     /*--------------------静态只能用findViewById找-----------------*/
-  //  @Bind(R.id.product_detail_selected_color_size)
+    //  @Bind(R.id.product_detail_selected_color_size)
     public static TextView mProductDetailSelectedColorSize;
-  //  @Bind(R.id.product_detail_please_select)
+    //  @Bind(R.id.product_detail_please_select)
     public static TextView mProductDetailPleaseSelect;
     /*--------------------静态控件-----------------*/
 
@@ -242,7 +245,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
-        //利用接口回调监听ProductDialog关闭
+/*        //利用接口回调监听ProductDialog关闭
         mProductDialog.setOnDialogDismissListener(new ProductDialog.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -254,19 +257,18 @@ public class ProductDetailActivity extends AppCompatActivity {
                 System.out.println("isSizeSelected="+isSizeSelected);
 
             }
-        });
+        });*/
     }
 
     /*###############当ProductDialog中的颜色与尺寸发生改变时就调用该方法##############*/
     /*###################################*/
-    public static void showSelectedColorAndSize(){
-
+    public static void showSelectedColorAndSize() {
 
         boolean isColorSelected = mPropertyBeanArr[0].isSelected;
         boolean isSizeSelected = mPropertyBeanArr[1].isSelected;
 
-        System.out.println("isColorSelected="+isColorSelected);
-        System.out.println("isSizeSelected="+isSizeSelected);
+        System.out.println("isColorSelected=" + isColorSelected);
+        System.out.println("isSizeSelected=" + isSizeSelected);
 
         String color = mPropertyBeanArr[0].v;
         String size = mPropertyBeanArr[1].v;
@@ -347,29 +349,35 @@ public class ProductDetailActivity extends AppCompatActivity {
         boolean isColorSelected = mPropertyBeanArr[0].isSelected;
         boolean isSizeSelected = mPropertyBeanArr[1].isSelected;
 
-        if(!isColorSelected && isSizeSelected) {
+        if (!isColorSelected && isSizeSelected) {
             Toast.makeText(this, "请选择颜色", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(isColorSelected && !isSizeSelected) {
+        if (isColorSelected && !isSizeSelected) {
             Toast.makeText(this, "请选择尺寸", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(!isColorSelected && !isSizeSelected) {
+        if (!isColorSelected && !isSizeSelected) {
             Toast.makeText(this, "请选择颜色和尺寸", Toast.LENGTH_SHORT).show();
             return;
         }
 
         CarModel carModel = CarModel.getInstance();
         //1.获取商品颜色,尺寸
-        int[] productPros = {mPropertyBeanArr[0].id,mPropertyBeanArr[1].id };  //{颜色,尺寸}
+        int[] productPros = {mPropertyBeanArr[0].id, mPropertyBeanArr[1].id};  //{颜色,尺寸}
 
         //2.获取登录用户名
         if (!UserLoginUtil.isLogin()) {
             Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
+
             //TODO:跳转登录页面
+            MineFragment mineFragment = new MineFragment();
+            HolderFragment parentFragment = (HolderFragment) mineFragment.getParentFragment();
+            LoginFragment loginFragment = new LoginFragment();
+            parentFragment.goForward(loginFragment);
+
         } else {
             String userName = UserLoginUtil.getLoginUser();
             carModel.addToCar(userName, mProductId, productPros);

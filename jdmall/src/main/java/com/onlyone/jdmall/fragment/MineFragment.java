@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -89,11 +88,11 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
 
     private MineHelpFragment         mHelpFragment;
     private MainActivity             mMainActivity;
-    private Fragment                 mFavorableGiftFragment;
+    private BaseFragment                 mFavorableGiftFragment;
     private MineUserFeedbackFragment mUserFeedbackFragment;
-    private Fragment                 mAboutFragment;
-    private Fragment                 mFavoriteFrament;
-    private Fragment                 mAddressManagerFragment;
+    private BaseFragment                 mAboutFragment;
+    private BaseFragment                 mFavoriteFrament;
+    private BaseFragment                 mAddressManagerFragment;
     private LoginFragment            mLoginFragment;
     SPUtil spUtil = new SPUtil(ResUtil.getContext());
     private MyIndentFragment mMyIndentFragment;
@@ -319,11 +318,10 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
 
     /**
      * 实现fragment跳转
-     *
-     * @param fragment
+     *  @param fragment
      * @param tag
-     */
-    private void changeFragment(Fragment fragment, String tag) {
+	 */
+    private void changeFragment(BaseFragment fragment, String tag) {
         /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fl_content_container, fragment, tag);

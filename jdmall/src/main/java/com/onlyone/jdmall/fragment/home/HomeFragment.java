@@ -2,7 +2,6 @@ package com.onlyone.jdmall.fragment.home;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -350,7 +349,7 @@ public class HomeFragment extends BaseFragment<Object>
     @Override
     public void onClick(View v) {
         //TODO:点击跳转，其他fragment
-        Fragment fragment = null;
+        BaseFragment fragment = null;
         String str = "";
         switch (v.getId()) {
             case R.id.home_ll_hot://热门单品
@@ -381,7 +380,7 @@ public class HomeFragment extends BaseFragment<Object>
         changeFragment(fragment);
     }
 
-    private void changeFragment(Fragment fragment) {
+    private void changeFragment(BaseFragment fragment) {
         if (fragment == null) {
             return;
         }

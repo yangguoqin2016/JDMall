@@ -159,8 +159,11 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
             }
 
             public void refreshView(ProductDetailBean.ProductEntity entity) {
-                String url = Url.ADDRESS_SERVER + entity.pics.get(0);
-                Picasso.with(ResUtil.getContext()).load(url).into(mIvPic);
+                if (entity.pics.size() > 0) {
+                    String url = Url.ADDRESS_SERVER + entity.pics.get(0);
+                    Picasso.with(ResUtil.getContext()).load(url).into(mIvPic);
+
+                }
                 mTvName.setText(entity.name);
                 mTvPriceLimit.setText("￥" + entity.limitPrice);
 

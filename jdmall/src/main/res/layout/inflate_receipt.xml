@@ -105,7 +105,7 @@
 				android:button="@null"
 				android:drawableLeft="@drawable/selector_ticket_bg"
 				android:drawablePadding="30dp"
-				android:text="音响"
+				android:text="服装"
 				android:textColor="#000"
 				android:textSize="18sp"/>
 
@@ -117,7 +117,7 @@
 				android:button="@null"
 				android:drawableLeft="@drawable/selector_ticket_bg"
 				android:drawablePadding="30dp"
-				android:text="游戏"
+				android:text="耗材"
 				android:textColor="#000"
 				android:textSize="18sp"/>
 

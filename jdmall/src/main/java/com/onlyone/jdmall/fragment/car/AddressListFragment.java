@@ -5,9 +5,12 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
@@ -17,8 +20,6 @@ import com.onlyone.jdmall.bean.AddressBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.SuperBaseFragment_v2;
-import com.onlyone.jdmall.fragment.mine.AddressAddFragment;
-import com.onlyone.jdmall.fragment.mine.AddressManagerFragment;
 import com.onlyone.jdmall.holder.AddressListHolder;
 import com.onlyone.jdmall.holder.BaseHolder;
 import com.onlyone.jdmall.utils.DensityUtil;
@@ -41,25 +42,23 @@ import butterknife.ButterKnife;
  * @描述: 地址列表的Fragment
  */
 public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
-		implements View.OnClickListener
+		implements View.OnClickListener, AdapterView.OnItemClickListener
 {
+	private static final String TAG        = "AddressListFragment";
 	private static final String KEY_USERID = "userid";
 	@Bind(R.id.topbar_tv_back)
 	TextView mTopbarTvBack;
-	@Bind(R.id.topbar_tv_add)
-	TextView mTopbarTvAdd;
-	private SPUtil                        mSPUtil;
 	private MainActivity                  mMainActivity;
 	private View                          mTopBar;
 	private ListView                      mListView;
 	private List<AddressBean.AddressList> mDatas;
+	private AddressListAdapter            mAdapter;
 
 	@Override
 	public void onAttach(Context context) {
 		mMainActivity = (MainActivity) context;
 		super.onAttach(context);
 	}
-
 
 	@Override
 	protected String getUrl() {
@@ -69,8 +68,7 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 	@Override
 	protected Map<String, String> getHeadersMap() {
 		Map<String, String> headersMap = new HashMap<>();
-		headersMap.put(KEY_USERID, mSPUtil.getString(SP.USERID, ""));
-//        headersMap.put(KEY_USERID, "20428");
+		headersMap.put(KEY_USERID, new SPUtil(ResUtil.getContext()).getLong(SP.USERID, 0) + "");
 		return headersMap;
 	}
 
@@ -100,7 +98,8 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 	@Override
 	protected AddressBean parseJson(String jsonStr) {
 		Gson gson = new Gson();
-		return gson.fromJson(jsonStr, AddressBean.class);
+		AddressBean bean = gson.fromJson(jsonStr, AddressBean.class);
+		return bean;
 	}
 
 	/**
@@ -111,8 +110,10 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 	@Override
 	protected View loadSuccessView() {
 		initTopBar();
-		mTopbarTvAdd.setText("管理地址");
 		mListView = new ListView(mMainActivity);
+
+		mListView.setOnItemClickListener(this);
+
 		return mListView;
 	}
 
@@ -126,7 +127,6 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 		mTopBar = View.inflate(mMainActivity, R.layout.inflate_topbar_addresslist, null);
 		ButterKnife.bind(this, mTopBar);
 		mMainActivity.setTopBarView(mTopBar);
-		mTopbarTvAdd.setOnClickListener(this);
 		mTopbarTvBack.setOnClickListener(this);
 	}
 
@@ -137,11 +137,27 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 	 */
 	@Override
 	protected void refreshSuccessView(AddressBean addressBean) {
-		//TODO:需要判断请求回来的数据,来更新相应的UI
 		mDatas = addressBean.addressList;
+
+		if (mDatas.size() == 0) {
+			//如果地址列表为空就添加一个空的视图
+			FrameLayout rootView = mLoadPager.getRootView();
+			rootView.removeAllViews();
+			ImageView emptyImageView = new ImageView(ResUtil.getContext());
+			emptyImageView.setImageResource(R.mipmap.empty_address_list);
+			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+					DensityUtil.dip2Px(200), DensityUtil.dip2Px(200));
+			params.gravity = Gravity.CENTER;
+			rootView.addView(emptyImageView, params);
+
+			Toast.makeText(ResUtil.getContext(), "当前没有地址,请前往\"我的\"页面进行添加", Toast.LENGTH_SHORT)
+					.show();
+		}
+
 		//排序,让默认的地址在第一个
 		Collections.sort(mDatas);
-		mListView.setAdapter(new AddressListAdapter(mDatas));
+		mAdapter = new AddressListAdapter(mDatas);
+		mListView.setAdapter(mAdapter);
 	}
 
 
@@ -158,17 +174,16 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 			case R.id.topbar_tv_back://返回
 				goBack();
 				break;
-			case R.id.topbar_tv_add://新增地址 / 管理地址
-				String text = mTopbarTvAdd.getText().toString();
-				if (text.equals("新增地址")) {
-					//前往新增地址界面
-					goForward(new AddressAddFragment());
-				} else if (text.equals("管理地址")) {
-					goForward(new AddressManagerFragment());
-				}
-				break;
 			default:
 				break;
+		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		for (int i = 0; i < mListView.getChildCount(); i++) {
+			AddressListHolder holder = (AddressListHolder) parent.getChildAt(position).getTag();
+			holder.mItemAddresslistIvSelected.setSelected(position == i ? true : false);
 		}
 	}
 

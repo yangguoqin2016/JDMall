@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.bean.InvoiceBean;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -28,9 +29,9 @@ import butterknife.ButterKnife;
  * @创建时间: 2016/3/8 20:41
  * @描述: 发票类型的Fragment
  */
-public class ReceiptFragment extends BaseFragment<Object> implements View.OnClickListener,
-																	 RadioGroup
-																			 .OnCheckedChangeListener
+public class ReceiptFragment extends BaseFragment<InvoiceBean> implements View.OnClickListener,
+																		  RadioGroup
+																				  .OnCheckedChangeListener
 {
 	@Bind(R.id.rb_receipt_person)
 	RadioButton mRbReceiptPerson;
@@ -100,7 +101,7 @@ public class ReceiptFragment extends BaseFragment<Object> implements View.OnClic
 	}
 
 	@Override
-	protected void refreshSuccessView(Object data) {
+	protected void refreshSuccessView(InvoiceBean data) {
 
 	}
 
@@ -119,7 +120,7 @@ public class ReceiptFragment extends BaseFragment<Object> implements View.OnClic
 	}
 
 	@Override
-	protected void loadData(LoadListener<Object> listener) {
+	protected void loadData(LoadListener<InvoiceBean> listener) {
 		listener.onSuccess(null);
 	}
 

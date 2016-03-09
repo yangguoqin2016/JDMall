@@ -26,4 +26,5 @@ public interface Url {
 	String ADDRESS_ADDRESSLIST = ADDRESS_SERVER + "/addresslist";//地址列表
 
 	String ADDRESS_CHECKOUT = ADDRESS_SERVER + "/checkout"; //结算中心
+	String INVOICE          = ADDRESS_SERVER + "/invoice"; //发票类型
 }

@@ -19,27 +19,27 @@ import butterknife.ButterKnife;
  * @描述: ${TODO}
  */
 public class AddressListHolder extends BaseHolder<AddressBean.AddressList> {
-    @Bind(R.id.item_addresslist_tv_name)
-    TextView  mItemAddresslistTvName;
-    @Bind(R.id.item_addresslist_tv_num)
-    TextView  mItemAddresslistTvNum;
-    @Bind(R.id.item_addresslist_tv_position)
-    TextView  mItemAddresslistTvPosition;
-    @Bind(R.id.item_addresslist_iv_selected)
-    ImageView mItemAddresslistIvSelected;
+	@Bind(R.id.item_addresslist_tv_name)
+	public TextView  mItemAddresslistTvName;
+	@Bind(R.id.item_addresslist_tv_num)
+	public TextView  mItemAddresslistTvNum;
+	@Bind(R.id.item_addresslist_tv_position)
+	public TextView  mItemAddresslistTvPosition;
+	@Bind(R.id.item_addresslist_iv_selected)
+	public ImageView mItemAddresslistIvSelected;
 
-    @Override
-    public View initHolderView() {
-        View rootView = View.inflate(ResUtil.getContext(), R.layout.item_addresslist, null);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
+	@Override
+	public View initHolderView() {
+		View rootView = View.inflate(ResUtil.getContext(), R.layout.item_addresslist, null);
+		ButterKnife.bind(this, rootView);
+		return rootView;
+	}
 
-    @Override
-    public void setDataAndRefreshUI(AddressBean.AddressList data) {
-        mItemAddresslistTvName.setText(data.name);
-        mItemAddresslistTvNum.setText(data.phoneNumber);
-        mItemAddresslistIvSelected.setSelected(data.isDefault==1?true:false);
-        mItemAddresslistTvPosition.setText(data.city+data.addressArea+data.addressDetail);
-    }
+	@Override
+	public void setDataAndRefreshUI(AddressBean.AddressList data) {
+		mItemAddresslistTvName.setText(data.name);
+		mItemAddresslistTvNum.setText(data.phoneNumber);
+		mItemAddresslistIvSelected.setSelected(data.isDefault == 1 ? true : false);
+		mItemAddresslistTvPosition.setText(data.city + data.addressArea + data.addressDetail);
+	}
 }

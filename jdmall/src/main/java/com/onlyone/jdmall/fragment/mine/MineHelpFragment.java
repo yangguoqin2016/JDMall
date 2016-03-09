@@ -138,7 +138,7 @@ public class MineHelpFragment extends BaseFragment<Object> implements View.OnCli
             case R.id.mine_btn_look_order://查看订单
                 //TODO：点击查看订单按钮，跳转到我的订单界面
                 if (mMyIndentFragment == null) {
-                    mMyIndentFragment = new MyIndentFragment();
+                    mMyIndentFragment = new MyIndentFragment(1);
                 }
                 changeFragment(mMyIndentFragment, MY_INDENT_FRAGMENT);
                 break;

@@ -232,7 +232,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 break;
             case R.id.fragment_ll_mine_order://我的订单
                 if (mMyIndentFragment == null) {
-                    mMyIndentFragment = new MyIndentFragment();
+                    mMyIndentFragment = new MyIndentFragment(1);
                 }
                 changeFragment(mMyIndentFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
 

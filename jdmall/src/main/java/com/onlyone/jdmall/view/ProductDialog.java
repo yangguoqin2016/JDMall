@@ -98,16 +98,6 @@ public class ProductDialog extends Dialog {
     public ProductDialog(Context context, ProductDetailBean.ProductEntity productBean) {
         this(context, R.style.ProductDialogStyle);
         mPoductBean = productBean;
-
-        //拿到窗口属性
-        WindowManager.LayoutParams attributes = getWindow().getAttributes();
-        //设置窗口对齐方式
-        attributes.gravity = Gravity.BOTTOM;
-        //宽度用屏幕宽度
-        attributes.width = ResUtil.getContext().getResources().getDisplayMetrics().widthPixels;
-        attributes.height = WindowManager.LayoutParams.MATCH_PARENT;
-        //设置窗口属性
-        getWindow().setAttributes(attributes);
     }
 
     /**
@@ -119,6 +109,21 @@ public class ProductDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_dialog_layout);
+        //拿到窗口属性
+        WindowManager.LayoutParams attributes = getWindow().getAttributes();
+        //设置窗口对齐方式
+        attributes.gravity = Gravity.BOTTOM;
+        //设置窗口尺寸
+       // attributes.width = ResUtil.getContext().getResources().getDisplayMetrics().widthPixels;
+        attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
+        attributes.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        //设置窗口属性
+        getWindow().setAttributes(attributes);
+
+        //设置窗口的动画
+        getWindow().setWindowAnimations(R.style.ProductDialogAnimationStyle);
+        getWindow().getDecorView().setPadding(0,0,0,0);
+
         ButterKnife.bind(this);
 
         mSelectColorSize = (TextView) findViewById(R.id.product_dialog_please_select_color_size);
@@ -249,19 +254,18 @@ public class ProductDialog extends Dialog {
             //TODO:跳转登录页面,activity->fragment
             //先跳转到MainActivity
             Intent intent = new Intent(ResUtil.getContext(), MainActivity.class);
-            intent.putExtra("productDialog",1);
+            intent.putExtra("productDialog", 1);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-       //     ResUtil.getContext().startActivity(intent);
+            //ResUtil.getContext().startActivity(intent);
 
-//            HolderFragment holderFragment = new HolderFragment() {
-//                @Override
-//                protected Fragment getChildFragment() {
-//                    return FragmentFactory.getFragment(4);
-//                }
-//            };
-//            LoginFragment loginFragment = new LoginFragment();
-//            holderFragment.goForward(loginFragment);
-
+            //            HolderFragment holderFragment = new HolderFragment() {
+            //                @Override
+            //                protected Fragment getChildFragment() {
+            //                    return FragmentFactory.getFragment(4);
+            //                }
+            //            };
+            //            LoginFragment loginFragment = new LoginFragment();
+            //            holderFragment.goForward(loginFragment);
 
 
         } else {

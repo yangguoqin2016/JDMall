@@ -308,8 +308,13 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "分享..", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.product_detail_store:
-                saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_STORE);
-                Toast.makeText(this, "已收藏..", Toast.LENGTH_SHORT).show();
+                if(!UserLoginUtil.isLogin()) {
+                    Toast.makeText(this, "您还未登录~", Toast.LENGTH_SHORT).show();
+                }else{
+
+                    saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_STORE);
+                    Toast.makeText(this, "已收藏..", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.product_detail_addcar:
                 //添加购物车

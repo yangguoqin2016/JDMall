@@ -170,7 +170,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         List<BrandBean.BrandList.BrandValue> brandValues = mDataList.get(0);
         mGridAdapter = new GridAdapter(brandValues);
         mBrindGridview.setAdapter(mGridAdapter);
-//        setGridViewHeightBasedOnChildren(mBrindGridview);
+        //        setGridViewHeightBasedOnChildren(mBrindGridview);
 
         mAdapter.notifyDataSetChanged();
         mGridAdapter.notifyDataSetChanged();
@@ -320,17 +320,6 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             String imageUrl = Url.ADDRESS_SERVER + brandValue.getPic();
             Picasso.with(ResUtil.getContext()).load(imageUrl).into(holder.image);
 
-
-            //解决图片压缩失真问题
-/*            RatioLayout rl = new RatioLayout(ResUtil.getContext());
-            rl.setCurState(RatioLayout.RELATIVE_WIDTH);
-            float ratio = 1.58f;
-            rl.setRatio(ratio);
-            int width = getResources().getDisplayMetrics().widthPixels;
-            int height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
-            rl.addView(holder.image, params);*/
-
             holder.text.setText(brandValue.getName());
 
             return convertView;
@@ -466,10 +455,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             ViewHolder holder = null;
             if (convertView == null) {
                 holder = new ViewHolder();
-//                holder.tv = new TextView(ResUtil.getContext());
-//                convertView = holder.tv;
-
-                convertView = View.inflate(ResUtil.getContext(),R.layout.brand_item_listvie,null);
+                convertView = View.inflate(ResUtil.getContext(), R.layout.brand_item_listvie, null);
                 holder.tv = (TextView) convertView.findViewById(R.id.brand_listview_item);
                 convertView.setTag(holder);
             } else {
@@ -480,13 +466,39 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             String key = brandList.getKey();
             holder.tv.setText(key);
 
-            if(mCurrentItem == position){
+            if (mCurrentItem == position) {
                 holder.tv.setBackgroundColor(Color.parseColor("#800E1F"));
                 holder.tv.setTextColor(Color.WHITE);
-            }else{
+            } else {
                 holder.tv.setBackgroundColor(Color.TRANSPARENT);
                 holder.tv.setTextColor(Color.BLACK);
             }
+
+            final ViewHolder finalHolder = holder;
+            holder.tv.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            finalHolder.tv.setBackgroundColor(Color.parseColor("#800E1F"));
+                            break;
+
+                        case MotionEvent.ACTION_MOVE:
+                            finalHolder.tv.setBackgroundColor(Color.parseColor("#fff"));
+                            break;
+
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            finalHolder.tv.setBackgroundColor(Color.parseColor("#fff"));
+                            break;
+
+                        default:
+                            break;
+                    }
+                    return false;
+                }
+            });
 
             return convertView;
         }
@@ -565,7 +577,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
         mGridAdapter = new GridAdapter(brandValues);
         mBrindGridview.setAdapter(mGridAdapter);
-//        setGridViewHeightBasedOnChildren(mBrindGridview);
+        //        setGridViewHeightBasedOnChildren(mBrindGridview);
 
         mAdapter.notifyDataSetChanged();
         mGridAdapter.notifyDataSetChanged();

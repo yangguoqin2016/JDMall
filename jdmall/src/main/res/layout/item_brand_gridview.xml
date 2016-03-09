@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
     android:orientation="vertical">
 
     <com.onlyone.jdmall.view.RatioLayout
@@ -28,7 +27,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="5dp"
-        android:text="廉价成是傻逼"
+        android:text="品牌详情"
         android:textColor="#685959"/>
 
 </LinearLayout>

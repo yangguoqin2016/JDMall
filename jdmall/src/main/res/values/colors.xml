@@ -19,5 +19,8 @@
 	<!-- 地址列表不选中时候的背景-->
 	<color name="addresslist_selected_false_bg">#fff</color>
 
+	<color name="brand_listview_selected_bg">#800E1F</color>
+	<color name="brand_listview_normal_bg">#fff</color>
+
 
 </resources>

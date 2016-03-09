@@ -31,7 +31,7 @@ import com.onlyone.jdmall.view.ProductDialog;
 import com.onlyone.jdmall.view.RatioLayout;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -169,20 +169,20 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         //3.序列化取出保存的集合
         String keyTag = userName + "_" + tag;
-        HashSet<ProductDetailBean.ProductEntity> set = SerializeUtil.serializeObject(keyTag);
-        if (set == null) {
-            set = new HashSet<>();
+        ArrayList<ProductDetailBean.ProductEntity> list = SerializeUtil.serializeObject(keyTag);
+        if (list == null) {
+            list = new ArrayList<>();
         } else {
             //重复商品不添加到历史记录
-            for (ProductDetailBean.ProductEntity productEntity : set) {
+            for (ProductDetailBean.ProductEntity productEntity : list) {
                 if (productBean.id == productEntity.id) {
                     return;
                 }
             }
         }
         //4.集合序列化,tag为当前登录用户名
-        set.add(productBean);
-        SerializeUtil.deserializeObject(keyTag, set);
+        list.add(productBean);
+        SerializeUtil.deserializeObject(keyTag, list);
 
     }
 

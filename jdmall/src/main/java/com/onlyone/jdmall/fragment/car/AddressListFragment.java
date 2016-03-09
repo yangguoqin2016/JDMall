@@ -53,6 +53,7 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 	private ListView                      mListView;
 	private List<AddressBean.AddressList> mDatas;
 	private AddressListAdapter            mAdapter;
+	private BalanceFragment.OnResultBack  mListener;
 
 	@Override
 	public void onAttach(Context context) {
@@ -165,6 +166,17 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 	public void onDestroyView() {
 		super.onDestroyView();
 		ButterKnife.unbind(this);
+
+		if (mListener != null) {
+
+			for (AddressBean.AddressList data : mDatas) {
+				if (data.isDefault != 0) {
+					mListener.onResult(new BalanceFragment.AddressInfo(data.name, data
+							.phoneNumber, data.addressArea + data.addressDetail));
+					break;
+				}
+			}
+		}
 	}
 
 	//TODO:事件逻辑实现
@@ -181,10 +193,15 @@ public class AddressListFragment extends SuperBaseFragment_v2<AddressBean>
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		for (int i = 0; i < mListView.getChildCount(); i++) {
-			AddressListHolder holder = (AddressListHolder) parent.getChildAt(position).getTag();
-			holder.mItemAddresslistIvSelected.setSelected(position == i ? true : false);
+		for (int i = 0; i < mDatas.size(); i++) {
+			mDatas.get(i).isDefault = position == i ? 1 : 0;
 		}
+
+		mAdapter.notifyDataSetChanged();
+	}
+
+	public void setOnResultBackListener(BalanceFragment.OnResultBack listener) {
+		mListener = listener;
 	}
 
 	class AddressListAdapter extends MyBaseAdapter<AddressBean.AddressList> {

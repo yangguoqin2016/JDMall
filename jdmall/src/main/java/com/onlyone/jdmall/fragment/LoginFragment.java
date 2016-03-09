@@ -151,7 +151,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     public void onPause() {
         super.onPause();
 
-        mMainActivity.setHideTopBar(true);
+        //mMainActivity.setHideTopBar(true);
     }
 
     @Override

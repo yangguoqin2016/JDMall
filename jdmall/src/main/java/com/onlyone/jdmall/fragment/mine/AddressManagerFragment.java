@@ -1,8 +1,10 @@
 package com.onlyone.jdmall.fragment.mine;
 
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,7 +24,7 @@ import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.fragment.HolderFragment;
-import com.onlyone.jdmall.fragment.MineFragment;
+import com.onlyone.jdmall.fragment.car.AddressModifyFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;

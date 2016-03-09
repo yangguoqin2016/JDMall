@@ -204,6 +204,9 @@ public abstract class SuperBaseAdapter<T> extends MyBaseAdapter implements Adapt
                 triggerLoadMoreData();
                 return;
             }
+            if(mCurLoadMoreState == LoadMoreHolder.STATE_LOADING){
+                return;
+            }
         }
         //点击进入详情界面
         HotProductBean.ProductBean bean = (HotProductBean.ProductBean) mDatas.get(position);

@@ -2,7 +2,6 @@ package com.onlyone.jdmall.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.activity.ProductDetailActivity;
 import com.onlyone.jdmall.bean.ProductDetailBean;
 import com.onlyone.jdmall.constance.Url;
@@ -41,7 +40,7 @@ import butterknife.OnClick;
  * 包名:  com.onlyone.jdmall.view
  * 创建者: LiuKe
  * 创建时间:  2016/3/7 10:54
- * 描述: ${TODO}
+ * 描述: 用于展示商品属性的dialog
  */
 public class ProductDialog extends Dialog {
 
@@ -108,21 +107,24 @@ public class ProductDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.product_dialog_layout);
+
         //拿到窗口属性
-        WindowManager.LayoutParams attributes = getWindow().getAttributes();
+        Window window = getWindow();
+        WindowManager.LayoutParams attributes = window.getAttributes();
         //设置窗口对齐方式
         attributes.gravity = Gravity.BOTTOM;
         //设置窗口尺寸
-       // attributes.width = ResUtil.getContext().getResources().getDisplayMetrics().widthPixels;
+        // attributes.width = ResUtil.getContext().getResources().getDisplayMetrics().widthPixels;
         attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
         attributes.height = WindowManager.LayoutParams.WRAP_CONTENT;
         //设置窗口属性
-        getWindow().setAttributes(attributes);
+        window.setAttributes(attributes);
 
         //设置窗口的动画
-        getWindow().setWindowAnimations(R.style.ProductDialogAnimationStyle);
-        getWindow().getDecorView().setPadding(0,0,0,0);
+        window.setWindowAnimations(R.style.ProductDialogAnimationStyle);
+        window.getDecorView().setPadding(0, 0, 0, 0);
 
         ButterKnife.bind(this);
 
@@ -170,6 +172,7 @@ public class ProductDialog extends Dialog {
         mColorPropertyBean = new ProductDetailBean.ProductEntity.ProductPropertyBean();
         mSizePropertyBean = new ProductDetailBean.ProductEntity.ProductPropertyBean();
 
+        //遍历所有的属性分别将颜色与尺寸属性放进两个集合中
         for (ProductDetailBean.ProductEntity.ProductPropertyBean propertyBean : propertyBeans) {
             if ("颜色".equals(propertyBean.k)) {
                 mColorPropertyBeans.add(propertyBean);
@@ -177,7 +180,6 @@ public class ProductDialog extends Dialog {
                 mSizePropertyBeans.add(propertyBean);
             }
         }
-
 
         mColorAdapter = new PropertyAdapter(mColorPropertyBeans);
         mSizeAdapter = new PropertyAdapter(mSizePropertyBeans);
@@ -198,7 +200,7 @@ public class ProductDialog extends Dialog {
         switch (view.getId()) {
             case R.id.product_dialog_dismiss:
                 dismiss();
-                //Depricated:  mDismissListener.onDismiss();
+                //Deserted:  mDismissListener.onDismiss();
                 break;
             case R.id.product_dialog_addcar:
                 addToCar();
@@ -219,6 +221,12 @@ public class ProductDialog extends Dialog {
      * 立即购买
      */
     private void buyNow() {
+        if(!UserLoginUtil.isLogin()) {
+            Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
+        }else{
+
+            Toast.makeText(ResUtil.getContext(), "立即进入结算中心购买", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -253,9 +261,9 @@ public class ProductDialog extends Dialog {
 
             //TODO:跳转登录页面,activity->fragment
             //先跳转到MainActivity
-            Intent intent = new Intent(ResUtil.getContext(), MainActivity.class);
-            intent.putExtra("productDialog", 1);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //Intent intent = new Intent(ResUtil.getContext(), MainActivity.class);
+            //intent.putExtra("productDialog", 1);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //ResUtil.getContext().startActivity(intent);
 
             //            HolderFragment holderFragment = new HolderFragment() {

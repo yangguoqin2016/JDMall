@@ -27,4 +27,9 @@ public interface Url {
 
 	String ADDRESS_CHECKOUT = ADDRESS_SERVER + "/checkout"; //结算中心
 	String INVOICE          = ADDRESS_SERVER + "/invoice"; //发票类型
+	/*删除地址*/
+	String ADDRESS_ADDRESSDELETE = ADDRESS_SERVER + "/addressdelete";
+	/*修改默认地址*/
+	String ADDRESS_ADDRESSDEFAULT = ADDRESS_SERVER + "/addressdefault";
+
 }

@@ -90,6 +90,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
 
             } else {
                 insertInfosIntoDB();
+                goBack();
             }
         }
     }
@@ -174,8 +175,8 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
 
         /*跳转到上级界面*/
         SystemClock.sleep(1200);
-        AddressManagerFragment fragment = new AddressManagerFragment();
-        changeFragment(fragment,TAG_ADDRESSADD_FRAGMENT);
+        /*AddressManagerFragment fragment = new AddressManagerFragment();
+        changeFragment(fragment,TAG_ADDRESSADD_FRAGMENT);*/
 
     }
 

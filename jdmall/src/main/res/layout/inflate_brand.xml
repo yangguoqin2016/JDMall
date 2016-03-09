@@ -160,7 +160,9 @@
                     android:layout_width="120dp"
                     android:layout_height="match_parent"/>
 
-                <GridView
+
+
+                <com.onlyone.jdmall.view.MyGridView
                     android:id="@+id/brind_gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

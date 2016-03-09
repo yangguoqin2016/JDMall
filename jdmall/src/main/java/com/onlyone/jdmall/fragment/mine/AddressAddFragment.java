@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment.mine;
 
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -176,6 +177,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
         queue.add(request);
 
         /*跳转到上级界面*/
+        SystemClock.sleep(1500);
         AddressManagerFragment fragment = new AddressManagerFragment();
         changeFragment(fragment,TAG_ADDRESSADD_FRAGMENT);
 

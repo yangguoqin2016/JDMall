@@ -230,9 +230,9 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
 
                 break;
             case R.id.fragment_ll_mine_address://地址管理
-                if (mAddressManagerFragment == null) {
+//                if (mAddressManagerFragment == null) {
                     mAddressManagerFragment = new AddressManagerFragment();
-                }
+//                }
                 changeFragment(mAddressManagerFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_gift://优惠券/礼品卡

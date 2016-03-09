@@ -40,9 +40,9 @@ android {
 
 
 dependencies {
-	compile fileTree(include: ['*.jar'], dir: 'libs')
+	compile fileTree(dir: 'libs', include: ['*.jar'])
 	//testCompile 'junit:junit:4.12'
-	compile fileTree(include: ['*.jar'], dir: 'libs')
+	compile fileTree(dir: 'libs', include: ['*.jar'])
 	compile files('lib/volley-1.0.19.jar')
 	compile files('lib/gson-2.6.2.jar')
 	compile files('lib/butterknife-7.0.1.jar')
@@ -52,7 +52,7 @@ dependencies {
 	compile files('lib/nineoldandroids-2.4.0.jar')
 	compile 'com.android.support:appcompat-v7:23.1.1'
 	compile 'com.android.support:design:23.1.1'
-	compile fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+	compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 	compile 'com.android.support:appcompat-v7:23.1.0'
 	compile files('lib/volley-1.0.19.jar')
 	compile files('lib/gson-2.6.2.jar')
@@ -63,4 +63,5 @@ dependencies {
 	compile files('lib/AndroidSwipeLayout-v1.1.8.jar')
 	//compile 'com.bigkoo:pickerview:2.0.8'
 	compile(name: 'pickerview-2.0.8', ext: 'aar')
+	compile 'com.android.support:recyclerview-v7:23.1.1'
 }

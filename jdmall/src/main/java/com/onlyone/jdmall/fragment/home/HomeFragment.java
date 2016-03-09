@@ -5,16 +5,17 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -27,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.adapter.StaggeredAdapter;
 import com.onlyone.jdmall.application.MyApplication;
 import com.onlyone.jdmall.bean.HomeBean;
 import com.onlyone.jdmall.bean.HotProductBean;
@@ -38,11 +40,11 @@ import com.onlyone.jdmall.fragment.HotProductFragment;
 import com.onlyone.jdmall.fragment.LimitBuyFragment;
 import com.onlyone.jdmall.fragment.NewProductFragment;
 import com.onlyone.jdmall.fragment.category.HomeCategoryFragment;
+import com.onlyone.jdmall.manager.ExStaggeredGridLayoutManager;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.DensityUtil;
 import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
-import com.onlyone.jdmall.view.ExpandGridView;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.Picasso;
@@ -81,9 +83,9 @@ public class HomeFragment extends BaseFragment<Object>
     LinearLayout mHhomeLlCategory;
     @Bind(R.id.home_viewflipper_container)
     ViewFlipper mHomeViewflipper;
-    @Bind(R.id.home_gv)
-    ExpandGridView mHomeGridView;
-    private ScrollView mRootView;
+    @Bind(R.id.home_recycler_view)
+    RecyclerView mHomeRecyclerView;
+    private View mRootView;
     private Context mContext;
     private HomeBean mHomeBean;
     private List<HomeBean.HomeTopicBean> mHomeTopics;
@@ -92,7 +94,7 @@ public class HomeFragment extends BaseFragment<Object>
     private View mAdView1;
     private View mAdView2;
     private List<HotProductBean.ProductBean> mProductList;
-    private HomeGridViewAdapter mHomeGridViewAdapter;
+//    private HomeGridViewAdapter mHomeGridViewAdapter;
 
 
     @Override
@@ -137,13 +139,14 @@ public class HomeFragment extends BaseFragment<Object>
         mTask.start();
         //ViewPager设置，触摸时间监听
         mHomeVp.setOnTouchListener(this);
-        mHomeGridViewAdapter = new HomeGridViewAdapter();
-        mHomeGridView.setAdapter(mHomeGridViewAdapter);
+//        mHomeGridViewAdapter = new HomeGridViewAdapter();
+
+
         //GridView部分请求数据
-        loadDataForGridView();
+        loadDataForRecyclerView();
     }
 
-    private void loadDataForGridView() {
+    private void loadDataForRecyclerView() {
         String url = Url.ADDRESS_SERVER + "/newproduct?page=0" + "&pageNum=8&orderby=saleDown";
         OkHttpClient okHttpClient = new OkHttpClient();
         com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder().url(url).get().build();
@@ -170,10 +173,20 @@ public class HomeFragment extends BaseFragment<Object>
                 result = response.body().string();
                 Gson gson = new Gson();
                 mProductList = gson.fromJson(result, HotProductBean.class).productList;
+//                MyApplication.sGlobalHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mHomeGridViewAdapter.notifyDataSetChanged();
+//                    }
+//                });\
                 MyApplication.sGlobalHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mHomeGridViewAdapter.notifyDataSetChanged();
+                        ExStaggeredGridLayoutManager staggeredLayoutManager = new ExStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//                        mHomeRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+                        mHomeRecyclerView.setLayoutManager(staggeredLayoutManager);
+                        StaggeredAdapter adapter = new StaggeredAdapter(mProductList, mHomeRecyclerView);
+                        mHomeRecyclerView.setAdapter(adapter);
                     }
                 });
                 LogUtil.d("vovo", "====productList size====" + mProductList.size());
@@ -193,7 +206,7 @@ public class HomeFragment extends BaseFragment<Object>
     protected View loadSuccessView() {
         //设置一次titlebar
 //		changeTitleBar();
-        mRootView = (ScrollView) View.inflate(ResUtil.getContext(), R.layout.home_fragment, null);
+        mRootView = View.inflate(ResUtil.getContext(), R.layout.home_fragment, null);
         mAdView1 = View.inflate(ResUtil.getContext(), R.layout.home_ad_layout, null);
         mAdView2 = View.inflate(ResUtil.getContext(), R.layout.home_ad_layout2, null);
         ButterKnife.bind(this, mRootView);
@@ -237,7 +250,7 @@ public class HomeFragment extends BaseFragment<Object>
     @Override
     protected void loadData(final LoadListener<Object> listener) {
         /*
-			TODO: 数据的真正加载
+            TODO: 数据的真正加载
          */
         RequestQueue requestQueue = Volley.newRequestQueue(ResUtil.getContext());
         String url = Url.ADDRESS_HOME;
@@ -468,45 +481,45 @@ public class HomeFragment extends BaseFragment<Object>
     }
 
 
-    private class HomeGridViewAdapter extends BaseAdapter{
-
-        @Override
-        public int getCount() {
-            if(mProductList != null){
-                return mProductList.size();
-            }
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            if(convertView == null){
-                holder = new ViewHolder();
-                convertView = View.inflate(ResUtil.getContext(), R.layout.home_gv_item, null);
-                holder.iv = (ImageView) convertView.findViewById(R.id.home_gv_item_iv);
-                convertView.setTag(holder);
-            }else{
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            String url = Url.ADDRESS_SERVER+mProductList.get(position).pic;
-            LogUtil.d("vovo","url = "+url);
-            Picasso.with(ResUtil.getContext()).load(url).into(holder.iv);
-            return convertView;
-        }
-        public class ViewHolder{
-            ImageView iv;
-        }
-    }
+//    private class HomeGridViewAdapter extends BaseAdapter{
+//
+//        @Override
+//        public int getCount() {
+//            if(mProductList != null){
+//                return mProductList.size();
+//            }
+//            return 0;
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return null;
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return 0;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ViewHolder holder = null;
+//            if(convertView == null){
+//                holder = new ViewHolder();
+//                convertView = View.inflate(ResUtil.getContext(), R.layout.home_gv_item, null);
+//                holder.iv = (ImageView) convertView.findViewById(R.id.home_gv_item_iv);
+//                convertView.setTag(holder);
+//            }else{
+//                holder = (ViewHolder) convertView.getTag();
+//            }
+//
+//            String url = Url.ADDRESS_SERVER+mProductList.get(position).pic;
+//            LogUtil.d("vovo","url = "+url);
+//            Picasso.with(ResUtil.getContext()).load(url).into(holder.iv);
+//            return convertView;
+//        }
+//        public class ViewHolder{
+//            ImageView iv;
+//        }
+//    }
 }

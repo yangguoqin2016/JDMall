@@ -154,27 +154,12 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
             String text = mStringList.get(i);
             tv.setText(text);
             tv.setTextColor(Color.BLACK);
-            tv.setTextSize(DensityUtil.px2Sp(15));
+
+            //TODO:屏幕适配问题
+            tv.setTextSize(getTextSizeByDensity());
             int width = LinearLayout.LayoutParams.MATCH_PARENT;
             int height = LinearLayout.LayoutParams.WRAP_CONTENT;
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
-            LogUtil.d("density", DensityUtil.getDensity());
-
-            //TODO:屏幕适配问题
-            switch ((int) DensityUtil.getDensityDpi()) {
-                case 120:
-
-                    break;
-                case 160:
-
-                    break;
-                case 240:
-                    break;
-                case 320:
-                    break;
-                default:
-                    break;
-            }
             params.leftMargin = DensityUtil.dip2Px(15);
             params.topMargin = DensityUtil.dip2Px(6);
             params.bottomMargin = DensityUtil.dip2Px(6);
@@ -343,8 +328,8 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
             String text = mHistoryList.get(position);
             holder.tv.setText(text);
             holder.tv.setTextColor(Color.BLACK);
-            //			holder.tv.setTextSize(DensityUtil.dip2Px(15));
-            holder.tv.setTextSize(DensityUtil.px2Sp(15));
+            //TODO:屏幕适配
+            holder.tv.setTextSize(getTextSizeByDensity());
             int left = DensityUtil.dip2Px(15);
             int top = DensityUtil.dip2Px(6);
             int bottom = DensityUtil.dip2Px(6);
@@ -432,4 +417,25 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
         iv.startAnimation(ra);
     }
 
+    public float getTextSizeByDensity(){
+        float size = 0;
+        LogUtil.d("density", DensityUtil.getDensity());
+        switch ((int) DensityUtil.getDensityDpi()) {
+            case 120:
+                size = 20;
+                break;
+            case 160:
+                size = 20;
+                break;
+            case 240:
+                size = 15;
+                break;
+            case 320:
+                size = 20;
+                break;
+            default:
+                break;
+        }
+        return size;
+    }
 }

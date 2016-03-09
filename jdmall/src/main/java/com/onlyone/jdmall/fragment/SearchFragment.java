@@ -58,6 +58,8 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
     ListView     mSearchHistoryItemContainer;
     @Bind(R.id.search_scrollview)
     ScrollView   mScrollView;
+    @Bind(R.id.search_iv_divider)
+    ImageView    mIvDivider;
     private MainActivity mMainActivity;
     public static final String TAG_SEARCHRESULT_FRAGMENT = "tag_searchresult_fragment";
     private List<String> mStringList;
@@ -246,7 +248,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
             case R.id.item_hot_arrow:// 热门搜索的箭头
                 mSearchHotItemContainer.measure(0, 0);
                 int start = mSearchHotItemContainer.getMeasuredHeight();
-                int end = 0;
+                int end =  0;
                 if (mIsHotArrowOpen) {
                     // 当前状态是打开,就折叠
                     doAnimationByHot(start, end);
@@ -417,7 +419,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
         iv.startAnimation(ra);
     }
 
-    public float getTextSizeByDensity(){
+    public float getTextSizeByDensity() {
         float size = 0;
         switch ((int) DensityUtil.getDensityDpi()) {
             case 120:

@@ -42,6 +42,7 @@
                     android:src="@mipmap/lishishousuo_xialajiantou"/>
 
                 <ImageView
+                    android:id="@+id/search_iv_divider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"

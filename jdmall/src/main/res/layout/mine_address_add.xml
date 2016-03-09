@@ -76,6 +76,7 @@
             android:background="@null"
             android:textColor="#000"
             android:hint="(必填)"
+            android:phoneNumber="true"
             android:cursorVisible="true"
             android:textCursorDrawable="@null"
             android:textSize="18sp"/>

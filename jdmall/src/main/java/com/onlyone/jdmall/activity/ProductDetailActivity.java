@@ -339,6 +339,9 @@ public class ProductDetailActivity extends AppCompatActivity {
      * 收藏商品
      */
     private void storeProduct() {
+        if(mProductBean == null){
+            return;
+        }
         String url = Url.ADDRESS_SERVER+"/product/favorites?pId="+mProductBean.id;
         RequestQueue queue = NetUtil.getRequestQueue();
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -351,7 +354,14 @@ public class ProductDetailActivity extends AppCompatActivity {
                     if("addfavorites".equals(result)) {
                         Toast.makeText(ProductDetailActivity.this, "收藏成功~", Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(ProductDetailActivity.this, "请重新登录", Toast.LENGTH_SHORT).show();
+                        String error_code = (String) jsonObject.get("error_code");
+                        if("1535".equals(error_code)) {
+                            Toast.makeText(ProductDetailActivity.this, "当前商品已添加过收藏", Toast.LENGTH_SHORT).show();
+                        }
+                        if("1533".equals(error_code)){
+
+                            Toast.makeText(ProductDetailActivity.this, "请重新登录", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

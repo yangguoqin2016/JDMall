@@ -23,10 +23,11 @@ import com.onlyone.jdmall.utils.ResUtil;
 public class HelpSendWayFragment extends BaseFragment<Object>{
 
 
-    private MainActivity mMainActivity;
-    private View         mTopBarView;
-    private TextView     mHelpBack;
-    private FragmentManager mManager;
+    private MainActivity     mMainActivity;
+    private View             mTopBarView;
+    private TextView         mHelpBack;
+    private FragmentManager  mManager;
+    //private MineHelpFragment mMineHelpFragment;
 
     @Override
     public void onResume() {
@@ -59,6 +60,10 @@ public class HelpSendWayFragment extends BaseFragment<Object>{
         mMainActivity = (MainActivity) getActivity();
         mMainActivity.setTopBarView(mTopBarView);
         mMainActivity.setHideTopBar(false);
+        /*if (mMineHelpFragment == null) {
+            mMineHelpFragment = new MineHelpFragment();
+        }
+        ((HolderFragment)getParentFragment()).goForward(mMineHelpFragment);*/
         super.onPause();
     }
 

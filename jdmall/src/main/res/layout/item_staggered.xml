@@ -2,16 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/limit_buy_item_bg"
     android:padding="5dp">
 
 
-
-        <ImageView
-            android:id="@+id/item_straggered_iv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop" />
-
+    <ImageView
+        android:id="@+id/item_straggered_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="matrix"/>
 
     <TextView
         android:id="@+id/item_straggered_tv"

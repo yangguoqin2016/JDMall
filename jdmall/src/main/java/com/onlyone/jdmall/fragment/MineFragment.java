@@ -206,6 +206,10 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
     @Override
     public void onClick(View v) {
@@ -228,11 +232,16 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 }
                 changeFragment(mMyIndentFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
 
+                if (mMyIndentFragment == null) {
+                    mMyIndentFragment = new MyIndentFragment();
+                }
+                changeFragment(mMyIndentFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
+
                 break;
             case R.id.fragment_ll_mine_address://地址管理
-                if (mAddressManagerFragment == null) {
+//                if (mAddressManagerFragment == null) {
                     mAddressManagerFragment = new AddressManagerFragment();
-                }
+//                }
                 changeFragment(mAddressManagerFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_gift://优惠券/礼品卡

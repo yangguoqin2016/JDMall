@@ -25,7 +25,6 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.BrandBean;
 import com.onlyone.jdmall.constance.Url;
-import com.onlyone.jdmall.utils.DensityUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.picasso.Picasso;
 
@@ -171,7 +170,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         List<BrandBean.BrandList.BrandValue> brandValues = mDataList.get(0);
         mGridAdapter = new GridAdapter(brandValues);
         mBrindGridview.setAdapter(mGridAdapter);
-        setGridViewHeightBasedOnChildren(mBrindGridview);
+//        setGridViewHeightBasedOnChildren(mBrindGridview);
 
         mAdapter.notifyDataSetChanged();
         mGridAdapter.notifyDataSetChanged();
@@ -269,6 +268,9 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         mBrindListview.setOnItemClickListener(this);
     }
 
+    /**
+     * GridView的Adapter
+     */
     private class GridAdapter extends BaseAdapter {
 
         private final List<BrandBean.BrandList.BrandValue> mData;
@@ -358,7 +360,6 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
         tv.setText("加载数据失败,请检查下你的网络..");
         tv.setGravity(Gravity.CENTER);
         tv.setTextColor(Color.BLACK);
-        tv.setTextSize(DensityUtil.dip2Px(15));
         rootView.addView(tv);
     }
 
@@ -427,6 +428,9 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
     }
 
+    /**
+     * ListView的Adapter
+     */
     private class BrandListViewAdapter extends BaseAdapter {
 
 
@@ -450,8 +454,11 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             ViewHolder holder = null;
             if (convertView == null) {
                 holder = new ViewHolder();
-                holder.tv = new TextView(ResUtil.getContext());
-                convertView = holder.tv;
+//                holder.tv = new TextView(ResUtil.getContext());
+//                convertView = holder.tv;
+
+                convertView = View.inflate(ResUtil.getContext(),R.layout.brand_item_listvie,null);
+                holder.tv = (TextView) convertView.findViewById(R.id.brand_listview_item);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -461,10 +468,10 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
             String key = brandList.getKey();
             holder.tv.setText(key);
 
-            holder.tv.setTextSize(DensityUtil.dip2Px(15));
+/*            holder.tv.setTextSize(DensityUtil.dip2Px(15));
             holder.tv.setGravity(Gravity.CENTER);
             int left = DensityUtil.dip2Px(10);
-            holder.tv.setPadding(left, left, left, left);
+            holder.tv.setPadding(left, left, left, left);*/
 
             if(mCurrentItem == position){
                 holder.tv.setBackgroundColor(Color.RED);
@@ -551,7 +558,7 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
         mGridAdapter = new GridAdapter(brandValues);
         mBrindGridview.setAdapter(mGridAdapter);
-        setGridViewHeightBasedOnChildren(mBrindGridview);
+//        setGridViewHeightBasedOnChildren(mBrindGridview);
 
         mAdapter.notifyDataSetChanged();
         mGridAdapter.notifyDataSetChanged();

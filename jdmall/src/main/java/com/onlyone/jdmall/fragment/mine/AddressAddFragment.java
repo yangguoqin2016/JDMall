@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment.mine;
 
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -176,18 +177,13 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
         queue.add(request);
 
         /*跳转到上级界面*/
+        SystemClock.sleep(1500);
         AddressManagerFragment fragment = new AddressManagerFragment();
         changeFragment(fragment,TAG_ADDRESSADD_FRAGMENT);
 
     }
 
     private void changeFragment(BaseFragment fragment, String tag) {
-        /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fl_content_container, fragment, tag);
-        transaction.addToBackStack("aaa");
-
-        transaction.commit();*/
         HolderFragment parentFragmrnt = (HolderFragment) getParentFragment();
         parentFragmrnt.goForward(fragment);
     }

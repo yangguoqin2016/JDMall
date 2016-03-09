@@ -18,5 +18,15 @@
               android:text="促销快报"
               android:textColor="#000"
               android:textSize="22sp"/>
+    <ImageView
+        android:id="@+id/fastsale_type_iv"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/icon_pic_grid_type"/>
+    <!--默认让list列表隐藏-->
+
 
 </RelativeLayout>

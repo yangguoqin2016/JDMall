@@ -66,7 +66,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     @Override
     public void onStart() {
         super.onStart();
-
+        mMainActivity = (MainActivity)getActivity();
        /* if(isSuccessLogin){
             FragmentTransaction transaction = ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction();
             //            transaction.remove(this);
@@ -89,11 +89,11 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
         mLoginBtn.setOnClickListener(this);
 
         mLoginTvRegist.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				((HolderFragment) getParentFragment()).goForward(new RegisterFragment());
-			}
-		});
+            @Override
+            public void onClick(View v) {
+                ((HolderFragment) getParentFragment()).goForward(new RegisterFragment());
+            }
+        });
 
 
     }
@@ -150,7 +150,7 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     @Override
     public void onPause() {
         super.onPause();
-        mMainActivity = (MainActivity)getActivity();
+
         mMainActivity.setHideTopBar(true);
     }
 
@@ -181,8 +181,9 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
                     //登录成功,保存userid
                     mSp.putLong(SP.USERID, mLoginBean.userInfo.userid);
                     mSp.putBoolean(SP.ISLOGINSUCCESS, true);
-                    changeFragment();
-
+                    //changeFragment();
+                    //MainActivity activity = (MainActivity) getActivity();
+                    mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
                 } else {
                     Toast.makeText(ResUtil.getContext(), "帐号或密码有误...", Toast.LENGTH_SHORT).show();
                     return;
@@ -223,6 +224,6 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
     }
 
     private void changeFragment() {
-		((HolderFragment)getParentFragment()).goForward(new MineFragment());
+		((HolderFragment)getParentFragment()).goBack();
     }
 }

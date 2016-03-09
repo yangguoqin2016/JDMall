@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
-import com.onlyone.jdmall.bean.HotProductBean;
+import com.onlyone.jdmall.activity.ProductDetailActivity;
+import com.onlyone.jdmall.bean.LimitBuyBean;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -25,13 +27,10 @@ import java.util.List;
  */
 public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyViewHolder> {
 
-    private List<HotProductBean.ProductBean> mProductList;
+    private List<LimitBuyBean.LimitBuyItemBean> mProductList;
     private RecyclerView mRecyclerView;
 
-    public StaggeredAdapter(List<HotProductBean.ProductBean> datas) {
-        mProductList = datas;
-    }
-    public StaggeredAdapter(List<HotProductBean.ProductBean> datas ,RecyclerView recyclerView) {
+    public StaggeredAdapter(List<LimitBuyBean.LimitBuyItemBean> datas ,RecyclerView recyclerView) {
         mProductList = datas;
         mRecyclerView = recyclerView;
     }
@@ -68,7 +67,7 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyVi
 
         private ImageView mIvPic;
         private TextView mTvName;
-        private HotProductBean.ProductBean mData;
+        private LimitBuyBean.LimitBuyItemBean mData;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -76,12 +75,12 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyVi
             mTvName = (TextView) itemView.findViewById(R.id.item_straggered_tv);
         }
 
-        public void setDataAndRefresh(HotProductBean.ProductBean productBean) {
+        public void setDataAndRefresh(LimitBuyBean.LimitBuyItemBean productBean) {
             mData = productBean;
             refreshView(productBean);
         }
 
-        private void refreshView(HotProductBean.ProductBean productBean) {
+        private void refreshView(LimitBuyBean.LimitBuyItemBean productBean) {
 
             String url = Url.ADDRESS_SERVER+productBean.pic;
             LogUtil.d("vovo" , "url = "+url);
@@ -96,6 +95,15 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyVi
                 public void onError() {
                     mIvPic.requestLayout();
                     LogUtil.d("vovo", "eeeeeeeee");
+                }
+            });
+            mIvPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent( ResUtil.getContext() , ProductDetailActivity.class);
+                    intent.putExtra("id", mData.id);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ResUtil.getContext().startActivity(intent);
                 }
             });
             mTvName.setText(productBean.name);

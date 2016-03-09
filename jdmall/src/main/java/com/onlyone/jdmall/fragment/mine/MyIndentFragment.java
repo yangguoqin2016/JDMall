@@ -2,8 +2,6 @@ package com.onlyone.jdmall.fragment.mine;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -168,9 +166,9 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.myindent_nowonemonthindent:
-                mBeforeonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal2);
-                mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal3);
-                mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected1);
+                   mBeforeonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal2);
+                   mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal3);
+                   mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected1);
                 isChecked = !isChecked;
 
           /*      IndentMesListBean indentMesListBean = new IndentMesListBean();
@@ -200,7 +198,6 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
                 netLoadData(getUrl(3, 0,10));
                 break;
             case R.id.myindent_back:
-                //changeFragment(new MineFragment());
                 ((HolderFragment)getParentFragment()).goBack();
                 break;
         }
@@ -220,7 +217,7 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             IndentMesListBean indentMesListBean = mListBeans.get(position);
             long orderId = indentMesListBean.orderId;
-            //((HolderFragment)getParentFragment()).goForward(new IndentDetailMessageFragment(orderId));
+            ((HolderFragment)getParentFragment()).goForward(new IndentDetailMessageFragment(orderId));
         }
 
         @Override
@@ -229,13 +226,7 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
         }
     }
 
-    public void changeFragment(Fragment fragment){
-        FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
 
-        transaction.replace(R.id.fl_content_container,fragment);
-
-        transaction.commit();
-    }
 
 
 

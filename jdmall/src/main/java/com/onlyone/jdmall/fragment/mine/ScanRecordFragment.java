@@ -1,23 +1,29 @@
 package com.onlyone.jdmall.fragment.mine;
 
-import android.os.Bundle;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.SystemClock;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.ProductDetailBean;
 import com.onlyone.jdmall.constance.Serialize;
+import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SerializeUtil;
 import com.onlyone.jdmall.utils.UserLoginUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,15 +40,15 @@ import butterknife.ButterKnife;
 public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.ProductEntity>> {
     @Bind(R.id.scan_record_lv)
     ListView mScanRecordLv;
-    @Bind(R.id.scan_record_pb)
-    ProgressBar mScanRecordPb;
+    //    @Bind(R.id.scan_record_pb)
+//    ProgressBar mScanRecordPb;
     private List<ProductDetailBean.ProductEntity> mDataSet;
+    private View mRootView;
+    private ScanRecordAdapter mAdapter;
 
     @Override
     protected void refreshSuccessView(List<ProductDetailBean.ProductEntity> data) {
-        SystemClock.sleep(1000);
-        mScanRecordPb.setVisibility(View.GONE);
-        mScanRecordLv.setAdapter(new ScanRecordAdapter());
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -52,9 +58,12 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
      */
     @Override
     protected View loadSuccessView() {
-        View rootView = View.inflate(ResUtil.getContext(), R.layout.scan_record_fragment, null);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+        LogUtil.d("vava", "loadSuccessView");
+        mRootView = View.inflate(ResUtil.getContext(), R.layout.scan_record_fragment, null);
+        ButterKnife.bind(this, mRootView);
+        mAdapter = new ScanRecordAdapter();
+        mScanRecordLv.setAdapter(mAdapter);
+        return mRootView;
     }
 
     /**
@@ -68,12 +77,14 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
         String userName = UserLoginUtil.getLoginUser();
 
         //3.序列化取出保存的集合
-        String keyTag = userName + "_" + Serialize.TAG_HISTORY;
+        String keyTag = userName + "_" + Serialize.TAG_BROWSE;
         mDataSet = SerializeUtil.serializeObject(keyTag);
         if (mDataSet == null) {
             String detailMessage = "您还没有浏览过任何物品";
+            LogUtil.d("vava", detailMessage);
             listener.onError(new Exception(detailMessage));
         } else {
+            LogUtil.d("vava", "===mDataSet size ===" + mDataSet.size());
             listener.onSuccess(mDataSet);
         }
     }
@@ -81,16 +92,14 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
     @Override
     protected void handleError(Exception e) {
         SystemClock.sleep(300);
-        mScanRecordPb.setVisibility(View.GONE);
+        TextView tv = new TextView(ResUtil.getContext());
+        tv.setText(e.getMessage());
+        tv.setGravity(Gravity.CENTER);
+        tv.setTextColor(Color.BLACK);
+        FrameLayout view = mLoadPager.getRootView();
+        view.addView(tv);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
     @Override
     public void onDestroyView() {
@@ -98,53 +107,83 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
         ButterKnife.unbind(this);
     }
 
-    private class ScanRecordAdapter extends BaseAdapter{
+    private class ScanRecordAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            if(mDataSet != null){
-                mDataSet.size();
+            if (mDataSet != null) {
+                return mDataSet.size();
             }
             return 0;
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return mDataSet.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder<ProductDetailBean.ProductEntity> holder = null;
-            if(convertView == null){
-                 holder = new ViewHolder<>();
+            ViewHolder holder = null;
+            if (convertView == null) {
+                holder = new ViewHolder();
                 convertView = holder.mRootView;
-            }else{
-                holder = (ViewHolder<ProductDetailBean.ProductEntity>) convertView.getTag();
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
             ProductDetailBean.ProductEntity entity = mDataSet.get(position);
             holder.refreshView(entity);
             return convertView;
         }
 
-        public class ViewHolder<T> {
+        public class ViewHolder {
 
-            public  View mRootView;
-            public TextView mTest;
+            public View mRootView;
+            public TextView mTvName;
+            public TextView mTvPriceLimit;
+            public TextView mTvPriceMarket;
+            public ImageView mIvPic;
 
-            public ViewHolder(){
+            public ViewHolder() {
                 mRootView = View.inflate(ResUtil.getContext(), R.layout.scan_record_item, null);
-               TextView mTest = (TextView) mRootView.findViewById(R.id.scan_record_tv_test);
+                mTvName = (TextView) mRootView.findViewById(R.id.scan_record_tv_name);
+                mTvPriceLimit = (TextView) mRootView.findViewById(R.id.scan_record_tv_price_limit);
+                mTvPriceMarket = (TextView) mRootView.findViewById(R.id.scan_record_tv_price_market);
+                mIvPic = (ImageView) mRootView.findViewById(R.id.scan_record_iv);
                 mRootView.setTag(this);
             }
-            public void refreshView(T t){
-                mTest.setText(t.toString());
+
+            public void refreshView(ProductDetailBean.ProductEntity entity) {
+                String url = Url.ADDRESS_SERVER + entity.pics.get(0);
+                Picasso.with(ResUtil.getContext()).load(url).into(mIvPic);
+                mTvName.setText(entity.name);
+                mTvPriceLimit.setText("￥" + entity.limitPrice);
+
+                mTvPriceMarket.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                mTvPriceMarket.setText("￥" + entity.marketPrice);
+
             }
         }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        View title = View.inflate(ResUtil.getContext(), R.layout.scan_record_title, null);
+        TextView tvBack = (TextView) title.findViewById(R.id.scan_record_title_back);
+        tvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
+        });
+        MainActivity mMainActivity = (MainActivity) getActivity();
+        mMainActivity.setTopBarView(title);
     }
 }

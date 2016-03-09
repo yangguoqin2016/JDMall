@@ -27,6 +27,7 @@ import com.onlyone.jdmall.fragment.mine.AddressManagerFragment;
 import com.onlyone.jdmall.fragment.mine.MineAboutFragment;
 import com.onlyone.jdmall.fragment.mine.MineHelpFragment;
 import com.onlyone.jdmall.fragment.mine.MyIndentFragment;
+import com.onlyone.jdmall.fragment.mine.ScanRecordFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.NetUtil;
@@ -58,6 +59,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     public static final  String TAG_MINEADDRESSMANAGER_FRAGMENT = "tag_mineaddressmanager_fragment";
     public static final  String TAG_USERFEEDBACK_FRAGMENT       = "tag_userfeedback_fragment";
     private static final String TAG_LOGIN_FRAGMENT              = "tag_login_fragment";
+    public static final String TAG_SCANRECORD_FRAGMENT = "tag_scanrecord_fragment";
 
     @Bind(R.id.fragment_ll_mine_order)
     LinearLayout mFragmentLlMineOrder;
@@ -93,6 +95,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     private BaseFragment                 mAboutFragment;
     private BaseFragment                 mFavoriteFrament;
     private BaseFragment                 mAddressManagerFragment;
+    private ScanRecordFragment           mScanRecordFragment;
     private LoginFragment            mLoginFragment;
     SPUtil spUtil = new SPUtil(ResUtil.getContext());
     private MyIndentFragment mMyIndentFragment;
@@ -254,6 +257,10 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 changeFragment(mFavoriteFrament, TAG_MINEFAVORITE_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_record://浏览记录
+                if(mScanRecordFragment == null){
+                    mScanRecordFragment = new ScanRecordFragment();
+                }
+                changeFragment(mScanRecordFragment , TAG_SCANRECORD_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_help://帮助中心
                 if (mHelpFragment == null) {

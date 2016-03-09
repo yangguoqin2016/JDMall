@@ -163,7 +163,7 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
     /*界面不可见*/
     @Override
     public void onPause() {
-        mMainActivity.setHideTopBar(true);
+        //mMainActivity.setHideTopBar(true);
         super.onPause();
     }
 

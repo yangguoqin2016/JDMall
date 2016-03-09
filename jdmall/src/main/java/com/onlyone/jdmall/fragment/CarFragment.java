@@ -177,6 +177,9 @@ public class CarFragment extends BaseFragment<CartBean> {
 	@NonNull
 	public static StringBuilder buildStringFromCar(HashMap<CarProduct, Integer> savedCar) {
 		StringBuilder sb = new StringBuilder();
+		if (savedCar == null) {
+			return sb;
+		}
 		Set<Map.Entry<CarProduct, Integer>> entrySet = savedCar.entrySet();
 		for (Map.Entry<CarProduct, Integer> entry : entrySet) {
 			int id = entry.getKey().id;

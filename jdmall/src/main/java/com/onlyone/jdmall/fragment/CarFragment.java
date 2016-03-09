@@ -247,7 +247,13 @@ public class CarFragment extends BaseFragment<CartBean> {
 		tvRight.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mData.size() > 0) {
+				boolean canGoNext = true;
+				for (CartBean.CartEntity cartEntity : mData) {
+					if(cartEntity.prodNum == 0) {
+						canGoNext = false;
+					}
+				}
+				if (mData.size() > 0 && canGoNext) {
 					((HolderFragment) getParentFragment()).goForward(new BalanceFragment());
 				}
 			}

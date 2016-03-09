@@ -7,8 +7,7 @@
         android:text="返回"
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
-        android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="@color/selector_text_color"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -27,8 +26,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:text="保存"
-        android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="@color/selector_text_color"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

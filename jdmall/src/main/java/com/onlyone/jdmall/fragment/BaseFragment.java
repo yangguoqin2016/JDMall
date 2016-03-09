@@ -11,6 +11,9 @@ import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.pager.LoadPager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 项目名:	JDMall<br/>
  * 包名:		com.onlyone.jdmall.fragment<br/>
@@ -22,6 +25,7 @@ import com.onlyone.jdmall.pager.LoadPager;
 public abstract class BaseFragment<T> extends Fragment {
 
 	protected LoadPager<T> mLoadPager;
+	List<Long> times = new ArrayList();
 
 	@Nullable
 	@Override

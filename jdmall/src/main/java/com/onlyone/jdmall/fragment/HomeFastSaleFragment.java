@@ -83,7 +83,6 @@ public class HomeFastSaleFragment extends SuperBaseFragment<HomeFastSaleBean> im
     @Bind(R.id.fastsale_gird_r4_right_container)
     RelativeLayout mFastsaleGridR4RightContainer;
 
-
     private View                                         mTopBarView;
     private MainActivity                                 mActivity;
     private ImageView                                    mTypeIv;

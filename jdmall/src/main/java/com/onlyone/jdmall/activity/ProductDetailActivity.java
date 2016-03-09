@@ -335,7 +335,12 @@ public class ProductDetailActivity extends AppCompatActivity {
     //TODO:立即购买进入支付页面
     private void buyNow() {
 
-        Toast.makeText(this, "立即购买,id=" + mProductId, Toast.LENGTH_SHORT).show();
+        if(!UserLoginUtil.isLogin()) {
+            Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
+        }else{
+
+            Toast.makeText(ResUtil.getContext(), "立即进入结算中心购买", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -370,8 +375,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
 
             //TODO:跳转登录页面
-
-
 
         } else {
             String userName = UserLoginUtil.getLoginUser();

@@ -66,6 +66,30 @@
 			return size;
 		}
 
+4.首页就爱在图片使用Picasso不适配屏幕
+	添加Transformation类或者添加picasso-transformation的库;
+	picasso链式调用时代码如下:(自己建类)
+	 Transformation transformation = new Transformation() {
+                    @Override
+                    public Bitmap transform(Bitmap source) {
+                        int targetWidth = mWidthPixels/2;
+                        float ratio = source.getWidth()*1f / source.getHeight();
+
+                        int targetHeight = (int) (targetWidth /ratio);
+
+                        Bitmap copy = Bitmap.createScaledBitmap(source , targetWidth ,targetHeight ,false);
+                        if(copy != source){
+                            source.recycle();
+                        }
+                        return copy;
+                    }
+
+                    @Override
+                    public String key() {
+                        return "wt transformation";
+                    }
+                };
+
 ##Bug列表(解决的BUG就在前面加上"已解决"三个字)：
 1. 全新进入app然后点击home键退出app再重新进入之后点击首页上方的轮播图就会崩溃,错误是轮播的mTask为空
 2. (已解决)ScrollView嵌套ListView不能完全显示,不行滚动的BUGBug列表：

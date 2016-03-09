@@ -11,7 +11,7 @@
         android:layout_margin="4dp"
         android:background="#fff"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="17dp">
 
         <com.onlyone.jdmall.view.RatioLayout
             android:layout_width="match_parent"
@@ -26,6 +26,7 @@
         </com.onlyone.jdmall.view.RatioLayout>
 
         <TextView
+            android:layout_marginTop="8dp"
             android:textSize="18sp"
             android:textColor="#313131"
             android:id="@+id/item_pic_tv_title"

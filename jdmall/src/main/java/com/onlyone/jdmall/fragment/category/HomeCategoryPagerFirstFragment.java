@@ -135,7 +135,6 @@ public class HomeCategoryPagerFirstFragment extends BaseFragment<ItemBean> imple
         ImageView iv;
     }
 
-
     private void getwindowsData(){
 
         int widthPixels = getResources().getDisplayMetrics().widthPixels;

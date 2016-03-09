@@ -389,7 +389,6 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
                 if (mHomeCategoryPagerSecondFragment == null) {
                     mHomeCategoryPagerSecondFragment = new HomeCategoryPagerSecondFragment();
                 }
-//				transaction.add(R.id.fl_content_container, mHomeCategoryPagerSecondFragment);
                 holderFragment.goForward(mHomeCategoryPagerSecondFragment);
                 break;
             case R.id.category_first_pager_third_container:
@@ -397,7 +396,6 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
                 if (mHomeCategoryPagerThirdFragment == null) {
                     mHomeCategoryPagerThirdFragment = new HomeCategoryPagerThirdFragment();
                 }
-//				transaction.add(R.id.fl_content_container, mHomeCategoryPagerThirdFragment);
                 holderFragment.goForward(mHomeCategoryPagerThirdFragment);
                 break;
             case R.id.category_first_pager_four_container:
@@ -405,7 +403,6 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
                 if (mHomeCategoryPagerFourFragment == null) {
                     mHomeCategoryPagerFourFragment = new HomeCategoryPagerFourFragment();
                 }
-//				transaction.add(R.id.fl_content_container, mHomeCategoryPagerFourFragment);
                 holderFragment.goForward(mHomeCategoryPagerFourFragment);
                 break;
             case R.id.category_first_pager_five_container:
@@ -413,7 +410,6 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
                 if (mHomeCategoryPagerFiveFragment == null) {
                     mHomeCategoryPagerFiveFragment = new HomeCategoryPagerFiveFragment();
                 }
-//				transaction.add(R.id.fl_content_container, mHomeCategoryPagerFiveFragment);
                 holderFragment.goForward(mHomeCategoryPagerFiveFragment);
                 break;
             case R.id.category_first_pager_six_container:
@@ -421,7 +417,6 @@ public class HomeCategoryFragment extends SuperBaseFragment<HomeCategoryBean>
                 if (mHomeCategoryPagerSixFragment == null) {
                     mHomeCategoryPagerSixFragment = new HomeCategoryPagerSixFragment();
                 }
-//				transaction.add(R.id.fl_content_container, mHomeCategoryPagerSixFragment);
                 holderFragment.goForward(mHomeCategoryPagerSixFragment);
                 break;
             default:

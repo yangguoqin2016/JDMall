@@ -182,12 +182,6 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
     }
 
     private void changeFragment(BaseFragment fragment, String tag) {
-        /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fl_content_container, fragment, tag);
-        transaction.addToBackStack("aaa");
-
-        transaction.commit();*/
         HolderFragment parentFragmrnt = (HolderFragment) getParentFragment();
         parentFragmrnt.goForward(fragment);
     }

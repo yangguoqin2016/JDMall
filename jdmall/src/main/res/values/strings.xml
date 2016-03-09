@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">JDMall</string>
     <string name="title_activity_product_detail">ProductDetailActivity</string>
+    <string name="title_activity_extra_login">ExtraLoginActivity</string>
 </resources>

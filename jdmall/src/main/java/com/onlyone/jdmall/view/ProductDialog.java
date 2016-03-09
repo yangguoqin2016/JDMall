@@ -2,6 +2,7 @@ package com.onlyone.jdmall.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,13 +14,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.onlyone.jdmall.R;
+import com.onlyone.jdmall.activity.ExtraLoginActivity;
 import com.onlyone.jdmall.activity.ProductDetailActivity;
 import com.onlyone.jdmall.bean.ProductDetailBean;
 import com.onlyone.jdmall.constance.Url;
@@ -223,6 +225,8 @@ public class ProductDialog extends Dialog {
     private void buyNow() {
         if(!UserLoginUtil.isLogin()) {
             Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
+            switchToLoginActivity();
+            dismiss();
         }else{
 
             Toast.makeText(ResUtil.getContext(), "立即进入结算中心购买", Toast.LENGTH_SHORT).show();
@@ -258,7 +262,11 @@ public class ProductDialog extends Dialog {
         //2.获取登录用户名
         if (!UserLoginUtil.isLogin()) {
             Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
-            //TODO:跳转登录页面,activity->fragment
+
+            //跳转登录页面,activity->fragment
+            switchToLoginActivity();
+
+
         } else {
             String userName = UserLoginUtil.getLoginUser();
             String string = mProductDialogNumEdit.getText().toString();
@@ -278,6 +286,19 @@ public class ProductDialog extends Dialog {
 
         dismiss();
     }
+
+    /**
+     * 跳转到ExtraLoginActivity
+     */
+    public void switchToLoginActivity(){
+
+        Intent intent = new Intent(ResUtil.getContext(),ExtraLoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ResUtil.getContext().startActivity(intent);
+
+    }
+
+
 
     /**
      * 添加商品数量
@@ -455,7 +476,7 @@ class PropertyAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = View.inflate(ResUtil.getContext(), R.layout.item_color_size_category, null);
             holder.tvProperty = (TextView) convertView.findViewById(R.id.color_size_item);
-            holder.llContainer = (LinearLayout) convertView.findViewById(R.id.color_size_container);
+            holder.flContainer = (FrameLayout) convertView.findViewById(R.id.color_size_container);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -465,11 +486,11 @@ class PropertyAdapter extends BaseAdapter {
 
         if (bean.isSelected) {
             //当前item选中
-            holder.llContainer.setBackgroundResource(R.drawable.product_prop_selected_shape);
+            holder.flContainer.setBackgroundResource(R.drawable.product_prop_selected_shape);
             holder.tvProperty.setTextColor(Color.WHITE);
         } else {
             //未选中
-            holder.llContainer.setBackgroundResource(R.drawable.product_prop_normal_shape);
+            holder.flContainer.setBackgroundResource(R.drawable.product_prop_normal_shape);
             holder.tvProperty.setTextColor(Color.BLACK);
         }
 
@@ -477,7 +498,7 @@ class PropertyAdapter extends BaseAdapter {
 
 
         //TextView容器设置点击监听
-        holder.llContainer.setOnClickListener(new View.OnClickListener() {
+        holder.flContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemClickListener.itemClick(mDatas, position);
@@ -522,8 +543,8 @@ class PropertyAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        TextView     tvProperty;
-        LinearLayout llContainer;
+        TextView    tvProperty;
+        FrameLayout flContainer;
     }
 
     public interface OnItemClickListener {

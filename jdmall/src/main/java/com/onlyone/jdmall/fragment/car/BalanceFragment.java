@@ -467,7 +467,9 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> implements View.
 					sb.append(String.format("%d:%d:%s|", key.id, value, translateProp(key
 							.prop)));
 				}
-				sb.substring(0, sb.length() - 1);
+				String res = sb.substring(0, sb.length() - 1);
+				sb.delete(0, sb.length());
+				sb.append(res);
 				sb.append("&addressId=")
 						.append(mAddressInfo.mId)
 						.append("&paymentType=")
@@ -480,7 +482,7 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> implements View.
 						.append(mTicketInfo.mTicketHeader)
 						.append("&invoiceContent=")
 						.append(mTicketInfo.mTicketType);
-
+				LogUtil.e(TAG, sb.toString());
 				return sb.toString().getBytes();
 			}
 		};
@@ -490,12 +492,12 @@ public class BalanceFragment extends BaseFragment<CheckoutBean> implements View.
 
 	public String translateProp(int[] prop) {
 		StringBuilder sb = new StringBuilder();
-		for (int aProp : prop) {
-			sb.append(aProp);
+		for (int i = 0; i < prop.length; i++) {
+			sb.append(prop[i]);
 			sb.append(",");
 		}
-		sb.substring(0, sb.length() - 1);
-		return sb.toString();
+LogUtil.e(TAG, sb.toString());
+		return sb.substring(0, sb.length()-1);
 	}
 
 	public interface OnResultBack {

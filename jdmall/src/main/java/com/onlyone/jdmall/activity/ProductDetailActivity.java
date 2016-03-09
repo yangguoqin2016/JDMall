@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -20,19 +22,26 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ProductDetailBean;
+import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Serialize;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 import com.onlyone.jdmall.utils.SerializeUtil;
 import com.onlyone.jdmall.utils.UserLoginUtil;
 import com.onlyone.jdmall.view.ProductDialog;
 import com.onlyone.jdmall.view.RatioLayout;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -252,8 +261,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         boolean isColorSelected = mPropertyBeanArr[0].isSelected;
         boolean isSizeSelected = mPropertyBeanArr[1].isSelected;
 
-        System.out.println("isColorSelected=" + isColorSelected);
-        System.out.println("isSizeSelected=" + isSizeSelected);
+       // System.out.println("isColorSelected=" + isColorSelected);
+       // System.out.println("isSizeSelected=" + isSizeSelected);
 
         String color = mPropertyBeanArr[0].v;
         String size = mPropertyBeanArr[1].v;
@@ -298,10 +307,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             case R.id.product_detail_store:
                 if(!UserLoginUtil.isLogin()) {
                     Toast.makeText(this, "您还未登录~", Toast.LENGTH_SHORT).show();
+                    switchToLoginActivity();
                 }else{
 
-                    saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_STORE);
-                    Toast.makeText(this, "已收藏..", Toast.LENGTH_SHORT).show();
+                //    saveBrowseOrStoreHistory(mProductBean, Serialize.TAG_STORE);
+                    storeProduct();
                 }
                 break;
             case R.id.product_detail_addcar:
@@ -325,11 +335,67 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 收藏商品
+     */
+    private void storeProduct() {
+        if(mProductBean == null){
+            return;
+        }
+        String url = Url.ADDRESS_SERVER+"/product/favorites?pId="+mProductBean.id;
+        RequestQueue queue = NetUtil.getRequestQueue();
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                System.out.println("s====="+s);
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String result  = (String) jsonObject.get("response");
+                    if("addfavorites".equals(result)) {
+                        Toast.makeText(ProductDetailActivity.this, "收藏成功~", Toast.LENGTH_SHORT).show();
+                    }else {
+                        String error_code = (String) jsonObject.get("error_code");
+                        if("1535".equals(error_code)) {
+                            Toast.makeText(ProductDetailActivity.this, "当前商品已添加过收藏", Toast.LENGTH_SHORT).show();
+                        }
+                        if("1533".equals(error_code)){
+
+                            Toast.makeText(ProductDetailActivity.this, "请重新登录", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ProductDetailActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<>();
+
+                SPUtil spUtil = new SPUtil(ResUtil.getContext());
+                String userid = spUtil.getLong(SP.USERID,0)+"";
+                headers.put("userid", userid);
+                return headers;
+            }
+
+        };
+
+        queue.add(request);
+
+    }
+
     //TODO:立即购买进入支付页面
     private void buyNow() {
 
         if(!UserLoginUtil.isLogin()) {
-            Toast.makeText(ResUtil.getContext(), "您还没有登录~", Toast.LENGTH_SHORT).show();
+            //还未登录
+            switchToLoginActivity();
+
         }else{
 
             Toast.makeText(ResUtil.getContext(), "立即进入结算中心购买", Toast.LENGTH_SHORT).show();
@@ -365,9 +431,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         //2.获取登录用户名
         if (!UserLoginUtil.isLogin()) {
-            Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
-
-            //TODO:跳转登录页面
+            //跳转登录页面
+            switchToLoginActivity();
 
         } else {
             String userName = UserLoginUtil.getLoginUser();
@@ -443,6 +508,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
         }
+    }
+
+    /**
+     * 跳转到ExtraLoginActivity
+     */
+    public void switchToLoginActivity(){
+
+       startActivity(new Intent(this,ExtraLoginActivity.class));
+
     }
 
 

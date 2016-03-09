@@ -45,43 +45,43 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-	<!--促销快报的文字上面一行抽样-->
-	<style name="fastsale_text_top">
-		<item name="android:textColor">#fff</item>
-		<item name="android:layout_width">80dp</item>
-		<item name="android:layout_height">20dp</item>
-		<item name="android:textSize">15sp</item>
-		<item name="android:textStyle">bold</item>
-	</style>
+    <!--促销快报的文字上面一行抽样-->
+    <style name="fastsale_text_top">
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
-	<!--促销快报的文字下面一行抽样-->
-	<style name="fastsale_text_bottom">
-		<item name="android:textColor">#fff</item>
-		<item name="android:layout_width">80dp</item>
-		<item name="android:layout_height">20dp</item>
-		<item name="android:textSize">13sp</item>
-		<item name="android:textStyle">bold</item>
-	</style>
+    <!--促销快报的文字下面一行抽样-->
+    <style name="fastsale_text_bottom">
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
-	<!--分类商品的条目的文字抽样-->
-	<style name="category_first_pager_item_text">
-		<item name="android:textColor">#424242</item>
-		<item name="android:layout_marginLeft">10dp</item>
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:textSize">20sp</item>
-		<item name="android:layout_centerVertical">true</item>
-	</style>
+    <!--分类商品的条目的文字抽样-->
+    <style name="category_first_pager_item_text">
+        <item name="android:textColor">#424242</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
 
-	<!--分类商品的条目的引导标记的ImageView抽样-->
-	<style name="category_first_pager_item_img">
-		<item name="android:layout_marginRight">10dp</item>
-		<item name="android:layout_alignParentRight">true</item>
-		<item name="android:layout_centerVertical">true</item>
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:background">@drawable/search_next</item>
-	</style>
+    <!--分类商品的条目的引导标记的ImageView抽样-->
+    <style name="category_first_pager_item_img">
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/search_next</item>
+    </style>
 
     <!--选择商品颜色与尺寸弹出窗口样式 -->
     <style name="ProductDialogStyle" parent="@android:style/Theme.Dialog">

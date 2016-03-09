@@ -232,7 +232,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 break;
             case R.id.fragment_ll_mine_order://我的订单
                 if (mMyIndentFragment == null) {
-                    mMyIndentFragment = new MyIndentFragment();
+                    mMyIndentFragment = new MyIndentFragment(1);
                 }
                 changeFragment(mMyIndentFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
 
@@ -333,7 +333,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
      *  @param fragment
      * @param tag
 	 */
-    private void changeFragment(BaseFragment fragment, String tag) {
+    public  void changeFragment(BaseFragment fragment, String tag) {
         /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fl_content_container, fragment, tag);

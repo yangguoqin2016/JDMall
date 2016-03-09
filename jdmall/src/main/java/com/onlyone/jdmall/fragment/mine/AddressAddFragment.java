@@ -2,7 +2,6 @@ package com.onlyone.jdmall.fragment.mine;
 
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -125,7 +124,6 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
             public void onResponse(String jsonString) {
                 Gson gson = new Gson();
                 mAddressAddBean = gson.fromJson(jsonString, AddressAddBean.class);
-                Log.d("AddressAddFragment", "jsonString==" + jsonString);
                 Toast.makeText(ResUtil.getContext(), "保存成功", Toast.LENGTH_SHORT).show();
 
             }
@@ -157,7 +155,6 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
                 map.put("zipCode", 231343 + "");
                 map.put("isDefault", 0 + "");
 
-                Log.d("AddressAddFragment", "name=" + map.get("name") + "phone=" + map.get("phoneNumber") + "detailAddr=" + map.get("addressDetail"));
                 return map;
             }
 
@@ -169,7 +166,6 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
                 SPUtil spUtil = new SPUtil(ResUtil.getContext());
                 String userid = spUtil.getLong(SP.USERID,0)+"";
                 headers.put("userid", userid);
-                Log.d("MineFavoriteFragment", "---------------" + userid);
                 return headers;
             }
         };
@@ -177,7 +173,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
         queue.add(request);
 
         /*跳转到上级界面*/
-        SystemClock.sleep(1500);
+        SystemClock.sleep(1200);
         AddressManagerFragment fragment = new AddressManagerFragment();
         changeFragment(fragment,TAG_ADDRESSADD_FRAGMENT);
 

@@ -47,6 +47,7 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
     private        FavoriteBean mFavoriteBean;
     private static View         mTopBar;
     private        MainActivity mMainActivity;
+    private View mClear;
 
     /*请求成功的回调*/
     @Override
@@ -66,8 +67,8 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         mMineFavoriteLvContainer.setAdapter(new FavoriteAdapter());
 
         /*获得清空按钮(默认不可见),若收藏夹不为空,显示*/
-        View clear = mTopBar.findViewById(R.id.topbar_tv_clear);
-        clear.setVisibility(mFavoriteBean.productList.size() == 0 ? View.GONE : View.VISIBLE);
+        mClear = mTopBar.findViewById(R.id.topbar_tv_clear);
+        mClear.setVisibility(mFavoriteBean.productList.size() == 0 ? View.GONE : View.VISIBLE);
 
         //-------------------------------------------------------------------------------
 
@@ -129,13 +130,6 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         Toast.makeText(ResUtil.getContext(), "unknown error has occured:" + e.toString(), Toast.LENGTH_SHORT).show();
     }
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }*/
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -149,20 +143,12 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
         mMainActivity = (MainActivity) getActivity();
         mTopBar = View.inflate(ResUtil.getContext(), R.layout.inflate_topbar_favorite, null);
         /*获取账户中心按钮*/
-        mTopBar.findViewById(R.id.topbar_tv_accountcenter);
+        View accountCenter = mTopBar.findViewById(R.id.topbar_tv_accountcenter);
         /*点击回到账户中心*/
-        mTopBar.setOnClickListener(new View.OnClickListener() {
+        accountCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                Fragment fragment = manager.findFragmentByTag(MineFragment.TAG_MINEFAVORITE_FRAGMENT);
-                transaction.remove(fragment);
-                mMainActivity.mRgBottomNav.check(R.id.rb_bottom_mine);
-                transaction.commit();*/
-                /*FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.fl_content_container, new MineFragment());
-                transaction.commit();*/
+                
                 ((HolderFragment)getParentFragment()).goBack();
             }
         });

@@ -159,8 +159,9 @@
 
 				<TextView
 					android:id="@+id/tv_balance_time"
-					android:layout_width="wrap_content"
+					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_weight="1"
 					android:text="送货时间:仅双休日送货"
 					android:textSize="15sp"/>
 
@@ -259,8 +260,8 @@
 			<LinearLayout
 				android:id="@+id/ll_balance_images"
 				android:layout_width="match_parent"
-				android:layout_weight="1"
 				android:layout_height="wrap_content"
+				android:layout_weight="1"
 				android:orientation="horizontal">
 
 			</LinearLayout>
@@ -290,7 +291,6 @@
 					android:src="@mipmap/balance_right_black"/>
 
 			</LinearLayout>
-
 
 
 		</LinearLayout>

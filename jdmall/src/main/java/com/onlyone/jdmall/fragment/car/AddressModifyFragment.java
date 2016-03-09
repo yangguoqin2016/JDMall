@@ -1,22 +1,43 @@
 package com.onlyone.jdmall.fragment.car;
 
 import android.content.Context;
+import android.os.SystemClock;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
+import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
+import com.onlyone.jdmall.bean.AddressBean;
 import com.onlyone.jdmall.bean.ProvinceBean;
+import com.onlyone.jdmall.constance.SP;
+import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
+import com.onlyone.jdmall.fragment.HolderFragment;
+import com.onlyone.jdmall.fragment.mine.AddressManagerFragment;
 import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.utils.NetUtil;
+import com.onlyone.jdmall.utils.ResUtil;
+import com.onlyone.jdmall.utils.SPUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,6 +50,8 @@ import butterknife.ButterKnife;
  * @描述: 修改地址的Fragment
  */
 public class AddressModifyFragment extends BaseFragment<Object> implements View.OnClickListener {
+    private static final String TAG_ADDRESSMODIFY_FRAGMENT = "tag_addressmodify_fragment";
+    private AddressBean.AddressList mAddressList;
     @Bind(R.id.addressmodify_et_contacts)
     EditText  mAddressmodifyEtContacts;
     @Bind(R.id.addressmodify_et_phone)
@@ -39,6 +62,8 @@ public class AddressModifyFragment extends BaseFragment<Object> implements View.
     ImageView mAddressmodifyIvDefault;
     @Bind(R.id.addressmodify_iv_delete)
     ImageView mAddressmodifyIvDelete;
+    @Bind(R.id.addressmodify_et_province)
+    TextView  mAddressmodifyTvProvince;
 
     private ArrayList<ProvinceBean>                 options1Items = new ArrayList<ProvinceBean>();
     private ArrayList<ArrayList<String>>            options2Items = new ArrayList<ArrayList<String>>();
@@ -49,6 +74,11 @@ public class AddressModifyFragment extends BaseFragment<Object> implements View.
     OptionsPickerView pvOptions;
     View              vMasker;
 
+
+    public AddressModifyFragment(AddressBean.AddressList addressList) {
+        mAddressList = addressList;
+    }
+
     @Override
     public void onAttach(Context context) {
         mMainActivity = (MainActivity) context;
@@ -57,7 +87,11 @@ public class AddressModifyFragment extends BaseFragment<Object> implements View.
 
     @Override
     protected void refreshSuccessView(Object data) {
-
+        Log.d("AddressModifyFragment", "2");
+        mAddressmodifyEtContacts.setText(mAddressList.name);
+        mAddressmodifyEtPhone.setText(mAddressList.phoneNumber);
+        mAddressmodifyEtDetailaddress.setText(mAddressList.addressDetail);
+        mAddressmodifyTvProvince.setText(mAddressList.province + mAddressList.city + mAddressList.addressArea);
     }
 
     @Override
@@ -77,7 +111,12 @@ public class AddressModifyFragment extends BaseFragment<Object> implements View.
         //设置中心内容
         View contentView = View.inflate(mMainActivity, R.layout.inflate_addressmodify, null);
         ButterKnife.bind(this, contentView);
+
+        /*点击监听*/
+        mAddressmodifyIvDefault.setOnClickListener(this);
+        mAddressmodifyIvDelete.setOnClickListener(this);
         initProvinceSelect(contentView);
+        Log.d("AddressModifyFragment", "1");
         return contentView;
     }
 
@@ -102,20 +141,162 @@ public class AddressModifyFragment extends BaseFragment<Object> implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.topbar_tv_back://返回
-
+                goBack();
                 break;
             case R.id.topbar_tv_save://保存
-
+                saveModify();
                 break;
             case R.id.addressmodify_iv_default://设为默认地址
-
+                mAddressList.isDefault = 1;
+                setDefault();
                 break;
             case R.id.addressmodify_iv_delete://删除地址
+                // TODO: 2016/3/9 弹出一个对话框再次确认 
+                deleteAddress();
+                goBack();
 
                 break;
             default:
                 break;
         }
+    }
+
+    private void setDefault() {
+        RequestQueue queue = NetUtil.getRequestQueue();
+
+
+        Response.Listener<String> success = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Toast.makeText(ResUtil.getContext(), "设置成功", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        Response.ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ResUtil.getContext(),"设置失败",Toast.LENGTH_SHORT).show();
+            }
+        };
+        String url = Url.ADDRESS_ADDRESSDEFAULT + "?id=" + mAddressList.id;
+        StringRequest request = new StringRequest(Request.Method.GET, url, success, error);
+        queue.add(request);
+    }
+
+    private void deleteAddress() {
+        RequestQueue queue = NetUtil.getRequestQueue();
+
+
+        Response.Listener<String> success = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Toast.makeText(ResUtil.getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        Response.ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ResUtil.getContext(),"删除失败",Toast.LENGTH_SHORT).show();
+            }
+        };
+        String url = Url.ADDRESS_ADDRESSDELETE + "?id=" + mAddressList.id;
+        StringRequest request = new StringRequest(Request.Method.GET, url, success, error);
+        queue.add(request);
+    }
+
+    private void saveModify() {
+
+        final String name = mAddressmodifyEtContacts.getText().toString().trim();
+        final String phone = mAddressmodifyEtPhone.getText().toString().trim();
+        final String province = mAddressmodifyTvProvince.getText().toString().trim();
+        final String detailAddr = mAddressmodifyEtDetailaddress.getText().toString().trim();
+        /*用户输入校验*/
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(ResUtil.getContext(), "姓名不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(phone)) {
+            Toast.makeText(ResUtil.getContext(), "手机号码不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(province)) {
+            Toast.makeText(ResUtil.getContext(), "请选择省市", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(detailAddr)) {
+            Toast.makeText(ResUtil.getContext(), "详细地址不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        RequestQueue queue = NetUtil.getRequestQueue();
+
+        Response.Listener success = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String jsonString) {
+                Gson gson = new Gson();
+                //                mAddressAddBean = gson.fromJson(jsonString, AddressAddBean.class);
+                Log.d("AddressAddFragment", "jsonString==" + jsonString);
+                Toast.makeText(ResUtil.getContext(), "保存修改成功", Toast.LENGTH_SHORT).show();
+
+            }
+        };
+
+        Response.ErrorListener error = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ResUtil.getContext(), "修改失败", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        //http://localhost:8080/market/addresssave
+        String url = Url.ADDRESS_SERVER + "/addresssave";
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, success, error) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> map = new HashMap<>();
+                map.put("id", mAddressList.id + "");
+                map.put("name", name);
+                map.put("phoneNumber", phone);
+                map.put("province", province.substring(0, 2));
+                map.put("city", province.substring(2, 4));
+                map.put("addressArea", province.substring(4, 6));
+                //万家丽路960号
+                map.put("addressDetail", detailAddr);
+                map.put("zipCode", 231343 + "");
+                map.put("isDefault", 1 + "");
+
+                Log.d("AddressAddFragment", "name=" + map.get("name") + "phone=" + map.get("phoneNumber") + "detailAddr=" + map.get("addressDetail"));
+                return map;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+
+                SPUtil spUtil = new SPUtil(ResUtil.getContext());
+                String userid = spUtil.getLong(SP.USERID, 0) + "";
+                headers.put("userid", userid);
+                Log.d("MineFavoriteFragment", "---------------" + userid);
+                return headers;
+            }
+        };
+
+        queue.add(request);
+
+        /*跳转到上级界面*/
+        SystemClock.sleep(1500);
+        AddressManagerFragment fragment = new AddressManagerFragment();
+        changeFragment(fragment, TAG_ADDRESSMODIFY_FRAGMENT);
+    }
+
+    private void changeFragment(BaseFragment fragment, String tag) {
+        HolderFragment parentFragmrnt = (HolderFragment) getParentFragment();
+        parentFragmrnt.goForward(fragment);
     }
 
     private void initProvinceSelect(View view) {

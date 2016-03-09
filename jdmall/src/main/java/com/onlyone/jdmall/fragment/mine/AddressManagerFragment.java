@@ -1,8 +1,10 @@
 package com.onlyone.jdmall.fragment.mine;
 
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.fragment.BaseFragment;
 import com.onlyone.jdmall.fragment.HolderFragment;
 import com.onlyone.jdmall.fragment.MineFragment;
+import com.onlyone.jdmall.fragment.car.AddressModifyFragment;
 import com.onlyone.jdmall.pager.LoadListener;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -41,7 +44,8 @@ import butterknife.ButterKnife;
  */
 public class AddressManagerFragment extends BaseFragment<AddressBean> {
 
-    private static final String ADDRESS_ADD_FRAGMENT = "address_add_fragment";
+    private static final String ADDRESS_ADD_FRAGMENT       = "address_add_fragment";
+    private static final String TAG_ADDRESSMODIFY_FRAGMENT = "tag_addressmodify_fragment";
     private View         mSucessView;
     private MainActivity mMainActivity;
     private View         mTopBar;
@@ -117,6 +121,17 @@ public class AddressManagerFragment extends BaseFragment<AddressBean> {
         mAddressBean = data;
         ListView lvAddresses = (ListView) mSucessView.findViewById(R.id.mine_address_lv_container);
         lvAddresses.setAdapter(new AddressAdapter());
+        /*设置点击监听*/
+        lvAddresses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AddressBean.AddressList addressList = mAddressBean.addressList.get(position);
+                Log.d("AddressManagerFragment", "data==" + addressList.addressDetail);
+                AddressModifyFragment addressModifyFragment = new AddressModifyFragment(addressList);
+                changeFragment(addressModifyFragment, TAG_ADDRESSMODIFY_FRAGMENT);
+
+            }
+        });
     }
 
     /*private void showEmptyView() {

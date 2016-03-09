@@ -38,13 +38,13 @@ public class CarProduct implements Serializable {
 
 		CarProduct product = (CarProduct) o;
 
-		return id == product.id && prop == product.prop;
+		return id == product.id;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = id;
-		result = 31 * result + prop.length;
+		result = 31 * result;
 		return result;
 	}
 }

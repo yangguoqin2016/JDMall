@@ -22,9 +22,6 @@ import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.bean.ProductDetailBean;
 import com.onlyone.jdmall.constance.Serialize;
 import com.onlyone.jdmall.constance.Url;
-import com.onlyone.jdmall.fragment.HolderFragment;
-import com.onlyone.jdmall.fragment.LoginFragment;
-import com.onlyone.jdmall.fragment.MineFragment;
 import com.onlyone.jdmall.model.CarModel;
 import com.onlyone.jdmall.utils.NetUtil;
 import com.onlyone.jdmall.utils.ResUtil;
@@ -373,10 +370,8 @@ public class ProductDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "您还没有登录~", Toast.LENGTH_SHORT).show();
 
             //TODO:跳转登录页面
-            MineFragment mineFragment = new MineFragment();
-            HolderFragment parentFragment = (HolderFragment) mineFragment.getParentFragment();
-            LoginFragment loginFragment = new LoginFragment();
-            parentFragment.goForward(loginFragment);
+
+
 
         } else {
             String userName = UserLoginUtil.getLoginUser();
@@ -389,7 +384,6 @@ public class ProductDetailActivity extends AppCompatActivity {
      * 弹出对话框选择颜色与尺寸
      */
     private void selectColorAndSize() {
-        //弹出对话框口选择产品
         mProductDialog.show();
     }
 

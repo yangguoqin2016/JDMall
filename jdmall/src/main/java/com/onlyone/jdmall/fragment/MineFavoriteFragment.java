@@ -225,7 +225,7 @@ public class MineFavoriteFragment extends BaseFragment<FavoriteBean> {
             /*商品名*/
             holder.mItemFavoriteTvName.setText(productInfo.name);
             /*商品数量*/
-            holder.mItemFavoriteTvCount.setText("2");// TODO: 2016/3/6
+            holder.mItemFavoriteTvCount.setText("1");// TODO: 2016/3/6
             /*单价*/
             holder.mItemFavoriteTvPrice.setText("单价: " + productInfo.price);
             /*小计*/

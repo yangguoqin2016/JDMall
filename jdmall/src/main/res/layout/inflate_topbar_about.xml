@@ -8,7 +8,7 @@
                android:layout_height="wrap_content"
                android:layout_centerVertical="true"
                android:padding="10dp"
-              android:textColor="#000"
+              android:textColor="@color/selector_text_color"
               android:id="@+id/mine_tv_about_back"
                android:text="返回"/>
 

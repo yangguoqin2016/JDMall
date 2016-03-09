@@ -1,6 +1,7 @@
 package com.onlyone.jdmall.adapter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.onlyone.jdmall.utils.LogUtil;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -29,10 +31,13 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyVi
 
     private List<LimitBuyBean.LimitBuyItemBean> mProductList;
     private RecyclerView mRecyclerView;
+    private final int mWidthPixels;
 
     public StaggeredAdapter(List<LimitBuyBean.LimitBuyItemBean> datas ,RecyclerView recyclerView) {
         mProductList = datas;
         mRecyclerView = recyclerView;
+        mWidthPixels = ResUtil.getContext().getResources().getDisplayMetrics().widthPixels;
+        LogUtil.d("vovo" , "==widthPixels =="+ mWidthPixels);
     }
 
     @Override
@@ -83,8 +88,28 @@ public class StaggeredAdapter extends RecyclerView.Adapter<StaggeredAdapter.MyVi
         private void refreshView(LimitBuyBean.LimitBuyItemBean productBean) {
 
             String url = Url.ADDRESS_SERVER+productBean.pic;
-            LogUtil.d("vovo" , "url = "+url);
-            Picasso.with(ResUtil.getContext()).load(url).into(mIvPic, new Callback() {
+            LogUtil.d("vovo", "url = " + url);
+            Transformation transformation = new Transformation() {
+                @Override
+                public Bitmap transform(Bitmap source) {
+                    int targetWidth = mWidthPixels/2;
+                    float ratio = source.getWidth()*1f / source.getHeight();
+
+                    int targetHeight = (int) (targetWidth /ratio);
+
+                    Bitmap copy = Bitmap.createScaledBitmap(source , targetWidth ,targetHeight ,false);
+                    if(copy != source){
+                        source.recycle();
+                    }
+                    return copy;
+                }
+
+                @Override
+                public String key() {
+                    return "wt transformation";
+                }
+            };
+            Picasso.with(ResUtil.getContext()).load(url).transform(transformation).into(mIvPic, new Callback() {
                 @Override
                 public void onSuccess() {
                     mRecyclerView.requestLayout();

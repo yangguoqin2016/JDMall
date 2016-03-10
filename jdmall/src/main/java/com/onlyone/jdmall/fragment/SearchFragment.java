@@ -459,6 +459,7 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
                 size = 20;
                 break;
             default:
+                size = 20;
                 break;
         }
         return size;

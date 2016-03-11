@@ -11,7 +11,7 @@ public interface UtilConstant {
 	/**
 	 * 日志输出等级,默认输出全部日志
 	 */
-	int LOG_LEVEL = 63;
+	int LOG_LEVEL = 0;
 
 	/**
 	 * 默认日志输出TAG

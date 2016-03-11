@@ -2,8 +2,8 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     >
     <!--商品详情顶部导航栏-->
     <RelativeLayout
@@ -38,41 +38,41 @@
     <!--底部操作栏,收藏,加入购物车,购买-->
     <LinearLayout
         android:id="@+id/product_detail_bottom"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="53dp">
+        android:layout_height="53dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/product_detail_store"
-            android:gravity="center"
-            android:background="@drawable/selector_store_bg"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:drawableLeft="@mipmap/good_shoucang"
+            android:background="@drawable/selector_store_bg"
             android:clickable="true"
-            android:textSize="18sp"
-            android:text="收藏"/>
+            android:drawableLeft="@mipmap/good_shoucang"
+            android:gravity="center"
+            android:text="收藏"
+            android:textSize="18sp"/>
         <TextView
             android:id="@+id/product_detail_addcar"
-            android:clickable="true"
-            android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:background="@drawable/selector_addcar_bg"
-            android:textSize="18sp"
-            android:text="加入购物车"/>
-        <TextView
-            android:id="@+id/product_detail_buy"
             android:clickable="true"
             android:gravity="center"
+            android:text="加入购物车"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/product_detail_buy"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:background="@drawable/selector_buy_bg"
-            android:textSize="18sp"
-            android:text="马上抢"/>
+            android:clickable="true"
+            android:gravity="center"
+            android:text="马上抢"
+            android:textSize="18sp"/>
     </LinearLayout>
 
     <!--详情正文-->
@@ -80,8 +80,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/product_detail_topbar"
         android:layout_above="@id/product_detail_bottom"
+        android:layout_below="@id/product_detail_topbar"
         android:scrollbars="none"
         >
         <LinearLayout
@@ -92,21 +92,27 @@
 
             <!--具体详情,轮播图片-->
             <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="230dp">
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/product_detail_pic_viewpager"
+                            android:layout_height="300dp">
+                <com.onlyone.jdmall.view.RatioLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    app:rlPicRatio="0.66"
+                    app:rlRelative="height">
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/product_detail_pic_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </com.onlyone.jdmall.view.RatioLayout>
                 <TextView
                     android:id="@+id/product_detail_viewpager_indicator"
-                    android:layout_margin="13dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:text="1/5"
-                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="13dp"
                     android:background="@drawable/product_detail_indicator_bg"
+                    android:gravity="center"
+                    android:text="1/5"
                     android:textSize="15sp"/>
 
             </RelativeLayout>
@@ -208,12 +214,12 @@
 
                 <cn.iwgang.countdownview.CountdownView
                     android:id="@+id/limit_buy_count_view"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     app:isHideTimeBackground="false"
                     app:isShowDay="false"
                     app:isShowHour="true"
@@ -305,10 +311,10 @@
                 />
             <RelativeLayout
                 android:id="@+id/product_detail_enter_des"
-                android:clickable="true"
-                android:background="@drawable/selector_choose_color_size_bg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_choose_color_size_bg"
+                android:clickable="true">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -331,11 +337,11 @@
                 android:src="@mipmap/divider"
                 />
             <RelativeLayout
-                android:clickable="true"
-                android:background="@drawable/selector_choose_color_size_bg"
                 android:id="@+id/product_detail_select_color_size"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_choose_color_size_bg"
+                android:clickable="true">
                 <TextView
                     android:id="@+id/product_detail_please_select"
                     android:layout_width="wrap_content"
@@ -422,8 +428,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="10件"
-                    android:textSize="15sp"
                     android:textColor="#d83ee6"
+                    android:textSize="15sp"
                     />
             </LinearLayout>
 
@@ -434,10 +440,10 @@
                 android:src="@mipmap/divider"
                 />
             <RelativeLayout
-                android:clickable="true"
-                android:background="@drawable/selector_choose_color_size_bg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_choose_color_size_bg"
+                android:clickable="true">
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_centerVertical="true"

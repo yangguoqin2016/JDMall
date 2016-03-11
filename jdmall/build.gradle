@@ -63,5 +63,21 @@ dependencies {
 	compile files('lib/AndroidSwipeLayout-v1.1.8.jar')
 	//compile 'com.bigkoo:pickerview:2.0.8'
 	compile(name: 'pickerview-2.0.8', ext: 'aar')
+	compile(name: 'PhotoView-1.2.4', ext: 'aar')
 	compile 'com.android.support:recyclerview-v7:23.1.1'
+	compile files('lib/ShareSDK-QZone-2.7.0.jar')
+	compile files('lib/ShareSDK-TencentWeibo-2.7.0.jar')
+	compile files('lib/ShareSDK-SinaWeibo-2.7.0.jar')
+	compile files('lib/ShareSDK-Wechat-Moments-2.7.0.jar')
+	compile files('lib/ShareSDK-ShortMessage-2.7.0.jar')
+	compile files('lib/ShareSDK-Facebook-2.7.0.jar')
+	compile files('lib/ShareSDK-QQ-2.7.0.jar')
+	compile files('lib/ShareSDK-Wechat-2.7.0.jar')
+	compile files('lib/ShareSDK-Core-2.7.0.jar')
+	compile files('lib/ShareSDK-Wechat-Favorite-2.7.0.jar')
+	compile files('lib/ShareSDK-Twitter-2.7.0.jar')
+	compile files('lib/ShareSDK-Email-2.7.0.jar')
+	compile files('lib/ShareSDK-Wechat-Core-2.7.0.jar')
+	compile files('lib/MobCommons-2016.0301.1053.jar')
+	compile files('lib/MobTools-2016.0301.1053.jar')
 }

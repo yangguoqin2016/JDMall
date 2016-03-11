@@ -56,7 +56,7 @@ public class ProductDesActivity extends AppCompatActivity {
         int calcSampleSize = calculateInSampleSize(options,resWidth,resHeight);
         options.inSampleSize = calcSampleSize;
 
-       // options.inSampleSize = 4;
+        options.inSampleSize = 4;
 
         System.out.println("缩放比例="+options.inSampleSize);
 

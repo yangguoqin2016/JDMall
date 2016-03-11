@@ -228,7 +228,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_back_btn://退出登录
-                spUtil.putBoolean(SP.ISLOGINSUCCESS, false);
+                /*spUtil.putBoolean(SP.ISLOGINSUCCESS, false);
                 spUtil.putLong(SP.USERID, 0);
                 spUtil.putString(SP.USERNAME, "");
 
@@ -237,8 +237,36 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 if (mLoginFragment == null) {
                     mLoginFragment = new LoginFragment();
                 }
-                changeFragment(mLoginFragment, TAG_LOGIN_FRAGMENT);
+                changeFragment(mLoginFragment, TAG_LOGIN_FRAGMENT);*/
                 //退出登录
+                AlertDialog.Builder backBuilder = new AlertDialog.Builder(mMainActivity);
+                backBuilder.setTitle("系统提示")//设置对话框标题
+                        .setMessage("亲，您真的要离开吗？")//设置显示的内容
+                                //添加确定按钮
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                spUtil.putBoolean(SP.ISLOGINSUCCESS, false);
+                                spUtil.putLong(SP.USERID, 0);
+                                spUtil.putString(SP.USERNAME, "");
+                                spUtil.putString(SP.PASSWORD, "");
+
+                                LogUtil.d("userid-1====" + spUtil.getLong(SP.USERID, 0));
+                                LogUtil.d("ISLOGINSUCCESS-1====" + spUtil.getBoolean(SP.ISLOGINSUCCESS, false));
+                                if (mLoginFragment == null) {
+                                    mLoginFragment = new LoginFragment();
+                                }
+                                changeFragment(mLoginFragment, TAG_LOGIN_FRAGMENT);
+                            }
+                        }).setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                    //添加返回按钮
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //响应事件返回更多设置的主界面
+
+                    }
+                }).show();
                 break;
             case R.id.fragment_ll_mine_order://我的订单
                 if (mMyIndentFragment == null) {

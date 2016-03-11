@@ -1,14 +1,14 @@
 package com.onlyone.jdmall.fragment;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +27,7 @@ import com.onlyone.jdmall.bean.LoginOrRegistBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.progressbutton.CircularProgressButton;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
 
@@ -50,11 +51,11 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
     @Bind(R.id.regist_confrim_password)
     EditText mRegistConfrimPassword;
     @Bind(R.id.regist_btn)
-    Button   mRegistBtn;
+    CircularProgressButton   mRegistBtn;
     @Bind(R.id.regist_et_username)
     EditText mRegistEtUsername;
     private LoadListener<LoginOrRegistBean> mListener;
-
+    private ValueAnimator mWidthAnimation;
     private String mUsername;
     private String mPassword;
     private String mConfirmPwd;
@@ -137,14 +138,41 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
                 Gson gson = new Gson();
                 mRegistBean = gson.fromJson(s, LoginOrRegistBean.class);
                 if (mRegistBean.response.equals("register")) {
-                    Toast.makeText(ResUtil.getContext(), "注册成功", Toast.LENGTH_SHORT).show();
-                    mSp.putString(SP.USERNAME, mUsername);
-                    mSp.putString(SP.PASSWORD, mPassword);
-                    //注册成功,保存userid
-                    mSp.putLong(SP.USERID, mRegistBean.userInfo.userid);
-                    //changeFragment(new MineFragment());
-                    //((HolderFragment)getParentFragment()).goBack();
-                    mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
+
+                    if (mRegistBtn.getProgress() == 0) {
+                        simulateSuccessProgress(mRegistBtn);
+                    } else {
+                        mRegistBtn.setProgress(0);
+
+                    }
+                    mWidthAnimation.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+
+                            Toast.makeText(ResUtil.getContext(), "注册成功", Toast.LENGTH_SHORT).show();
+                            mSp.putString(SP.USERNAME, mUsername);
+                            mSp.putString(SP.PASSWORD, mPassword);
+                            //注册成功,保存userid
+                            mSp.putLong(SP.USERID, mRegistBean.userInfo.userid);
+                            mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+
                 } else {
                     Toast.makeText(ResUtil.getContext(), "该用户名已被注册...", Toast.LENGTH_SHORT).show();
                     return;
@@ -153,8 +181,11 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(ResUtil.getContext(), "注册失败...", Toast.LENGTH_SHORT).show();
-
+                if (mRegistBtn.getProgress() == 0) {
+                    simulateErrorProgress(mRegistBtn);
+                } else {
+                    mRegistBtn.setProgress(0);
+                }
             }
         }) {
             @Override
@@ -173,10 +204,43 @@ public class RegisterFragment extends BaseFragment<LoginOrRegistBean> implements
 
     }
 
-    private void changeFragment(Fragment fragment) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.remove(RegisterFragment.this);
-        transaction.add(R.id.fl_content_container, fragment);
-        transaction.commit();
+    /**
+     * 成功
+     */
+    private void simulateSuccessProgress(final CircularProgressButton button) {
+        mWidthAnimation = ValueAnimator.ofInt(1, 100);
+        mWidthAnimation.setDuration(1500);
+        mWidthAnimation.setRepeatCount(1);
+        mWidthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        mWidthAnimation
+                .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        Integer value = (Integer) animation.getAnimatedValue();
+                        button.setProgress(value);
+                    }
+                });
+        mWidthAnimation.start();
+    }
+
+    /**
+     * 失败
+     */
+    private void simulateErrorProgress(final CircularProgressButton button) {
+        ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 99);
+        widthAnimation.setDuration(1500);
+        widthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        widthAnimation
+                .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        Integer value = (Integer) animation.getAnimatedValue();
+                        button.setProgress(value);
+                        if (value == 99) {
+                            button.setProgress(-1);
+                        }
+                    }
+                });
+        widthAnimation.start();
     }
 }

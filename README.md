@@ -66,7 +66,7 @@
 			return size;
 		}
 
-4.首页就爱在图片使用Picasso不适配屏幕
+4.首页图片使用Picasso不适配屏幕
 	添加Transformation类或者添加picasso-transformation的库;
 	picasso链式调用时代码如下:(自己建类)
 	 Transformation transformation = new Transformation() {

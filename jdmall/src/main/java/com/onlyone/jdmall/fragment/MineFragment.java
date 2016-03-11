@@ -3,15 +3,12 @@ package com.onlyone.jdmall.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -185,14 +182,17 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     @Override
     protected void handleError(Exception e) {
 
-        FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
+        /*FrameLayout rootView = (FrameLayout) mLoadPager.getRootView();
         TextView tv = new TextView(ResUtil.getContext());
         tv.setText("加载数据失败,请检查下你的网络..");
         tv.setTextColor(Color.BLACK);
         tv.setGravity(Gravity.CENTER);
         rootView.addView(tv);
 
-        Toast.makeText(ResUtil.getContext(), "unknown Exception has occured:" + e.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(ResUtil.getContext(), "unknown Exception has occured:" + e.toString(), Toast.LENGTH_SHORT).show();*/
+        FrameLayout rootView = mLoadPager.getRootView();
+        View EmptyView = View.inflate(getContext(), R.layout.mine_unconnect_empty, null);
+        mLoadPager.getRootView().addView(EmptyView);
     }
 
 

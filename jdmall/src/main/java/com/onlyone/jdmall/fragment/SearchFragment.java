@@ -135,10 +135,26 @@ public class SearchFragment extends SuperBaseFragment<SearchBean>
         TextView tvSearch = (TextView) mTopBar.findViewById(R.id.topbar_tv_search);
         ImageView tvIconSearch = (ImageView) mTopBar.findViewById(R.id.topbar_iv_iconsearch);
         mEtKey = (EditText) mTopBar.findViewById(R.id.topbar_et_key);
-
         tvBack.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
         tvIconSearch.setOnClickListener(this);
+        //对EditText设置焦点的监听
+        mEtKey.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                EditText editText = (EditText) v;
+                if(hasFocus){
+                    //有焦点
+                    String hint = editText.getHint().toString().trim();
+                    editText.setTag(hint);
+                    editText.setHint("");
+                }else{
+                    //没有焦点
+                    String hint = editText.getTag().toString();
+                    editText.setHint(hint);
+                }
+            }
+        });
         // 2.首先先拿到Fragment关联的Activity
         //		mMainActivity = (MainActivity) getActivity();
 

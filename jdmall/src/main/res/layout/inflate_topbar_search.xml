@@ -28,6 +28,7 @@
         android:text="搜索"
         android:layout_height="match_parent"/>
     <LinearLayout
+        android:id="@+id/topbar_ll_searchbar"
         android:gravity="center_vertical"
         android:background="@drawable/shape_searchbar_bg"
         android:layout_margin="5dp"

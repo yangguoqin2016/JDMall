@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@mipmap/mine_header_bg"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@mipmap/mine_header_bg"
+              android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,12 +29,12 @@
             android:src="@mipmap/mine_daidai"/>
 
         <TextView
-            android:layout_marginTop="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="网络加载失败，请检查网络！"
             android:textColor="#fff"
-            android:textSize="16sp"
-            android:text="网络加载失败，请检查网络！"/>
+            android:textSize="16sp"/>
 
     </LinearLayout>
 

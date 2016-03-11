@@ -58,7 +58,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
     public static final  String TAG_MINEADDRESSMANAGER_FRAGMENT = "tag_mineaddressmanager_fragment";
     public static final  String TAG_USERFEEDBACK_FRAGMENT       = "tag_userfeedback_fragment";
     private static final String TAG_LOGIN_FRAGMENT              = "tag_login_fragment";
-    public static final String TAG_SCANRECORD_FRAGMENT = "tag_scanrecord_fragment";
+    public static final  String TAG_SCANRECORD_FRAGMENT         = "tag_scanrecord_fragment";
 
     @Bind(R.id.fragment_ll_mine_order)
     LinearLayout mFragmentLlMineOrder;
@@ -89,12 +89,12 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
 
     private MineHelpFragment         mHelpFragment;
     private MainActivity             mMainActivity;
-    private BaseFragment                 mFavorableGiftFragment;
+    private BaseFragment             mFavorableGiftFragment;
     private MineUserFeedbackFragment mUserFeedbackFragment;
-    private BaseFragment                 mAboutFragment;
-    private BaseFragment                 mFavoriteFrament;
-    private BaseFragment                 mAddressManagerFragment;
-    private ScanRecordFragment           mScanRecordFragment;
+    private BaseFragment             mAboutFragment;
+    private BaseFragment             mFavoriteFrament;
+    private BaseFragment             mAddressManagerFragment;
+    private ScanRecordFragment       mScanRecordFragment;
     private LoginFragment            mLoginFragment;
     SPUtil spUtil = new SPUtil(ResUtil.getContext());
     private MyIndentFragment mMyIndentFragment;
@@ -230,7 +230,7 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
             case R.id.mine_back_btn://退出登录
                 spUtil.putBoolean(SP.ISLOGINSUCCESS, false);
                 spUtil.putLong(SP.USERID, 0);
-                spUtil.putString(SP.USERNAME,"");
+                spUtil.putString(SP.USERNAME, "");
 
                 LogUtil.d("userid-1====" + spUtil.getLong(SP.USERID, 0));
                 LogUtil.d("ISLOGINSUCCESS-1====" + spUtil.getBoolean(SP.ISLOGINSUCCESS, false));
@@ -248,9 +248,9 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
 
                 break;
             case R.id.fragment_ll_mine_address://地址管理
-//                if (mAddressManagerFragment == null) {
-                    mAddressManagerFragment = new AddressManagerFragment();
-//                }
+                //                if (mAddressManagerFragment == null) {
+                mAddressManagerFragment = new AddressManagerFragment();
+                //                }
                 changeFragment(mAddressManagerFragment, TAG_MINEADDRESSMANAGER_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_gift://优惠券/礼品卡
@@ -267,10 +267,10 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
                 changeFragment(mFavoriteFrament, TAG_MINEFAVORITE_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_record://浏览记录
-                if(mScanRecordFragment == null){
+                if (mScanRecordFragment == null) {
                     mScanRecordFragment = new ScanRecordFragment();
                 }
-                changeFragment(mScanRecordFragment , TAG_SCANRECORD_FRAGMENT);
+                changeFragment(mScanRecordFragment, TAG_SCANRECORD_FRAGMENT);
                 break;
             case R.id.fragment_ll_mine_help://帮助中心
                 if (mHelpFragment == null) {
@@ -340,10 +340,11 @@ public class MineFragment extends BaseFragment<MineUserInfoBean> implements View
 
     /**
      * 实现fragment跳转
-     *  @param fragment
+     *
+     * @param fragment
      * @param tag
-	 */
-    public  void changeFragment(BaseFragment fragment, String tag) {
+     */
+    public void changeFragment(BaseFragment fragment, String tag) {
         /*FragmentManager manager = mMainActivity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fl_content_container, fragment, tag);

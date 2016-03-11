@@ -22,6 +22,7 @@ public class ProductDesActivity extends AppCompatActivity {
     @Bind(R.id.iv_desc)
     ImageView mIvDesc;
     private ProductDetailBean.ProductEntity mProdutBean;
+    private Bitmap mBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +54,16 @@ public class ProductDesActivity extends AppCompatActivity {
         int resWidth = getResources().getDisplayMetrics().widthPixels;
         int resHeight = getResources().getDisplayMetrics().heightPixels;
         int calcSampleSize = calculateInSampleSize(options,resWidth,resHeight);
-       // options.inSampleSize = calcSampleSize;
+        options.inSampleSize = calcSampleSize;
 
-        options.inSampleSize = 4;
+       // options.inSampleSize = 4;
 
         System.out.println("缩放比例="+options.inSampleSize);
 
         //请求分配内存
         options.inJustDecodeBounds = false;
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.long_pic, options);
-        mIvDesc.setImageBitmap(bitmap);
+        mBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.long_pic, options);
+        mIvDesc.setImageBitmap(mBitmap);
     }
 
     private int calculateInSampleSize(BitmapFactory.Options options,int resWidth,int resHeight){
@@ -83,6 +84,13 @@ public class ProductDesActivity extends AppCompatActivity {
     }
     @OnClick(R.id.back)
     public void onClick() {
+        mBitmap.recycle();
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mBitmap.recycle();
     }
 }

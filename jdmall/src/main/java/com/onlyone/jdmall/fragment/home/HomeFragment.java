@@ -182,7 +182,10 @@ public class HomeFragment extends BaseFragment<Object>
                     @Override
                     public void run() {
                         ExStaggeredGridLayoutManager staggeredLayoutManager = new ExStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                        mHomeRecyclerView.setLayoutManager(staggeredLayoutManager);
+
+                        if (mHomeRecyclerView != null) {
+                            mHomeRecyclerView.setLayoutManager(staggeredLayoutManager);
+                        }
                         StaggeredAdapter adapter = new StaggeredAdapter(mProductList, mHomeRecyclerView);
                         mHomeRecyclerView.setAdapter(adapter);
                     }
@@ -437,9 +440,11 @@ public class HomeFragment extends BaseFragment<Object>
 
         @Override
         public void run() {
-            int currentItem = mHomeVp.getCurrentItem();
-            currentItem++;
-            mHomeVp.setCurrentItem(currentItem);
+            if (mHomeVp!=null) {
+                int currentItem = mHomeVp.getCurrentItem();
+                currentItem++;
+                mHomeVp.setCurrentItem(currentItem);
+            }
             start();
         }
 

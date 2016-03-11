@@ -1,1 +1,1 @@
-include ':jdmall', ':slidingmenu_lib', ':recycleviewdemo', 'countdown-lib'
+include ':jdmall', 'countdown-lib'

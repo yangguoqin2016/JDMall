@@ -15,7 +15,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
-import com.google.gson.Gson;
 import com.onlyone.jdmall.R;
 import com.onlyone.jdmall.activity.MainActivity;
 import com.onlyone.jdmall.bean.AddressAddBean;
@@ -57,9 +56,9 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
     private EditText       mEtPhone;
     private EditText       mEtDetailAddr;
     private TextView       mTvProvince;
-    private AddressAddBean mAddressAddBean;
+//    private AddressAddBean mAddressAddBean;
 
-    private String TAG_ADDRESSADD_FRAGMENT = "tag_addressadd_fragment";
+//    private String TAG_ADDRESSADD_FRAGMENT = "tag_addressadd_fragment";
 
 
     @Override
@@ -90,7 +89,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
 
             } else {
                 insertInfosIntoDB();
-                goBack();
+//                goBack();
             }
         }
     }
@@ -123,8 +122,8 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
         Response.Listener success = new Response.Listener<String>() {
             @Override
             public void onResponse(String jsonString) {
-                Gson gson = new Gson();
-                mAddressAddBean = gson.fromJson(jsonString, AddressAddBean.class);
+//                Gson gson = new Gson();
+//                mAddressAddBean = gson.fromJson(jsonString, AddressAddBean.class);
                 Toast.makeText(ResUtil.getContext(), "保存成功", Toast.LENGTH_SHORT).show();
 
             }
@@ -159,7 +158,6 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
                 return map;
             }
 
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> headers = new HashMap<>();
@@ -175,6 +173,7 @@ public class AddressAddFragment extends BaseFragment<AddressAddBean> {
 
         /*跳转到上级界面*/
         SystemClock.sleep(1200);
+        goBack();
         /*AddressManagerFragment fragment = new AddressManagerFragment();
         changeFragment(fragment,TAG_ADDRESSADD_FRAGMENT);*/
 

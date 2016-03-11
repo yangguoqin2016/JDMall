@@ -1,5 +1,6 @@
 package com.onlyone.jdmall.fragment.mine;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -72,6 +73,10 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
     private int mPageNum;
     private int mCurrState = 1;
 
+    //国钦修改的:添加了无参构造和有参构造的注解
+    public MyIndentFragment(){}
+
+    @SuppressLint("ValidFragment")
     public MyIndentFragment(int state){
         this.mCurrState = state;
     }
@@ -90,7 +95,7 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
     public String getUrl(int type, int page, int pageNum) {
         String url = Url.ADDRESS_SERVER + "/orderlist?type=" + type + "&page=" + page + "&pageNum=" + pageNum;
         return url;
-    }
+}
 
     @Override
     protected String getUrl() {
@@ -188,6 +193,7 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
                 mNowonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected1);
                 //清空集合
                 mListBeans.removeAll(mListBeans);
+                mMyIndentAdapter.notifyDataSetChanged();//gq修改的
                 //请求数据添加到集合中
                 netLoadData(getUrl(1, 0, 10));
                 break;
@@ -197,6 +203,7 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
                 mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_normal3);
                 mBeforeonemonthindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected2);
                 mListBeans.removeAll(mListBeans);
+                mMyIndentAdapter.notifyDataSetChanged();//gq修改的
                 mType = 2;
                 mPage = 0;
                 netLoadData(getUrl(2, 0, 10));
@@ -208,6 +215,7 @@ public class MyIndentFragment extends SuperBaseFragment<MyIndentBean> implements
                 mCancleindent.setBackgroundResource(R.drawable.shape_myindent_tv_selected3);
 
                 mListBeans.removeAll(mListBeans);
+                mMyIndentAdapter.notifyDataSetChanged();//gq修改的
                 netLoadData(getUrl(3, 0, 10));
                 break;
             case R.id.myindent_back:

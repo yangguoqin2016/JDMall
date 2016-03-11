@@ -344,7 +344,9 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
         @Override
         public void run() {
-
+            if(mBrandViewpager==null){
+                return;
+            }
             int currentItem = mBrandViewpager.getCurrentItem();
             currentItem++;
             mBrandViewpager.setCurrentItem(currentItem);
@@ -407,7 +409,9 @@ public class BrandFragment extends SuperBaseFragment<BrandBean> implements View.
 
             ImageView iv = new ImageView(ResUtil.getContext());
             iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            iv.setImageResource(pic);
+            //iv.setImageResource(pic);
+            iv.setBackgroundResource(pic);
+
             container.addView(iv);
 
             return iv;

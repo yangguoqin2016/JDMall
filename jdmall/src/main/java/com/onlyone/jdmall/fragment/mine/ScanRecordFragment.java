@@ -6,10 +6,13 @@ import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.onlyone.jdmall.R;
@@ -25,6 +28,7 @@ import com.onlyone.jdmall.utils.SerializeUtil;
 import com.onlyone.jdmall.utils.UserLoginUtil;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -40,14 +44,17 @@ import butterknife.ButterKnife;
 public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.ProductEntity>> {
     @Bind(R.id.scan_record_lv)
     ListView mScanRecordLv;
-    //    @Bind(R.id.scan_record_pb)
-//    ProgressBar mScanRecordPb;
-    private List<ProductDetailBean.ProductEntity> mDataSet;
+    @Bind(R.id.scan_record_pb)
+    ProgressBar mScanRecordPb;
+    private ArrayList<ProductDetailBean.ProductEntity> mDataSet;
     private View mRootView;
     private ScanRecordAdapter mAdapter;
+    private String mUserName;
+    private String mKeyTag;
 
     @Override
     protected void refreshSuccessView(List<ProductDetailBean.ProductEntity> data) {
+        mScanRecordPb.setVisibility(View.GONE);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -74,11 +81,11 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
     @Override
     protected void loadData(LoadListener<List<ProductDetailBean.ProductEntity>> listener) {
         //2.获取当前登录用户名
-        String userName = UserLoginUtil.getLoginUser();
+        mUserName = UserLoginUtil.getLoginUser();
 
         //3.序列化取出保存的集合
-        String keyTag = userName + "_" + Serialize.TAG_BROWSE;
-        mDataSet = SerializeUtil.serializeObject(keyTag);
+        mKeyTag = mUserName + "_" + Serialize.TAG_BROWSE;
+        mDataSet = SerializeUtil.serializeObject(mKeyTag);
         if (mDataSet == null) {
             String detailMessage = "您还没有浏览过任何物品";
             LogUtil.d("vava", detailMessage);
@@ -136,6 +143,7 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            holder.setCurrentPosition(position);
             ProductDetailBean.ProductEntity entity = mDataSet.get(position);
             holder.refreshView(entity);
             return convertView;
@@ -148,21 +156,60 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
             public TextView mTvPriceLimit;
             public TextView mTvPriceMarket;
             public ImageView mIvPic;
-
+            private ImageView mIvDel;
+            private int mCurrentPos= 0;
             public ViewHolder() {
                 mRootView = View.inflate(ResUtil.getContext(), R.layout.scan_record_item, null);
                 mTvName = (TextView) mRootView.findViewById(R.id.scan_record_tv_name);
                 mTvPriceLimit = (TextView) mRootView.findViewById(R.id.scan_record_tv_price_limit);
                 mTvPriceMarket = (TextView) mRootView.findViewById(R.id.scan_record_tv_price_market);
                 mIvPic = (ImageView) mRootView.findViewById(R.id.scan_record_iv);
+                mIvDel = (ImageView) mRootView.findViewById(R.id.scan_record_iv_delete);
+
+                mIvDel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doDelAnimation();
+                    }
+                });
                 mRootView.setTag(this);
+            }
+
+            private void doDelAnimation() {
+                TranslateAnimation ta = new TranslateAnimation(
+                        Animation.RELATIVE_TO_PARENT, 0,
+                        Animation.RELATIVE_TO_PARENT, -1,
+                        Animation.RELATIVE_TO_PARENT, 0,
+                        Animation.RELATIVE_TO_PARENT, 0
+                );
+                ta.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        //删除数据，更新UI
+                        mDataSet.remove(mCurrentPos);
+                        notifyDataSetChanged();
+                        //同时删除本地文件保存的记录
+                        SerializeUtil.deserializeObject(mKeyTag, mDataSet);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                ta.setDuration(300);
+                mRootView.startAnimation(ta);
             }
 
             public void refreshView(ProductDetailBean.ProductEntity entity) {
                 if (entity.pics.size() > 0) {
                     String url = Url.ADDRESS_SERVER + entity.pics.get(0);
                     Picasso.with(ResUtil.getContext()).load(url).into(mIvPic);
-
                 }
                 mTvName.setText(entity.name);
                 mTvPriceLimit.setText("￥" + entity.limitPrice);
@@ -170,6 +217,10 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
                 mTvPriceMarket.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 mTvPriceMarket.setText("￥" + entity.marketPrice);
 
+            }
+
+            public void setCurrentPosition(int position) {
+                mCurrentPos =position;
             }
         }
 

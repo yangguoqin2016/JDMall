@@ -1,12 +1,14 @@
 package com.onlyone.jdmall.fragment;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import com.onlyone.jdmall.bean.LoginOrRegistBean;
 import com.onlyone.jdmall.constance.SP;
 import com.onlyone.jdmall.constance.Url;
 import com.onlyone.jdmall.pager.LoadListener;
+import com.onlyone.jdmall.progressbutton.CircularProgressButton;
 import com.onlyone.jdmall.utils.ResUtil;
 import com.onlyone.jdmall.utils.SPUtil;
 
@@ -45,43 +48,34 @@ import butterknife.ButterKnife;
 public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements View.OnClickListener {
 
     @Bind(R.id.login_et_username)
-    EditText mLoginEtUsername;
+    EditText               mLoginEtUsername;
     @Bind(R.id.login_et_password)
-    EditText mLoginEtPassword;
+    EditText               mLoginEtPassword;
     @Bind(R.id.login_btn)
-    Button   mLoginBtn;
+    CircularProgressButton mLoginBtn;
     @Bind(R.id.login_remember_cb)
-    CheckBox mLoginRememberCb;
+    CheckBox               mLoginRememberCb;
     @Bind(R.id.login_tv_forgetpwd)
-    TextView mLoginTvForgetpwd;
+    TextView               mLoginTvForgetpwd;
 
-
-    private MainActivity mMainActivity;
+    private MainActivity      mMainActivity;
     private LoginOrRegistBean mLoginBean;
     private String            mUsername;
     private String            mPassword;
     private SPUtil            mSp;
     private TextView          mLoginTvRegist;
+    private ValueAnimator     mWidthAnimation;
 
     @Override
     public void onStart() {
         super.onStart();
-        mMainActivity = (MainActivity)getActivity();
-       /* if(isSuccessLogin){
-            FragmentTransaction transaction = ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction();
-            //            transaction.remove(this);
-            transaction.replace(R.id.fl_content_container, new MineFragment());
-            transaction.commit();
-        }*/
+        mMainActivity = (MainActivity) getActivity();
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-       /* FragmentTransaction transaction = ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction();
-        transaction.remove(this);
-        transaction.commit();*/
     }
 
     @Override
@@ -95,8 +89,8 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
             }
         });
 
-
     }
+
 
     @Override
     protected View loadSuccessView() {
@@ -176,28 +170,53 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
                 mLoginBean = gson.fromJson(s, LoginOrRegistBean.class);
 
                 if (mLoginBean.response.equals("login")) {
-                    Toast.makeText(ResUtil.getContext(), "登录成功", Toast.LENGTH_SHORT).show();
-                    mSp.putString(SP.USERNAME, mUsername);
-                    //登录成功,保存userid
-                    mSp.putLong(SP.USERID, mLoginBean.userInfo.userid);
-                    mSp.putBoolean(SP.ISLOGINSUCCESS, true);
-                    //changeFragment();
-                    //MainActivity activity = (MainActivity) getActivity();
-                    mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
+
+                    if (mLoginBtn.getProgress() == 0) {
+                        simulateSuccessProgress(mLoginBtn);
+                    } else {
+                        mLoginBtn.setProgress(0);
+
+                    }
+                    mWidthAnimation.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            Toast.makeText(ResUtil.getContext(), "登录成功", Toast.LENGTH_SHORT).show();
+                            mSp.putString(SP.USERNAME, mUsername);
+                            //登录成功,保存userid
+                            mSp.putLong(SP.USERID, mLoginBean.userInfo.userid);
+                            mSp.putBoolean(SP.ISLOGINSUCCESS, true);
+                            mMainActivity.mRgBottomNav.check(R.id.rb_bottom_home);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+
                 } else {
                     Toast.makeText(ResUtil.getContext(), "帐号或密码有误...", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
-                //                Log.d(TAG, mLoginBean.response);
-                //                Log.d(TAG, "" + mLoginBean.userInfo.userid);
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(ResUtil.getContext(), "登录失败...", Toast.LENGTH_SHORT).show();
+                if (mLoginBtn.getProgress() == 0) {
+                    simulateErrorProgress(mLoginBtn);
+                } else {
+                    mLoginBtn.setProgress(0);
+                }
             }
         }) {
             @Override
@@ -225,5 +244,45 @@ public class LoginFragment extends BaseFragment<LoginOrRegistBean> implements Vi
 
     private void changeFragment() {
 		((HolderFragment)getParentFragment()).goBack();
+    }
+
+    /**
+     * 成功
+     */
+    private void simulateSuccessProgress(final CircularProgressButton button) {
+        mWidthAnimation = ValueAnimator.ofInt(1, 100);
+        mWidthAnimation.setDuration(1500);
+        mWidthAnimation.setRepeatCount(1);
+        mWidthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        mWidthAnimation
+                .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        Integer value = (Integer) animation.getAnimatedValue();
+                        button.setProgress(value);
+                    }
+                });
+        mWidthAnimation.start();
+    }
+
+    /**
+     * 失败
+     */
+    private void simulateErrorProgress(final CircularProgressButton button) {
+        ValueAnimator widthAnimation = ValueAnimator.ofInt(1, 99);
+        widthAnimation.setDuration(1500);
+        widthAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        widthAnimation
+                .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        Integer value = (Integer) animation.getAnimatedValue();
+                        button.setProgress(value);
+                        if (value == 99) {
+                            button.setProgress(-1);
+                        }
+                    }
+                });
+        widthAnimation.start();
     }
 }

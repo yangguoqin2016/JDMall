@@ -39,5 +39,11 @@
             android:layout_below="@id/scan_record_tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_margin="3dp"
+            android:id="@+id/scan_record_iv_delete"
+            android:src="@mipmap/daohang_shanchu_moren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

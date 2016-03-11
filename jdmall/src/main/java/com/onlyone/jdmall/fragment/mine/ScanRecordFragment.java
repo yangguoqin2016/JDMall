@@ -86,7 +86,7 @@ public class ScanRecordFragment extends BaseFragment<List<ProductDetailBean.Prod
         //3.序列化取出保存的集合
         mKeyTag = mUserName + "_" + Serialize.TAG_BROWSE;
         mDataSet = SerializeUtil.serializeObject(mKeyTag);
-        if (mDataSet == null) {
+        if (mDataSet == null || mDataSet.size() ==0) {
             String detailMessage = "您还没有浏览过任何物品";
             LogUtil.d("vava", detailMessage);
             listener.onError(new Exception(detailMessage));

@@ -437,9 +437,11 @@ public class HomeFragment extends BaseFragment<Object>
 
         @Override
         public void run() {
-            int currentItem = mHomeVp.getCurrentItem();
-            currentItem++;
-            mHomeVp.setCurrentItem(currentItem);
+            if (mHomeVp!=null) {
+                int currentItem = mHomeVp.getCurrentItem();
+                currentItem++;
+                mHomeVp.setCurrentItem(currentItem);
+            }
             start();
         }
 

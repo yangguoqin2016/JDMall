@@ -17,8 +17,6 @@ import butterknife.OnClick;
 
 public class ProductDesActivity extends AppCompatActivity {
 
-    @Bind(R.id.back)
-    ImageView mBack;
     @Bind(R.id.tv_desc)
     TextView  mTvDesc;
     @Bind(R.id.iv_desc)

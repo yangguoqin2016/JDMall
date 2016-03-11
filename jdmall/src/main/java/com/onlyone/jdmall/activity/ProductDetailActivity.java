@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,16 +50,6 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    @Bind(R.id.product_detail_topbar_back)
-    ImageView mProductDetailTopbarBack;
-    @Bind(R.id.product_detail_topbar_share)
-    ImageView mProductDetailTopbarShare;
-    @Bind(R.id.product_detail_store)
-    TextView  mProductDetailStore;
-    @Bind(R.id.product_detail_addcar)
-    TextView  mProductDetailAddcar;
-    @Bind(R.id.product_detail_buy)
-    TextView  mProductDetailBuy;
     @Bind(R.id.product_detail_pic_viewpager)
     ViewPager mProductDetailPicViewpager;
     @Bind(R.id.product_detail_name)
@@ -71,8 +60,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView  mProductDetailMarketprice;
     @Bind(R.id.product_detail_stars)
     RatingBar mProductDetailStars;
-    @Bind(R.id.product_detail_left_time)
-    TextView  mProductDetailLeftTime;
 
     /*--------------------静态只能用findViewById找-----------------*/
     //  @Bind(R.id.product_detail_selected_color_size)
@@ -81,8 +68,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     public static TextView mProductDetailPleaseSelect;
     /*--------------------静态控件-----------------*/
 
-    @Bind(R.id.product_detail_select_color_size)
-    RelativeLayout mProductDetailSelectColorSize;
     @Bind(R.id.product_detail_buy_limit)
     TextView       mProductDetailBuyLimit;
     @Bind(R.id.product_detail_viewpager_indicator)
@@ -390,7 +375,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     }
 
-    //TODO:立即购买进入支付页面
     private void buyNow() {
 
         if(!UserLoginUtil.isLogin()) {

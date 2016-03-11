@@ -238,7 +238,7 @@ public class OnekeyShare {
 		int iTheme = 0;
 		try {
 			iTheme = R.parseInt(String.valueOf(shareParamsMap.remove("theme")));
-		} catch (Throwable t) {}
+		} catch (Throwable ignored) {}
 		OnekeyShareTheme theme = OnekeyShareTheme.fromValue(iTheme);
 		OnekeyShareThemeImpl themeImpl = theme.getImpl();
 

@@ -1,6 +1,8 @@
 package com.onlyone.jdmall.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -19,6 +21,8 @@ public class ProductDesActivity extends AppCompatActivity {
     ImageView mBack;
     @Bind(R.id.tv_desc)
     TextView  mTvDesc;
+    @Bind(R.id.iv_desc)
+    ImageView mIvDesc;
     private ProductDetailBean.ProductEntity mProdutBean;
 
     @Override
@@ -36,9 +40,49 @@ public class ProductDesActivity extends AppCompatActivity {
     private void initView() {
         setContentView(R.layout.activity_product_des);
         ButterKnife.bind(this);
-        mTvDesc.setText(mProdutBean.toString());
+        mTvDesc.setText(mProdutBean.name + "的图文详情");
+        mTvDesc.setTextSize(20);
+
+        //加载大图片
+        loadBigImage();
     }
 
+    private void loadBigImage() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.mipmap.long_pic, options);
+
+        int resWidth = getResources().getDisplayMetrics().widthPixels;
+        int resHeight = getResources().getDisplayMetrics().heightPixels;
+        int calcSampleSize = calculateInSampleSize(options,resWidth,resHeight);
+       // options.inSampleSize = calcSampleSize;
+
+        options.inSampleSize = 4;
+
+        System.out.println("缩放比例="+options.inSampleSize);
+
+        //请求分配内存
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.long_pic, options);
+        mIvDesc.setImageBitmap(bitmap);
+    }
+
+    private int calculateInSampleSize(BitmapFactory.Options options,int resWidth,int resHeight){
+
+        int width = options.outWidth;
+        int height = options.outHeight;
+
+        int insampleSize = 1;
+
+        if(height>resHeight || width>resWidth){
+            //计算实际宽高与目标宽高的比
+            int heightRatio = Math.round((float)height/(float)resHeight);
+            int widthRatio = Math.round((float)width/(float)resWidth);
+
+            insampleSize = heightRatio<widthRatio?heightRatio:widthRatio;
+        }
+        return  insampleSize;
+    }
     @OnClick(R.id.back)
     public void onClick() {
         finish();
